@@ -45,16 +45,16 @@ rem I had to take out the PNG_LIBRARY because it included
 rem a Windows path which caused it to be wrongly escaped
 rem and thus an error. Somehow though, CMAKE still finds
 rem the correct png library...
-cmake .. -G"%GENERATOR%"                            ^
+cmake .. -LAH -G"%GENERATOR%"                       ^
     -DBUILD_TESTS=0                                 ^
     -DBUILD_DOCS=0                                  ^
     -DBUILD_PERF_TESTS=0                            ^
-    -DBUILD_ZLIB=1                                  ^
-    -DBUILD_TIFF=1                                  ^
-    -DBUILD_PNG=1                                   ^
+    -DBUILD_ZLIB=0                                  ^
+    -DBUILD_TIFF=0                                  ^
+    -DBUILD_PNG=0                                   ^
     -DBUILD_OPENEXR=1                               ^
     -DBUILD_JASPER=1                                ^
-    -DBUILD_JPEG=1                                  ^
+    -DBUILD_JPEG=0                                  ^
     -DPYTHON_EXECUTABLE="%PYTHON%"                  ^
     -DPYTHON_INCLUDE_PATH="%PREFIX%\include"        ^
     -DPYTHON_LIBRARY="%PREFIX%\libs\python27.lib"   ^
