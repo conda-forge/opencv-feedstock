@@ -34,6 +34,13 @@ environment:
       CONDA_NPY: 111
       CONDA_PY: 27
 
+    - TARGET_ARCH: x86
+      CONDA_NPY: 19
+      CONDA_PY: 27
+    - TARGET_ARCH: x64
+      CONDA_NPY: 19
+      CONDA_PY: 27
+
 
 # We always use a 64-bit machine, but can build x86 distributions
 # with the TARGET_ARCH variable.
@@ -51,9 +58,6 @@ install:
         Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
           throw "There are newer queued builds for this pull request, failing early." }
 
-    # Install workaround 64-bit support for VS 2008.
-    - cmd: if "%TARGET_ARCH%" == "x64" if "%CONDA_PY%" == "27" call ci_support\vs2008\setup_x64.bat
-
     # Cywing's git breaks conda-build. (See https://github.com/conda-forge/conda-smithy-feedstock/pull/2.)
     - cmd: rmdir C:\cygwin /s /q
     - appveyor DownloadFile "https://raw.githubusercontent.com/pelson/Obvious-CI/master/bootstrap-obvious-ci-and-miniconda.py"
@@ -61,7 +65,6 @@ install:
     - cmd: set PATH=%CONDA_INSTALL_LOCN%;%CONDA_INSTALL_LOCN%\scripts;%PATH%
     - cmd: set PYTHONUNBUFFERED=1
 
-    - cmd: conda config --set show_channel_urls true
     - cmd: conda install -c http://conda.binstar.org/pelson/channel/development --yes --quiet obvious-ci
     - cmd: conda config --add channels http://conda.binstar.org/conda-forge
     - cmd: conda info
