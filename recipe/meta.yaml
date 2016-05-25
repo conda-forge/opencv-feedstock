@@ -1,72 +1,94 @@
-{% set version = "2.4.12" %}
-{% set filename = "opencv2-%s.zip" % version %}
+{% set version = "3.1.0" %}
+
 
 package:
   name: opencv
   version: {{ version }}
 
 source:
-  fn: {{ filename }}
-  url: https://github.com/Itseez/opencv/archive/{{ version }}.zip
-  sha1: 2225768a48dbf99426bf77451a433ed432f54d8e
+  fn: opencv-{{ version }}.tar.gz
+  url: https://github.com/Itseez/opencv/archive/{{ version }}.tar.gz
+  sha256: f00b3c4f42acda07d89031a2ebb5ebe390764a133502c03a511f67b78bbd4fbf
 
   patches:
-    - osx_rpath.patch  # [osx]
-
-build:
-  number: 0
-  skip: true  # [not py27]
+    - osx_rpath.patch               # [osx]
+    - cap_mpjpeg_decoder.patch      # [win]
 
 requirements:
   build:
-    - cmake
     - python
-    - numpy x.x
+    - cmake
+    - hdf5           # [osx]
     - eigen 3.*
-    - jasper   # [unix]
-    - zlib     # [unix]
-    - jpeg     # [unix]
-    - libtiff  # [unix]
-    - libpng   # [unix]
+    - numpy x.x
+    - jasper         # [unix]
+    - zlib 1.2*
+    - jpeg 9*
+    - libtiff 4.0.*
+    - libpng 1.6*
+    - msinttypes     # [win and py<35]
 
   run:
     - python
+    - hdf5           # [osx]
+    - eigen 3.*
     - numpy x.x
-    - jasper   # [unix]
-    - zlib     # [unix]
-    - jpeg     # [unix]
-    - libtiff  # [unix]
-    - libpng   # [unix]
+    - jasper         # [unix]
+    - zlib 1.2*
+    - jpeg 9*
+    - libtiff 4.0.*
+    - libpng 1.6*
 
 test:
-  imports:
-    - cv2
-    - cv2.cv
-  commands:
-    # Verify dynamic libraries.
-    {% set opencv_libs = [
-            "core",
-            "flann",
-            "imgproc",
-            "highgui",
-            "features2d",
-            "calib3d",
-            "ml",
-            "video",
-            "legacy",
-            "objdetect",
-            "photo",
-            "gpu",
-            "nonfree",
-            "contrib",
-            "stitching",
-            "superres",
-            "videostab"
-    ] %}
-    {% for each_opencv_lib in opencv_libs %}
-    - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.dylib   # [osx]
-    - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.so      # [linux]
-    {% endfor %}
+    commands:
+        # Verify dynamic libraries.
+        {% set opencv_libs = [
+             "xfeatures2d",
+             "ximgproc",
+             "xobjdetect",
+             "xphoto",
+             "aruco",
+             "bgsegm",
+             # "bioinspired", Not working in 3.1.0
+             "calib3d",
+             "ccalib",
+             "core",
+             "datasets",
+             "dnn",
+             "dpm",
+             "face",
+             "features2d",
+             "flann",
+             "fuzzy",
+             "highgui",
+             "imgcodecs",
+             "imgproc",
+             "line_descriptor",
+             "ml",
+             "objdetect",
+             "optflow",
+             "photo",
+             "plot",
+             "reg",
+             "rgbd",
+             "saliency",
+             "shape",
+             "stereo",
+             "stitching",
+             "structured_light",
+             "superres",
+             "surface_matching",
+             "text",
+             "tracking",
+             "video",
+             "videoio",
+             "videostab"
+        ] %}
+        {% for each_opencv_lib in opencv_libs %}
+        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.dylib                        # [osx]
+        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.so                           # [linux]
+        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}310.dll exit 1  # [win]
+        {% endfor %}
 
 about:
   home: http://opencv.org/
@@ -76,4 +98,5 @@ about:
 extra:
   recipe-maintainers:
     - jakirkham
+    - msarahan
     - patricksnape

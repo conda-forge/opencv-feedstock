@@ -1,0 +1,10 @@
+--- opencv_contrib\modules\dpm\src\dpm_nms.cpp
++++ opencv_contrib\modules\dpm\src\dpm_nms.cpp
+@@ -40,6 +40,7 @@
+ //M*/
+ 
+ #include "dpm_nms.hpp"
++#include <algorithm>
+ 
+ using namespace std;
+ 
