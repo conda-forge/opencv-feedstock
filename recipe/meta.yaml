@@ -18,7 +18,7 @@ requirements:
   build:
     - python
     - cmake
-    - hdf5           # [osx]
+    - hdf5           # [unix]
     - eigen 3.*
     - numpy x.x
     - jasper         # [unix]
@@ -30,7 +30,7 @@ requirements:
 
   run:
     - python
-    - hdf5           # [osx]
+    - hdf5           # [unix]
     - eigen 3.*
     - numpy x.x
     - jasper         # [unix]
