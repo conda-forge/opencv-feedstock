@@ -14,9 +14,6 @@ fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     DYNAMIC_EXT="dylib"
     OPENMP=""
-    # For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
-    export CFLAGS="$CFLAGS -I$PREFIX/include"
-    export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
     # Require C++11
     export MACOSX_DEPLOYMENT_TARGET="10.7"
 fi
@@ -32,6 +29,10 @@ git clone https://github.com/Itseez/opencv_contrib --single-branch --branch $PKG
 
 mkdir build
 cd build
+
+# For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
+export CFLAGS="$CFLAGS -I$PREFIX/include"
+export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
 
 cmake .. -LAH                                                \
     $OPENMP                                                  \
