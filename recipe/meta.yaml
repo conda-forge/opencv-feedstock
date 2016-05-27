@@ -18,6 +18,7 @@ requirements:
   build:
     - python
     - cmake
+    - git
     - hdf5           # [unix]
     - eigen 3.*
     - numpy x.x
