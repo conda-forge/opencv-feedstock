@@ -43,6 +43,7 @@ requirements:
 test:
     commands:
         # Verify dynamic libraries.
+        # "bioinspired", Not working in 3.1.0
         {% set opencv_libs = [
              "xfeatures2d",
              "ximgproc",
@@ -50,7 +51,6 @@ test:
              "xphoto",
              "aruco",
              "bgsegm",
-             # "bioinspired", Not working in 3.1.0
              "calib3d",
              "ccalib",
              "core",
