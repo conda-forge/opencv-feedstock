@@ -18,27 +18,26 @@ requirements:
   build:
     - python
     - cmake
-    - git
-    - hdf5           # [unix]
-    - eigen 3.*
     - numpy x.x
-    - jasper         # [unix]
+    - hdf5 1.8.17*          # [unix]
+    - eigen 3.*
+    - jasper                # [unix]
     - zlib 1.2*
     - jpeg 9*
     - libtiff 4.0.*
-    - libpng 1.6*
-    - msinttypes     # [win and py<35]
+    - libpng >=1.6.21,<1.7
+    - msinttypes            # [win and py<35]
 
   run:
     - python
-    - hdf5           # [unix]
-    - eigen 3.*
     - numpy x.x
-    - jasper         # [unix]
+    - hdf5 1.8.17*          # [unix]
+    - eigen 3.*
+    - jasper                # [unix]
     - zlib 1.2*
     - jpeg 9*
     - libtiff 4.0.*
-    - libpng 1.6*
+    - libpng >=1.6.21,<1.7
 
 test:
     commands:
