@@ -5,7 +5,6 @@ SHORT_OS_STR=$(uname -s)
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     DYNAMIC_EXT="so"
     OPENMP="-DWITH_OPENMP=1"
-    IS_OSX=0
     # There's a bug with CMake at the moment whereby it can't download
     # using HTTPS - so we use curl to download the IPP library
     mkdir -p $SRC_DIR/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e
