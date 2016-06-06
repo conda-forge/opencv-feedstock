@@ -11,7 +11,6 @@ source:
   sha256: f00b3c4f42acda07d89031a2ebb5ebe390764a133502c03a511f67b78bbd4fbf
 
   patches:
-    - osx_rpath.patch               # [osx]
     - cap_mpjpeg_decoder.patch      # [win]
 
 build:
