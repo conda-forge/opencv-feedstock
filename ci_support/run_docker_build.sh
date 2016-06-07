@@ -43,8 +43,10 @@ conda update --yes --all
 conda install --yes conda-build
 conda info
 
-# Embarking on 2 case(s).
+# Embarking on 4 case(s).
     set -x
+    export JPEG_VERSION=8
+    export LIBPNG_VERSION="1.6.17"
     export CONDA_NPY=110
     export CONDA_PY=27
     set +x
@@ -52,6 +54,26 @@ conda info
     /feedstock_root/ci_support/upload_or_check_non_existence.py /recipe_root conda-forge --channel=main || exit 1
 
     set -x
+    export JPEG_VERSION=8
+    export LIBPNG_VERSION="1.6.17"
+    export CONDA_NPY=111
+    export CONDA_PY=27
+    set +x
+    conda build /recipe_root --quiet || exit 1
+    /feedstock_root/ci_support/upload_or_check_non_existence.py /recipe_root conda-forge --channel=main || exit 1
+
+    set -x
+    export JPEG_VERSION=9
+    export LIBPNG_VERSION=">=1.6.21,<1.7"
+    export CONDA_NPY=110
+    export CONDA_PY=27
+    set +x
+    conda build /recipe_root --quiet || exit 1
+    /feedstock_root/ci_support/upload_or_check_non_existence.py /recipe_root conda-forge --channel=main || exit 1
+
+    set -x
+    export JPEG_VERSION=9
+    export LIBPNG_VERSION=">=1.6.21,<1.7"
     export CONDA_NPY=111
     export CONDA_PY=27
     set +x
