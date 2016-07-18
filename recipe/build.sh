@@ -11,11 +11,14 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
 fi
 
+INC_PYTHON="${PREFIX}/include/python${PY_VER}"
 if [ $PY3K -eq 1 ]; then
     PY_VER_M="${PY_VER}m"
-    OCV_PYTHON="-DBUILD_opencv_python3=1 -DPYTHON3_EXECUTABLE=$PYTHON -DPYTHON3_INCLUDE_DIR=$PREFIX/include/python${PY_VER_M} -DPYTHON3_LIBRARY=${PREFIX}/lib/libpython${PY_VER_M}.${DYNAMIC_EXT} -DPYTHON3_PACKAGES_PATH=$SP_DIR" 
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER_M}.${DYNAMIC_EXT}"
+    OCV_PYTHON="-DBUILD_opencv_python3=1 -DPYTHON3_EXECUTABLE=${PYTHON} -DPYTHON3_INCLUDE_DIR=${PREFIX}/include/python${PY_VER_M} -DPYTHON3_LIBRARY=${PREFIX}/lib/libpython${PY_VER_M}.${DYNAMIC_EXT} -DPYTHON3_PACKAGES_PATH=${SP_DIR}"
 else
-    OCV_PYTHON="-DBUILD_opencv_python2=1 -DPYTHON2_EXECUTABLE=$PYTHON -DPYTHON2_INCLUDE_DIR=$PREFIX/include/python${PY_VER} -DPYTHON2_LIBRARY=${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT} -DPYTHON_INCLUDE_DIR2=$PREFIX/include/python${PY_VER} -DPYTHON2_PACKAGES_PATH=$SP_DIR"
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT}"
+    OCV_PYTHON="-DBUILD_opencv_python2=1 -DPYTHON2_EXECUTABLE=${PYTHON} -DPYTHON2_INCLUDE_DIR=$PREFIX/include/python${PY_VER} -DPYTHON2_LIBRARY=${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT} -DPYTHON_INCLUDE_DIR2=${PREFIX}/include/python${PY_VER} -DPYTHON2_PACKAGES_PATH=${SP_DIR}"
 fi
 
 git clone https://github.com/Itseez/opencv_contrib --single-branch --branch $PKG_VERSION --depth 1
@@ -30,6 +33,10 @@ export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
 cmake .. -LAH                                                \
     $OPENMP                                                  \
     $OCV_PYTHON                                              \
+    -DPYTHON_EXECUTABLE="${PYTHON}"                          \
+    -DPYTHON_INCLUDE_DIR="${INC_PYTHON}"                     \
+    -DPYTHON_LIBRARY="${LIB_PYTHON}"                         \
+    -DPYTHON_PACKAGES_PATH="${SP_DIR}"                       \
     -DWITH_EIGEN=1                                           \
     -DBUILD_TESTS=0                                          \
     -DBUILD_DOCS=0                                           \
