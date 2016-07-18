@@ -9,8 +9,6 @@ fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     DYNAMIC_EXT="dylib"
     OPENMP=""
-    # Require C++11
-    export MACOSX_DEPLOYMENT_TARGET="10.7"
 fi
 
 if [ $PY3K -eq 1 ]; then

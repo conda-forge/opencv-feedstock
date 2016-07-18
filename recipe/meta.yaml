@@ -19,12 +19,13 @@ build:
 requirements:
   build:
     - python
+    - toolchain
     - cmake
     - numpy x.x
-    - hdf5 1.8.17*          # [unix]
+    - hdf5 1.8.17|1.8.17.*  # [unix]
     - eigen 3.*
     - jasper                # [unix]
-    - zlib 1.2*
+    - zlib 1.2.*
     - jpeg 9*
     - libtiff 4.0.*
     - libpng >=1.6.21,<1.7
@@ -35,7 +36,7 @@ requirements:
     - numpy x.x
     - hdf5 1.8.17*          # [unix]
     - jasper                # [unix]
-    - zlib 1.2*
+    - zlib 1.2.*
     - jpeg 9*
     - libtiff 4.0.*
     - libpng >=1.6.21,<1.7
