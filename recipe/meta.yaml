@@ -1,6 +1,5 @@
 {% set version = "3.1.0" %}
 
-
 package:
   name: opencv
   version: {{ version }}
@@ -11,7 +10,8 @@ source:
   sha256: f00b3c4f42acda07d89031a2ebb5ebe390764a133502c03a511f67b78bbd4fbf
 
   patches:
-    - cap_mpjpeg_decoder.patch      # [win]
+    # Fixed: https://github.com/Itseez/opencv/blob/master/modules/videoio/src/cap_mjpeg_decoder.cpp#L793
+    - cap_mpjpeg_decoder.patch  # [win]
 
 build:
     number: 0
@@ -34,7 +34,6 @@ requirements:
     - python
     - numpy x.x
     - hdf5 1.8.17*          # [unix]
-    - eigen 3.*
     - jasper                # [unix]
     - zlib 1.2*
     - jpeg 9*
@@ -42,6 +41,10 @@ requirements:
     - libpng >=1.6.21,<1.7
 
 test:
+    imports:
+      - cv2
+      - cv2.xfeatures2d
+
     commands:
         # Verify dynamic libraries.
         # "bioinspired", Not working in 3.1.0
