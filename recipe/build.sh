@@ -5,10 +5,6 @@ SHORT_OS_STR=$(uname -s)
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     DYNAMIC_EXT="so"
     OPENMP="-DWITH_OPENMP=1"
-    # There's a bug with CMake at the moment whereby it can't download
-    # using HTTPS - so we use curl to download the IPP library
-    mkdir -p $SRC_DIR/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e
-    curl -L https://raw.githubusercontent.com/Itseez/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/ippicv_linux_20151201.tgz -o $SRC_DIR/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e/ippicv_linux_20151201.tgz
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     DYNAMIC_EXT="dylib"
