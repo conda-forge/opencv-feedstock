@@ -18,7 +18,7 @@ else
     OCV_PYTHON="-DBUILD_opencv_python2=1 -DPYTHON2_EXECUTABLE=$PYTHON -DPYTHON2_INCLUDE_DIR=$PREFIX/include/python${PY_VER} -DPYTHON2_LIBRARY=${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT} -DPYTHON_INCLUDE_DIR2=$PREFIX/include/python${PY_VER} -DPYTHON2_PACKAGES_PATH=$SP_DIR"
 fi
 
-git clone https://github.com/Itseez/opencv_contrib --single-branch --branch $PKG_VERSION --depth 1
+git clone https://github.com/opencv/opencv_contrib --single-branch --branch $PKG_VERSION --depth 1
 
 mkdir build
 cd build
