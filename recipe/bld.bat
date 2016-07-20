@@ -1,6 +1,6 @@
 @echo ON
 
-git clone https://github.com/Itseez/opencv_contrib --single-branch --branch %PKG_VERSION% --depth 1
+git clone https://github.com/opencv/opencv_contrib --single-branch --branch %PKG_VERSION% --depth 1
 
 rem Patches apply only to opencv_contrib so we have to apply them now (after source download above)
 rem Fixed: https://github.com/Itseez/opencv_contrib/blob/6cd8e9f556c8c55c05178dec05d5277ae00020d9/modules/tracking/src/trackerKCF.cpp#L669
