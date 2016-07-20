@@ -3,13 +3,13 @@
 git clone https://github.com/opencv/opencv_contrib --single-branch --branch %PKG_VERSION% --depth 1
 
 rem Patches apply only to opencv_contrib so we have to apply them now (after source download above)
-rem Fixed: https://github.com/Itseez/opencv_contrib/blob/6cd8e9f556c8c55c05178dec05d5277ae00020d9/modules/tracking/src/trackerKCF.cpp#L669
+rem Fixed: https://github.com/opencv/opencv_contrib/blob/6cd8e9f556c8c55c05178dec05d5277ae00020d9/modules/tracking/src/trackerKCF.cpp#L669
 git apply --whitespace=fix -p0 "%RECIPE_DIR%\kcftracker.patch"
-rem Fixed: https://github.com/Itseez/opencv_contrib/blob/master/modules/text/src/ocr_beamsearch_decoder.cpp#L569
+rem Fixed: https://github.com/opencv/opencv_contrib/blob/master/modules/text/src/ocr_beamsearch_decoder.cpp#L569
 git apply --whitespace=fix -p0 "%RECIPE_DIR%\ocr_beamsearch_decoder.patch"
-rem Fixed: https://github.com/Itseez/opencv_contrib/blob/master/modules/text/src/ocr_hmm_decoder.cpp#L985
+rem Fixed: https://github.com/opencv/opencv_contrib/blob/master/modules/text/src/ocr_hmm_decoder.cpp#L985
 git apply --whitespace=fix -p0 "%RECIPE_DIR%\ocr_hmm_decoder.patch"
-rem Fixed: https://github.com/Itseez/opencv_contrib/blob/master/modules/dpm/src/dpm_nms.cpp#L43
+rem Fixed: https://github.com/opencv/opencv_contrib/blob/master/modules/dpm/src/dpm_nms.cpp#L43
 git apply --whitespace=fix -p0 "%RECIPE_DIR%\dpm.patch"
 
 mkdir build
