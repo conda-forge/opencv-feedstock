@@ -1,6 +1,7 @@
 @echo ON
 
-git clone https://github.com/opencv/opencv_contrib --single-branch --branch %PKG_VERSION% --depth 1
+wget "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.gz"
+%PYTHON% -c "import tarfile, os; with tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'): tar.extractall()"
 
 rem Patches apply only to opencv_contrib so we have to apply them now (after source download above)
 rem Fixed: https://github.com/opencv/opencv_contrib/blob/6cd8e9f556c8c55c05178dec05d5277ae00020d9/modules/tracking/src/trackerKCF.cpp#L669
@@ -28,33 +29,33 @@ for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
 )
 set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 
-cmake .. -LAH -G "NMake Makefiles"                                    ^
-    -DWITH_EIGEN=1                                                    ^
-    -DBUILD_TESTS=0                                                   ^
-    -DBUILD_DOCS=0                                                    ^
-    -DBUILD_PERF_TESTS=0                                              ^
-    -DBUILD_ZLIB=0                                                    ^
-    -DBUILD_opencv_bioinspired=0                                      ^
-    -DBUILD_TIFF=0                                                    ^
-    -DBUILD_PNG=0                                                     ^
-    -DBUILD_OPENEXR=1                                                 ^
-    -DBUILD_JASPER=1                                                  ^
-    -DBUILD_JPEG=0                                                    ^
-    -DWITH_CUDA=0                                                     ^
-    -DWITH_OPENCL=0                                                   ^
-    -DWITH_OPENNI=0                                                   ^
-    -DWITH_FFMPEG=0                                                   ^
-    -DWITH_VTK=0                                                      ^
-    -DINSTALL_C_EXAMPLES=0                                            ^
-    -DOPENCV_EXTRA_MODULES_PATH=%SRC_DIR%\opencv_contrib\modules      ^
-    -DCMAKE_BUILD_TYPE="Release"                                      ^
-    -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%                           ^
-    -DEXECUTABLE_OUTPUT_PATH=%LIBRARY_BIN%                            ^
-    -DLIBRARY_OUTPUT_PATH=%LIBRARY_BIN%                               ^
-    -DPYTHON%PY_MAJOR%_EXECUTABLE=%PREFIX%\python                     ^
-    -DPYTHON_INCLUDE_DIR=%PREFIX%\include                             ^
-    -DPYTHON_PACKAGES_PATH=%SP_DIR%                                   ^
-    -DPYTHON_LIBRARY=%PREFIX%\libs\%PY_LIB%                           ^
+cmake .. -LAH -G "NMake Makefiles"                                             ^
+    -DWITH_EIGEN=1                                                             ^
+    -DBUILD_TESTS=0                                                            ^
+    -DBUILD_DOCS=0                                                             ^
+    -DBUILD_PERF_TESTS=0                                                       ^
+    -DBUILD_ZLIB=0                                                             ^
+    -DBUILD_opencv_bioinspired=0                                               ^
+    -DBUILD_TIFF=0                                                             ^
+    -DBUILD_PNG=0                                                              ^
+    -DBUILD_OPENEXR=1                                                          ^
+    -DBUILD_JASPER=1                                                           ^
+    -DBUILD_JPEG=0                                                             ^
+    -DWITH_CUDA=0                                                              ^
+    -DWITH_OPENCL=0                                                            ^
+    -DWITH_OPENNI=0                                                            ^
+    -DWITH_FFMPEG=0                                                            ^
+    -DWITH_VTK=0                                                               ^
+    -DINSTALL_C_EXAMPLES=0                                                     ^
+    -DOPENCV_EXTRA_MODULES_PATH=%SRC_DIR%\opencv_contrib-%PKG_VERSION%\modules ^
+    -DCMAKE_BUILD_TYPE="Release"                                               ^
+    -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%                                    ^
+    -DEXECUTABLE_OUTPUT_PATH=%LIBRARY_BIN%                                     ^
+    -DLIBRARY_OUTPUT_PATH=%LIBRARY_BIN%                                        ^
+    -DPYTHON%PY_MAJOR%_EXECUTABLE=%PREFIX%\python                              ^
+    -DPYTHON_INCLUDE_DIR=%PREFIX%\include                                      ^
+    -DPYTHON_PACKAGES_PATH=%SP_DIR%                                            ^
+    -DPYTHON_LIBRARY=%PREFIX%\libs\%PY_LIB%                                    ^
     -DPYTHON%PY_MAJOR%_NUMPY_INCLUDE_DIRS=%SP_DIR%\numpy\core\include
 if errorlevel 1 exit 1
 
