@@ -1,6 +1,6 @@
 @echo ON
 
-wget "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.gz"
+curl -L -O "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.gz"
 %PYTHON% -c "import tarfile, os; with tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'): tar.extractall()"
 
 rem Patches apply only to opencv_contrib so we have to apply them now (after source download above)

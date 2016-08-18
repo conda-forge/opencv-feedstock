@@ -23,7 +23,7 @@ requirements:
     # For sha256 comparisons of opencv_contrib
     - openssl
     # For downloading opencv_contrib
-    - wget
+    - curl
     # For applying patches
     - git                   # [win]
     - cmake
