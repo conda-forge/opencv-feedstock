@@ -1,7 +1,7 @@
 @echo ON
 
 curl -L -O "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.gz"
-%PYTHON% -c "import tarfile, os; with tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'): tar.extractall()"
+%PYTHON% -c "import tarfile, os; tar = tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'); tar.extractall(); tar.close()"
 
 rem Patches apply only to opencv_contrib so we have to apply them now (after source download above)
 rem Fixed: https://github.com/opencv/opencv_contrib/blob/6cd8e9f556c8c55c05178dec05d5277ae00020d9/modules/tracking/src/trackerKCF.cpp#L669
