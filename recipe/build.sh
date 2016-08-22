@@ -49,7 +49,20 @@ cmake .. -LAH                                                             \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$PKG_VERSION/modules"  \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DCMAKE_INSTALL_PREFIX=$PREFIX
+    -DCMAKE_INSTALL_PREFIX=$PREFIX                                        \
+    -DBUILD_opencv_python2=0                                              \
+    -DPYTHON2_EXECUTABLE=""                                               \
+    -DPYTHON2_INCLUDE_DIR=""                                              \
+    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                       \
+    -DPYTHON2_LIBRARY=""                                                  \
+    -DPYTHON_INCLUDE_DIR2=""                                              \
+    -DPYTHON2_PACKAGES_PATH=""                                            \
+    -DBUILD_opencv_python3=0                                              \
+    -DPYTHON3_EXECUTABLE=""                                               \
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=""                                       \
+    -DPYTHON3_INCLUDE_DIR=""                                              \
+    -DPYTHON3_LIBRARY=""                                                  \
+    -DPYTHON3_PACKAGES_PATH=""
 
 if [ $PY3K -eq 1 ]; then
     PY_VER_M="${PY_VER}m"
@@ -61,7 +74,6 @@ if [ $PY3K -eq 1 ]; then
         -DPYTHON_LIBRARY="${LIB_PYTHON}"                                    \
         -DPYTHON_PACKAGES_PATH="${SP_DIR}"                                  \
         -DBUILD_opencv_python3=1                                            \
-        -DBUILD_opencv_python2=0                                            \
         -DPYTHON3_EXECUTABLE=${PYTHON}                                      \
         -DPYTHON3_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include           \
         -DPYTHON3_INCLUDE_DIR=${PREFIX}/include/python${PY_VER_M}           \
@@ -74,7 +86,6 @@ else
         -DPYTHON_INCLUDE_DIR="${INC_PYTHON}"                                \
         -DPYTHON_LIBRARY="${LIB_PYTHON}"                                    \
         -DPYTHON_PACKAGES_PATH="${SP_DIR}"                                  \
-        -DBUILD_opencv_python3=0                                            \
         -DBUILD_opencv_python2=1                                            \
         -DPYTHON2_EXECUTABLE=${PYTHON}                                      \
         -DPYTHON2_INCLUDE_DIR=$PREFIX/include/python${PY_VER}               \

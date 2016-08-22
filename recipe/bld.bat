@@ -52,11 +52,37 @@ cmake .. -LAH -G "NMake Makefiles"                                             ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%                                    ^
     -DEXECUTABLE_OUTPUT_PATH=%LIBRARY_BIN%                                     ^
     -DLIBRARY_OUTPUT_PATH=%LIBRARY_BIN%                                        ^
-    -DPYTHON%PY_MAJOR%_EXECUTABLE=%PREFIX%\python                              ^
-    -DPYTHON_INCLUDE_DIR=%PREFIX%\include                                      ^
-    -DPYTHON_PACKAGES_PATH=%SP_DIR%                                            ^
-    -DPYTHON_LIBRARY=%PREFIX%\libs\%PY_LIB%                                    ^
-    -DPYTHON%PY_MAJOR%_NUMPY_INCLUDE_DIRS=%SP_DIR%\numpy\core\include
+    -DPYTHON_EXECUTABLE=""                                                     ^
+    -DPYTHON_INCLUDE_DIR=""                                                    ^
+    -DPYTHON_PACKAGES_PATH=""                                                  ^
+    -DPYTHON_LIBRARY=""                                                        ^
+    -DPYTHON_NUMPY_INCLUDE_DIRS=""                                             ^
+    -DBUILD_opencv_python2=0                                                   ^
+    -DPYTHON2_EXECUTABLE=""                                                    ^
+    -DPYTHON2_INCLUDE_DIR=""                                                   ^
+    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                            ^
+    -DPYTHON2_LIBRARY=""                                                       ^
+    -DPYTHON2_PACKAGES_PATH=""                                                 ^
+    -DBUILD_opencv_python3=0                                                   ^
+    -DPYTHON3_EXECUTABLE=""                                                    ^
+    -DPYTHON3_INCLUDE_DIR=""                                                   ^
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=""                                            ^
+    -DPYTHON3_LIBRARY=""                                                       ^
+    -DPYTHON3_PACKAGES_PATH=""
+if errorlevel 1 exit 1
+
+cmake .. -LAH -G "NMake Makefiles"                                         ^
+    -DPYTHON_EXECUTABLE=%PREFIX%\python                                    ^
+    -DPYTHON_INCLUDE_DIR=%PREFIX%\include                                  ^
+    -DPYTHON_PACKAGES_PATH=%SP_DIR%                                        ^
+    -DPYTHON_LIBRARY=%PREFIX%\libs\%PY_LIB%                                ^
+    -DPYTHON_NUMPY_INCLUDE_DIRS=%SP_DIR%\numpy\core\include                ^
+    -DBUILD_opencv_python%PY_MAJOR%=1                                      ^
+    -DPYTHON%PY_MAJOR%_EXECUTABLE=%PREFIX%\python                          ^
+    -DPYTHON%PY_MAJOR%_INCLUDE_DIR=%PREFIX%\include                        ^
+    -DPYTHON%PY_MAJOR%_NUMPY_INCLUDE_DIRS=%SP_DIR%\numpy\core\include      ^
+    -DPYTHON%PY_MAJOR%_LIBRARY=%PREFIX%\libs\%PY_LIB%                      ^
+    -DPYTHON%PY_MAJOR%_PACKAGES_PATH=%SP_DIR%
 if errorlevel 1 exit 1
 
 cmake --build . --target INSTALL --config Release
