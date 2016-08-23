@@ -70,8 +70,10 @@ PY_MAJOR="${PY_VER_ARR[0]}"
 
 if [ $PY3K -eq 1 ]; then
     LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}m.${DYNAMIC_EXT}"
+    INC_PYTHON="$PREFIX/include/python${PY_VER}m"
 else
     LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT}"
+    INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
 
 cmake .. -LAH                                                                     \
@@ -81,9 +83,9 @@ cmake .. -LAH                                                                   
     -DPYTHON_PACKAGES_PATH="${SP_DIR}"                                            \
     -DBUILD_opencv_python${PY_MAJOR}=1                                            \
     -DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}                                      \
-    -DPYTHON${PY_MAJOR}_INCLUDE_DIR=$PREFIX/include/python${PY_VER}               \
+    -DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON}                                 \
     -DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include           \
-    -DPYTHON${PY_MAJOR}_LIBRARY=${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT}   \
+    -DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON}                                     \
     -DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}
 
 make -j8
