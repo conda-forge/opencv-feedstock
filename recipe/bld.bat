@@ -29,60 +29,67 @@ for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
 )
 set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 
-cmake .. -LAH -G "NMake Makefiles"                                             ^
-    -DWITH_EIGEN=1                                                             ^
-    -DBUILD_TESTS=0                                                            ^
-    -DBUILD_DOCS=0                                                             ^
-    -DBUILD_PERF_TESTS=0                                                       ^
-    -DBUILD_ZLIB=0                                                             ^
-    -DBUILD_opencv_bioinspired=0                                               ^
-    -DBUILD_TIFF=0                                                             ^
-    -DBUILD_PNG=0                                                              ^
-    -DBUILD_OPENEXR=1                                                          ^
-    -DBUILD_JASPER=1                                                           ^
-    -DBUILD_JPEG=0                                                             ^
-    -DWITH_CUDA=0                                                              ^
-    -DWITH_OPENCL=0                                                            ^
-    -DWITH_OPENNI=0                                                            ^
-    -DWITH_FFMPEG=0                                                            ^
-    -DWITH_VTK=0                                                               ^
-    -DINSTALL_C_EXAMPLES=0                                                     ^
-    -DOPENCV_EXTRA_MODULES_PATH=%SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules ^
-    -DCMAKE_BUILD_TYPE="Release"                                               ^
-    -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%                                    ^
-    -DEXECUTABLE_OUTPUT_PATH=%LIBRARY_BIN%                                     ^
-    -DLIBRARY_OUTPUT_PATH=%LIBRARY_BIN%                                        ^
-    -DPYTHON_EXECUTABLE=""                                                     ^
-    -DPYTHON_INCLUDE_DIR=""                                                    ^
-    -DPYTHON_PACKAGES_PATH=""                                                  ^
-    -DPYTHON_LIBRARY=""                                                        ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=""                                             ^
-    -DBUILD_opencv_python2=0                                                   ^
-    -DPYTHON2_EXECUTABLE=""                                                    ^
-    -DPYTHON2_INCLUDE_DIR=""                                                   ^
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                            ^
-    -DPYTHON2_LIBRARY=""                                                       ^
-    -DPYTHON2_PACKAGES_PATH=""                                                 ^
-    -DBUILD_opencv_python3=0                                                   ^
-    -DPYTHON3_EXECUTABLE=""                                                    ^
-    -DPYTHON3_INCLUDE_DIR=""                                                   ^
-    -DPYTHON3_NUMPY_INCLUDE_DIRS=""                                            ^
-    -DPYTHON3_LIBRARY=""                                                       ^
+:: CMake/OpenCV like Unix-style paths for some reason.
+UNIX_PREFIX=%PREFIX:\=/%
+UNIX_LIBRARY_PREFIX=%LIBRARY_PREFIX:\=/%
+UNIX_LIBRARY_BIN=%LIBRARY_BIN:\=/%
+UNIX_SP_DIR=%SP_DIR:\=/%
+UNIX_SRC_DIR=%SRC_DIR:\=/%
+
+cmake .. -LAH -G "NMake Makefiles"                                                  ^
+    -DWITH_EIGEN=1                                                                  ^
+    -DBUILD_TESTS=0                                                                 ^
+    -DBUILD_DOCS=0                                                                  ^
+    -DBUILD_PERF_TESTS=0                                                            ^
+    -DBUILD_ZLIB=0                                                                  ^
+    -DBUILD_opencv_bioinspired=0                                                    ^
+    -DBUILD_TIFF=0                                                                  ^
+    -DBUILD_PNG=0                                                                   ^
+    -DBUILD_OPENEXR=1                                                               ^
+    -DBUILD_JASPER=1                                                                ^
+    -DBUILD_JPEG=0                                                                  ^
+    -DWITH_CUDA=0                                                                   ^
+    -DWITH_OPENCL=0                                                                 ^
+    -DWITH_OPENNI=0                                                                 ^
+    -DWITH_FFMPEG=0                                                                 ^
+    -DWITH_VTK=0                                                                    ^
+    -DINSTALL_C_EXAMPLES=0                                                          ^
+    -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules ^
+    -DCMAKE_BUILD_TYPE="Release"                                                    ^
+    -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
+    -DEXECUTABLE_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                     ^
+    -DLIBRARY_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                        ^
+    -DPYTHON_EXECUTABLE=""                                                          ^
+    -DPYTHON_INCLUDE_DIR=""                                                         ^
+    -DPYTHON_PACKAGES_PATH=""                                                       ^
+    -DPYTHON_LIBRARY=""                                                             ^
+    -DPYTHON_NUMPY_INCLUDE_DIRS=""                                                  ^
+    -DBUILD_opencv_python2=0                                                        ^
+    -DPYTHON2_EXECUTABLE=""                                                         ^
+    -DPYTHON2_INCLUDE_DIR=""                                                        ^
+    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                                 ^
+    -DPYTHON2_LIBRARY=""                                                            ^
+    -DPYTHON2_PACKAGES_PATH=""                                                      ^
+    -DBUILD_opencv_python3=0                                                        ^
+    -DPYTHON3_EXECUTABLE=""                                                         ^
+    -DPYTHON3_INCLUDE_DIR=""                                                        ^
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=""                                                 ^
+    -DPYTHON3_LIBRARY=""                                                            ^
     -DPYTHON3_PACKAGES_PATH=""
 if errorlevel 1 exit 1
 
-cmake .. -LAH -G "NMake Makefiles"                                         ^
-    -DPYTHON_EXECUTABLE=%PREFIX%/python                                    ^
-    -DPYTHON_INCLUDE_DIR=%PREFIX%/include                                  ^
-    -DPYTHON_PACKAGES_PATH=%SP_DIR%                                        ^
-    -DPYTHON_LIBRARY=%PREFIX%/libs/%PY_LIB%                                ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=%SP_DIR%/numpy/core/include                ^
-    -DBUILD_opencv_python%PY_MAJOR%=1                                      ^
-    -DPYTHON%PY_MAJOR%_EXECUTABLE=%PREFIX%/python                          ^
-    -DPYTHON%PY_MAJOR%_INCLUDE_DIR=%PREFIX%/include                        ^
-    -DPYTHON%PY_MAJOR%_NUMPY_INCLUDE_DIRS=%SP_DIR%/numpy/core/include      ^
-    -DPYTHON%PY_MAJOR%_LIBRARY=%PREFIX%/libs/%PY_LIB%                      ^
-    -DPYTHON%PY_MAJOR%_PACKAGES_PATH=%SP_DIR%
+cmake .. -LAH -G "NMake Makefiles"                                                  ^
+    -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
+    -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
+    -DPYTHON_PACKAGES_PATH=%UNIX_SP_DIR%                                            ^
+    -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
+    -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                    ^
+    -DBUILD_opencv_python%PY_MAJOR%=1                                               ^
+    -DPYTHON%PY_MAJOR%_EXECUTABLE=%UNIX_PREFIX%/python                              ^
+    -DPYTHON%PY_MAJOR%_INCLUDE_DIR=%UNIX_PREFIX%/include                            ^
+    -DPYTHON%PY_MAJOR%_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include          ^
+    -DPYTHON%PY_MAJOR%_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                          ^
+    -DPYTHON%PY_MAJOR%_PACKAGES_PATH=%UNIX_SP_DIR%
 if errorlevel 1 exit 1
 
 cmake --build . --target INSTALL --config Release
