@@ -47,7 +47,7 @@ cmake .. -LAH -G "NMake Makefiles"                                             ^
     -DWITH_FFMPEG=0                                                            ^
     -DWITH_VTK=0                                                               ^
     -DINSTALL_C_EXAMPLES=0                                                     ^
-    -DOPENCV_EXTRA_MODULES_PATH=%SRC_DIR%\opencv_contrib-%PKG_VERSION%\modules ^
+    -DOPENCV_EXTRA_MODULES_PATH=%SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules ^
     -DCMAKE_BUILD_TYPE="Release"                                               ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%                                    ^
     -DEXECUTABLE_OUTPUT_PATH=%LIBRARY_BIN%                                     ^
@@ -72,16 +72,16 @@ cmake .. -LAH -G "NMake Makefiles"                                             ^
 if errorlevel 1 exit 1
 
 cmake .. -LAH -G "NMake Makefiles"                                         ^
-    -DPYTHON_EXECUTABLE=%PREFIX%\python                                    ^
-    -DPYTHON_INCLUDE_DIR=%PREFIX%\include                                  ^
+    -DPYTHON_EXECUTABLE=%PREFIX%/python                                    ^
+    -DPYTHON_INCLUDE_DIR=%PREFIX%/include                                  ^
     -DPYTHON_PACKAGES_PATH=%SP_DIR%                                        ^
-    -DPYTHON_LIBRARY=%PREFIX%\libs\%PY_LIB%                                ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=%SP_DIR%\numpy\core\include                ^
+    -DPYTHON_LIBRARY=%PREFIX%/libs/%PY_LIB%                                ^
+    -DPYTHON_NUMPY_INCLUDE_DIRS=%SP_DIR%/numpy/core/include                ^
     -DBUILD_opencv_python%PY_MAJOR%=1                                      ^
-    -DPYTHON%PY_MAJOR%_EXECUTABLE=%PREFIX%\python                          ^
-    -DPYTHON%PY_MAJOR%_INCLUDE_DIR=%PREFIX%\include                        ^
-    -DPYTHON%PY_MAJOR%_NUMPY_INCLUDE_DIRS=%SP_DIR%\numpy\core\include      ^
-    -DPYTHON%PY_MAJOR%_LIBRARY=%PREFIX%\libs\%PY_LIB%                      ^
+    -DPYTHON%PY_MAJOR%_EXECUTABLE=%PREFIX%/python                          ^
+    -DPYTHON%PY_MAJOR%_INCLUDE_DIR=%PREFIX%/include                        ^
+    -DPYTHON%PY_MAJOR%_NUMPY_INCLUDE_DIRS=%SP_DIR%/numpy/core/include      ^
+    -DPYTHON%PY_MAJOR%_LIBRARY=%PREFIX%/libs/%PY_LIB%                      ^
     -DPYTHON%PY_MAJOR%_PACKAGES_PATH=%SP_DIR%
 if errorlevel 1 exit 1
 
