@@ -1,7 +1,13 @@
 @echo ON
+setlocal enabledelayedexpansion
 
 curl -L -O "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.gz"
 %PYTHON% -c "import tarfile, os; tar = tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'); tar.extractall(); tar.close()"
+%PYTHON% -c "import hashlib, os; print(hashlib.sha256(open(os.environ['PKG_VERSION'] + '.tar.gz', 'rb').read()).hexdigest())" > sha256.out
+SET /p CONTRIB_SHA256=<sha256.out
+if NOT "%CONTRIB_SHA256%" == "ef2084bcd4c3812eb53c21fa81477d800e8ce8075b68d9dedec90fef395156e5" (
+    exit 1
+)
 
 rem Patches apply only to opencv_contrib so we have to apply them now (after source download above)
 rem Fixed: https://github.com/opencv/opencv_contrib/blob/6cd8e9f556c8c55c05178dec05d5277ae00020d9/modules/tracking/src/trackerKCF.cpp#L669
@@ -29,12 +35,14 @@ for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
 )
 set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 
+
 :: CMake/OpenCV like Unix-style paths for some reason.
-UNIX_PREFIX=%PREFIX:\=/%
-UNIX_LIBRARY_PREFIX=%LIBRARY_PREFIX:\=/%
-UNIX_LIBRARY_BIN=%LIBRARY_BIN:\=/%
-UNIX_SP_DIR=%SP_DIR:\=/%
-UNIX_SRC_DIR=%SRC_DIR:\=/%
+set UNIX_PREFIX=%PREFIX:\=/%
+set UNIX_LIBRARY_PREFIX=%LIBRARY_PREFIX:\=/%
+set UNIX_LIBRARY_BIN=%LIBRARY_BIN:\=/%
+set UNIX_SP_DIR=%SP_DIR:\=/%
+set UNIX_SRC_DIR=%SRC_DIR:\=/%
+
 
 cmake .. -LAH -G "NMake Makefiles"                                                  ^
     -DWITH_EIGEN=1                                                                  ^
