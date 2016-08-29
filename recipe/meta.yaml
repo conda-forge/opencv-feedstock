@@ -21,7 +21,7 @@ requirements:
     - python
     - toolchain
     # For sha256 comparisons of opencv_contrib
-    - openssl
+    - openssl               # [unix]
     # For downloading opencv_contrib
     - curl
     # For applying patches
