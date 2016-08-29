@@ -49,40 +49,44 @@ cmake .. -LAH                                                             \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$PKG_VERSION/modules"  \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DCMAKE_INSTALL_PREFIX=$PREFIX
+    -DCMAKE_INSTALL_PREFIX=$PREFIX                                        \
+    -DBUILD_opencv_python2=0                                              \
+    -DPYTHON2_EXECUTABLE=""                                               \
+    -DPYTHON2_INCLUDE_DIR=""                                              \
+    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                       \
+    -DPYTHON2_LIBRARY=""                                                  \
+    -DPYTHON_INCLUDE_DIR2=""                                              \
+    -DPYTHON2_PACKAGES_PATH=""                                            \
+    -DBUILD_opencv_python3=0                                              \
+    -DPYTHON3_EXECUTABLE=""                                               \
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=""                                       \
+    -DPYTHON3_INCLUDE_DIR=""                                              \
+    -DPYTHON3_LIBRARY=""                                                  \
+    -DPYTHON3_PACKAGES_PATH=""
+
+
+IFS='.' read -ra PY_VER_ARR <<< "${PY_VER}"
+PY_MAJOR="${PY_VER_ARR[0]}"
 
 if [ $PY3K -eq 1 ]; then
-    PY_VER_M="${PY_VER}m"
-    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER_M}.${DYNAMIC_EXT}"
-
-    cmake .. -LAH                                                           \
-        -DPYTHON_EXECUTABLE="${PYTHON}"                                     \
-        -DPYTHON_INCLUDE_DIR="${INC_PYTHON}"                                \
-        -DPYTHON_LIBRARY="${LIB_PYTHON}"                                    \
-        -DPYTHON_PACKAGES_PATH="${SP_DIR}"                                  \
-        -DBUILD_opencv_python3=1                                            \
-        -DBUILD_opencv_python2=0                                            \
-        -DPYTHON3_EXECUTABLE=${PYTHON}                                      \
-        -DPYTHON3_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include           \
-        -DPYTHON3_INCLUDE_DIR=${PREFIX}/include/python${PY_VER_M}           \
-        -DPYTHON3_LIBRARY=${PREFIX}/lib/libpython${PY_VER_M}.${DYNAMIC_EXT} \
-        -DPYTHON3_PACKAGES_PATH=${SP_DIR}
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}m.${DYNAMIC_EXT}"
+    INC_PYTHON="$PREFIX/include/python${PY_VER}m"
 else
     LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT}"
-    cmake .. -LAH                                                           \
-        -DPYTHON_EXECUTABLE="${PYTHON}"                                     \
-        -DPYTHON_INCLUDE_DIR="${INC_PYTHON}"                                \
-        -DPYTHON_LIBRARY="${LIB_PYTHON}"                                    \
-        -DPYTHON_PACKAGES_PATH="${SP_DIR}"                                  \
-        -DBUILD_opencv_python3=0                                            \
-        -DBUILD_opencv_python2=1                                            \
-        -DPYTHON2_EXECUTABLE=${PYTHON}                                      \
-        -DPYTHON2_INCLUDE_DIR=$PREFIX/include/python${PY_VER}               \
-        -DPYTHON2_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include           \
-        -DPYTHON2_LIBRARY=${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT}   \
-        -DPYTHON_INCLUDE_DIR2=${PREFIX}/include/python${PY_VER}             \
-        -DPYTHON2_PACKAGES_PATH=${SP_DIR}
+    INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
+
+cmake .. -LAH                                                                     \
+    -DPYTHON_EXECUTABLE="${PYTHON}"                                               \
+    -DPYTHON_INCLUDE_DIR="${INC_PYTHON}"                                          \
+    -DPYTHON_LIBRARY="${LIB_PYTHON}"                                              \
+    -DPYTHON_PACKAGES_PATH="${SP_DIR}"                                            \
+    -DBUILD_opencv_python${PY_MAJOR}=1                                            \
+    -DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}                                      \
+    -DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON}                                 \
+    -DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include           \
+    -DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON}                                     \
+    -DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}
 
 make -j8
 make install
