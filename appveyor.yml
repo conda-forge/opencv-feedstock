@@ -35,6 +35,38 @@ environment:
       CONDA_NPY: 111
       CONDA_PY: 27
 
+    - TARGET_ARCH: x86
+      CONDA_NPY: 110
+      CONDA_PY: 34
+
+    - TARGET_ARCH: x64
+      CONDA_NPY: 110
+      CONDA_PY: 34
+
+    - TARGET_ARCH: x86
+      CONDA_NPY: 111
+      CONDA_PY: 34
+
+    - TARGET_ARCH: x64
+      CONDA_NPY: 111
+      CONDA_PY: 34
+
+    - TARGET_ARCH: x86
+      CONDA_NPY: 110
+      CONDA_PY: 35
+
+    - TARGET_ARCH: x64
+      CONDA_NPY: 110
+      CONDA_PY: 35
+
+    - TARGET_ARCH: x86
+      CONDA_NPY: 111
+      CONDA_PY: 35
+
+    - TARGET_ARCH: x64
+      CONDA_NPY: 111
+      CONDA_PY: 35
+
 
 # We always use a 64-bit machine, but can build x86 distributions
 # with the TARGET_ARCH variable.
@@ -64,10 +96,6 @@ install:
     - cmd: conda config --add channels conda-forge
     - cmd: conda info
     - cmd: conda install -n root --quiet --yes conda-build anaconda-client jinja2 setuptools
-    # Workaround for Python 3.4 and x64 bug in latest conda-build.
-    # FIXME: Remove once there is a release that fixes the upstream issue
-    # ( https://github.com/conda/conda-build/issues/895 ).
-    - cmd: if "%TARGET_ARCH%" == "x64" if "%CONDA_PY%" == "34" conda install conda-build=1.20.0 --yes
 
 # Skip .NET project specific build phase.
 build: off
