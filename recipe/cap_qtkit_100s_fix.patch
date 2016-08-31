@@ -1,0 +1,23 @@
+---modules/highgui/src/cap_qtkit.mm
++++modules/highgui/src/cap_qtkit.mm
+@@ -95,6 +95,8 @@
+ - (void)captureOutput:(QTCaptureOutput *)captureOutput
+ - (int)updateImage;
+ - (IplImage*)getOutput;
+
++- (void)doFireTimer:(NSTimer *)timer;
++
+ @end
+
+ /*****************************************************************************
+@@ -625,6 +627,11 @@
+ -(int) updateImage {
+     return 1;
+ }
+
++- (void)doFireTimer:(NSTimer *)timer {
++    (void)timer;
++    // dummy
++}
++
+ @end
