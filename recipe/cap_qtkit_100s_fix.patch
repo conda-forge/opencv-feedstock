@@ -1,5 +1,5 @@
----modules/highgui/src/cap_qtkit.mm
-+++modules/highgui/src/cap_qtkit.mm
+--- modules/highgui/src/cap_qtkit.mm
++++ modules/highgui/src/cap_qtkit.mm
 @@ -95,6 +95,8 @@ - (void)captureOutput:(QTCaptureOutput *)captureOutput
  - (int)updateImage;
  - (IplImage*)getOutput;
