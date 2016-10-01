@@ -14,14 +14,14 @@ source:
     - cap_mpjpeg_decoder.patch  # [win]
 
 build:
-    number: 0
+    number: 1
 
 requirements:
   build:
     - python
     - toolchain
     # For sha256 comparisons of opencv_contrib
-    - openssl               # [unix]
+    - openssl 1.0.*               # [unix]
     # For downloading opencv_contrib
     - curl
     # For applying patches
@@ -40,7 +40,7 @@ requirements:
   run:
     - python
     - numpy x.x
-    - hdf5 1.8.17*          # [unix]
+    - hdf5 1.8.17|1.8.17.*          # [unix]
     - jasper                # [unix]
     - zlib 1.2.*
     - jpeg 9*
