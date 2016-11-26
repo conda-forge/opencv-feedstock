@@ -33,7 +33,6 @@ conda search opencv --channel conda-forge
 ```
 
 
-
 About conda-forge
 =================
 
