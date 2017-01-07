@@ -3,11 +3,9 @@
 SHORT_OS_STR=$(uname -s)
 
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
-    DYNAMIC_EXT="so"
     OPENMP="-DWITH_OPENMP=1"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
-    DYNAMIC_EXT="dylib"
     OPENMP=""
 fi
 
@@ -31,9 +29,9 @@ cmake .. -LAH                                                             \
     -DBUILD_DOCS=0                                                        \
     -DBUILD_PERF_TESTS=0                                                  \
     -DBUILD_ZLIB=0                                                        \
-    -DZLIB_LIBRARY_RELEASE=$PREFIX/lib/libz.$DYNAMIC_EXT                  \
+    -DZLIB_LIBRARY_RELEASE=$PREFIX/lib/libz${SHLIB_EXT}                   \
     -DZLIB_INCLUDE_DIR=$PREFIX/include                                    \
-    -DHDF5_z_LIBRARY_RELEASE=$PREFIX/lib/libz.$DYNAMIC_EXT                \
+    -DHDF5_z_LIBRARY_RELEASE=$PREFIX/lib/libz${SHLIB_EXT}                 \
     -DBUILD_TIFF=0                                                        \
     -DBUILD_PNG=0                                                         \
     -DBUILD_OPENEXR=1                                                     \
@@ -69,10 +67,10 @@ IFS='.' read -ra PY_VER_ARR <<< "${PY_VER}"
 PY_MAJOR="${PY_VER_ARR[0]}"
 
 if [ $PY3K -eq 1 ]; then
-    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}m.${DYNAMIC_EXT}"
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}m${SHLIB_EXT}"
     INC_PYTHON="$PREFIX/include/python${PY_VER}m"
 else
-    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT}"
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
     INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
 
