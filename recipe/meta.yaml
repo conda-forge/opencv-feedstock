@@ -1,4 +1,4 @@
-{% set version = "3.1.0" %}
+{% set version = "3.2.0" %}
 
 package:
   name: opencv
@@ -7,14 +7,14 @@ package:
 source:
   fn: opencv-{{ version }}.tar.gz
   url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
-  sha256: f00b3c4f42acda07d89031a2ebb5ebe390764a133502c03a511f67b78bbd4fbf
+  sha256: b9d62dfffb8130d59d587627703d5f3e6252dce4a94c1955784998da7a39dd35
 
   patches:
     # Fixed: https://github.com/opencv/opencv/blob/master/modules/videoio/src/cap_mjpeg_decoder.cpp#L793
-    - cap_mpjpeg_decoder.patch  # [win]
+    # - cap_mpjpeg_decoder.patch  # [win]
 
 build:
-    number: 1
+    number: 0
 
 requirements:
   build:
