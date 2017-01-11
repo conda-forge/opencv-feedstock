@@ -44,13 +44,15 @@ set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
 
-cmake .. -LAH -G "NMake Makefiles"                                                  ^
+cmake .. -LAH -G "Ninja"                                                            ^
     -DWITH_EIGEN=1                                                                  ^
     -DBUILD_TESTS=0                                                                 ^
     -DBUILD_DOCS=0                                                                  ^
     -DBUILD_PERF_TESTS=0                                                            ^
     -DBUILD_ZLIB=0                                                                  ^
     -DBUILD_opencv_bioinspired=0                                                    ^
+    -DBUILD_opencv_hdf=0                                                            ^
+    -DBUILD_opencv_matlab=0                                                         ^
     -DBUILD_TIFF=0                                                                  ^
     -DBUILD_PNG=0                                                                   ^
     -DBUILD_OPENEXR=1                                                               ^
@@ -86,7 +88,7 @@ cmake .. -LAH -G "NMake Makefiles"                                              
     -DPYTHON3_PACKAGES_PATH=""
 if errorlevel 1 exit 1
 
-cmake .. -LAH -G "NMake Makefiles"                                                  ^
+cmake .. -LAH -G "Ninja"                                                            ^
     -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
     -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
     -DPYTHON_PACKAGES_PATH=%UNIX_SP_DIR%                                            ^
@@ -100,7 +102,7 @@ cmake .. -LAH -G "NMake Makefiles"                                              
     -DPYTHON%PY_MAJOR%_PACKAGES_PATH=%UNIX_SP_DIR%
 if errorlevel 1 exit 1
 
-cmake --build . --target INSTALL --config Release
+cmake --build . --target install --config Release
 if errorlevel 1 exit 1
 
 if "%ARCH%" == "32" ( set "OPENCV_ARCH=86")
@@ -108,6 +110,31 @@ if "%ARCH%" == "64" ( set "OPENCV_ARCH=64")
 
 robocopy %LIBRARY_PREFIX%\x%OPENCV_ARCH%\vc%VS_MAJOR%\ %LIBRARY_PREFIX%\ *.* /E
 if %ERRORLEVEL% GEQ 8 exit 1
+
+rem patch the cmake files accordingly
+"%PYTHON%" "%RECIPE_DIR%\patch_cmake_targets.py" ^
+           "%LIBRARY_PREFIX%\OpenCVConfig.cmake" ^
+           "\${OpenCV_CONFIG_PATH}/\${OpenCV_ARCH}/\${OpenCV_RUNTIME}" ^
+           "${OpenCV_CONFIG_PATH}"
+if errorlevel 1 exit 1
+
+"%PYTHON%" "%RECIPE_DIR%\patch_cmake_targets.py" ^
+           "%LIBRARY_LIB%\OpenCVConfig.cmake" ^
+           "/x%OPENCV_ARCH%/vc%VS_MAJOR%/" ^
+           "/"
+if errorlevel 1 exit 1
+
+"%PYTHON%" "%RECIPE_DIR%\patch_cmake_targets.py" ^
+           "%LIBRARY_LIB%\OpenCVModules.cmake" ^
+           "(get_filename_component\(_IMPORT_PREFIX \"\${_IMPORT_PREFIX}\" PATH\)[\s]){2}" ^
+           ""
+if errorlevel 1 exit 1
+
+"%PYTHON%" "%RECIPE_DIR%\patch_cmake_targets.py" ^
+           "%LIBRARY_LIB%\OpenCVModules-release.cmake" ^
+           "/x%OPENCV_ARCH%/vc%VS_MAJOR%/" ^
+           "/"
+if errorlevel 1 exit 1
 
 rem Remove files installed in the wrong locations
 rd /S /Q "%LIBRARY_BIN%\Release"
