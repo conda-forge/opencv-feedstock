@@ -5,7 +5,7 @@ curl -L -O "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.g
 %PYTHON% -c "import tarfile, os; tar = tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'); tar.extractall(); tar.close()"
 %PYTHON% -c "import hashlib, os; print(hashlib.sha256(open(os.environ['PKG_VERSION'] + '.tar.gz', 'rb').read()).hexdigest())" > sha256.out
 SET /p CONTRIB_SHA256=<sha256.out
-if NOT "%CONTRIB_SHA256%" == "ef2084bcd4c3812eb53c21fa81477d800e8ce8075b68d9dedec90fef395156e5" (
+if NOT "%CONTRIB_SHA256%" == "1e2bb6c9a41c602904cc7df3f8fb8f98363a88ea564f2a087240483426bf8cbe" (
     exit 1
 )
 
