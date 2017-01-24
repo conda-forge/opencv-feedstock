@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set +x
 SHORT_OS_STR=$(uname -s)
 
