@@ -25,7 +25,7 @@ requirements:
     - cmake
     - numpy x.x
     - hdf5 1.8.17|1.8.17.*  # [unix]
-    - eigen 3.*
+    - eigen 3.2.*
     - jasper                # [unix]
     - zlib 1.2.*
     - jpeg 9*
