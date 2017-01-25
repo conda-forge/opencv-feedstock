@@ -33,8 +33,20 @@ else
     INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
 
-PYTHON_SETTINGS='-DPYTHON_EXECUTABLE=${PYTHON} -DPYTHON_INCLUDE_DIR=${INC_PYTHON} -DPYTHON_LIBRARY=${LIB_PYTHON} -DPYTHON_PACKAGES_PATH=${SP_DIR} -DBUILD_opencv_python${PY_MAJOR}=1 -DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON} -DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON} -DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include -DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON} -DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}'
-PYTHON_UNSETTINGS='-DBUILD_opencv_python${PY_UNSET_MAJOR}=0 -DPYTHON${PY_UNSET_MAJOR}_EXECUTABLE= -DPYTHON${PY_UNSET_MAJOR}_INCLUDE_DIR= -DPYTHON${PY_UNSET_MAJOR}_NUMPY_INCLUDE_DIRS= -DPYTHON${PY_UNSET_MAJOR}_LIBRARY= -DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH='
+
+PYTHON_SET_FLAG="-DBUILD_opencv_python${PY_MAJOR}=1"
+PYTHON_SET_EXE="-DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}"
+PYTHON_SET_INC="-DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON} "
+PYTHON_SET_NUMPY="-DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include"
+PYTHON_SET_LIB="-DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON}"
+PYTHON_SET_SP="-DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}"
+
+PYTHON_UNSET_FLAG="-DBUILD_opencv_python${PY_UNSET_MAJOR}=0"
+PYTHON_UNSET_EXE="-DPYTHON${PY_UNSET_MAJOR}_EXECUTABLE="
+PYTHON_UNSET_INC="-DPYTHON${PY_UNSET_MAJOR}_INCLUDE_DIR="
+PYTHON_UNSET_NUMPY="-DPYTHON${PY_UNSET_MAJOR}_NUMPY_INCLUDE_DIRS="
+PYTHON_UNSET_LIB="-DPYTHON${PY_UNSET_MAJOR}_LIBRARY="
+PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
 
 # For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
 export CFLAGS="$CFLAGS -I$PREFIX/include"
@@ -83,12 +95,26 @@ cmake .. -LAH                                                             \
     -DWITH_VTK=0                                                          \
     -DWITH_GPHOTO2=0                                                      \
     -DINSTALL_C_EXAMPLES=0                                                \
-     $PYTHON_SETTINGS                                                     \
-     $PYTHON_UNSETTINGS                                                   \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$PKG_VERSION/modules"  \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DCMAKE_INSTALL_PREFIX=$PREFIX
+    -DCMAKE_INSTALL_PREFIX=$PREFIX                                        \
+    -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
+    -DPYTHON_EXECUTABLE=${PYTHON}                                         \
+    -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
+    -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
+    $PYTHON_SET_FLAG                                                      \
+    $PYTHON_SET_EXE                                                       \
+    $PYTHON_SET_INC                                                       \
+    $PYTHON_SET_NUMPY                                                     \
+    $PYTHON_SET_LIB                                                       \
+    $PYTHON_SET_SP                                                        \
+    $PYTHON_UNSET_FLAG                                                    \
+    $PYTHON_UNSET_EXE                                                     \
+    $PYTHON_UNSET_INC                                                     \
+    $PYTHON_UNSET_NUMPY                                                   \
+    $PYTHON_UNSET_LIB                                                     \
+    $PYTHON_UNSET_SP
 
 make -j8
 make install
