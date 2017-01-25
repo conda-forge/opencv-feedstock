@@ -57,7 +57,7 @@ test:
         {% set opencv_libs = [
             "aruco",
             "bgsegm",
-            "bioinspired",
+            "bioinspired",  # [unix]
             "calib3d",
             "ccalib",
             "core",
