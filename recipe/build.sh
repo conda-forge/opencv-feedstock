@@ -78,6 +78,7 @@ cmake .. -LAH                                                             \
     -DJASPER_LIBRARY_RELEASE=$PREFIX/lib/libjasper$SHLIB_EXT              \
     -DWEBP_INCLUDE_DIR=$PREFIX/include                                    \
     -DWEBP_LIBRARY=$PREFIX/lib/libwebp$SHLIB_EXT                          \
+    -DHARFBUZZ_INCLUDE_DIRS=$PREFIX/include/harfbuzz                      \
     -DHARFBUZZ_LIBRARIES=$PREFIX/lib/libharfbuzz$SHLIB_EXT                \
     -DZLIB_LIBRARY_RELEASE=$PREFIX/lib/libz$SHLIB_EXT                     \
     -DZLIB_INCLUDE_DIR=$PREFIX/include                                    \
