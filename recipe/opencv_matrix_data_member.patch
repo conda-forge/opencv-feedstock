@@ -1,0 +1,21 @@
+--- modules/core/src/matrix.cpp
++++ modules/core/src/matrix.cpp
+@@ -441,7 +441,7 @@
+ 
+ void Mat::create(const std::vector<int>& _sizes, int _type)
+ {
+-    create((int)_sizes.size(), _sizes.data(), _type);
++    create((int)_sizes.size(), &_sizes.front(), _type);
+ }
+ 
+ void Mat::copySize(const Mat& m)
+@@ -552,7 +552,7 @@
+ {
+     flags |= CV_MAT_TYPE(_type);
+     datastart = data = (uchar*)_data;
+-    setSize(*this, (int)_sizes.size(), _sizes.data(), _steps, true);
++    setSize(*this, (int)_sizes.size(), &_sizes.front(), _steps, true);
+     finalizeHdr(*this);
+ }
+ 
+
