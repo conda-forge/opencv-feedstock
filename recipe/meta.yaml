@@ -22,7 +22,7 @@ requirements:
     - cmake
     - python
     - numpy x.x
-    - eigen 3.*
+    - eigen 3.2.*
     - jasper   # [unix]
     - zlib 1.2*
     - jpeg 9*
