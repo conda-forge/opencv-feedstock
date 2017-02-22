@@ -1,4 +1,4 @@
-{% set version = "2.4.12" %}
+{% set version = "2.4.13" %}
 {% set filename = "opencv2-%s.zip" % version %}
 
 package:
@@ -8,13 +8,13 @@ package:
 source:
   fn: {{ filename }}
   url: https://github.com/Itseez/opencv/archive/{{ version }}.zip
-  sha1: 2225768a48dbf99426bf77451a433ed432f54d8e
+  sha1: 0c6e4d890f6252ae8feae0c92f397f63aaa41a08
 
   patches:
     - osx_rpath.patch  # [osx]
 
 build:
-  number: 2
+  number: 0
   skip: true  # [not py27]
 
 requirements:
