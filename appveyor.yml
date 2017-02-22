@@ -4,36 +4,35 @@
 
 environment:
 
-  CONDA_INSTALL_LOCN: "C:\\conda"
-
   # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
   # /E:ON and /V:ON options are not enabled in the batch script intepreter
   # See: http://stackoverflow.com/a/13751649/163740
   CMD_IN_ENV: "cmd /E:ON /V:ON /C obvci_appveyor_python_build_env.cmd"
 
-  # We set a default Python version for the miniconda that is to be installed. This can be
-  # overridden in the matrix definition where appropriate.
-  CONDA_PY: "27"
   BINSTAR_TOKEN:
     # The BINSTAR_TOKEN secure variable. This is defined canonically in conda-forge.yml.
     secure: /XxwAsgp0EItmAhoPSov/h0BtAFNj2BuuEqnhgaP9l7Rw2yLBM1lD+3q4LvpVm3B
 
   matrix:
     - TARGET_ARCH: x86
-      CONDA_NPY: 110
+      CONDA_NPY: 111
       CONDA_PY: 27
+      CONDA_INSTALL_LOCN: C:\\Miniconda
 
     - TARGET_ARCH: x64
-      CONDA_NPY: 110
+      CONDA_NPY: 111
       CONDA_PY: 27
+      CONDA_INSTALL_LOCN: C:\\Miniconda-x64
 
     - TARGET_ARCH: x86
-      CONDA_NPY: 111
+      CONDA_NPY: 112
       CONDA_PY: 27
+      CONDA_INSTALL_LOCN: C:\\Miniconda
 
     - TARGET_ARCH: x64
-      CONDA_NPY: 111
+      CONDA_NPY: 112
       CONDA_PY: 27
+      CONDA_INSTALL_LOCN: C:\\Miniconda-x64
 
 
 # We always use a 64-bit machine, but can build x86 distributions
@@ -43,35 +42,28 @@ platform:
 
 install:
     # If there is a newer build queued for the same PR, cancel this one.
-    # The AppVeyor 'rollout builds' option is supposed to serve the same
-    # purpose but it is problematic because it tends to cancel builds pushed
-    # directly to master instead of just PR builds (or the converse).
-    # credits: JuliaLang developers.
-    - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
-        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
-        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
-          throw "There are newer queued builds for this pull request, failing early." }
+    - cmd: |
+        curl https://raw.githubusercontent.com/conda-forge/conda-forge-build-setup-feedstock/master/recipe/ff_ci_pr_build.py > ff_ci_pr_build.py
+        ff_ci_pr_build -v --ci "appveyor" "%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%" "%APPVEYOR_BUILD_NUMBER%" "%APPVEYOR_PULL_REQUEST_NUMBER%"
+        del ff_ci_pr_build.py
 
     # Cywing's git breaks conda-build. (See https://github.com/conda-forge/conda-smithy-feedstock/pull/2.)
     - cmd: rmdir C:\cygwin /s /q
-    - appveyor DownloadFile "https://raw.githubusercontent.com/pelson/Obvious-CI/master/bootstrap-obvious-ci-and-miniconda.py"
-    - cmd: python bootstrap-obvious-ci-and-miniconda.py %CONDA_INSTALL_LOCN% %TARGET_ARCH% %CONDA_PY:~0,1% --without-obvci
 
-    # Add a hack to switch to `conda` version `4.1.12` before activating.
-    # This is required to handle a long path activation issue.
-    # Please see PR ( https://github.com/conda/conda/pull/3349 ).
-    - cmd: set "OLDPATH=%PATH%"
-    - cmd: set "PATH=%CONDA_INSTALL_LOCN%\\Scripts;%CONDA_INSTALL_LOCN%\\Library\\bin;%PATH%"
-    - cmd: conda install --yes --quiet conda=4.1.12
-    - cmd: set "PATH=%OLDPATH%"
-    - cmd: set "OLDPATH="
-
+    # Add path, activate `conda` and update conda.
     - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
+    - cmd: conda update --yes --quiet conda
+
     - cmd: set PYTHONUNBUFFERED=1
 
+    # Add our channels.
     - cmd: conda config --set show_channel_urls true
-    - cmd: conda install -c pelson/channel/development --yes --quiet obvious-ci
+    - cmd: conda config --remove channels defaults
+    - cmd: conda config --add channels defaults
     - cmd: conda config --add channels conda-forge
+
+    # Configure the VM.
+    - cmd: conda install -n root --quiet --yes obvious-ci
     - cmd: conda install -n root --quiet --yes conda-forge-build-setup
     - cmd: run_conda_forge_build_setup
 
