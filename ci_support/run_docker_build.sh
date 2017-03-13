@@ -24,12 +24,14 @@ show_channel_urls: true
 CONDARC
 )
 
+rm -f "$FEEDSTOCK_ROOT/build_artefacts/conda-forge-build-done"
+
 cat << EOF | docker run -i \
                         -v "${RECIPE_ROOT}":/recipe_root \
                         -v "${FEEDSTOCK_ROOT}":/feedstock_root \
                         -a stdin -a stdout -a stderr \
                         condaforge/linux-anvil \
-                        bash || exit $?
+                        bash || exit 1
 
 export BINSTAR_TOKEN=${BINSTAR_TOKEN}
 export PYTHONUNBUFFERED=1
@@ -83,4 +85,11 @@ source run_conda_forge_build_setup
     set +x
     conda build /recipe_root --quiet || exit 1
     upload_or_check_non_existence /recipe_root conda-forge --channel=main || exit 1
+touch /feedstock_root/build_artefacts/conda-forge-build-done
 EOF
+
+# double-check that the build got to the end
+# see https://github.com/conda-forge/conda-smithy/pull/337
+# for a possible fix
+set -x
+test -f "$FEEDSTOCK_ROOT/build_artefacts/conda-forge-build-done" || exit 1
