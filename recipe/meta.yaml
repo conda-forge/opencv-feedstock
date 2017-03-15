@@ -9,9 +9,6 @@ source:
   url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
   sha256: b9d62dfffb8130d59d587627703d5f3e6252dce4a94c1955784998da7a39dd35
 
-  patches:
-    - opencv_matrix_data_member.patch       # [win]
-
 build:
   number: 0
 
