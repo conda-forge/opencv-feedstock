@@ -12,6 +12,8 @@ source:
   patches:
     # Fixed: https://github.com/opencv/opencv/blob/master/modules/videoio/src/cap_mjpeg_decoder.cpp#L793
     - cap_mpjpeg_decoder.patch  # [win]
+    # Fixed: https://github.com/opencv/opencv/pull/6051
+    - cap_qtkit_100s_fix.patch
 
 build:
     number: 1
