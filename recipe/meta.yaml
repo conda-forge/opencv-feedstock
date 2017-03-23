@@ -14,11 +14,12 @@ source:
     - osx_rpath.patch  # [osx]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [not py27]
 
 requirements:
   build:
+    - toolchain
     - cmake
     - python
     - numpy x.x
