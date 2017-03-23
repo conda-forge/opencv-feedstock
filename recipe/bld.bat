@@ -5,19 +5,9 @@ curl -L -O "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.g
 %PYTHON% -c "import tarfile, os; tar = tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'); tar.extractall(); tar.close()"
 %PYTHON% -c "import hashlib, os; print(hashlib.sha256(open(os.environ['PKG_VERSION'] + '.tar.gz', 'rb').read()).hexdigest())" > sha256.out
 SET /p CONTRIB_SHA256=<sha256.out
-if NOT "%CONTRIB_SHA256%" == "ef2084bcd4c3812eb53c21fa81477d800e8ce8075b68d9dedec90fef395156e5" (
+if NOT "%CONTRIB_SHA256%" == "1e2bb6c9a41c602904cc7df3f8fb8f98363a88ea564f2a087240483426bf8cbe" (
     exit 1
 )
-
-rem Patches apply only to opencv_contrib so we have to apply them now (after source download above)
-rem Fixed: https://github.com/opencv/opencv_contrib/blob/6cd8e9f556c8c55c05178dec05d5277ae00020d9/modules/tracking/src/trackerKCF.cpp#L669
-git apply --whitespace=fix -p0 "%RECIPE_DIR%\kcftracker.patch"
-rem Fixed: https://github.com/opencv/opencv_contrib/blob/master/modules/text/src/ocr_beamsearch_decoder.cpp#L569
-git apply --whitespace=fix -p0 "%RECIPE_DIR%\ocr_beamsearch_decoder.patch"
-rem Fixed: https://github.com/opencv/opencv_contrib/blob/master/modules/text/src/ocr_hmm_decoder.cpp#L985
-git apply --whitespace=fix -p0 "%RECIPE_DIR%\ocr_hmm_decoder.patch"
-rem Fixed: https://github.com/opencv/opencv_contrib/blob/master/modules/dpm/src/dpm_nms.cpp#L43
-git apply --whitespace=fix -p0 "%RECIPE_DIR%\dpm.patch"
 
 mkdir build
 cd build
