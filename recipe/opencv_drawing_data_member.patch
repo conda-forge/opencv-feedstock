@@ -1,0 +1,29 @@
+--- modules/imgproc/src/drawing.cpp
++++ modules/imgproc/src/drawing.cpp
+@@ -1968,7 +1968,7 @@ void fillConvexPoly( Mat& img, const Point* pts, int npts,
+     CV_Assert( 0 <= shift && shift <=  XY_SHIFT );
+     scalarToRawData(color, buf, img.type(), 0);
+     std::vector<Point2l> _pts(pts, pts + npts);
+-    FillConvexPoly( img, _pts.data(), npts, buf, line_type, shift );
++    FillConvexPoly( img, &_pts.front(), npts, buf, line_type, shift );
+ }
+ 
+ 
+@@ -1996,7 +1996,7 @@ void fillPoly( Mat& img, const Point** pts, const int* npts, int ncontours,
+     for (i = 0; i < ncontours; i++)
+     {
+         std::vector<Point2l> _pts(pts[i], pts[i] + npts[i]);
+-        CollectPolyEdges(img, _pts.data(), npts[i], edges, buf, line_type, shift, offset);
++        CollectPolyEdges(img, &_pts.front(), npts[i], edges, buf, line_type, shift, offset);
+     }
+ 
+     FillEdgeCollection(img, edges, buf);
+@@ -2021,7 +2021,7 @@ void polylines( Mat& img, const Point* const* pts, const int* npts, int ncontour
+     for( int i = 0; i < ncontours; i++ )
+     {
+         std::vector<Point2l> _pts(pts[i], pts[i]+npts[i]);
+-        PolyLine( img, _pts.data(), npts[i], isClosed, buf, thickness, line_type, shift );
++        PolyLine( img, &_pts.front(), npts[i], isClosed, buf, thickness, line_type, shift );
+     }
+ }
+ 

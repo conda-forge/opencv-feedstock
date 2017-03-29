@@ -1,0 +1,29 @@
+--- modules/core/include/opencv2/core/cvstd.hpp
++++ modules/core/include/opencv2/core/cvstd.hpp
+@@ -72,6 +72,13 @@ namespace cv
+     static inline unsigned abs(unsigned a) { return a; }
+     static inline uint64 abs(uint64 a) { return a; }
+ 
++    #if (_MSC_VER < 1900)
++        // Prior to VS 2015 there was no long long int (int64) abs implementation
++        // and instead it was provided by the _abs64 method.
++        #include <stdlib.h>
++        static inline int64 abs(int64 a) { return _abs64(a); }
++    #endif
++
+     using std::min;
+     using std::max;
+     using std::abs;
+@@ -94,6 +101,12 @@ namespace cv
+     template<> inline ushort abs(ushort a) { return a; }
+     template<> inline unsigned abs(unsigned a) { return a; }
+     template<> inline uint64 abs(uint64 a) { return a; }
++    #if (_MSC_VER < 1900)
++        // Prior to VS 2015 there was no long long int (int64) abs implementation
++        // and instead it was provided by the _abs64 method.
++        #include <stdlib.h>
++        template<> inline int64 abs(int64 a) { return _abs64(a); }
++    #endif
+ }
+ #endif
+ 

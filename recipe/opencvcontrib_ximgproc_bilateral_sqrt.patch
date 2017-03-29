@@ -1,0 +1,11 @@
+--- opencv_contrib-3.2.0\modules\ximgproc\src\bilateral_texture_filter.cpp
++++ opencv_contrib-3.2.0\modules\ximgproc\src\bilateral_texture_filter.cpp
+@@ -63,7 +63,7 @@ namespace ximgproc
+     if (sigmaAlpha < 0)
+       sigmaAlpha = 5. * fr;
+     if (sigmaAvg < 0)
+-      sigmaAvg = 0.05 * sqrt(src.channels());
++      sigmaAvg = 0.05 * sqrt((float)src.channels());
+ 
+     Mat I;
+     src.copyTo(I);

@@ -1,0 +1,12 @@
+--- opencv_contrib-3.2.0\modules\ximgproc\src\precomp.hpp
++++ opencv_contrib-3.2.0\modules\ximgproc\src\precomp.hpp
+@@ -51,4 +51,9 @@
+ #include <algorithm>
+ #include <map>
+ 
++#if defined(_MSC_VER) && _MSC_VER <= 1600
++#include <math.h>
++#define round(x) ((x < 0) ? (ceil((x)-0.5)) : (floor((x)+0.5)))
++#endif
++
+ #endif
