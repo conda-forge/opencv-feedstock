@@ -1,0 +1,20 @@
+--- opencv_contrib-3.2.0\modules\dnn\src\tensorflow\tf_importer.cpp
++++ opencv_contrib-3.2.0\modules\dnn\src\tensorflow\tf_importer.cpp
+@@ -472,7 +472,7 @@ const tensorflow::TensorProto& TFImporter::getConstBlob(const tensorflow::NodeDe
+         *actual_inp_blob_idx = input_blob_index;
+     }
+ 
+-    return net.node(const_layers.at(kernel_inp.name)).attr().at("value").tensor();
++    return net.node(const_layers.find(kernel_inp.name)->second).attr().find("value")->second.tensor();
+ }
+ 
+ 
+@@ -661,7 +661,7 @@ void TFImporter::populateNet(Net dstNet)
+                 Pin inp = parsePin(layer.input(ii));
+                 if (layer_id.find(inp.name) == layer_id.end())
+                     CV_Error(Error::StsError, "Input layer not found: " + inp.name);
+-                dstNet.connect(layer_id.at(inp.name), inp.blobIndex, id, ii - 1);
++                dstNet.connect(layer_id.find(inp.name)->second, inp.blobIndex, id, ii - 1);
+             }
+         }
+         else if (type == "Relu")

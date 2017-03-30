@@ -1,0 +1,157 @@
+diff --git modules/core/src/persistence.cpp modules/core/src/persistence.cpp
+index ccdb135..79c8097 100644
+--- modules/core/src/persistence.cpp
++++ modules/core/src/persistence.cpp
+@@ -1367,7 +1367,7 @@ static char* icvYMLParseBase64(CvFileStorage* fs, char* ptr, int indent, CvFileN
+             CV_PARSE_ERROR("Unrecognized Base64 header");
+ 
+         std::vector<char> header(base64::HEADER_SIZE + 1, ' ');
+-        base64::base64_decode(beg, header.data(), 0U, base64::ENCODED_HEADER_SIZE);
++        base64::base64_decode(beg, &header.front(), 0U, base64::ENCODED_HEADER_SIZE);
+         if ( !base64::read_base64_header(header, dt) || dt.empty() )
+             CV_PARSE_ERROR("Invalid `dt` in Base64 header");
+ 
+@@ -1392,7 +1392,7 @@ static char* icvYMLParseBase64(CvFileStorage* fs, char* ptr, int indent, CvFileN
+         base64::base64_decode_buffer_size( base64_buffer.size(), base64_buffer.data(), false )
+         );
+     {
+-        base64::Base64ContextParser parser(binary_buffer.data(), binary_buffer.size() );
++        base64::Base64ContextParser parser(&binary_buffer.front(), binary_buffer.size() );
+         const uchar * buffer_beg = reinterpret_cast<const uchar *>( base64_buffer.data() );
+         const uchar * buffer_end = buffer_beg + base64_buffer.size();
+         parser.read( buffer_beg, buffer_end );
+@@ -1409,7 +1409,7 @@ static char* icvYMLParseBase64(CvFileStorage* fs, char* ptr, int indent, CvFileN
+     int struct_flags = CV_NODE_FLOW | CV_NODE_SEQ;
+     /* after icvFSCreateCollection, node->tag == struct_flags */
+     icvFSCreateCollection(fs, struct_flags, node);
+-    base64::make_seq(binary_buffer.data(), elem_cnt, dt.c_str(), *node->data.seq);
++    base64::make_seq(&binary_buffer.front(), elem_cnt, dt.c_str(), *node->data.seq);
+ 
+     if (fs->dummy_eof) {
+         /* end of file */
+@@ -2326,7 +2326,7 @@ static char* icvXMLParseBase64(CvFileStorage* fs, char* ptr, CvFileNode * node)
+             CV_PARSE_ERROR("Unrecognized Base64 header");
+ 
+         std::vector<char> header(base64::HEADER_SIZE + 1, ' ');
+-        base64::base64_decode(beg, header.data(), 0U, base64::ENCODED_HEADER_SIZE);
++        base64::base64_decode(beg, &header.front(), 0U, base64::ENCODED_HEADER_SIZE);
+         if ( !base64::read_base64_header(header, dt) || dt.empty() )
+             CV_PARSE_ERROR("Invalid `dt` in Base64 header");
+ 
+@@ -2351,7 +2351,7 @@ static char* icvXMLParseBase64(CvFileStorage* fs, char* ptr, CvFileNode * node)
+         base64::base64_decode_buffer_size( base64_buffer.size(), base64_buffer.data(), false )
+         );
+     {
+-        base64::Base64ContextParser parser(binary_buffer.data(), binary_buffer.size() );
++        base64::Base64ContextParser parser(&binary_buffer.front(), binary_buffer.size() );
+         const uchar * buffer_beg = reinterpret_cast<const uchar *>( base64_buffer.data() );
+         const uchar * buffer_end = buffer_beg + base64_buffer.size();
+         parser.read( buffer_beg, buffer_end );
+@@ -2368,7 +2368,7 @@ static char* icvXMLParseBase64(CvFileStorage* fs, char* ptr, CvFileNode * node)
+     int struct_flags = CV_NODE_SEQ;
+     /* after icvFSCreateCollection, node->tag == struct_flags */
+     icvFSCreateCollection(fs, struct_flags, node);
+-    base64::make_seq(binary_buffer.data(), elem_cnt, dt.c_str(), *node->data.seq);
++    base64::make_seq(&binary_buffer.front(), elem_cnt, dt.c_str(), *node->data.seq);
+ 
+     if (fs->dummy_eof) {
+         /* end of file */
+@@ -3464,7 +3464,7 @@ static char* icvJSONParseValue( CvFileStorage* fs, char* ptr, CvFileNode* node )
+                 std::string dt;
+                 {
+                     std::vector<char> header(base64::HEADER_SIZE + 1, ' ');
+-                    base64::base64_decode(base64_beg, header.data(), 0U, base64::ENCODED_HEADER_SIZE);
++                    base64::base64_decode(base64_beg, &header.front(), 0U, base64::ENCODED_HEADER_SIZE);
+                     if ( !base64::read_base64_header(header, dt) || dt.empty() )
+                         CV_PARSE_ERROR("Invalid `dt` in Base64 header");
+                 }
+@@ -3483,7 +3483,7 @@ static char* icvJSONParseValue( CvFileStorage* fs, char* ptr, CvFileNode* node )
+                         base64::base64_decode_buffer_size( base64_end - base64_beg, base64_beg, false )
+                         );
+                     {
+-                        base64::Base64ContextParser parser(binary_buffer.data(), binary_buffer.size() );
++                        base64::Base64ContextParser parser(&binary_buffer.front(), binary_buffer.size() );
+                         const uchar * binary_beg = reinterpret_cast<const uchar *>( base64_beg );
+                         const uchar * binary_end = binary_beg + (base64_end - base64_beg);
+                         parser.read( binary_beg, binary_end );
+@@ -3498,7 +3498,7 @@ static char* icvJSONParseValue( CvFileStorage* fs, char* ptr, CvFileNode* node )
+ 
+                     /* after icvFSCreateCollection, node->tag == struct_flags */
+                     icvFSCreateCollection(fs, CV_NODE_FLOW | CV_NODE_SEQ, node);
+-                    base64::make_seq(binary_buffer.data(), elem_cnt, dt.c_str(), *node->data.seq);
++                    base64::make_seq(&binary_buffer.front(), elem_cnt, dt.c_str(), *node->data.seq);
+                 }
+                 else
+                 {
+@@ -7658,7 +7658,7 @@ std::string base64::make_base64_header(const char * dt)
+ 
+ bool base64::read_base64_header(std::vector<char> const & header, std::string & dt)
+ {
+-    std::istringstream iss(header.data());
++    std::istringstream iss(&header.front());
+     return static_cast<bool>(iss >> dt);
+ }
+ 
+@@ -7675,7 +7675,7 @@ base64::Base64ContextParser::Base64ContextParser(uchar * buffer, size_t size)
+     , src_end(0)
+     , binary_buffer(base64_encode_buffer_size(BUFFER_LEN))
+ {
+-    src_beg = binary_buffer.data();
++    src_beg = &binary_buffer.front();
+     src_cur = src_beg;
+     src_end = src_beg + BUFFER_LEN;
+ }
+@@ -7719,7 +7719,7 @@ bool base64::Base64ContextParser::flush()
+     if ( src_cur == src_beg )
+         return true;
+ 
+-    uchar * buffer = binary_buffer.data();
++    uchar * buffer = &binary_buffer.front();
+     size_t len = base64_decode(src_beg, buffer, 0U, src_cur - src_beg);
+     src_cur = src_beg;
+ 
+@@ -7758,7 +7758,7 @@ public:
+         , src_cur(0)
+         , src_end(0)
+     {
+-        src_beg = binary_buffer.data();
++        src_beg = &binary_buffer.front();
+         src_end = src_beg + BUFFER_LEN;
+         src_cur = src_beg;
+ 
+@@ -7829,7 +7829,7 @@ public:
+         static const size_t BUFFER_MAX_LEN = 1024U;
+ 
+         std::vector<uchar> buffer(BUFFER_MAX_LEN);
+-        uchar * beg = buffer.data();
++        uchar * beg = &buffer.front();
+         uchar * end = beg;
+ 
+         while (convertor) {
+@@ -7844,7 +7844,7 @@ public:
+     bool flush()
+     {
+         /* controll line width, so on. */
+-        size_t len = base64_encode(src_beg, base64_buffer.data(), 0U, src_cur - src_beg);
++        size_t len = base64_encode(src_beg, &base64_buffer.front(), 0U, src_cur - src_beg);
+         if (len == 0U)
+             return false;
+ 
+@@ -7852,7 +7852,7 @@ public:
+         {
+             if ( file_storage->fmt == CV_STORAGE_FORMAT_JSON )
+             {
+-                ::icvPuts(file_storage, (const char*)base64_buffer.data());
++                ::icvPuts(file_storage, (const char*)&base64_buffer.front());
+             }
+             else
+             {
+@@ -7863,7 +7863,7 @@ public:
+                 space[ident] = '\0';
+ 
+                 ::icvPuts(file_storage, space);
+-                ::icvPuts(file_storage, (const char*)base64_buffer.data());
++                ::icvPuts(file_storage, (const char*)&base64_buffer.front());
+                 ::icvPuts(file_storage, newline);
+                 ::icvFSFlush(file_storage);
+             }

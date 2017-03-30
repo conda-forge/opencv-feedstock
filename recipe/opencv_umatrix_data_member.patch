@@ -1,0 +1,13 @@
+diff --git modules/core/src/umatrix.cpp modules/core/src/umatrix.cpp
+index 5874be8..ad4c0d2 100644
+--- modules/core/src/umatrix.cpp
++++ modules/core/src/umatrix.cpp
+@@ -388,7 +388,7 @@ void UMat::create(int d, const int* _sizes, int _type, UMatUsageFlags _usageFlag
+ 
+ void UMat::create(const std::vector<int>& _sizes, int _type, UMatUsageFlags _usageFlags)
+ {
+-    create((int)_sizes.size(), _sizes.data(), _type, _usageFlags);
++    create((int)_sizes.size(), &_sizes.front(), _type, _usageFlags);
+ }
+ 
+ void UMat::copySize(const UMat& m)

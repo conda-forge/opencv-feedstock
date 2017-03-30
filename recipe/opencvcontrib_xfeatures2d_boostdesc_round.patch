@@ -1,0 +1,14 @@
+--- opencv_contrib-3.2.0\modules\xfeatures2d\src\boostdesc.cpp
++++ opencv_contrib-3.2.0\modules\xfeatures2d\src\boostdesc.cpp
+@@ -54,7 +54,10 @@
+ #include <bitset>
+ #include "precomp.hpp"
+ 
+-
++#if defined(_MSC_VER) && _MSC_VER <= 1600
++#include <math.h>
++#define round(x) ((x < 0) ? (ceil((x)-0.5)) : (floor((x)+0.5)))
++#endif
+ 
+ using namespace cv;
+ using namespace std;

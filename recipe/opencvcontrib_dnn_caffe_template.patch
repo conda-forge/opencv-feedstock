@@ -1,0 +1,32 @@
+--- opencv_contrib-3.2.0\modules\dnn\src\caffe\layer_loaders.cpp
++++ opencv_contrib-3.2.0\modules\dnn\src\caffe\layer_loaders.cpp
+@@ -279,6 +279,13 @@ Ptr<Layer> createLayerFromCaffe<EltwiseLayer>(LayerParams& params)
+ }
+ 
+ //Explicit instantiation
++template Ptr<Layer> createLayerFromCaffe<SigmoidLayer>(LayerParams&);
++template Ptr<Layer> createLayerFromCaffe<TanHLayer>(LayerParams&);
++template Ptr<Layer> createLayerFromCaffe<AbsLayer>(LayerParams&);
++template Ptr<Layer> createLayerFromCaffe<BNLLLayer>(LayerParams&);
++
++#ifndef _MSC_VER || _MSC_VER <= 1600
++// Avoid C3416 as defined for VS 2005 and 2008
+ template Ptr<Layer> createLayerFromCaffe<ConvolutionLayer>(LayerParams&);
+ template Ptr<Layer> createLayerFromCaffe<DeconvolutionLayer>(LayerParams&);
+ template Ptr<Layer> createLayerFromCaffe<SoftmaxLayer>(LayerParams&);
+@@ -291,14 +298,11 @@ template Ptr<Layer> createLayerFromCaffe<SliceLayer>(LayerParams&);
+ template Ptr<Layer> createLayerFromCaffe<SplitLayer>(LayerParams&);
+ 
+ template Ptr<Layer> createLayerFromCaffe<ReLULayer>(LayerParams&);
+-template Ptr<Layer> createLayerFromCaffe<SigmoidLayer>(LayerParams&);
+-template Ptr<Layer> createLayerFromCaffe<TanHLayer>(LayerParams&);
+-template Ptr<Layer> createLayerFromCaffe<AbsLayer>(LayerParams&);
+-template Ptr<Layer> createLayerFromCaffe<BNLLLayer>(LayerParams&);
+ template Ptr<Layer> createLayerFromCaffe<PowerLayer>(LayerParams&);
+ 
+ template Ptr<Layer> createLayerFromCaffe<CropLayer>(LayerParams&);
+ template Ptr<Layer> createLayerFromCaffe<EltwiseLayer>(LayerParams&);
++#endif
+ 
+ }
+ }
