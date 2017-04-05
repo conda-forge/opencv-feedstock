@@ -1,5 +1,4 @@
 {% set version = "3.2.0" %}
-{% set blas_variant = "openblas" %}
 
 package:
   name: opencv
@@ -47,6 +46,7 @@ requirements:
     - msinttypes                   # [win and py<35]
     - openblas 0.2.19|0.2.19.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
+    - ffmpeg
 
   run:
     - python
@@ -61,6 +61,7 @@ requirements:
     - libpng >=1.6.23,<1.7
     - openblas 0.2.19|0.2.19.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
+    - ffmpeg
 
 test:
     imports:
