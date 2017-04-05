@@ -20,8 +20,8 @@ source:
 
 build:
   number: 200
-    features:                    # [not win]
-      - blas_{{ blas_variant }}  # [not win]
+  features:                    # [not win]
+    - blas_{{ blas_variant }}  # [not win]
 
 requirements:
   build:
