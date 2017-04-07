@@ -63,8 +63,6 @@ cmake .. -LAH -G "NMake Makefiles"                                              
     -DWITH_OPENCL=0                                                                 ^
     -DWITH_OPENNI=0                                                                 ^
     -DWITH_FFMPEG=1                                                                 ^
-    -DFFMPEG_INCLUDE_DIR=%UNIX_LIBRARY_INC%                                         ^
-    -DFFMPEG_LIB_DIR=%UNIX_LIBRARY_LIB%                                             ^
     -DWITH_VTK=0                                                                    ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules ^
