@@ -18,7 +18,7 @@ tar -zxf $PKG_VERSION.tar.gz
 # https://github.com/opencv/opencv_contrib/issues/919
 patch -p0 < $RECIPE_DIR/opencv_contrib_freetype.patch
 
-mkdir build
+mkdir -p build
 cd build
 
 if [ $PY3K -eq 1 ]; then
