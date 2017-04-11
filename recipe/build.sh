@@ -18,7 +18,7 @@ tar -zxf $PKG_VERSION.tar.gz
 # https://github.com/opencv/opencv_contrib/issues/919
 patch -p0 < $RECIPE_DIR/opencv_contrib_freetype.patch
 
-mkdir build
+mkdir -p build
 cd build
 
 if [ $PY3K -eq 1 ]; then
@@ -62,6 +62,8 @@ cmake .. -LAH                                                             \
     -DBUILD_DOCS=0                                                        \
     -DBUILD_PERF_TESTS=0                                                  \
     -DBUILD_ZLIB=0                                                        \
+    -DFFMPEG_INCLUDE_DIR=$PREFIX/include                                  \
+    -DFFMPEG_LIB_DIR=$PREFIX/lib                                          \
     -DHDF5_DIR=$PREFIX                                                    \
     -DHDF5_INCLUDE_DIRS=$PREFIX/include                                   \
     -DHDF5_C_LIBRARY_hdf5=$PREFIX/lib/libhdf5$SHLIB_EXT                   \
@@ -91,7 +93,7 @@ cmake .. -LAH                                                             \
     -DWITH_CUDA=0                                                         \
     -DWITH_OPENCL=0                                                       \
     -DWITH_OPENNI=0                                                       \
-    -DWITH_FFMPEG=0                                                       \
+    -DWITH_FFMPEG=1                                                       \
     -DWITH_MATLAB=0                                                       \
     -DWITH_VTK=0                                                          \
     -DWITH_GPHOTO2=0                                                      \

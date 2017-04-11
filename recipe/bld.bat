@@ -41,6 +41,8 @@ set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 set UNIX_PREFIX=%PREFIX:\=/%
 set UNIX_LIBRARY_PREFIX=%LIBRARY_PREFIX:\=/%
 set UNIX_LIBRARY_BIN=%LIBRARY_BIN:\=/%
+set UNIX_LIBRARY_INC=%LIBRARY_INC:\=/%
+set UNIX_LIBRARY_LIB=%LIBRARY_LIB:\=/%
 set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
@@ -60,7 +62,7 @@ cmake .. -LAH -G "NMake Makefiles"                                              
     -DWITH_CUDA=0                                                                   ^
     -DWITH_OPENCL=0                                                                 ^
     -DWITH_OPENNI=0                                                                 ^
-    -DWITH_FFMPEG=0                                                                 ^
+    -DWITH_FFMPEG=1                                                                 ^
     -DWITH_VTK=0                                                                    ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules ^
