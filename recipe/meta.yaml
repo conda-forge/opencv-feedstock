@@ -19,7 +19,7 @@ source:
     - opencv_core_int64_abs.patch           # [win and py<35]
 
 build:
-  number: 201
+  number: 202
   features:                    # [not win]
     - blas_{{ blas_variant }}  # [not win]
 
