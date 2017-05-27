@@ -5,6 +5,9 @@ SHORT_OS_STR=$(uname -s)
 
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     OPENMP="-DWITH_OPENMP=1"
+    # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
+    # with GCC opencv/issues/8097
+    export CXXFLAGS="$CXXFLAGS -D__STDC_CONSTANT_MACROS"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
@@ -47,6 +50,9 @@ PYTHON_UNSET_INC="-DPYTHON${PY_UNSET_MAJOR}_INCLUDE_DIR="
 PYTHON_UNSET_NUMPY="-DPYTHON${PY_UNSET_MAJOR}_NUMPY_INCLUDE_DIRS="
 PYTHON_UNSET_LIB="-DPYTHON${PY_UNSET_MAJOR}_LIBRARY="
 PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
+
+# FFMPEG building requires pkgconfig
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
 # For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
 export CFLAGS="$CFLAGS -I$PREFIX/include"
