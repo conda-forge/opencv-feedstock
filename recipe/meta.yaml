@@ -27,6 +27,7 @@ requirements:
   build:
     - python
     - toolchain
+    - pkgconfig                    # [unix]
     # For sha256 comparisons of opencv_contrib
     - openssl 1.0.*                # [unix]
     # For downloading opencv_contrib

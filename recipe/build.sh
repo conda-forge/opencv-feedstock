@@ -48,6 +48,9 @@ PYTHON_UNSET_NUMPY="-DPYTHON${PY_UNSET_MAJOR}_NUMPY_INCLUDE_DIRS="
 PYTHON_UNSET_LIB="-DPYTHON${PY_UNSET_MAJOR}_LIBRARY="
 PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
 
+# FFMPEG building requires pkgconfig
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
+
 # For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
 export CFLAGS="$CFLAGS -I$PREFIX/include"
 export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
