@@ -5,6 +5,9 @@ SHORT_OS_STR=$(uname -s)
 
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     OPENMP="-DWITH_OPENMP=1"
+    # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
+    # with GCC opencv/issues/8097
+    export CXXFLAGS="$CXXFLAGS -D__STDC_CONSTANT_MACROS"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
