@@ -4,11 +4,6 @@
 
 environment:
 
-  # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
-  # /E:ON and /V:ON options are not enabled in the batch script intepreter
-  # See: http://stackoverflow.com/a/13751649/163740
-  CMD_IN_ENV: "cmd /E:ON /V:ON /C obvci_appveyor_python_build_env.cmd"
-
   BINSTAR_TOKEN:
     # The BINSTAR_TOKEN secure variable. This is defined canonically in conda-forge.yml.
     secure: /XxwAsgp0EItmAhoPSov/h0BtAFNj2BuuEqnhgaP9l7Rw2yLBM1lD+3q4LvpVm3B
@@ -35,6 +30,16 @@ environment:
       CONDA_INSTALL_LOCN: C:\\Miniconda-x64
 
     - TARGET_ARCH: x86
+      CONDA_NPY: 113
+      CONDA_PY: 27
+      CONDA_INSTALL_LOCN: C:\\Miniconda
+
+    - TARGET_ARCH: x64
+      CONDA_NPY: 113
+      CONDA_PY: 27
+      CONDA_INSTALL_LOCN: C:\\Miniconda-x64
+
+    - TARGET_ARCH: x86
       CONDA_NPY: 111
       CONDA_PY: 35
       CONDA_INSTALL_LOCN: C:\\Miniconda35
@@ -51,6 +56,16 @@ environment:
 
     - TARGET_ARCH: x64
       CONDA_NPY: 112
+      CONDA_PY: 35
+      CONDA_INSTALL_LOCN: C:\\Miniconda35-x64
+
+    - TARGET_ARCH: x86
+      CONDA_NPY: 113
+      CONDA_PY: 35
+      CONDA_INSTALL_LOCN: C:\\Miniconda35
+
+    - TARGET_ARCH: x64
+      CONDA_NPY: 113
       CONDA_PY: 35
       CONDA_INSTALL_LOCN: C:\\Miniconda35-x64
 
@@ -71,6 +86,16 @@ environment:
 
     - TARGET_ARCH: x64
       CONDA_NPY: 112
+      CONDA_PY: 36
+      CONDA_INSTALL_LOCN: C:\\Miniconda36-x64
+
+    - TARGET_ARCH: x86
+      CONDA_NPY: 113
+      CONDA_PY: 36
+      CONDA_INSTALL_LOCN: C:\\Miniconda36
+
+    - TARGET_ARCH: x64
+      CONDA_NPY: 113
       CONDA_PY: 36
       CONDA_INSTALL_LOCN: C:\\Miniconda36-x64
 
@@ -103,7 +128,6 @@ install:
     - cmd: conda config --add channels conda-forge
 
     # Configure the VM.
-    - cmd: conda install -n root --quiet --yes obvious-ci
     - cmd: conda install -n root --quiet --yes conda-forge-build-setup
     - cmd: run_conda_forge_build_setup
 
@@ -111,6 +135,6 @@ install:
 build: off
 
 test_script:
-    - "%CMD_IN_ENV% conda build recipe --quiet"
+    - conda build recipe --quiet
 deploy_script:
     - cmd: upload_or_check_non_existence .\recipe conda-forge --channel=main
