@@ -46,6 +46,9 @@ set UNIX_LIBRARY_LIB=%LIBRARY_LIB:\=/%
 set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
+:: cvv and qt5 don't play well on PY27 https://github.com/opencv/opencv_contrib/issues/577
+if "%PY_MAJOR%" == "2" ( set "CVV=off" )
+if "%PY_MAJOR%" == "3" ( set "CVV=on" )
 
 cmake .. -LAH -G "NMake Makefiles"                                                  ^
     -DWITH_EIGEN=1                                                                  ^
@@ -64,8 +67,10 @@ cmake .. -LAH -G "NMake Makefiles"                                              
     -DWITH_OPENNI=0                                                                 ^
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_VTK=0                                                                    ^
+    -DWITH_QT=5                                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules ^
+    -DBUILD_opencv_cvv=%CVV%                                                        ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
     -DEXECUTABLE_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                     ^
