@@ -17,9 +17,10 @@ source:
     - opencv_drawing_abs.patch              # [win and py<35]
     - opencv_drawing_data_member.patch      # [win and py<35]
     - opencv_core_int64_abs.patch           # [win and py<35]
+    - opencv_ffmpeg_test.patch              # [not win]
 
 build:
-  number: 204
+  number: 205
   features:                    # [not win]
     - blas_{{ blas_variant }}  # [not win]
 
