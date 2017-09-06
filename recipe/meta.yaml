@@ -1,4 +1,4 @@
-{% set version = "3.2.0" %}
+{% set version = "3.3.0" %}
 {% set blas_variant = "openblas" %}
 
 package:
@@ -8,18 +8,18 @@ package:
 source:
   fn: opencv-{{ version }}.tar.gz
   url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
-  sha256: b9d62dfffb8130d59d587627703d5f3e6252dce4a94c1955784998da7a39dd35
+  sha256: 95029eb5578af3b20b8c7f8f6f59db1b827c2d5aaaa74b6becb1de647cbdda5a
 
-  patches:
-    - opencv_matrix_data_member.patch       # [win and py<35]
-    - opencv_umatrix_data_member.patch      # [win and py<35]
-    - opencv_persistence_data_member.patch  # [win and py<35]
-    - opencv_drawing_abs.patch              # [win and py<35]
-    - opencv_drawing_data_member.patch      # [win and py<35]
-    - opencv_core_int64_abs.patch           # [win and py<35]
+  #patches:
+    #- opencv_matrix_data_member.patch       # [win and py<35]
+    #- opencv_umatrix_data_member.patch      # [win and py<35]
+    #- opencv_persistence_data_member.patch  # [win and py<35]
+    #- opencv_drawing_abs.patch              # [win and py<35]
+    #- opencv_drawing_data_member.patch      # [win and py<35]
+    #- opencv_core_int64_abs.patch           # [win and py<35]
 
 build:
-  number: 204
+  number: 200
   features:                    # [not win]
     - blas_{{ blas_variant }}  # [not win]
 
