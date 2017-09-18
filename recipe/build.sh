@@ -52,10 +52,6 @@ PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
-# For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
-export CFLAGS="$CFLAGS -I$PREFIX/include"
-export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
-
 cmake -LAH                                                                \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
@@ -71,10 +67,7 @@ cmake -LAH                                                                \
     -DBUILD_ZLIB=0                                                        \
     -DFFMPEG_INCLUDE_DIR=$PREFIX/include                                  \
     -DFFMPEG_LIB_DIR=$PREFIX/lib                                          \
-    -DHDF5_DIR=$PREFIX                                                    \
-    -DHDF5_INCLUDE_DIRS=$PREFIX/include                                   \
-    -DHDF5_C_LIBRARY_hdf5=$PREFIX/lib/libhdf5$SHLIB_EXT                   \
-    -DHDF5_C_LIBRARY_z=$PREFIX/lib/libz$SHLIB_EXT                         \
+    -DHDF5_ROOT=${PREFIX}                                                 \
     -DFREETYPE_INCLUDE_DIRS=$PREFIX/include/freetype2                     \
     -DFREETYPE_LIBRARIES=$PREFIX/lib/libfreetype$SHLIB_EXT                \
     -DPNG_LIBRARY_RELEASE=$PREFIX/lib/libpng$SHLIB_EXT                    \
@@ -91,7 +84,6 @@ cmake -LAH                                                                \
     -DHARFBUZZ_LIBRARIES=$PREFIX/lib/libharfbuzz$SHLIB_EXT                \
     -DZLIB_LIBRARY_RELEASE=$PREFIX/lib/libz$SHLIB_EXT                     \
     -DZLIB_INCLUDE_DIR=$PREFIX/include                                    \
-    -DHDF5_z_LIBRARY_RELEASE=$PREFIX/lib/libz$SHLIB_EXT                   \
     -DBUILD_TIFF=0                                                        \
     -DBUILD_PNG=0                                                         \
     -DBUILD_OPENEXR=1                                                     \
