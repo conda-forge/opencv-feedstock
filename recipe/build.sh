@@ -57,6 +57,9 @@ export CFLAGS="$CFLAGS -I$PREFIX/include"
 export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
 
 cmake -LAH                                                                \
+    -DCMAKE_BUILD_TYPE="Release"                                          \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
+    -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
@@ -104,9 +107,7 @@ cmake -LAH                                                                \
     -DWITH_GPHOTO2=0                                                      \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$PKG_VERSION/modules"  \
-    -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
     -DPYTHON_EXECUTABLE=${PYTHON}                                         \
     -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \

@@ -36,6 +36,9 @@ set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
 cmake -LAH -G "NMake Makefiles"                                                     ^
+    -DCMAKE_BUILD_TYPE="Release"                                                    ^
+    -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
+    -DCMAKE_PREFIX_PATH=%UNIX_LIBRARY_PREFIX%                                       ^
     -DWITH_EIGEN=1                                                                  ^
     -DBUILD_TESTS=0                                                                 ^
     -DBUILD_DOCS=0                                                                  ^
@@ -55,8 +58,6 @@ cmake -LAH -G "NMake Makefiles"                                                 
     -DWITH_QT=5                                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules ^
-    -DCMAKE_BUILD_TYPE="Release"                                                    ^
-    -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
     -DEXECUTABLE_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                     ^
     -DLIBRARY_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                        ^
     -DPYTHON_EXECUTABLE=""                                                          ^
