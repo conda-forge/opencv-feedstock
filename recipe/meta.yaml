@@ -29,8 +29,9 @@ requirements:
     # For applying patches
     - git                          # [win]
     - cmake
-    - numpy 1.8.*  # [not (win and (py35 or py36))]
-    - numpy 1.9.*  # [win and (py35 or py36)]
+    - numpy 1.8.*   # [not (win and (py35 or py36))]
+    - numpy 1.9.*   # [win and py35]
+    - numpy 1.11.*  # [win and py36]
     - hdf5 1.8.18|1.8.18.*         # [unix]
     - eigen 3.2.*
     - jasper                       # [unix]
@@ -47,8 +48,9 @@ requirements:
 
   run:
     - python
-    - numpy >=1.8  # [not (win and (py35 or py36))]
-    - numpy >=1.9  # [win and (py35 or py36)]
+    - numpy >=1.8   # [not (win and (py35 or py36))]
+    - numpy >=1.9   # [win and py35]
+    - numpy >=1.11  # [win and py36]
     - hdf5 1.8.18|1.8.18.*         # [unix]
     - jasper                       # [unix]
     - zlib 1.2.*
