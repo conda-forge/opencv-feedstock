@@ -40,7 +40,6 @@ requirements:
     - libwebp 0.5.*
     - harfbuzz 1.3.4               # [unix]
     - libpng >=1.6.28,<1.7
-    - msinttypes                   # [win and py<35]
     - openblas 0.2.19|0.2.19.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
     - ffmpeg >=3.2.3,<3.2.6        # [not win]
