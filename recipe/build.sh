@@ -16,12 +16,8 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
 fi
 
 curl -L -O "https://github.com/opencv/opencv_contrib/archive/$PKG_VERSION.tar.gz"
-test `openssl sha256 $PKG_VERSION.tar.gz | awk '{print $2}'` = "1e2bb6c9a41c602904cc7df3f8fb8f98363a88ea564f2a087240483426bf8cbe"
+test `openssl sha256 $PKG_VERSION.tar.gz | awk '{print $2}'` = "e94acf39cd4854c3ef905e06516e5f74f26dddfa6477af89558fb40a57aeb444"
 tar -zxf $PKG_VERSION.tar.gz
-
-# Contrib has patches that need to be applied
-# https://github.com/opencv/opencv_contrib/issues/919
-patch -p0 < $RECIPE_DIR/opencv_contrib_freetype.patch
 
 mkdir -p build
 cd build
@@ -56,11 +52,10 @@ PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
-# For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
-export CFLAGS="$CFLAGS -I$PREFIX/include"
-export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
-
-cmake .. -LAH                                                             \
+cmake -LAH                                                                \
+    -DCMAKE_BUILD_TYPE="Release"                                          \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
+    -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
@@ -70,29 +65,7 @@ cmake .. -LAH                                                             \
     -DBUILD_DOCS=0                                                        \
     -DBUILD_PERF_TESTS=0                                                  \
     -DBUILD_ZLIB=0                                                        \
-    -DFFMPEG_INCLUDE_DIR=$PREFIX/include                                  \
-    -DFFMPEG_LIB_DIR=$PREFIX/lib                                          \
-    -DHDF5_DIR=$PREFIX                                                    \
-    -DHDF5_INCLUDE_DIRS=$PREFIX/include                                   \
-    -DHDF5_C_LIBRARY_hdf5=$PREFIX/lib/libhdf5$SHLIB_EXT                   \
-    -DHDF5_C_LIBRARY_z=$PREFIX/lib/libz$SHLIB_EXT                         \
-    -DFREETYPE_INCLUDE_DIRS=$PREFIX/include/freetype2                     \
-    -DFREETYPE_LIBRARIES=$PREFIX/lib/libfreetype$SHLIB_EXT                \
-    -DPNG_LIBRARY_RELEASE=$PREFIX/lib/libpng$SHLIB_EXT                    \
-    -DPNG_INCLUDE_DIRS=$PREFIX/include                                    \
-    -DJPEG_INCLUDE_DIR=$PREFIX/include                                    \
-    -DJPEG_LIBRARY=$PREFIX/lib/libjpeg$SHLIB_EXT                          \
-    -DTIFF_INCLUDE_DIR=$PREFIX/include                                    \
-    -DTIFF_LIBRARY=$PREFIX/lib/libtiff$SHLIB_EXT                          \
-    -DJASPER_INCLUDE_DIR=$PREFIX/include                                  \
-    -DJASPER_LIBRARY_RELEASE=$PREFIX/lib/libjasper$SHLIB_EXT              \
-    -DWEBP_INCLUDE_DIR=$PREFIX/include                                    \
-    -DWEBP_LIBRARY=$PREFIX/lib/libwebp$SHLIB_EXT                          \
-    -DHARFBUZZ_INCLUDE_DIRS=$PREFIX/include/harfbuzz                      \
-    -DHARFBUZZ_LIBRARIES=$PREFIX/lib/libharfbuzz$SHLIB_EXT                \
-    -DZLIB_LIBRARY_RELEASE=$PREFIX/lib/libz$SHLIB_EXT                     \
-    -DZLIB_INCLUDE_DIR=$PREFIX/include                                    \
-    -DHDF5_z_LIBRARY_RELEASE=$PREFIX/lib/libz$SHLIB_EXT                   \
+    -DHDF5_ROOT=${PREFIX}                                                 \
     -DBUILD_TIFF=0                                                        \
     -DBUILD_PNG=0                                                         \
     -DBUILD_OPENEXR=1                                                     \
@@ -108,9 +81,7 @@ cmake .. -LAH                                                             \
     -DWITH_GPHOTO2=0                                                      \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$PKG_VERSION/modules"  \
-    -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DCMAKE_INSTALL_PREFIX=$PREFIX                                        \
     -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
     -DPYTHON_EXECUTABLE=${PYTHON}                                         \
     -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
@@ -126,7 +97,7 @@ cmake .. -LAH                                                             \
     $PYTHON_UNSET_INC                                                     \
     $PYTHON_UNSET_NUMPY                                                   \
     $PYTHON_UNSET_LIB                                                     \
-    $PYTHON_UNSET_SP
+    $PYTHON_UNSET_SP                                                      \
+    ..
 
-make -j8
-make install
+make install -j${CPU_COUNT}
