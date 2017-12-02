@@ -49,6 +49,8 @@ requirements:
     - blas 1.1 {{ blas_variant }}  # [not win]
 
 test:
+  requires:
+    - certifi
   imports:
     - cv2
     - cv2.cv
