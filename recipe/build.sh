@@ -46,5 +46,5 @@ cmake -LAH ..                                                  \
     -DWITH_FFMPEG=1                                            \
     -DCMAKE_INSTALL_PREFIX=$PREFIX
 
-make -j6
+make
 make install
