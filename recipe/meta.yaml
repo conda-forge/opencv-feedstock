@@ -15,7 +15,7 @@ source:
     - osx_rpath.patch  # [osx]
 
 build:
-  number: 0
+  number: 200
   # Windows Python 2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   # OpenCV 2.x only supports Python <= 2.7
   skip: true  # [win or not py27]
