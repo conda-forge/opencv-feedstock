@@ -1,5 +1,6 @@
-{% set version = "2.4.13" %}
+{% set version = "2.4.13.4" %}
 {% set filename = "opencv2-%s.zip" % version %}
+{% set blas_variant = "openblas" %}
 
 package:
   name: opencv
@@ -8,38 +9,52 @@ package:
 source:
   fn: {{ filename }}
   url: https://github.com/Itseez/opencv/archive/{{ version }}.zip
-  sha1: 0c6e4d890f6252ae8feae0c92f397f63aaa41a08
+  sha1: 34224584e570848b942685be7e5779f843f73a44
 
   patches:
     - osx_rpath.patch  # [osx]
 
 build:
-  number: 1
-  skip: true  # [not py27]
+  number: 0
+  # Windows Python 2.7 support dropped: https://github.com/opencv/opencv/issues/8481
+  # OpenCV 2.x only supports Python <= 2.7
+  skip: true  # [win or not py27]
+  features:
+    - blas_{{ blas_variant }}
 
 requirements:
   build:
     - toolchain
     - cmake
     - python
-    - numpy x.x
+    - numpy 1.8.*
     - eigen 3.2.*
-    - jasper   # [unix]
-    - zlib 1.2*
+    - pkgconfig
+    - jasper
+    - zlib 1.2.11
     - jpeg 9*
-    - libtiff 4.0.*
-    - libpng 1.6*
+    - libtiff >=4.0.3,<4.0.8
+    - libpng >=1.6.22,<1.6.31
+    - ffmpeg >=3.2.3,<3.2.6
+    - openblas 0.2.20|0.2.20.*
+    - blas 1.1 {{ blas_variant }}
 
   run:
     - python
-    - numpy x.x
-    - jasper   # [unix]
-    - zlib 1.2*
+    - numpy >=1.8
+    - jasper
+    - zlib 1.2.11
     - jpeg 9*
-    - libtiff 4.0.*
-    - libpng 1.6*
+    - libtiff >=4.0.3,<4.0.8
+    - libpng >=1.6.22,<1.6.31
+    - ffmpeg >=3.2.3,<3.2.6
+    - openblas 0.2.20|0.2.20.*
+    - blas 1.1 {{ blas_variant }}
 
 test:
+  requires:
+    - requests
+    - certifi
   imports:
     - cv2
     - cv2.cv
@@ -79,3 +94,6 @@ extra:
     - jakirkham
     - msarahan
     - patricksnape
+    - zym1010
+    - hajapy
+    - ocefpaf
