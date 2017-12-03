@@ -16,9 +16,11 @@ source:
 
 build:
   number: 0
-  skip: true  # [not py27]
-  features:                    # [not win]
-    - blas_{{ blas_variant }}  # [not win]
+  # Windows Python 2.7 support dropped: https://github.com/opencv/opencv/issues/8481
+  # OpenCV 2.x only supports Python <= 2.7
+  skip: true  # [win or not py27]
+  features:
+    - blas_{{ blas_variant }}
 
 requirements:
   build:
@@ -27,26 +29,27 @@ requirements:
     - python
     - numpy 1.8.*
     - eigen 3.2.*
-    - jasper                       # [unix]
+    - pkgconfig
+    - jasper
     - zlib 1.2.11
     - jpeg 9*
     - libtiff >=4.0.3,<4.0.8
     - libpng >=1.6.22,<1.6.31
-    - ffmpeg >=3.2.3,<3.2.6        # [not win]
-    - openblas 0.2.20|0.2.20.*     # [not win]
-    - blas 1.1 {{ blas_variant }}  # [not win]
+    - ffmpeg >=3.2.3,<3.2.6
+    - openblas 0.2.20|0.2.20.*
+    - blas 1.1 {{ blas_variant }}
 
   run:
     - python
     - numpy >=1.8
-    - jasper                       # [unix]
+    - jasper
     - zlib 1.2.11
     - jpeg 9*
     - libtiff >=4.0.3,<4.0.8
     - libpng >=1.6.22,<1.6.31
-    - ffmpeg >=3.2.3,<3.2.6        # [not win]
-    - openblas 0.2.20|0.2.20.*     # [not win]
-    - blas 1.1 {{ blas_variant }}  # [not win]
+    - ffmpeg >=3.2.3,<3.2.6
+    - openblas 0.2.20|0.2.20.*
+    - blas 1.1 {{ blas_variant }}
 
 test:
   requires:

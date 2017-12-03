@@ -13,6 +13,9 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
 fi
 
+# FFMPEG building requires pkgconfig
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
+
 cmake -LAH ..                                                  \
     $OPENMP                                                    \
     -DCMAKE_SKIP_RPATH=1                                       \
@@ -46,5 +49,4 @@ cmake -LAH ..                                                  \
     -DWITH_FFMPEG=1                                            \
     -DCMAKE_INSTALL_PREFIX=$PREFIX
 
-make
-make install
+make install -j${CPU_COUNT}
