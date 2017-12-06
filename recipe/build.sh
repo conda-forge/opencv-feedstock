@@ -1,71 +1,58 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set +x
 SHORT_OS_STR=$(uname -s)
 
-QT="5"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
+    DYNAMIC_EXT="so"
     OPENMP="-DWITH_OPENMP=1"
-    # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
-    # with GCC opencv/issues/8097
-    export CXXFLAGS="$CXXFLAGS -D__STDC_CONSTANT_MACROS"
+    CMAKE_OSX_DEPLOYMENT_TARGET=""
+    # Compile with C++11 not C++17 standard
+    CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
+    CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
+    DYNAMIC_EXT="dylib"
     OPENMP=""
-    QT="0"
+    CMAKE_OSX_DEPLOYMENT_TARGET="-DCMAKE_OSX_DEPLOYMENT_TARGET="
 fi
 
-curl -L -O "https://github.com/opencv/opencv_contrib/archive/$PKG_VERSION.tar.gz"
-test `openssl sha256 $PKG_VERSION.tar.gz | awk '{print $2}'` = "e94acf39cd4854c3ef905e06516e5f74f26dddfa6477af89558fb40a57aeb444"
-tar -zxf $PKG_VERSION.tar.gz
+INC_PYTHON="${PREFIX}/include/python${PY_VER}"
 
-mkdir -p build
+mkdir build
 cd build
 
+# For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
+export CFLAGS="$CFLAGS -I$PREFIX/include"
+export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
+
+IFS='.' read -ra PY_VER_ARR <<< "${PY_VER}"
+PY_MAJOR="${PY_VER_ARR[0]}"
+
 if [ $PY3K -eq 1 ]; then
-    PY_MAJOR=3
-    PY_UNSET_MAJOR=2
-    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}m${SHLIB_EXT}"
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}m.${DYNAMIC_EXT}"
     INC_PYTHON="$PREFIX/include/python${PY_VER}m"
 else
-    PY_MAJOR=2
-    PY_UNSET_MAJOR=3
-    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT}"
     INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
 
-
-PYTHON_SET_FLAG="-DBUILD_opencv_python${PY_MAJOR}=1"
-PYTHON_SET_EXE="-DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}"
-PYTHON_SET_INC="-DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON} "
-PYTHON_SET_NUMPY="-DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include"
-PYTHON_SET_LIB="-DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON}"
-PYTHON_SET_SP="-DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}"
-
-PYTHON_UNSET_FLAG="-DBUILD_opencv_python${PY_UNSET_MAJOR}=0"
-PYTHON_UNSET_EXE="-DPYTHON${PY_UNSET_MAJOR}_EXECUTABLE="
-PYTHON_UNSET_INC="-DPYTHON${PY_UNSET_MAJOR}_INCLUDE_DIR="
-PYTHON_UNSET_NUMPY="-DPYTHON${PY_UNSET_MAJOR}_NUMPY_INCLUDE_DIRS="
-PYTHON_UNSET_LIB="-DPYTHON${PY_UNSET_MAJOR}_LIBRARY="
-PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
-
-# FFMPEG building requires pkgconfig
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
-
-cmake -LAH                                                                \
+cmake .. -LAH                                                             \
     -DCMAKE_BUILD_TYPE="Release"                                          \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
-    -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
+    -DCMAKE_INSTALL_PREFIX=$PREFIX                                        \
     $OPENMP                                                               \
-    -DOpenBLAS=1                                                          \
-    -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
-    -DOpenBLAS_LIB=$PREFIX/lib/libopenblas$SHLIB_EXT                      \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
     -DBUILD_PERF_TESTS=0                                                  \
     -DBUILD_ZLIB=0                                                        \
-    -DHDF5_ROOT=${PREFIX}                                                 \
+    -DZLIB_LIBRARY_RELEASE=$PREFIX/lib/libz.$DYNAMIC_EXT                  \
+    -DZLIB_INCLUDE_DIR=$PREFIX/include                                    \
+    -DPNG_INCLUDE_DIR=$PREFIX/include                                     \
+    -DPNG_LIBRARY_RELEASE=$PREFIX/lib/libpng.$DYNAMIC_EXT                 \
+    -DBUILD_LIBPROTOBUF_FROM_SOURCES=0                                    \
+    -DBUILD_PROTOBUF=0                                                    \
+    -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
+    -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
     -DBUILD_TIFF=0                                                        \
     -DBUILD_PNG=0                                                         \
     -DBUILD_OPENEXR=1                                                     \
@@ -77,27 +64,40 @@ cmake -LAH                                                                \
     -DWITH_FFMPEG=1                                                       \
     -DWITH_MATLAB=0                                                       \
     -DWITH_VTK=0                                                          \
-    -DWITH_QT=$QT                                                         \
-    -DWITH_GPHOTO2=0                                                      \
+    -DWITH_GTK=0                                                          \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$PKG_VERSION/modules"  \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
-    -DPYTHON_EXECUTABLE=${PYTHON}                                         \
-    -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
-    -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
-    $PYTHON_SET_FLAG                                                      \
-    $PYTHON_SET_EXE                                                       \
-    $PYTHON_SET_INC                                                       \
-    $PYTHON_SET_NUMPY                                                     \
-    $PYTHON_SET_LIB                                                       \
-    $PYTHON_SET_SP                                                        \
-    $PYTHON_UNSET_FLAG                                                    \
-    $PYTHON_UNSET_EXE                                                     \
-    $PYTHON_UNSET_INC                                                     \
-    $PYTHON_UNSET_NUMPY                                                   \
-    $PYTHON_UNSET_LIB                                                     \
-    $PYTHON_UNSET_SP                                                      \
-    ..
+    -DPYTHON_PACKAGES_PATH="${SP_DIR}"                                    \
+    -DPYTHON_EXECUTABLE="${PYTHON}"                                       \
+    -DPYTHON_INCLUDE_DIR=""                                               \
+    -DPYTHON_INCLUDE_DIR="${INC_PYTHON}"                                  \
+    -DPYTHON_LIBRARY="${LIB_PYTHON}"                                      \
+    -DBUILD_opencv_python2=0                                              \
+    -DPYTHON2_EXECUTABLE=""                                               \
+    -DPYTHON2_INCLUDE_DIR=""                                              \
+    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                       \
+    -DPYTHON2_LIBRARY=""                                                  \
+    -DPYTHON_INCLUDE_DIR2=""                                              \
+    -DPYTHON2_PACKAGES_PATH=""                                            \
+    -DBUILD_opencv_python3=0                                              \
+    -DPYTHON3_EXECUTABLE=""                                               \
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=""                                       \
+    -DPYTHON3_INCLUDE_DIR=""                                              \
+    -DPYTHON3_LIBRARY=""                                                  \
+    -DPYTHON3_PACKAGES_PATH=""                                            \
+    -DBUILD_opencv_python${PY_MAJOR}=1                                    \
+    -DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}                              \
+    -DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON}                         \
+    -DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include   \
+    -DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON}                             \
+    -DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}                           \
+    ${CMAKE_OSX_DEPLOYMENT_TARGET}
 
-make install -j${CPU_COUNT}
+if [[ ! $? ]]; then
+  echo "configure failed with $?"
+  exit 1
+fi
+
+make -j ${CPU_COUNT}
+make install

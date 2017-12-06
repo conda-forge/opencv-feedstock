@@ -1,0 +1,25 @@
+From 1d9d569596ea8c06fb38fe0367f98be2cfef4086 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Sun, 23 Apr 2017 02:33:02 +0100
+Subject: [PATCH 4/4] Specify template overload for abs for VC2008
+
+---
+ modules/imgproc/src/drawing.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/imgproc/src/drawing.cpp b/modules/imgproc/src/drawing.cpp
+index 0f40a7766..96b1e7bc2 100644
+--- a/modules/imgproc/src/drawing.cpp
++++ b/modules/imgproc/src/drawing.cpp
+@@ -1023,7 +1023,7 @@ EllipseEx( Mat& img, Point2l center, Size2l axes,
+            int angle, int arc_start, int arc_end,
+            const void* color, int thickness, int line_type )
+ {
+-    axes.width = std::abs(axes.width), axes.height = std::abs(axes.height);
++    axes.width = std::abs<int64>(axes.width), axes.height = std::abs<int64>(axes.height);
+     int delta = (int)((std::max(axes.width,axes.height)+(XY_ONE>>1))>>XY_SHIFT);
+     delta = delta < 3 ? 90 : delta < 10 ? 30 : delta < 15 ? 18 : 5;
+ 
+-- 
+2.11.1
+

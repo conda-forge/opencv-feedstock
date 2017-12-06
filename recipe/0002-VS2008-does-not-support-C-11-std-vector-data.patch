@@ -1,0 +1,281 @@
+From 6122108ffcef52f4eb0565d184981f949ed7bd5a Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Sun, 23 Apr 2017 00:42:18 +0100
+Subject: [PATCH 2/4] VS2008 does not support C++11 (std::vector::data())
+
+---
+ modules/core/src/matrix.cpp      |  4 ++--
+ modules/core/src/persistence.cpp | 50 ++++++++++++++++++++--------------------
+ modules/core/src/umatrix.cpp     |  2 +-
+ modules/imgproc/src/drawing.cpp  |  6 ++---
+ 4 files changed, 31 insertions(+), 31 deletions(-)
+
+diff --git a/modules/core/src/matrix.cpp b/modules/core/src/matrix.cpp
+index c542a9ac7..753e41c7e 100644
+--- a/modules/core/src/matrix.cpp
++++ b/modules/core/src/matrix.cpp
+@@ -441,7 +441,7 @@ void Mat::create(int d, const int* _sizes, int _type)
+ 
+ void Mat::create(const std::vector<int>& _sizes, int _type)
+ {
+-    create((int)_sizes.size(), _sizes.data(), _type);
++    create((int)_sizes.size(), &_sizes[0], _type);
+ }
+ 
+ void Mat::copySize(const Mat& m)
+@@ -552,7 +552,7 @@ Mat::Mat(const std::vector<int>& _sizes, int _type, void* _data, const size_t* _
+ {
+     flags |= CV_MAT_TYPE(_type);
+     datastart = data = (uchar*)_data;
+-    setSize(*this, (int)_sizes.size(), _sizes.data(), _steps, true);
++    setSize(*this, (int)_sizes.size(), &_sizes[0], _steps, true);
+     finalizeHdr(*this);
+ }
+ 
+diff --git a/modules/core/src/persistence.cpp b/modules/core/src/persistence.cpp
+index ccdb135ec..59e7ad202 100644
+--- a/modules/core/src/persistence.cpp
++++ b/modules/core/src/persistence.cpp
+@@ -1367,7 +1367,7 @@ static char* icvYMLParseBase64(CvFileStorage* fs, char* ptr, int indent, CvFileN
+             CV_PARSE_ERROR("Unrecognized Base64 header");
+ 
+         std::vector<char> header(base64::HEADER_SIZE + 1, ' ');
+-        base64::base64_decode(beg, header.data(), 0U, base64::ENCODED_HEADER_SIZE);
++        base64::base64_decode(beg, &header[0], 0U, base64::ENCODED_HEADER_SIZE);
+         if ( !base64::read_base64_header(header, dt) || dt.empty() )
+             CV_PARSE_ERROR("Invalid `dt` in Base64 header");
+ 
+@@ -1383,17 +1383,17 @@ static char* icvYMLParseBase64(CvFileStorage* fs, char* ptr, int indent, CvFileN
+         beg = end;
+         icvYMLGetMultilineStringContent( fs, beg, indent, beg, end );
+     }
+-    if ( !base64::base64_valid(base64_buffer.data(), 0U, base64_buffer.size()) )
++    if ( !base64::base64_valid(&base64_buffer[0], 0U, base64_buffer.size()) )
+         CV_PARSE_ERROR( "Invalid Base64 data." );
+ 
+     /* buffer for decoded data(exclude header) */
+     std::vector<uchar> binary_buffer( base64::base64_decode_buffer_size(base64_buffer.size()) );
+     int total_byte_size = static_cast<int>(
+-        base64::base64_decode_buffer_size( base64_buffer.size(), base64_buffer.data(), false )
++        base64::base64_decode_buffer_size( base64_buffer.size(), &base64_buffer[0], false )
+         );
+     {
+-        base64::Base64ContextParser parser(binary_buffer.data(), binary_buffer.size() );
+-        const uchar * buffer_beg = reinterpret_cast<const uchar *>( base64_buffer.data() );
++        base64::Base64ContextParser parser(&binary_buffer[0], binary_buffer.size() );
++        const uchar * buffer_beg = reinterpret_cast<const uchar *>( &base64_buffer[0] );
+         const uchar * buffer_end = buffer_beg + base64_buffer.size();
+         parser.read( buffer_beg, buffer_end );
+         parser.flush();
+@@ -1409,7 +1409,7 @@ static char* icvYMLParseBase64(CvFileStorage* fs, char* ptr, int indent, CvFileN
+     int struct_flags = CV_NODE_FLOW | CV_NODE_SEQ;
+     /* after icvFSCreateCollection, node->tag == struct_flags */
+     icvFSCreateCollection(fs, struct_flags, node);
+-    base64::make_seq(binary_buffer.data(), elem_cnt, dt.c_str(), *node->data.seq);
++    base64::make_seq(&binary_buffer[0], elem_cnt, dt.c_str(), *node->data.seq);
+ 
+     if (fs->dummy_eof) {
+         /* end of file */
+@@ -2326,7 +2326,7 @@ static char* icvXMLParseBase64(CvFileStorage* fs, char* ptr, CvFileNode * node)
+             CV_PARSE_ERROR("Unrecognized Base64 header");
+ 
+         std::vector<char> header(base64::HEADER_SIZE + 1, ' ');
+-        base64::base64_decode(beg, header.data(), 0U, base64::ENCODED_HEADER_SIZE);
++        base64::base64_decode(beg, &header[0], 0U, base64::ENCODED_HEADER_SIZE);
+         if ( !base64::read_base64_header(header, dt) || dt.empty() )
+             CV_PARSE_ERROR("Invalid `dt` in Base64 header");
+ 
+@@ -2342,17 +2342,17 @@ static char* icvXMLParseBase64(CvFileStorage* fs, char* ptr, CvFileNode * node)
+         beg = end;
+         icvXMLGetMultilineStringContent( fs, beg, beg, end );
+     }
+-    if ( !base64::base64_valid(base64_buffer.data(), 0U, base64_buffer.size()) )
++    if ( !base64::base64_valid(&base64_buffer[0], 0U, base64_buffer.size()) )
+         CV_PARSE_ERROR( "Invalid Base64 data." );
+ 
+     /* alloc buffer for all decoded data(include header) */
+     std::vector<uchar> binary_buffer( base64::base64_decode_buffer_size(base64_buffer.size()) );
+     int total_byte_size = static_cast<int>(
+-        base64::base64_decode_buffer_size( base64_buffer.size(), base64_buffer.data(), false )
++        base64::base64_decode_buffer_size( base64_buffer.size(), &base64_buffer[0], false )
+         );
+     {
+-        base64::Base64ContextParser parser(binary_buffer.data(), binary_buffer.size() );
+-        const uchar * buffer_beg = reinterpret_cast<const uchar *>( base64_buffer.data() );
++        base64::Base64ContextParser parser(&binary_buffer[0], binary_buffer.size() );
++        const uchar * buffer_beg = reinterpret_cast<const uchar *>( &base64_buffer[0] );
+         const uchar * buffer_end = buffer_beg + base64_buffer.size();
+         parser.read( buffer_beg, buffer_end );
+         parser.flush();
+@@ -2368,7 +2368,7 @@ static char* icvXMLParseBase64(CvFileStorage* fs, char* ptr, CvFileNode * node)
+     int struct_flags = CV_NODE_SEQ;
+     /* after icvFSCreateCollection, node->tag == struct_flags */
+     icvFSCreateCollection(fs, struct_flags, node);
+-    base64::make_seq(binary_buffer.data(), elem_cnt, dt.c_str(), *node->data.seq);
++    base64::make_seq(&binary_buffer[0], elem_cnt, dt.c_str(), *node->data.seq);
+ 
+     if (fs->dummy_eof) {
+         /* end of file */
+@@ -3457,14 +3457,14 @@ static char* icvJSONParseValue( CvFileStorage* fs, char* ptr, CvFileNode* node )
+ 
+             if ( base64_buffer.size() >= base64::ENCODED_HEADER_SIZE )
+             {
+-                const char * base64_beg = base64_buffer.data();
++                const char * base64_beg = &base64_buffer[0];
+                 const char * base64_end = base64_beg + base64_buffer.size();
+ 
+                 /* get dt from header */
+                 std::string dt;
+                 {
+                     std::vector<char> header(base64::HEADER_SIZE + 1, ' ');
+-                    base64::base64_decode(base64_beg, header.data(), 0U, base64::ENCODED_HEADER_SIZE);
++                    base64::base64_decode(base64_beg, &header[0], 0U, base64::ENCODED_HEADER_SIZE);
+                     if ( !base64::read_base64_header(header, dt) || dt.empty() )
+                         CV_PARSE_ERROR("Invalid `dt` in Base64 header");
+                 }
+@@ -3483,7 +3483,7 @@ static char* icvJSONParseValue( CvFileStorage* fs, char* ptr, CvFileNode* node )
+                         base64::base64_decode_buffer_size( base64_end - base64_beg, base64_beg, false )
+                         );
+                     {
+-                        base64::Base64ContextParser parser(binary_buffer.data(), binary_buffer.size() );
++                        base64::Base64ContextParser parser(&binary_buffer[0], binary_buffer.size() );
+                         const uchar * binary_beg = reinterpret_cast<const uchar *>( base64_beg );
+                         const uchar * binary_end = binary_beg + (base64_end - base64_beg);
+                         parser.read( binary_beg, binary_end );
+@@ -3498,7 +3498,7 @@ static char* icvJSONParseValue( CvFileStorage* fs, char* ptr, CvFileNode* node )
+ 
+                     /* after icvFSCreateCollection, node->tag == struct_flags */
+                     icvFSCreateCollection(fs, CV_NODE_FLOW | CV_NODE_SEQ, node);
+-                    base64::make_seq(binary_buffer.data(), elem_cnt, dt.c_str(), *node->data.seq);
++                    base64::make_seq(&binary_buffer[0], elem_cnt, dt.c_str(), *node->data.seq);
+                 }
+                 else
+                 {
+@@ -7658,7 +7658,7 @@ std::string base64::make_base64_header(const char * dt)
+ 
+ bool base64::read_base64_header(std::vector<char> const & header, std::string & dt)
+ {
+-    std::istringstream iss(header.data());
++    std::istringstream iss(&header[0]);
+     return static_cast<bool>(iss >> dt);
+ }
+ 
+@@ -7675,7 +7675,7 @@ base64::Base64ContextParser::Base64ContextParser(uchar * buffer, size_t size)
+     , src_end(0)
+     , binary_buffer(base64_encode_buffer_size(BUFFER_LEN))
+ {
+-    src_beg = binary_buffer.data();
++    src_beg = &binary_buffer[0];
+     src_cur = src_beg;
+     src_end = src_beg + BUFFER_LEN;
+ }
+@@ -7719,7 +7719,7 @@ bool base64::Base64ContextParser::flush()
+     if ( src_cur == src_beg )
+         return true;
+ 
+-    uchar * buffer = binary_buffer.data();
++    uchar * buffer = &binary_buffer[0];
+     size_t len = base64_decode(src_beg, buffer, 0U, src_cur - src_beg);
+     src_cur = src_beg;
+ 
+@@ -7758,7 +7758,7 @@ public:
+         , src_cur(0)
+         , src_end(0)
+     {
+-        src_beg = binary_buffer.data();
++        src_beg = &binary_buffer[0];
+         src_end = src_beg + BUFFER_LEN;
+         src_cur = src_beg;
+ 
+@@ -7829,7 +7829,7 @@ public:
+         static const size_t BUFFER_MAX_LEN = 1024U;
+ 
+         std::vector<uchar> buffer(BUFFER_MAX_LEN);
+-        uchar * beg = buffer.data();
++        uchar * beg = &buffer[0];
+         uchar * end = beg;
+ 
+         while (convertor) {
+@@ -7844,7 +7844,7 @@ public:
+     bool flush()
+     {
+         /* controll line width, so on. */
+-        size_t len = base64_encode(src_beg, base64_buffer.data(), 0U, src_cur - src_beg);
++        size_t len = base64_encode(src_beg, &base64_buffer[0], 0U, src_cur - src_beg);
+         if (len == 0U)
+             return false;
+ 
+@@ -7852,7 +7852,7 @@ public:
+         {
+             if ( file_storage->fmt == CV_STORAGE_FORMAT_JSON )
+             {
+-                ::icvPuts(file_storage, (const char*)base64_buffer.data());
++                ::icvPuts(file_storage, (const char*)&base64_buffer[0]);
+             }
+             else
+             {
+@@ -7863,7 +7863,7 @@ public:
+                 space[ident] = '\0';
+ 
+                 ::icvPuts(file_storage, space);
+-                ::icvPuts(file_storage, (const char*)base64_buffer.data());
++                ::icvPuts(file_storage, (const char*)&base64_buffer[0]);
+                 ::icvPuts(file_storage, newline);
+                 ::icvFSFlush(file_storage);
+             }
+@@ -8230,7 +8230,7 @@ void base64::Base64Writer::check_dt(const char* dt)
+ 
+         /* output header */
+         std::string buffer = make_base64_header(dt);
+-        const uchar * beg = reinterpret_cast<const uchar *>(buffer.data());
++        const uchar * beg = reinterpret_cast<const uchar *>(&buffer[0]);
+         const uchar * end = beg + buffer.size();
+ 
+         emitter->write(beg, end);
+diff --git a/modules/core/src/umatrix.cpp b/modules/core/src/umatrix.cpp
+index 5874be82d..19141bf19 100644
+--- a/modules/core/src/umatrix.cpp
++++ b/modules/core/src/umatrix.cpp
+@@ -388,7 +388,7 @@ void UMat::create(int d, const int* _sizes, int _type, UMatUsageFlags _usageFlag
+ 
+ void UMat::create(const std::vector<int>& _sizes, int _type, UMatUsageFlags _usageFlags)
+ {
+-    create((int)_sizes.size(), _sizes.data(), _type, _usageFlags);
++    create((int)_sizes.size(), &_sizes[0], _type, _usageFlags);
+ }
+ 
+ void UMat::copySize(const UMat& m)
+diff --git a/modules/imgproc/src/drawing.cpp b/modules/imgproc/src/drawing.cpp
+index 113f499d9..0f40a7766 100644
+--- a/modules/imgproc/src/drawing.cpp
++++ b/modules/imgproc/src/drawing.cpp
+@@ -1968,7 +1968,7 @@ void fillConvexPoly( Mat& img, const Point* pts, int npts,
+     CV_Assert( 0 <= shift && shift <=  XY_SHIFT );
+     scalarToRawData(color, buf, img.type(), 0);
+     std::vector<Point2l> _pts(pts, pts + npts);
+-    FillConvexPoly( img, _pts.data(), npts, buf, line_type, shift );
++    FillConvexPoly( img, &_pts[0], npts, buf, line_type, shift );
+ }
+ 
+ 
+@@ -1996,7 +1996,7 @@ void fillPoly( Mat& img, const Point** pts, const int* npts, int ncontours,
+     for (i = 0; i < ncontours; i++)
+     {
+         std::vector<Point2l> _pts(pts[i], pts[i] + npts[i]);
+-        CollectPolyEdges(img, _pts.data(), npts[i], edges, buf, line_type, shift, offset);
++        CollectPolyEdges(img, &_pts[0], npts[i], edges, buf, line_type, shift, offset);
+     }
+ 
+     FillEdgeCollection(img, edges, buf);
+@@ -2021,7 +2021,7 @@ void polylines( Mat& img, const Point* const* pts, const int* npts, int ncontour
+     for( int i = 0; i < ncontours; i++ )
+     {
+         std::vector<Point2l> _pts(pts[i], pts[i]+npts[i]);
+-        PolyLine( img, _pts.data(), npts[i], isClosed, buf, thickness, line_type, shift );
++        PolyLine( img, &_pts[0], npts[i], isClosed, buf, thickness, line_type, shift );
+     }
+ }
+ 
+-- 
+2.11.1
+

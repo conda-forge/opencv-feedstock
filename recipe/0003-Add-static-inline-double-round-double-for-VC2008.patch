@@ -1,0 +1,36 @@
+From c1843aa88ce2a4f41359783cf1c5560d18dfa180 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Sun, 23 Apr 2017 02:32:24 +0100
+Subject: [PATCH 3/4] Add static inline double round(double) for VC2008
+
+---
+ modules/core/include/opencv2/core/private.hpp | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/modules/core/include/opencv2/core/private.hpp b/modules/core/include/opencv2/core/private.hpp
+index e428ecf8a..f8d80e463 100644
+--- a/modules/core/include/opencv2/core/private.hpp
++++ b/modules/core/include/opencv2/core/private.hpp
+@@ -73,6 +73,19 @@
+ #  define CV_FP16 1
+ #endif
+ 
++#ifdef _MSC_VER
++    #if (_MSC_VER <= 1700)
++        /* This function rounds x to the nearest integer, but rounds halfway cases away from zero. */
++        static inline double round(double x)
++        {
++            if (x < 0.0)
++                return ceil(x - 0.5);
++            else
++                return floor(x + 0.5);
++        }
++    #endif
++#endif
++
+ #ifndef CV_FP16
+ #  define CV_FP16 0
+ #endif
+-- 
+2.11.1
+
