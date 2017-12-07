@@ -21,7 +21,7 @@ build:
   run_exports:
     # pin to exact version
     # https://abi-laboratory.pro/tracker/timeline/opencv/
-    - {{ pin_subpackage('opencv', max_pin='x.x.x.x.x') }}
+    - {{ pin_subpackage('opencv', max_pin='x.x.x') }}
 
 requirements:
   build:
