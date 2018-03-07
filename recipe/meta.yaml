@@ -11,7 +11,7 @@ source:
   sha256: 8bb312b9d9fd17336dc1f8b3ac82f021ca50e2034afc866098866176d985adc6
 
 build:
-  number: 203
+  number: 204
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                    # [not win]
