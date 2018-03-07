@@ -65,6 +65,9 @@ requirements:
     - qt 5.6.*                     # [not osx]
 
 test:
+    requires:
+      - requests
+      - certifi
     imports:
       - cv2
       - cv2.xfeatures2d
