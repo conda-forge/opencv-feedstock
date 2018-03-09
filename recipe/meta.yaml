@@ -11,7 +11,7 @@ source:
   sha256: f1b87684d75496a1054405ae3ee0b6573acaf3dad39eaf4f1d66fdd7e03dc852
 
 build:
-  number: 0
+  number: 200
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                    # [not win]
@@ -37,10 +37,10 @@ requirements:
     - jasper                       # [unix]
     - zlib 1.2.11
     - jpeg 9*
-    - libtiff >=4.0.3,<4.0.8
+    - libtiff >=4.0.8,<4.0.10
     - libwebp 0.5.*
-    - harfbuzz 1.3.4               # [unix]
-    - libpng >=1.6.22,<1.6.31
+    - harfbuzz 1.7.*               # [unix]
+    - libpng >=1.6.32,<1.6.35
     - openblas 0.2.20|0.2.20.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
     - ffmpeg >=3.2.3,<3.2.6        # [not win]
@@ -56,9 +56,9 @@ requirements:
     - zlib 1.2.11
     - jpeg 9*
     - libwebp 0.5.*
-    - harfbuzz 1.3.4               # [unix]
-    - libtiff >=4.0.3,<4.0.8
-    - libpng >=1.6.22,<1.6.31
+    - harfbuzz 1.7.*               # [unix]
+    - libtiff >=4.0.8,<4.0.10
+    - libpng >=1.6.32,<1.6.35
     - openblas 0.2.20|0.2.20.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
     - ffmpeg >=3.2.3,<3.2.6        # [not win]
