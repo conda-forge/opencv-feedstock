@@ -16,7 +16,7 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
 fi
 
 curl -L -O "https://github.com/opencv/opencv_contrib/archive/$PKG_VERSION.tar.gz"
-test `openssl sha256 $PKG_VERSION.tar.gz | awk '{print $2}'` = "e94acf39cd4854c3ef905e06516e5f74f26dddfa6477af89558fb40a57aeb444"
+test `openssl sha256 $PKG_VERSION.tar.gz | awk '{print $2}'` = "298c69ee006d7675e1ff9d371ba8b0d9e7e88374bb7ba0f9d0789851d352ec6e"
 tar -zxf $PKG_VERSION.tar.gz
 
 mkdir -p build
@@ -54,8 +54,9 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
 cmake -LAH                                                                \
     -DCMAKE_BUILD_TYPE="Release"                                          \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
+    -DCMAKE_INSTALL_LIBDIR="lib"                                          \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
