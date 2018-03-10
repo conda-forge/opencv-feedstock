@@ -74,6 +74,7 @@ test:
 
     commands:
         # Verify dynamic libraries on all systems
+        {% set win_ver_lib = version|replace(".", "") %}
         {% set opencv_libs = [
             "aruco",
             "bgsegm",
@@ -118,7 +119,7 @@ test:
         ] %}
         {% for each_opencv_lib in opencv_libs %}
         - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
-        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}330.dll exit 1  # [win]
+        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
         {% endfor %}
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
