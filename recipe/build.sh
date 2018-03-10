@@ -54,8 +54,8 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
 cmake -LAH                                                                \
     -DCMAKE_BUILD_TYPE="Release"                                          \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
