@@ -21,10 +21,6 @@ INC_PYTHON="${PREFIX}/include/python${PY_VER}"
 mkdir build
 cd build
 
-# For some reason OpenCV just won't see hdf5.h without updating the CFLAGS
-export CFLAGS="$CFLAGS -I$PREFIX/include"
-export CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
-
 IFS='.' read -ra PY_VER_ARR <<< "${PY_VER}"
 PY_MAJOR="${PY_VER_ARR[0]}"
 
@@ -34,6 +30,12 @@ if [ $PY3K -eq 1 ]; then
 else
     LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT}"
     INC_PYTHON="$PREFIX/include/python${PY_VER}"
+fi
+
+if [[ ${PY_VER} == 3.7 ]]; then
+  # Same thing as https://github.com/google/protobuf/issues/4086
+  export CFLAGS="${CFLAGS} -fpermissive"
+  export CXXFLAGS="${CXXFLAGS} -fpermissive"
 fi
 
 cmake .. -LAH                                                             \
