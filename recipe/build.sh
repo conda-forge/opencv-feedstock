@@ -41,6 +41,8 @@ fi
 cmake .. -LAH                                                             \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_INSTALL_PREFIX=$PREFIX                                        \
+    -DCMAKE_INSTALL_LIBDIR=lib                                            \
+    -DCMAKE_SKIP_RPATH:bool=ON                                            \
     $OPENMP                                                               \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
@@ -69,7 +71,6 @@ cmake .. -LAH                                                             \
     -DWITH_GTK=0                                                          \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$PKG_VERSION/modules"  \
-    -DCMAKE_SKIP_RPATH:bool=ON                                            \
     -DPYTHON_PACKAGES_PATH="${SP_DIR}"                                    \
     -DPYTHON_EXECUTABLE="${PYTHON}"                                       \
     -DPYTHON_INCLUDE_DIR=""                                               \
