@@ -1,7 +1,7 @@
 {% set version = "3.4.1" %}
 
 package:
-  name: opencv
+  name: opencv-suite
   version: {{ version }}
 
 source:
@@ -16,26 +16,21 @@ source:
     folder: opencv_contrib-{{ version }}
 
 build:
-  number: 0
+  number: 1
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
-  run_exports:
-    # pin to exact version
-    # https://abi-laboratory.pro/tracker/timeline/opencv/
-    - {{ pin_subpackage('opencv', max_pin='x.x.x') }}
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    # - git
-  host:
-    - python
+  # - git
     - m2-filesystem         # [win]
     - m2w64-pkg-config      # [win]
+    - pkg-config            # [not win]
     - jom                   # [win]
     - cmake
-    - numpy
+  host:
     - hdf5                  # [unix]
     - eigen
     - jasper                # [unix]
@@ -48,20 +43,112 @@ requirements:
     - ffmpeg                # [not win]
     - msinttypes            # [win and py<35]
     - libprotobuf           # [not win]
-
-  run:
     - python
-    - {{ pin_compatible('numpy') }}
+    - numpy
 
-test:
-    requires:
-      - {{ compiler('cxx') }}
+outputs:
+  - name: opencv
+    build:
+      run_exports:
+        # pin to exact version
+        # https://abi-laboratory.pro/tracker/timeline/opencv/
+        - {{ pin_subpackage('opencv', max_pin='x.x.x') }}
+    requirements:
+      host:
+        - hdf5
+        - python
+        - {{ pin_subpackage('py-opencv', exact=True) }}
+      run:
+        # Python is necessary here.
+        - python
 
-    imports:
-      - cv2
-      - cv2.xfeatures2d
+  - name: py-opencv
+    script: install-py-opencv.sh
+    build:
+      run_exports:
+        # more liberal that libopencv
+        - {{ pin_subpackage('py-opencv', max_pin='x.x') }}
+      ignore_run_exports:
+        - ffmpeg
+        - freetype
+        - harfbuzz
+        - hdf5
+        - jasper
+        - jpeg
+        - libpng
+        - libprotobuf
+        - libtiff
+        - zlib
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+      # - git
+        - m2-filesystem         # [win]
+        - m2w64-pkg-config      # [win]
+        - pkg-config            # [not win]
+        - jom                   # [win]
+        - cmake
+      host:
+        - {{ pin_subpackage('libopencv', exact=True) }}
+        - hdf5                  # [unix]
+        - eigen
+        - jasper                # [unix]
+        - zlib
+        - jpeg
+        - libtiff
+        - harfbuzz              # [not win]
+        - freetype              # [not win]
+        - libpng
+        - ffmpeg                # [not win]
+        - msinttypes            # [win and py<35]
+        - libprotobuf           # [not win]
+        - python
+        - numpy
+      run:
+        - {{ pin_subpackage('libopencv', exact=True) }}
+        - python
+        - {{ pin_compatible('numpy') }}
+    test:
+      requires:
+        - {{ compiler('cxx') }}
+      imports:
+        - cv2
+        - cv2.xfeatures2d
 
-    commands:
+  - name: libopencv
+    script: install-libopencv.sh
+    build:
+      run_exports:
+        # pin to exact version
+        # https://abi-laboratory.pro/tracker/timeline/opencv/
+        - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+      # - git
+        - m2-filesystem         # [win]
+        - m2w64-pkg-config      # [win]
+        - pkg-config            # [not win]
+        - jom                   # [win]
+        - cmake
+      host:
+        - hdf5                  # [unix]
+        - eigen
+        - jasper                # [unix]
+        - zlib
+        - jpeg
+        - libtiff
+        - harfbuzz              # [not win]
+        - freetype              # [not win]
+        - libpng
+        - ffmpeg                # [not win]
+        - msinttypes            # [win and py<35]
+        - libprotobuf           # [not win]
+
+    test:
+      commands:
         # Verify dynamic libraries.
         # "bioinspired", Not working in 3.1.0
         {% set opencv_libs = [
@@ -111,7 +198,6 @@ test:
         - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.so                           # [linux]
         - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}331.dll exit 1  # [win]
         {% endfor %}
-        - conda inspect linkages -p $PREFIX opencv  # [not win]
 
 about:
   home: http://opencv.org/
