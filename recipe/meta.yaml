@@ -30,6 +30,7 @@ requirements:
     - pkg-config            # [not win]
     - jom                   # [win]
     - cmake
+    - make                  # [unix]
   host:
     - hdf5                  # [unix]
     - eigen
@@ -87,6 +88,7 @@ outputs:
         - pkg-config            # [not win]
         - jom                   # [win]
         - cmake
+        - make                  # [unix]
       host:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - hdf5                  # [unix]
@@ -131,6 +133,7 @@ outputs:
         - pkg-config            # [not win]
         - jom                   # [win]
         - cmake
+        - make                  # [unix]
       host:
         - hdf5                  # [unix]
         - eigen

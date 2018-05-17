@@ -8,11 +8,14 @@ conda create -yp ${PWD}/py2 --override-channels -c https://repo.continuum.io/pkg
 conda create -yp ${PWD}/py3 --override-channels -c https://repo.continuum.io/pkgs/main python=3.6 numpy=1.9
 
 declare -a CMAKE_EXTRA_ARGS
-if [[ ${target_platform} == osx-64 ]]; then
+if [[ ${target_platform} =~ linux-* ]]; then
+  DYNAMIC_EXT=so
+  # Compile with C++11 not C++17 standard
+  CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
+  CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
+elif [[ ${target_platform} == osx-64 ]]; then
   DYNAMIC_EXT=dylib
   CMAKE_EXTRA_ARGS+=(-DCMAKE_OSX_SYSROOT=${CONDA_BUILD_SYSROOT})
-else
-  DYNAMIC_EXT=so
 fi
 
 mkdir build
@@ -24,8 +27,15 @@ if [[ ! -f Makefile ]]; then
     -DCMAKE_BUILD_TYPE="Release"                                            \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                        \
     -DCMAKE_INSTALL_LIBDIR=lib                                              \
-    -DCMAKE_SKIP_RPATH:bool=ON                                              \
-    ${OPENMP}                                                               \
+    -DCMAKE_SKIP_RPATH=ON                                                   \
+    -DCMAKE_AR="${AR}"                                                      \
+    -DCMAKE_LINKER="${LD}"                                                  \
+    -DCMAKE_NM="${NM}"                                                      \
+    -DCMAKE_OBJCOPY="${OBJCOPY}"                                            \
+    -DCMAKE_OBJDUMP="${OBJDUMP}"                                            \
+    -DCMAKE_RANLIB="${RANLIB}"                                              \
+    -DCMAKE_STRIP="${STRIP}"                                                \
+    -DWITH_OPENMP=1                                                         \
     -DWITH_EIGEN=1                                                          \
     -DBUILD_TESTS=0                                                         \
     -DBUILD_DOCS=0                                                          \
