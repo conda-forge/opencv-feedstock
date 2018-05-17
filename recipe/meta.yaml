@@ -43,8 +43,6 @@ requirements:
     - ffmpeg                # [not win]
     - msinttypes            # [win and py<35]
     - libprotobuf           # [not win]
-    - python
-    - numpy
 
 outputs:
   - name: opencv
