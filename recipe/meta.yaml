@@ -16,7 +16,7 @@ source:
     folder: opencv_contrib-{{ version }}
 
 build:
-  number: 1
+  number: 2
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
 
@@ -60,6 +60,11 @@ outputs:
       run:
         # Python is necessary here.
         - python
+        - {{ pin_subpackage('py-opencv', exact=True) }}
+    test:
+      imports:
+        - cv2
+        - cv2.xfeatures2d
 
   - name: py-opencv
     script: install-py-opencv.sh
