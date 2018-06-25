@@ -19,50 +19,52 @@ build:
 
 requirements:
   build:
+    - openssl 1.0.*                # [unix]
+    - curl >=7.44.0,<8
+    - cmake
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
     - python
-    - toolchain
     - pkgconfig                    # [unix]
     # For sha256 comparisons of opencv_contrib
-    - openssl 1.0.*                # [unix]
     # For downloading opencv_contrib
-    - curl >=7.44.0,<8
     # For applying patches
     - git                          # [win]
-    - cmake
-    - numpy 1.8.*   # [not (win and (py35 or py36))]
-    - numpy 1.9.*   # [win and py35]
-    - numpy 1.11.*  # [win and py36]
-    - hdf5 1.10.1         # [unix]
+    - numpy         # [not (win and (py35 or py36))]
+    - numpy         # [win and py35]
+    - numpy         # [win and py36]
+    - hdf5                # [unix]
     - eigen 3.2.*
     - jasper                       # [unix]
-    - zlib 1.2.11
-    - jpeg 9*
-    - libtiff >=4.0.8,<4.0.10
-    - libwebp 0.5.*
-    - harfbuzz 1.7.*               # [unix]
-    - libpng >=1.6.32,<1.6.35
-    - openblas 0.2.20|0.2.20.*     # [not win]
+    - zlib
+    - jpeg
+    - libtiff
+    - libwebp
+    - harfbuzz                     # [unix]
+    - libpng
+    - openblas                     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg >=3.2.3,<3.2.6        # [not win]
-    - qt 5.6.*                     # [not osx]
+    - ffmpeg                       # [not win]
+    - qt                           # [not osx]
 
   run:
     - python
-    - numpy >=1.8   # [not (win and (py35 or py36))]
-    - numpy >=1.9   # [win and py35]
-    - numpy >=1.11  # [win and py36]
-    - hdf5 1.10.1         # [unix]
+    - {{ pin_compatible('numpy') }}    # [not (win and (py35 or py36))]
+    - {{ pin_compatible('numpy') }}    # [win and py35]
+    - {{ pin_compatible('numpy') }}   # [win and py36]
+    - hdf5                # [unix]
     - jasper                       # [unix]
-    - zlib 1.2.11
-    - jpeg 9*
-    - libwebp 0.5.*
-    - harfbuzz 1.7.*               # [unix]
-    - libtiff >=4.0.8,<4.0.10
-    - libpng >=1.6.32,<1.6.35
-    - openblas 0.2.20|0.2.20.*     # [not win]
+    - zlib
+    - jpeg
+    - libwebp
+    - harfbuzz                     # [unix]
+    - libtiff
+    - libpng
+    - openblas                     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg >=3.2.3,<3.2.6        # [not win]
-    - qt 5.6.*                     # [not osx]
+    - ffmpeg                       # [not win]
+    - qt                           # [not osx]
 
 test:
     requires:
