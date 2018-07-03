@@ -21,5 +21,12 @@ if [[ ${PY3K} == 1 ]]; then
     popd
   fi
 else
+  pushd build/modules/python2
+    make install ${VERBOSE_CM}
+  popd
   cp -rf ${SRC_DIR}/py2/lib/python2.7/site-packages/cv* ${SP_DIR}
+  # No idea, saw this once on a 2nd variant build (hdf5) after working for the 1st one, clearly this is a poor fix
+  if [[ -f ${PREFIX}/python3.6/site-packages/cv2.cpython-py36m-powerpc64le-linux-gnu.so ]]; then
+    mv ${PREFIX}/python3.6/site-packages/cv2.cpython-py36m-powerpc64le-linux-gnu.so ${PREFIX}/python3.6/site-packages/cv2.cpython-36m-powerpc64le-linux-gnu.so
+  fi
 fi
