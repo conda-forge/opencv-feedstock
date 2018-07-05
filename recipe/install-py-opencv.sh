@@ -6,7 +6,7 @@ if [[ ${PY3K} == 1 ]]; then
   else
     conda activate ${SRC_DIR}/py3
     REAL_SP_DIR=${SP_DIR}
-    conda install -y python=${PY_VER} --override-channels -c https://repo.continuum.io/pkgs/main
+    conda install -y python=${PY_VER} numpy=1.11 --override-channels -c local -c https://repo.continuum.io/pkgs/main
     pushd build/modules/python3
       make clean
       find ./ -type f -exec sed -i'' -e "s/python3.7/python${PY_VER}/g" {} \;
