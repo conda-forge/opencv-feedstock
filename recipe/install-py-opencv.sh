@@ -1,10 +1,6 @@
 #!/bin/bash
 
 if [[ ${PY3K} == 1 ]]; then
-  if [[ ${PY_VER} == 3.7 ]]; then
-    cp -rf ${SRC_DIR}/py3/lib/python${PY_VER}/site-packages/cv2* ${SP_DIR}
-    cp -rf ${SRC_DIR}/cv2* ${SP_DIR}
-  else
     cp -rf ${SRC_DIR}/py3/lib/python3.7/site-packages/cv2* ${SRC_DIR}
     conda activate ${SRC_DIR}/py3
     REAL_SP_DIR=${SP_DIR}
@@ -19,9 +15,8 @@ if [[ ${PY3K} == 1 ]]; then
       cp -rf ${SRC_DIR}/py3/lib/python${PY_VER}/site-packages/cv2* ${REAL_SP_DIR}
       # In-case there are other non-3.7 python 3 versions to be built for:
       find ./ -type f -exec sed -i'' -e "s/python${PY_VER}/python3.7/g" {} \;
-      find ./ -type f -exec sed -i'' -e "s/${PY_VER//./}m/py37m/g" {} \;
+      find ./ -type f -exec sed -i'' -e "s/${PY_VER//./}m/37m/g" {} \;
     popd
-  fi
 else
   pushd build/modules/python2
     make install ${VERBOSE_CM}
