@@ -14,14 +14,16 @@ Summary: Computer vision and machine learning software library.
 Current build status
 ====================
 
-Linux: [![Circle CI](https://circleci.com/gh/conda-forge/opencv-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/opencv-feedstock)
-OSX: [![TravisCI](https://travis-ci.org/conda-forge/opencv-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/opencv-feedstock)
-Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/opencv-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/opencv-feedstock/branch/master)
+[![Linux](https://img.shields.io/circleci/project/github/conda-forge/opencv-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/opencv-feedstock)
+[![OSX](https://img.shields.io/travis/conda-forge/opencv-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/opencv-feedstock)
+[![Windows](https://img.shields.io/appveyor/ci/conda-forge/opencv-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/opencv-feedstock/branch/master)
 
 Current release info
 ====================
-Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/opencv/badges/version.svg)](https://anaconda.org/conda-forge/opencv)
-Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/opencv/badges/downloads.svg)](https://anaconda.org/conda-forge/opencv)
+
+| Name | Downloads | Version | Platforms |
+| --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-opencv-green.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) |
 
 Installing opencv
 =================
