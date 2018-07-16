@@ -43,7 +43,7 @@ requirements:
     - libpng >=1.6.32,<1.6.35
     - openblas 0.2.20|0.2.20.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg >=3.2.3               # [not win]
+    - ffmpeg >=3.2.3,<4.0.0        # [not win]
     - qt 5.6.*                     # [not osx]
 
   run:
@@ -61,7 +61,7 @@ requirements:
     - libpng >=1.6.32,<1.6.35
     - openblas 0.2.20|0.2.20.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg >=3.2.3               # [not win]
+    - ffmpeg >=3.2.3,<4.0.0        # [not win]
     - qt 5.6.*                     # [not osx]
 
 test:
