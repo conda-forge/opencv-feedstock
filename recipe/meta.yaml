@@ -29,10 +29,10 @@ requirements:
     # For applying patches
     - git                          # [win]
     - cmake
-    - numpy 1.8.*   # [not (win and (py35 or py36))]
-    - numpy 1.9.*   # [win and py35]
-    - numpy 1.11.*  # [win and py36]
-    - hdf5 1.10.1         # [unix]
+    - numpy 1.8.*                  # [not (win and (py35 or py36))]
+    - numpy 1.9.*                  # [win and py35]
+    - numpy 1.11.*                 # [win and py36]
+    - hdf5 1.10.1                  # [unix]
     - eigen 3.2.*
     - jasper                       # [unix]
     - zlib 1.2.11
@@ -43,7 +43,7 @@ requirements:
     - libpng >=1.6.32,<1.6.35
     - openblas 0.2.20|0.2.20.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg >=3.2.3,<3.2.6        # [not win]
+    - ffmpeg >=3.2.3,<4.0.0        # [not win]
     - qt 5.6.*                     # [not osx]
 
   run:
@@ -61,7 +61,7 @@ requirements:
     - libpng >=1.6.32,<1.6.35
     - openblas 0.2.20|0.2.20.*     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg >=3.2.3,<3.2.6        # [not win]
+    - ffmpeg >=3.2.3,<4.0.0        # [not win]
     - qt 5.6.*                     # [not osx]
 
 test:
