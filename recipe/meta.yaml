@@ -31,9 +31,7 @@ requirements:
     # For downloading opencv_contrib
     # For applying patches
     - git                          # [win]
-    - numpy         # [not (win and (py35 or py36))]
-    - numpy         # [win and py35]
-    - numpy         # [win and py36]
+    - numpy
     - hdf5                # [unix]
     - eigen 3.2.*
     - jasper                       # [unix]
@@ -50,9 +48,7 @@ requirements:
 
   run:
     - python
-    - {{ pin_compatible('numpy') }}    # [not (win and (py35 or py36))]
-    - {{ pin_compatible('numpy') }}    # [win and py35]
-    - {{ pin_compatible('numpy') }}   # [win and py36]
+    - {{ pin_compatible('numpy') }}
     - hdf5                # [unix]
     - jasper                       # [unix]
     - zlib
