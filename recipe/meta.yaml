@@ -34,7 +34,7 @@ requirements:
     - numpy
     - hdf5                # [unix]
     - eigen 3.2.*
-    - jasper                       # [unix]
+    - jasper 1.900.1                       # [unix]
     - zlib
     - jpeg
     - libtiff
@@ -50,7 +50,7 @@ requirements:
     - python
     - {{ pin_compatible('numpy') }}
     - hdf5                # [unix]
-    - jasper                       # [unix]
+    - jasper 1.900.1                       # [unix]
     - zlib
     - jpeg
     - libwebp
