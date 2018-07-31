@@ -54,6 +54,7 @@ cmake -LAH -G "NMake Makefiles"                                                 
     -DWITH_OPENCL=0                                                                 ^
     -DWITH_OPENNI=0                                                                 ^
     -DWITH_FFMPEG=1                                                                 ^
+    -DWITH_GSTREAMER=0                                                              ^
     -DWITH_VTK=0                                                                    ^
     -DWITH_QT=5                                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^

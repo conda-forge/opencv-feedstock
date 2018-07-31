@@ -11,11 +11,11 @@ source:
   sha256: f1b87684d75496a1054405ae3ee0b6573acaf3dad39eaf4f1d66fdd7e03dc852
 
 build:
-  number: 200
+  number: 201
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
-  features:                    # [not win]
-    - blas_{{ blas_variant }}  # [not win]
+  features:                        # [not win]
+    - blas_{{ blas_variant }}      # [not win]
 
 requirements:
   build:
@@ -32,9 +32,9 @@ requirements:
     # For applying patches
     - git                          # [win]
     - numpy
-    - hdf5                # [unix]
+    - hdf5                         # [unix]
     - eigen 3.2.*
-    - jasper 1.900.1                       # [unix]
+    - jasper 1.900.1               # [unix]
     - zlib
     - jpeg
     - libtiff
@@ -49,8 +49,8 @@ requirements:
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - hdf5                # [unix]
-    - jasper 1.900.1                       # [unix]
+    - hdf5                         # [unix]
+    - jasper 1.900.1               # [unix]
     - zlib
     - jpeg
     - libwebp
