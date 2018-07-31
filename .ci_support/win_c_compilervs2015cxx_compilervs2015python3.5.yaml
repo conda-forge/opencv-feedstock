@@ -2,12 +2,6 @@ c_compiler:
 - vs2015
 cxx_compiler:
 - vs2015
-ffmpeg:
-- '4.0'
-harfbuzz:
-- '1.7'
-hdf5:
-- 1.10.2
 jpeg:
 - '9'
 libpng:
@@ -18,15 +12,7 @@ libwebp:
 - '0.5'
 numpy:
 - '1.11'
-openblas:
-- 0.2.20
 pin_run_as_build:
-  ffmpeg:
-    max_pin: x.x
-  harfbuzz:
-    max_pin: x.x
-  hdf5:
-    max_pin: x.x.x
   jpeg:
     max_pin: x
   libpng:
@@ -35,11 +21,9 @@ pin_run_as_build:
     max_pin: x
   libwebp:
     max_pin: x.x
-  openblas:
-    max_pin: x.x.x
   python:
-    min_pin: x.x
     max_pin: x.x
+    min_pin: x.x
   qt:
     max_pin: x.x
   zlib:

@@ -5,7 +5,7 @@ cxx_compiler:
 ffmpeg:
 - '4.0'
 harfbuzz:
-- '1.7'
+- '1'
 hdf5:
 - 1.10.2
 jpeg:
@@ -24,7 +24,7 @@ pin_run_as_build:
   ffmpeg:
     max_pin: x.x
   harfbuzz:
-    max_pin: x.x
+    max_pin: x
   hdf5:
     max_pin: x.x.x
   jpeg:
@@ -38,8 +38,8 @@ pin_run_as_build:
   openblas:
     max_pin: x.x.x
   python:
-    min_pin: x.x
     max_pin: x.x
+    min_pin: x.x
   qt:
     max_pin: x.x
   zlib:
