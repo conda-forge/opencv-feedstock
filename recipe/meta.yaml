@@ -69,8 +69,8 @@ outputs:
         - cv2.xfeatures2d
 
   - name: py-opencv
-    script: install-py-opencv.sh
-    # script: install-py-opencv.bat
+    script: install-py-opencv.sh   # [not win]
+    script: install-py-opencv.bat  # [win]
     build:
       run_exports:
         # more liberal that libopencv
@@ -97,6 +97,7 @@ outputs:
         - pkg-config            # [not win]
         - jom                   # [win]
         - cmake
+      # - m2-make               # [win]
         - make                  # [unix]
       host:
         - {{ pin_subpackage('libopencv', exact=True) }}
@@ -207,7 +208,7 @@ outputs:
         {% for each_opencv_lib in opencv_libs %}
         - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.dylib                        # [osx]
         - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.so                           # [linux]
-        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}331.dll exit 1  # [win]
+        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}341.dll exit 1  # [win]
         {% endfor %}
 
 about:
