@@ -22,8 +22,8 @@ pin_run_as_build:
   libwebp:
     max_pin: x.x
   python:
-    max_pin: x.x
     min_pin: x.x
+    max_pin: x.x
   qt:
     max_pin: x.x
   zlib:
