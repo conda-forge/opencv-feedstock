@@ -7,9 +7,11 @@ cxx_compiler:
 ffmpeg:
 - '4.0'
 harfbuzz:
-- '1.7'
+- '1'
 hdf5:
 - 1.10.2
+jasper:
+- 1.900.1
 jpeg:
 - '9'
 libpng:
@@ -30,9 +32,11 @@ pin_run_as_build:
   ffmpeg:
     max_pin: x.x
   harfbuzz:
-    max_pin: x.x
+    max_pin: x
   hdf5:
     max_pin: x.x.x
+  jasper:
+    max_pin: x
   jpeg:
     max_pin: x
   libpng:
@@ -46,13 +50,9 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-  qt:
-    max_pin: x.x
   zlib:
     max_pin: x.x
 python:
 - '3.6'
-qt:
-- '5.6'
 zlib:
 - '1.2'
