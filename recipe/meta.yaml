@@ -6,9 +6,13 @@ package:
   version: {{ version }}
 
 source:
-  fn: opencv-{{ version }}.tar.gz
-  url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
-  sha256: 81dbd5e7e9f8a4c936b94629bf4765745942a1d634ae38ec08bc57b73b28ffc5
+  - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
+    fn: opencv-{{ version }}.tar.gz
+    sha256: 81dbd5e7e9f8a4c936b94629bf4765745942a1d634ae38ec08bc57b73b28ffc5
+  - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
+    fn: opencv_contrib-{{ version }}.tar.gz
+    sha256: 45a52764ebd2558fa0b7fd8dc47379b37dd0956d912abbf7c786228374fdf60d
+    folder: opencv_contrib-{{ version }}
 
 build:
   number: 200
@@ -19,18 +23,12 @@ build:
 
 requirements:
   build:
-    - openssl 1.0.*                # [unix]
-    - curl >=7.44.0,<8
     - cmake
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
     - python
     - pkgconfig                    # [unix]
-    # For sha256 comparisons of opencv_contrib
-    # For downloading opencv_contrib
-    # For applying patches
-    - git                          # [win]
     - numpy
     - hdf5                         # [unix]
     - eigen 3.2.*
