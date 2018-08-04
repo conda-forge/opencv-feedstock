@@ -15,10 +15,6 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     QT="0"
 fi
 
-curl -L -O "https://github.com/opencv/opencv_contrib/archive/$PKG_VERSION.tar.gz"
-test `openssl sha256 $PKG_VERSION.tar.gz | awk '{print $2}'` = "298c69ee006d7675e1ff9d371ba8b0d9e7e88374bb7ba0f9d0789851d352ec6e"
-tar -zxf $PKG_VERSION.tar.gz
-
 mkdir -p build
 cd build
 
