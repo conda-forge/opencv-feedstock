@@ -18,7 +18,7 @@ source:
     folder: opencv_contrib-{{ version }}
 
 build:
-  number: 3
+  number: 4
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
 
@@ -160,7 +160,18 @@ outputs:
         - libprotobuf           # [not win]
 
     test:
+      requires:
+        - {{ compiler('cxx') }}
+        - cmake
+      files:
+        - test-cmake/CMakeLists.txt
+        - test-cmake/DisplayImage.cpp
+        - test.cpp
       commands:
+        - pushd test-cmake
+        - cmake .
+        - cmake --build .
+        - popd
         # Verify dynamic libraries.
         # "bioinspired", Not working in 3.1.0
         {% set opencv_libs = [

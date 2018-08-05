@@ -27,6 +27,7 @@ if [[ ! -f Makefile ]]; then
     -DCMAKE_BUILD_TYPE="Release"                                            \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                        \
     -DCMAKE_INSTALL_LIBDIR=lib                                              \
+    -DOpenCV_INSTALL_BINARIES_PREFIX=""                                     \
     -DCMAKE_SKIP_RPATH=ON                                                   \
     -DCMAKE_AR="${AR}"                                                      \
     -DCMAKE_LINKER="${LD}"                                                  \

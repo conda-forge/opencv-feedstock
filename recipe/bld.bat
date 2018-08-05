@@ -21,6 +21,7 @@ set U_SRC_DIR=%SRC_DIR:\=/%
 cmake .. -LAH -G "NMake Makefiles JOM"                                              ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%U_LIBRARY_PREFIX%                                       ^
+    -DOpenCV_INSTALL_BINARIES_PREFIX=""                                             ^
     -DWITH_EIGEN=1                                                                  ^
     -DBUILD_TESTS=0                                                                 ^
     -DBUILD_DOCS=0                                                                  ^
