@@ -123,6 +123,8 @@ REM    popd
 REM    %SYS_PYTHON% %RECIPE_DIR%\replace-word-pairs.py "python..\.lib" "python37.lib" < modules\python3\CMakeFiles\opencv_python3.dir\build.make.orig > modules\python3\CMakeFiles\opencv_python3.dir\build.make
     cmake --build . --target all --config Release
     if errorlevel 1 exit /b 1
+    cmake --build . --target opencv_python3 --config Release
+    if errorlevel 1 exit /b 1
     echo "cmake --build . --target opencv_python3 --config Release"
   )
 )
