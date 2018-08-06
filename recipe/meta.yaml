@@ -10,8 +10,7 @@ source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
     fn: opencv-{{ version }}.zip
     patches:
-      - 0001-Fix-PyString_AsString-return-type.patch
-      - 0002-Use-OpenCV_INSTALL_BINARIES_PREFIX-instead-of-hardcoding.patch
+      - 0001-Use-OpenCV_INSTALL_BINARIES_PREFIX-instead-of-hardcoding.patch
     sha256: 9405c5d7d8ab1696e98631d0c92125816356ec366a73c417bdcc4d74783b42aa
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
@@ -170,7 +169,9 @@ outputs:
         - test.cpp
       commands:
         - pushd test-cmake
-        - cmake . -DOpenCV_STATIC=OFF -DOpenCV_SHARED=ON -DCMAKE_BUILD_TYPE=Release
+        - cmake . -DOpenCV_STATIC=OFF -DOpenCV_SHARED=ON -DCMAKE_BUILD_TYPE=Release -G"Visual Studio 14 2015"        # [win32]
+        - cmake . -DOpenCV_STATIC=OFF -DOpenCV_SHARED=ON -DCMAKE_BUILD_TYPE=Release -G"Visual Studio 14 2015 Win64"  # [win64]
+        - cmake . -DOpenCV_STATIC=OFF -DOpenCV_SHARED=ON -DCMAKE_BUILD_TYPE=Release                                  # [not win]
         - cmake --build . --config Release
         - popd
         # Verify dynamic libraries.
