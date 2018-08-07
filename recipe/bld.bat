@@ -1,14 +1,6 @@
 @echo ON
 setlocal enabledelayedexpansion
 
-curl -L -O "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.gz"
-%PYTHON% -c "import tarfile, os; tar = tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'); tar.extractall(); tar.close()"
-%PYTHON% -c "import hashlib, os; print(hashlib.sha256(open(os.environ['PKG_VERSION'] + '.tar.gz', 'rb').read()).hexdigest())" > sha256.out
-SET /p CONTRIB_SHA256=<sha256.out
-if NOT "%CONTRIB_SHA256%" == "298c69ee006d7675e1ff9d371ba8b0d9e7e88374bb7ba0f9d0789851d352ec6e" (
-    exit 1
-)
-
 if "%PY3K%" == "0" (
     echo "Copying stdint.h for windows"
     copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\calib3d\include\stdint.h
