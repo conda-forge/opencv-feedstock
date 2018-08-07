@@ -28,8 +28,8 @@ if [[ ${PY3K} == 1 ]]; then
     fi
     conda install -y python=${PY_VER} numpy=1.11 --override-channels -c local -c https://repo.continuum.io/pkgs/main
     pushd build/modules/python3
-      find ./ -type f -exec sed -i'' -e "s/python3.7/python${PY_VER}/g" {} \;
-      find ./ -type f -exec sed -i'' -e "s/37m/${PY_VER//./}m/g" {} \;
+      LC_ALL=C find ./ -type f -exec sed -i'' -e "s/python3.7/python${PY_VER}/g" {} \;
+      LC_ALL=C find ./ -type f -exec sed -i'' -e "s/37m/${PY_VER//./}m/g" {} \;
       # cp -rf ../../../../work /tmp/py35-work-post-sed
       echo $PATH
       echo which cmake
