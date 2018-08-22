@@ -13,6 +13,7 @@ if [[ ${target_platform} =~ linux-* ]]; then
   # Compile with C++11 not C++17 standard
   CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
   CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
+  LDFLAGS="${LDFLAGS} -Wl,-rpath-link,${PREFIX}/lib"
 elif [[ ${target_platform} == osx-64 ]]; then
   DYNAMIC_EXT=dylib
   CMAKE_EXTRA_ARGS+=(-DCMAKE_OSX_SYSROOT=${CONDA_BUILD_SYSROOT})
