@@ -19,7 +19,7 @@ source:
     folder: opencv_contrib-{{ version }}
 
 build:
-  number: 0
+  number: 1
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
 
@@ -46,7 +46,8 @@ requirements:
     - libpng
     - ffmpeg                # [not win]
     - msinttypes            # [win and py<35]
-    - libprotobuf           # [not win]
+    # protobuf is bundled and incompatible with headers from the latest.
+    - libprotobuf =3.5.2    # [not win]
 
 outputs:
   - name: opencv
@@ -113,7 +114,7 @@ outputs:
         - libpng
         - ffmpeg                # [not win]
         - msinttypes            # [win and py<35]
-        - libprotobuf           # [not win]
+        - libprotobuf =3.5.2    # [not win]
         - python
         - numpy =1.11*
       run:
@@ -131,6 +132,8 @@ outputs:
     script: install-libopencv.sh   # [unix]
     script: install-libopencv.bat  # [win]
     build:
+      ignore_run_exports:
+        - libprotobuff
       run_exports:
         # pin to exact version
         # https://abi-laboratory.pro/tracker/timeline/opencv/
@@ -158,7 +161,7 @@ outputs:
         - libpng
         - ffmpeg                # [not win]
         - msinttypes            # [win and py<35]
-        - libprotobuf           # [not win]
+        - libprotobuf =3.5.2    # [not win]
 
     test:
       requires:

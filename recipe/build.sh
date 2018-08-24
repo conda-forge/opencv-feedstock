@@ -7,6 +7,13 @@
 conda create -yp ${PWD}/py2 --override-channels -c https://repo.continuum.io/pkgs/main python=2.7 numpy=1.11 || exit 1
 conda create -yp ${PWD}/py3 --override-channels -c https://repo.continuum.io/pkgs/main -c local python=3.7 numpy=1.11 || exit 1
 
+# Make sure shared libs are not found:
+if [[ ${target_platform} =~ .*linux.* ]]; then
+  rm -rf ${PREFIX}/lib/*protobuf*.so*
+else
+  rm -rf ${PREFIX}/lib/*protobuf*.dylib*
+fi
+
 declare -a CMAKE_EXTRA_ARGS
 if [[ ${target_platform} =~ linux-* ]]; then
   DYNAMIC_EXT=so
