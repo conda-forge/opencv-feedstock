@@ -135,7 +135,7 @@ outputs:
     script: install-libopencv.bat  # [win]
     build:
       ignore_run_exports:
-        - libprotobuff
+        - libprotobuf
       run_exports:
         # pin to exact version
         # https://abi-laboratory.pro/tracker/timeline/opencv/
