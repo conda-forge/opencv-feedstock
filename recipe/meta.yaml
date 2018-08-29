@@ -22,6 +22,8 @@ build:
   number: 1
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
+  ignore_run_exports:
+    - libprotobuf
 
 requirements:
   build:
