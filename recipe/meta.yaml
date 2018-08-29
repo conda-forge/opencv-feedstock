@@ -1,4 +1,4 @@
-{% set version = "3.4.1" %}
+{% set version = "3.4.3" %}
 {% set blas_variant = "openblas" %}
 
 package:
@@ -8,10 +8,10 @@ package:
 source:
   fn: opencv-{{ version }}.tar.gz
   url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
-  sha256: f1b87684d75496a1054405ae3ee0b6573acaf3dad39eaf4f1d66fdd7e03dc852
+  sha256: 4eef85759d5450b183459ff216b4c0fa43e87a4f6aa92c8af649f89336f002ec
 
 build:
-  number: 201
+  number: 0
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
