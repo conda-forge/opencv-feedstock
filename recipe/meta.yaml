@@ -1,8 +1,9 @@
 {% set version = "3.4.3" %}
+{% set name = "opencv" %}
 {% set blas_variant = "openblas" %}
 
 package:
-  name: opencv
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
@@ -23,49 +24,14 @@ build:
   number: 200
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
-  features:                        # [not win]
-    - blas_{{ blas_variant }}      # [not win]
 
 requirements:
+  # build needs python so as to create different packges per python
   build:
-    # Required to find ffpmeg
-    - pkg-config                   # [not win]
     - m2-patch                     # [win]
-    - cmake
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-  host:
     - python
-    - numpy
-    - hdf5                         # [unix]
-    - eigen 3.2.*
-    - jasper                       # [unix]
-    - zlib
-    - jpeg
-    - libtiff
-    - libwebp
-    - harfbuzz                     # [unix]
-    - libpng
-    - openblas                     # [not win]
-    - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg                       # [not win]
-    - qt                           # [not osx]
-
   run:
-    - python
-    - {{ pin_compatible('numpy') }}
-    - hdf5                         # [unix]
-    - jasper                       # [unix]
-    - zlib
-    - jpeg
-    - libwebp
-    - harfbuzz                     # [unix]
-    - libtiff
-    - libpng
-    - openblas                     # [not win]
-    - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg                       # [not win]
-    - qt                           # [not osx]
+    - {{ pin_subpackage(name|lower + '-' + opencv_variant, exact=True) }}
 
 test:
     requires:
@@ -128,13 +94,76 @@ test:
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
 
+outputs:
+  - name: _opencv_variant
+    version: {{ variant_version }}
+    build:
+      string: {{ opencv_variant }}
+    about:
+      summary: "A package to specify the default opencv variant."
+
+  - name: {{ name + '-' + opencv_variant }}
+    build:
+      features:                    # [not win]
+        - blas_{{ blas_variant }}  # [not win]
+      script:
+        - "%RECIPE_DIR%\\build_opencv.bat"    # [win]
+        - bash $RECIPE_DIR/build_opencv.sh    # [not win]
+    requirements:
+      build:
+        - openssl 1.0.*                # [unix]
+        - curl >=7.44.0,<8
+        - cmake
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        # required to find ffpmeg
+        - pkg-config                   # [unix]
+      host:
+        - python
+        - numpy
+        - hdf5                         # [unix]
+        - eigen 3.2.*
+        - jasper                       # [unix]
+        - zlib
+        - jpeg
+        - libtiff
+        - libwebp
+        - harfbuzz                     # [unix]
+        - libpng
+        - openblas                     # [not win]
+        - blas 1.1 {{ blas_variant }}  # [not win]
+        - ffmpeg                       # [not win]
+        - qt                           # [opencv_variant == 'withqt']
+      run:
+        - python
+        - {{ pin_compatible('numpy') }}
+        - hdf5                         # [unix]
+        - jasper                       # [unix]
+        - zlib
+        - jpeg
+        - libwebp
+        - harfbuzz                     # [unix]
+        - libtiff
+        - libpng
+        - openblas                     # [not win]
+        - blas 1.1 {{ blas_variant }}  # [not win]
+        - ffmpeg                       # [not win]
+        - qt                           # [opencv_variant == 'withqt']
+        - {{ pin_subpackage( "_opencv_variant", exact=True) }}
+    extra:
+      opencv_variant: {{ opencv_variant }}
+
+
 about:
   home: http://opencv.org/
   license: BSD 3-clause
-  summary: Computer vision and machine learning software library.
+  summary: Computer vision and machine learning software library compiled with Qt5.     # [opencv_variant == 'withqt']
+  summary: Computer vision and machine learning software library compiled without Qt5.  # [opencv_variant == 'noqt']
   license_file: LICENSE
 
+
 extra:
+  opencv_variant: {{ opencv_variant }}
   recipe-maintainers:
     - jakirkham
     - msarahan

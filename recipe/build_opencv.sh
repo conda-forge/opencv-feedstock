@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
+set -x
 
-set +x
+if [ "$opencv_variant" == "noqt" ]; then
+    QT=0
+else
+    QT=5
+fi
+
 SHORT_OS_STR=$(uname -s)
 
-QT="5"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     OPENMP="-DWITH_OPENMP=1"
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
@@ -12,7 +17,6 @@ if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
-    QT="0"
 fi
 
 mkdir -p build

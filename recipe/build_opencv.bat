@@ -1,6 +1,12 @@
 @echo ON
-setlocal enabledelayedexpansion
 
+if "%opencv_variant%" == "noqt" (
+    set QT=0
+) else (
+    set QT=5
+)
+
+setlocal enabledelayedexpansion
 
 if "%PY3K%" == "0" (
     echo "Copying stdint.h for windows"
@@ -49,7 +55,7 @@ cmake -LAH -G "NMake Makefiles"                                                 
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_GSTREAMER=0                                                              ^
     -DWITH_VTK=0                                                                    ^
-    -DWITH_QT=5                                                                     ^
+    -DWITH_QT=%QT%                                                                  ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DEXECUTABLE_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                     ^

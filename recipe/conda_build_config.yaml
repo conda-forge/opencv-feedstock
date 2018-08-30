@@ -1,0 +1,9 @@
+variant_version:
+  - "1.0.0"  # [not osx]
+  - "0.0.0"
+opencv_variant:
+  - "withqt"  # [not osx]
+  - "noqt"
+zip_keys:
+  - variant_version
+  - opencv_variant
