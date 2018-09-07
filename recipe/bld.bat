@@ -66,26 +66,17 @@ cmake -LAH -G "NMake Makefiles"                                                 
     -DPYTHON2_LIBRARY=""                                                            ^
     -DPYTHON2_PACKAGES_PATH=""                                                      ^
     -DBUILD_opencv_python3=0                                                        ^
-    -DPYTHON3_EXECUTABLE=""                                                         ^
-    -DPYTHON3_INCLUDE_DIR=""                                                        ^
-    -DPYTHON3_NUMPY_INCLUDE_DIRS=""                                                 ^
-    -DPYTHON3_LIBRARY=""                                                            ^
-    -DPYTHON3_PACKAGES_PATH=""                                                      ^
-    ..
-if errorlevel 1 exit 1
-
-cmake -LAH -G "NMake Makefiles"                                                     ^
     -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
     -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
     -DPYTHON_PACKAGES_PATH=%UNIX_SP_DIR%                                            ^
     -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
     -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                    ^
-    -DBUILD_opencv_python%PY_MAJOR%=1                                               ^
-    -DPYTHON%PY_MAJOR%_EXECUTABLE=%UNIX_PREFIX%/python                              ^
-    -DPYTHON%PY_MAJOR%_INCLUDE_DIR=%UNIX_PREFIX%/include                            ^
-    -DPYTHON%PY_MAJOR%_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include          ^
-    -DPYTHON%PY_MAJOR%_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                          ^
-    -DPYTHON%PY_MAJOR%_PACKAGES_PATH=%UNIX_SP_DIR%                                  ^
+    -DBUILD_opencv_python3=1                                                        ^
+    -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
+    -DPYTHON3_INCLUDE_DIR=%UNIX_PREFIX%/include                                     ^
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                   ^
+    -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
+    -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
     ..
 if errorlevel 1 exit 1
 
