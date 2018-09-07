@@ -1,0 +1,26 @@
+From 53bbed89aea4e04dc4ab4751db61fd3bccbf41f0 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Fri, 7 Sep 2018 15:57:55 -0400
+Subject: [PATCH] Output RGBA images when bayer_xx2YYYA is called
+
+---
+ modules/imgproc/src/demosaicing.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/modules/imgproc/src/demosaicing.cpp b/modules/imgproc/src/demosaicing.cpp
+index f70f3e8dfa3..5520369f60a 100644
+--- a/modules/imgproc/src/demosaicing.cpp
++++ b/modules/imgproc/src/demosaicing.cpp
+@@ -1686,8 +1686,11 @@ void cv::demosaicing(InputArray _src, OutputArray _dst, int code, int dcn)
+             CV_Error(CV_StsUnsupportedFormat, "Bayer->Gray demosaicing only supports 8u and 16u types");
+         break;
+ 
+-    case CV_BayerBG2BGR: case CV_BayerGB2BGR: case CV_BayerRG2BGR: case CV_BayerGR2BGR:
+     case CV_BayerBG2BGRA: case CV_BayerGB2BGRA: case CV_BayerRG2BGRA: case CV_BayerGR2BGRA:
++        if (dcn <= 0)
++          dcn = 4;
++        /* fallthrough */
++    case CV_BayerBG2BGR: case CV_BayerGB2BGR: case CV_BayerRG2BGR: case CV_BayerGR2BGR:
+     case CV_BayerBG2BGR_VNG: case CV_BayerGB2BGR_VNG: case CV_BayerRG2BGR_VNG: case CV_BayerGR2BGR_VNG:
+         {
+             if (dcn <= 0)
