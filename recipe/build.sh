@@ -15,10 +15,6 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     QT="0"
 fi
 
-curl -L -O "https://github.com/opencv/opencv_contrib/archive/$PKG_VERSION.tar.gz"
-test `openssl sha256 $PKG_VERSION.tar.gz | awk '{print $2}'` = "298c69ee006d7675e1ff9d371ba8b0d9e7e88374bb7ba0f9d0789851d352ec6e"
-tar -zxf $PKG_VERSION.tar.gz
-
 mkdir -p build
 cd build
 
@@ -82,7 +78,7 @@ cmake -LAH                                                                \
     -DWITH_QT=$QT                                                         \
     -DWITH_GPHOTO2=0                                                      \
     -DINSTALL_C_EXAMPLES=0                                                \
-    -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-$PKG_VERSION/modules"  \
+    -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib/modules"               \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
     -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
     -DPYTHON_EXECUTABLE=${PYTHON}                                         \

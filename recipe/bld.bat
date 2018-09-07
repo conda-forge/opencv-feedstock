@@ -1,13 +1,6 @@
 @echo ON
 setlocal enabledelayedexpansion
 
-curl -L -O "https://github.com/opencv/opencv_contrib/archive/%PKG_VERSION%.tar.gz"
-%PYTHON% -c "import tarfile, os; tar = tarfile.open(os.environ['PKG_VERSION'] + '.tar.gz', 'r:gz'); tar.extractall(); tar.close()"
-%PYTHON% -c "import hashlib, os; print(hashlib.sha256(open(os.environ['PKG_VERSION'] + '.tar.gz', 'rb').read()).hexdigest())" > sha256.out
-SET /p CONTRIB_SHA256=<sha256.out
-if NOT "%CONTRIB_SHA256%" == "298c69ee006d7675e1ff9d371ba8b0d9e7e88374bb7ba0f9d0789851d352ec6e" (
-    exit 1
-)
 
 if "%PY3K%" == "0" (
     echo "Copying stdint.h for windows"
@@ -58,7 +51,7 @@ cmake -LAH -G "NMake Makefiles"                                                 
     -DWITH_VTK=0                                                                    ^
     -DWITH_QT=5                                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
-    -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules ^
+    -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DEXECUTABLE_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                     ^
     -DLIBRARY_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                        ^
     -DPYTHON_EXECUTABLE=""                                                          ^
