@@ -26,11 +26,7 @@ build:
 
 requirements:
   build:
-    # Unfortunately this is a little confusing,
-    # pkg- config is a Python module that allows one to use pkg-config (the Unix build tool).
-    # AFAICT (jakirkham) OpenCV doesn't use the Python package,
-    # but it does rely on the pkg-config command line tool and .pc files,
-    # which are expected to be in the build prefix
+    # Required to find ffpmeg
     - pkg-config                   # [not win]
     - cmake
     - {{ compiler('c') }}
