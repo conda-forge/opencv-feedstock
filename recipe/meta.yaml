@@ -9,13 +9,16 @@ source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
     sha256: 81dbd5e7e9f8a4c936b94629bf4765745942a1d634ae38ec08bc57b73b28ffc5
+    patches:
+      # https://github.com/opencv/opencv/pull/12465
+      - 12465-bayer2rgba.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 45a52764ebd2558fa0b7fd8dc47379b37dd0956d912abbf7c786228374fdf60d
     folder: opencv_contrib-{{ version }}
 
 build:
-  number: 200
+  number: 0
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
