@@ -26,18 +26,12 @@ build:
 
 requirements:
   build:
-    - openssl 1.0.*                # [unix]
-    - curl >=7.44.0,<8
     - cmake
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
     - python
     - pkgconfig                    # [unix]
-    # For sha256 comparisons of opencv_contrib
-    # For downloading opencv_contrib
-    # For applying patches
-    - git                          # [win]
     - numpy
     - hdf5                         # [unix]
     - eigen 3.2.*
