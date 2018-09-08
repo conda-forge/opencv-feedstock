@@ -1,7 +1,13 @@
 c_compiler:
 - toolchain_c
+channel_sources:
+- conda-forge,defaults
+channel_targets:
+- conda-forge main
 cxx_compiler:
 - toolchain_cxx
+docker_image:
+- condaforge/linux-anvil
 ffmpeg:
 - '4.0'
 harfbuzz:
