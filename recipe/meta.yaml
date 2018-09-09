@@ -33,7 +33,6 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - python
-    - pkgconfig                    # [unix]
     - numpy
     - hdf5                         # [unix]
     - eigen 3.2.*
