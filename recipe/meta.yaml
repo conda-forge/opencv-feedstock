@@ -28,6 +28,7 @@ requirements:
   build:
     # Required to find ffpmeg
     - pkg-config                   # [not win]
+    - m2-patch                     # [win]
     - cmake
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
