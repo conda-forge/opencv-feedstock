@@ -24,7 +24,7 @@ platform:
 install:
     # If there is a newer build queued for the same PR, cancel this one.
     - cmd: |
-        powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/conda-forge/conda-forge-ci-setup-feedstock/master/recipe/ff_ci_pr_build.py', 'ff_ci_pr_build.py')"
+        powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/conda-forge/conda-forge-ci-setup-feedstock/branch2.0/recipe/conda_forge_ci_setup/ff_ci_pr_build.py', 'ff_ci_pr_build.py')"
         ff_ci_pr_build -v --ci "appveyor" "%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%" "%APPVEYOR_BUILD_NUMBER%" "%APPVEYOR_PULL_REQUEST_NUMBER%"
         del ff_ci_pr_build.py
 
@@ -44,7 +44,7 @@ install:
     - cmd: conda.exe config --add channels conda-forge
 
     # Configure the VM.
-    - cmd: conda.exe install -n root --quiet --yes conda-forge-ci-setup=1
+    - cmd: conda.exe install -n root --quiet --yes conda-forge-ci-setup=2
     - cmd: run_conda_forge_build_setup
 
 # Skip .NET project specific build phase.
@@ -53,4 +53,4 @@ build: off
 test_script:
     - conda.exe build recipe -m .ci_support\%CONFIG%.yaml --quiet
 deploy_script:
-    - cmd: upload_or_check_non_existence .\recipe conda-forge --channel=main -m .ci_support\%CONFIG%.yaml
+    - cmd: upload_package .\ .\recipe .ci_support\%CONFIG%.yaml

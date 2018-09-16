@@ -1,4 +1,4 @@
-{% set version = "3.4.1" %}
+{% set version = "3.4.3" %}
 {% set blas_variant = "openblas" %}
 
 package:
@@ -6,12 +6,21 @@ package:
   version: {{ version }}
 
 source:
-  fn: opencv-{{ version }}.tar.gz
-  url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
-  sha256: f1b87684d75496a1054405ae3ee0b6573acaf3dad39eaf4f1d66fdd7e03dc852
+  - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
+    fn: opencv-{{ version }}.tar.gz
+    sha256: 4eef85759d5450b183459ff216b4c0fa43e87a4f6aa92c8af649f89336f002ec
+    patches:
+      # https://github.com/opencv/opencv/pull/12465
+      - 12465-bayer2rgba.patch
+      # https://github.com/opencv/opencv/pull/12515
+      - 12515-bayer2rgba_pattern.patch
+  - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
+    fn: opencv_contrib-{{ version }}.tar.gz
+    sha256: 6dfb51326f3dfeb659128df952edecd45683626a965aa4a8e1e9c970c40fb636
+    folder: opencv_contrib
 
 build:
-  number: 201
+  number: 200
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
@@ -19,18 +28,14 @@ build:
 
 requirements:
   build:
-    - openssl 1.0.*                # [unix]
-    - curl >=7.44.0,<8
+    # Required to find ffpmeg
+    - pkg-config                   # [not win]
+    - m2-patch                     # [win]
     - cmake
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
     - python
-    - pkgconfig                    # [unix]
-    # For sha256 comparisons of opencv_contrib
-    # For downloading opencv_contrib
-    # For applying patches
-    - git                          # [win]
     - numpy
     - hdf5                         # [unix]
     - eigen 3.2.*
@@ -127,6 +132,7 @@ about:
   home: http://opencv.org/
   license: BSD 3-clause
   summary: Computer vision and machine learning software library.
+  license_file: LICENSE
 
 extra:
   recipe-maintainers:
@@ -136,3 +142,4 @@ extra:
     - zym1010
     - hajapy
     - ocefpaf
+    - hmaarrfk
