@@ -9,10 +9,16 @@ environment:
     secure: tumuXLL8PU75WMnRDemRy02ruEq2RpNxeK3dz0MjFssnosPm2v4EFjfNB4PTotA1
 
   matrix:
-    - CONFIG: win_c_compilervs2015cxx_compilervs2015python3.5
+    - CONFIG: win_c_compilervs2015cxx_compilervs2015opencv_variantnoqtpython3.5variant_version0.0.0
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
-    - CONFIG: win_c_compilervs2015cxx_compilervs2015python3.6
+    - CONFIG: win_c_compilervs2015cxx_compilervs2015opencv_variantnoqtpython3.6variant_version0.0.0
+      CONDA_INSTALL_LOCN: C:\Miniconda36-x64
+
+    - CONFIG: win_c_compilervs2015cxx_compilervs2015opencv_variantwithqtpython3.5variant_version1.0.0
+      CONDA_INSTALL_LOCN: C:\Miniconda36-x64
+
+    - CONFIG: win_c_compilervs2015cxx_compilervs2015opencv_variantwithqtpython3.6variant_version1.0.0
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
 

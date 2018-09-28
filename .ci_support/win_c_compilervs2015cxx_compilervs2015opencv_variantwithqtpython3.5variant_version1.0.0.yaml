@@ -1,21 +1,11 @@
-MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
 c_compiler:
-- toolchain_c
+- vs2015
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- toolchain_cxx
-ffmpeg:
-- '4.0'
-harfbuzz:
-- '1'
-hdf5:
-- 1.10.3
-jasper:
-- 1.900.1
+- vs2015
 jpeg:
 - '9'
 libpng:
@@ -24,25 +14,11 @@ libtiff:
 - 4.0.9
 libwebp:
 - '0.5'
-macos_machine:
-- x86_64-apple-darwin13.4.0
-macos_min_version:
-- '10.9'
 numpy:
-- '1.9'
-openblas:
-- 0.2.20
+- '1.11'
 opencv_variant:
-- noqt
+- withqt
 pin_run_as_build:
-  ffmpeg:
-    max_pin: x.x
-  harfbuzz:
-    max_pin: x
-  hdf5:
-    max_pin: x.x.x
-  jasper:
-    max_pin: x
   jpeg:
     max_pin: x
   libpng:
@@ -51,18 +27,23 @@ pin_run_as_build:
     max_pin: x
   libwebp:
     max_pin: x.x
-  openblas:
-    max_pin: x.x.x
   python:
     min_pin: x.x
+    max_pin: x.x
+  qt:
     max_pin: x.x
   zlib:
     max_pin: x.x
 python:
 - '3.5'
+qt:
+- '5.6'
 variant_version:
-- 0.0.0
+- 1.0.0
 zip_keys:
+- - python
+  - c_compiler
+  - cxx_compiler
 - - variant_version
   - opencv_variant
 zlib:

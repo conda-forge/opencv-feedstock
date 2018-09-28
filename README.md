@@ -1,13 +1,13 @@
 About opencv
 ============
 
-Home: http://opencv.org/
+Home: 
 
-Package license: BSD 3-clause
+Package license: 
 
 Feedstock license: BSD 3-Clause
 
-Summary: Computer vision and machine learning software library.
+Summary: A package to specify the default opencv variant.
 
 
 
@@ -23,7 +23,10 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-_opencv_variant-green.svg)](https://anaconda.org/conda-forge/_opencv_variant) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/_opencv_variant.svg)](https://anaconda.org/conda-forge/_opencv_variant) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/_opencv_variant.svg)](https://anaconda.org/conda-forge/_opencv_variant) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/_opencv_variant.svg)](https://anaconda.org/conda-forge/_opencv_variant) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-opencv-green.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-opencv--noqt-green.svg)](https://anaconda.org/conda-forge/opencv-noqt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv-noqt.svg)](https://anaconda.org/conda-forge/opencv-noqt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv-noqt.svg)](https://anaconda.org/conda-forge/opencv-noqt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv-noqt.svg)](https://anaconda.org/conda-forge/opencv-noqt) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-opencv--withqt-green.svg)](https://anaconda.org/conda-forge/opencv-withqt) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv-withqt.svg)](https://anaconda.org/conda-forge/opencv-withqt) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv-withqt.svg)](https://anaconda.org/conda-forge/opencv-withqt) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv-withqt.svg)](https://anaconda.org/conda-forge/opencv-withqt) |
 
 Installing opencv
 =================
@@ -34,16 +37,16 @@ Installing `opencv` from the `conda-forge` channel can be achieved by adding `co
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `opencv` can be installed with:
+Once the `conda-forge` channel has been enabled, `_opencv_variant, opencv, opencv-noqt, opencv-withqt` can be installed with:
 
 ```
-conda install opencv
+conda install _opencv_variant opencv opencv-noqt opencv-withqt
 ```
 
-It is possible to list all of the versions of `opencv` available on your platform with:
+It is possible to list all of the versions of `_opencv_variant` available on your platform with:
 
 ```
-conda search opencv --channel conda-forge
+conda search _opencv_variant --channel conda-forge
 ```
 
 

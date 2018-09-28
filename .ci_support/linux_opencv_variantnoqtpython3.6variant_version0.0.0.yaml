@@ -13,7 +13,7 @@ ffmpeg:
 harfbuzz:
 - '1'
 hdf5:
-- 1.10.2
+- 1.10.3
 jasper:
 - 1.900.1
 jpeg:
@@ -28,6 +28,8 @@ numpy:
 - '1.9'
 openblas:
 - 0.2.20
+opencv_variant:
+- noqt
 pin_run_as_build:
   ffmpeg:
     max_pin: x.x
@@ -55,8 +57,13 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- '3.5'
+- '3.6'
 qt:
 - '5.6'
+variant_version:
+- 0.0.0
+zip_keys:
+- - variant_version
+  - opencv_variant
 zlib:
 - '1.2'

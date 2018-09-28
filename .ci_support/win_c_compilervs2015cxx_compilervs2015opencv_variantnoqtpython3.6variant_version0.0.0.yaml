@@ -16,6 +16,8 @@ libwebp:
 - '0.5'
 numpy:
 - '1.11'
+opencv_variant:
+- noqt
 pin_run_as_build:
   jpeg:
     max_pin: x
@@ -33,12 +35,16 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- '3.5'
+- '3.6'
 qt:
 - '5.6'
+variant_version:
+- 0.0.0
 zip_keys:
 - - python
   - c_compiler
   - cxx_compiler
+- - variant_version
+  - opencv_variant
 zlib:
 - '1.2'
