@@ -62,7 +62,6 @@ cmake -LAH                                                                \
     -DBUILD_DOCS=0                                                        \
     -DBUILD_PERF_TESTS=0                                                  \
     -DBUILD_ZLIB=0                                                        \
-    -DHDF5_ROOT=${PREFIX}                                                 \
     -DBUILD_TIFF=0                                                        \
     -DBUILD_PNG=0                                                         \
     -DBUILD_OPENEXR=1                                                     \
