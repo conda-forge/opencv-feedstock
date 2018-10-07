@@ -13,7 +13,7 @@ ffmpeg:
 harfbuzz:
 - '1'
 hdf5:
-- 1.10.2
+- 1.10.3
 jasper:
 - 1.900.1
 jpeg:

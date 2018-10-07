@@ -9,9 +9,6 @@ environment:
     secure: tumuXLL8PU75WMnRDemRy02ruEq2RpNxeK3dz0MjFssnosPm2v4EFjfNB4PTotA1
 
   matrix:
-    - CONFIG: win_c_compilervs2015cxx_compilervs2015python3.5
-      CONDA_INSTALL_LOCN: C:\Miniconda36-x64
-
     - CONFIG: win_c_compilervs2015cxx_compilervs2015python3.6
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
