@@ -1,0 +1,40 @@
+--- CMakeLists.txt.orig
++++ CMakeLists.txt
+@@ -373,7 +373,7 @@
+ 
+ if(WIN32 AND CMAKE_HOST_SYSTEM_NAME MATCHES Windows)
+   if(DEFINED OpenCV_RUNTIME AND DEFINED OpenCV_ARCH)
+-    ocv_update(OpenCV_INSTALL_BINARIES_PREFIX "${OpenCV_ARCH}/${OpenCV_RUNTIME}/")
++    ocv_update(OpenCV_INSTALL_BINARIES_PREFIX "")
+   else()
+     message(STATUS "Can't detect runtime and/or arch")
+     ocv_update(OpenCV_INSTALL_BINARIES_PREFIX "")
+
+--- cmake\templates\OpenCVConfig.root-WIN32.cmake.in.orig
++++ cmake\templates\OpenCVConfig.root-WIN32.cmake.in
+@@ -105,17 +105,21 @@
+ 
+ get_filename_component(OpenCV_CONFIG_PATH "${CMAKE_CURRENT_LIST_FILE}" PATH)
+ if(OpenCV_RUNTIME AND OpenCV_ARCH)
+-  if(OpenCV_STATIC AND EXISTS "${OpenCV_CONFIG_PATH}/${OpenCV_ARCH}/${OpenCV_RUNTIME}/staticlib/OpenCVConfig.cmake")
++  # broke in windows see https://github.com/conda-forge/opencv-feedstock/issues/41
++  if(OpenCV_STATIC AND EXISTS "${OpenCV_CONFIG_PATH}/lib/OpenCVConfig.cmake")
++    # cuda not available in windows see https://github.com/conda-forge/opencv-feedstock/issues/109
+     if(OpenCV_CUDA AND EXISTS "${OpenCV_CONFIG_PATH}/gpu/${OpenCV_ARCH}/${OpenCV_RUNTIME}/staticlib/OpenCVConfig.cmake")
+       set(OpenCV_LIB_PATH "${OpenCV_CONFIG_PATH}/gpu/${OpenCV_ARCH}/${OpenCV_RUNTIME}/staticlib")
+     else()
+-      set(OpenCV_LIB_PATH "${OpenCV_CONFIG_PATH}/${OpenCV_ARCH}/${OpenCV_RUNTIME}/staticlib")
++      set(OpenCV_LIB_PATH "${OpenCV_CONFIG_PATH}/lib")
+     endif()
+-  elseif(EXISTS "${OpenCV_CONFIG_PATH}/${OpenCV_ARCH}/${OpenCV_RUNTIME}/lib/OpenCVConfig.cmake")
++  # shared libs (dlls)
++  elseif(EXISTS "${OpenCV_CONFIG_PATH}/lib/OpenCVConfig.cmake")
++    # cuda not available in windows see https://github.com/conda-forge/opencv-feedstock/issues/109
+     if(OpenCV_CUDA AND EXISTS "${OpenCV_CONFIG_PATH}/gpu/${OpenCV_ARCH}/${OpenCV_RUNTIME}/lib/OpenCVConfig.cmake")
+       set(OpenCV_LIB_PATH "${OpenCV_CONFIG_PATH}/gpu/${OpenCV_ARCH}/${OpenCV_RUNTIME}/lib")
+     else()
+-      set(OpenCV_LIB_PATH "${OpenCV_CONFIG_PATH}/${OpenCV_ARCH}/${OpenCV_RUNTIME}/lib")
++      set(OpenCV_LIB_PATH "${OpenCV_CONFIG_PATH}/bin")
+     endif()
+   endif()
+ endif()

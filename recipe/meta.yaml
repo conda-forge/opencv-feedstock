@@ -10,6 +10,9 @@ source:
     fn: opencv-{{ version }}.tar.gz
     sha256: 4eef85759d5450b183459ff216b4c0fa43e87a4f6aa92c8af649f89336f002ec
     patches:
+      patches:
+      # https://github.com/conda-forge/opencv-feedstock/pull/112
+      - 112_win_fix_cmake_config_sufix.patch  # [win]
       # https://github.com/opencv/opencv/pull/12465
       - 12465-bayer2rgba.patch
       # https://github.com/opencv/opencv/pull/12515
