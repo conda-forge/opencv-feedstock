@@ -1,4 +1,4 @@
-{% set version = "3.4.3" %}
+{% set version = "3.4.4" %}
 {% set blas_variant = "openblas" %}
 
 package:
@@ -8,7 +8,7 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: 4eef85759d5450b183459ff216b4c0fa43e87a4f6aa92c8af649f89336f002ec
+    sha256: a35b00a71d77b484f73ec485c65fe56c7a6fa48acd5ce55c197aef2e13c78746
     patches:
       # https://github.com/opencv/opencv/pull/12465
       - 12465-bayer2rgba.patch
@@ -16,11 +16,11 @@ source:
       - 12515-bayer2rgba_pattern.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 6dfb51326f3dfeb659128df952edecd45683626a965aa4a8e1e9c970c40fb636
+    sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
     folder: opencv_contrib
 
 build:
-  number: 201
+  number: 0
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
