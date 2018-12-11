@@ -13,28 +13,26 @@ ffmpeg:
 harfbuzz:
 - '1'
 hdf5:
-- 1.10.3
+- 1.10.4
 jasper:
 - 1.900.1
 jpeg:
 - '9'
 libpng:
-- 1.6.34
+- 1.6.35
 libtiff:
 - 4.0.9
 libwebp:
-- '0.5'
+- 1.0.0
 numpy:
 - '1.9'
 openblas:
-- 0.2.20
+- 0.3.3
 pin_run_as_build:
   ffmpeg:
     max_pin: x.x
   harfbuzz:
     max_pin: x
-  hdf5:
-    max_pin: x.x.x
   jasper:
     max_pin: x
   jpeg:
