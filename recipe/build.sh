@@ -13,6 +13,14 @@ fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
     QT="0"
+    # The old OSX compilers don't know what to do with AVX instructions
+    # Therefore, we specify what CPU dispatch operations we want explicitely
+    # for OSX..
+    # I took this line from the default build flags that get spewed after
+    # a successful call to cmake without the parameter specified
+    # The default flag as of OpenCV 3.4.4 are:
+    # CPU_DISPATCH:STRING=SSE4_1;SSE4_2;AVX;FP16;AVX2;AVX512_SKX
+    CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;FP16"
 fi
 
 mkdir -p build
@@ -55,6 +63,7 @@ cmake -LAH                                                                \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
+    $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
