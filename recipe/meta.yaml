@@ -115,6 +115,9 @@ test:
             "xobjdetect",
             "xphoto"
         ] %}
+        - g++ $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
+        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
+        - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         {% for each_opencv_lib in opencv_libs %}
         - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
         - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
