@@ -20,7 +20,7 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     # a successful call to cmake without the parameter specified
     # The default flag as of OpenCV 3.4.4 are:
     # CPU_DISPATCH:STRING=SSE4_1;SSE4_2;AVX;FP16;AVX2;AVX512_SKX
-    CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;FP16"
+    CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;AVX;FP16"
 fi
 
 mkdir -p build
