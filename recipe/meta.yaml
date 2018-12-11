@@ -9,11 +9,6 @@ source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
     sha256: a35b00a71d77b484f73ec485c65fe56c7a6fa48acd5ce55c197aef2e13c78746
-    patches:
-      # https://github.com/opencv/opencv/pull/12465
-      - 12465-bayer2rgba.patch
-      # https://github.com/opencv/opencv/pull/12515
-      - 12515-bayer2rgba_pattern.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
