@@ -13,9 +13,11 @@ source:
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
     folder: opencv_contrib
+    patches:
+      - 1905-cvv_repair_build.patch
 
 build:
-  number: 0
+  number: 200
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
