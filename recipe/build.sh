@@ -13,6 +13,14 @@ fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
     QT="0"
+    # The old OSX compilers don't know what to do with AVX instructions
+    # Therefore, we specify what CPU dispatch operations we want explicitely
+    # for OSX..
+    # I took this line from the default build flags that get spewed after
+    # a successful call to cmake without the parameter specified
+    # The default flag as of OpenCV 3.4.4 are:
+    # CPU_DISPATCH:STRING=SSE4_1;SSE4_2;AVX;FP16;AVX2;AVX512_SKX
+    CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;AVX;FP16"
 fi
 
 mkdir -p build
@@ -37,6 +45,7 @@ PYTHON_SET_INC="-DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON} "
 PYTHON_SET_NUMPY="-DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include"
 PYTHON_SET_LIB="-DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON}"
 PYTHON_SET_SP="-DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}"
+PYTHON_SET_INSTALL="-DOPENCV_PYTHON${PY_MAJOR}_INSTALL_PATH=${SP_DIR}"
 
 PYTHON_UNSET_FLAG="-DBUILD_opencv_python${PY_UNSET_MAJOR}=0"
 PYTHON_UNSET_EXE="-DPYTHON${PY_UNSET_MAJOR}_EXECUTABLE="
@@ -44,6 +53,7 @@ PYTHON_UNSET_INC="-DPYTHON${PY_UNSET_MAJOR}_INCLUDE_DIR="
 PYTHON_UNSET_NUMPY="-DPYTHON${PY_UNSET_MAJOR}_NUMPY_INCLUDE_DIRS="
 PYTHON_UNSET_LIB="-DPYTHON${PY_UNSET_MAJOR}_LIBRARY="
 PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
+PYTHON_UNSET_INSTALL="-DOPENCV_PYTHON${PY_UNSET_MAJOR}_INSTALL_PATH=${SP_DIR}"
 
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
@@ -53,6 +63,7 @@ cmake -LAH                                                                \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
+    $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
@@ -67,7 +78,9 @@ cmake -LAH                                                                \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
     -DBUILD_JPEG=0                                                        \
+    -DWITH_V4L=0                                                          \
     -DWITH_CUDA=0                                                         \
+    -DWITH_CUBLAS=0                                                       \
     -DWITH_OPENCL=0                                                       \
     -DWITH_OPENNI=0                                                       \
     -DWITH_FFMPEG=1                                                       \
@@ -83,18 +96,21 @@ cmake -LAH                                                                \
     -DPYTHON_EXECUTABLE=${PYTHON}                                         \
     -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
     -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
+    -DOPENCV_SKIP_PYTHON_LOADER=1                                         \
     $PYTHON_SET_FLAG                                                      \
     $PYTHON_SET_EXE                                                       \
     $PYTHON_SET_INC                                                       \
     $PYTHON_SET_NUMPY                                                     \
     $PYTHON_SET_LIB                                                       \
     $PYTHON_SET_SP                                                        \
+    $PYTHON_SET_INSTALL                                                   \
     $PYTHON_UNSET_FLAG                                                    \
     $PYTHON_UNSET_EXE                                                     \
     $PYTHON_UNSET_INC                                                     \
     $PYTHON_UNSET_NUMPY                                                   \
     $PYTHON_UNSET_LIB                                                     \
     $PYTHON_UNSET_SP                                                      \
+    $PYTHON_UNSET_INSTALL                                                 \
     ..
 
 make install -j${CPU_COUNT}

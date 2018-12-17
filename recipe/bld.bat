@@ -65,6 +65,7 @@ cmake -LAH -G "NMake Makefiles"                                                 
     -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                                 ^
     -DPYTHON2_LIBRARY=""                                                            ^
     -DPYTHON2_PACKAGES_PATH=""                                                      ^
+    -DOPENCV_PYTHON2_INSTALL_PATH=""                                                ^
     -DBUILD_opencv_python3=0                                                        ^
     -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
     -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
@@ -72,11 +73,13 @@ cmake -LAH -G "NMake Makefiles"                                                 
     -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
     -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                    ^
     -DBUILD_opencv_python3=1                                                        ^
+    -DOPENCV_SKIP_PYTHON_LOADER=1                                                   ^
     -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
     -DPYTHON3_INCLUDE_DIR=%UNIX_PREFIX%/include                                     ^
     -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                   ^
     -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
     -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
+    -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
     ..
 if errorlevel 1 exit 1
 
