@@ -1,0 +1,20 @@
+jobs:
+- job: linux_64
+  pool:
+    vmImage: ubuntu-16.04
+  timeoutInMinutes: 240
+  strategy:
+    maxParallel: 8
+    matrix:
+      linux_python2.7:
+        CONFIG: linux_python2.7
+      linux_python3.6:
+        CONFIG: linux_python3.6
+  steps:
+  - script: |
+      sudo pip install --upgrade pip
+      sudo pip install setuptools shyaml
+    displayName: Install dependencies
+
+  - script: .azure-pipelines/run_docker_build.sh
+    displayName: Run docker build
