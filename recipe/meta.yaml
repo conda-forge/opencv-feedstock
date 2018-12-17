@@ -1,4 +1,4 @@
-{% set version = "3.4.4" %}
+{% set version = "4.0.0" %}
 {% set blas_variant = "openblas" %}
 
 package:
@@ -8,18 +8,16 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: a35b00a71d77b484f73ec485c65fe56c7a6fa48acd5ce55c197aef2e13c78746
-    patches:
-      - 13232-fix_numThreadsMax_for_OpenMP.patch
+    sha256: 3787b3cc7b21bba1441819cb00c636911a846c0392ddf6211d398040a1e4886c
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
+    sha256: 4fb0681414df4baedce6e3f4a01318d6f4fcde6ee14854d761fd4e397a397763
     folder: opencv_contrib
     patches:
       - 1905-cvv_repair_build.patch
 
 build:
-  number: 1204
+  number: 200
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
