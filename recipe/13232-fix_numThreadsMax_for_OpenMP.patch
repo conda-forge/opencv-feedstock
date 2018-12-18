@@ -1,0 +1,23 @@
+From e1ac8589f8a19b9bf5598bbae073ae12721c541d Mon Sep 17 00:00:00 2001
+From: huangqinjin <huangqinjin@gmail.com>
+Date: Wed, 21 Nov 2018 10:52:50 +0800
+Subject: [PATCH] fix numThreadsMax for OpenMP
+
+introduced by commit 4e629000095779ae8f544ddd4de77633680a3db9
+---
+ modules/core/src/parallel.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/core/src/parallel.cpp b/modules/core/src/parallel.cpp
+index a32f2f178ac..0745b5a6e98 100644
+--- a/modules/core/src/parallel.cpp
++++ b/modules/core/src/parallel.cpp
+@@ -427,7 +427,7 @@ static inline int _initMaxThreads()
+     {
+         omp_set_dynamic(maxThreads);
+     }
+-    return numThreads;
++    return maxThreads;
+ }
+ static int numThreadsMax = _initMaxThreads();
+ #elif defined HAVE_GCD
