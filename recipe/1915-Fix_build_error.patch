@@ -1,0 +1,22 @@
+From 675134eae93a4ce7c6e5d1214486bf0ca7ab89b2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=A1=9A=E6=9C=AC=E4=BF=A1=E7=94=B7?=
+ <nobuo@localhost.localdomain>
+Date: Mon, 19 Nov 2018 22:31:37 +0900
+Subject: [PATCH] fix build error.
+
+---
+ modules/cvv/src/qtutil/filter/sobelfilterwidget.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/modules/cvv/src/qtutil/filter/sobelfilterwidget.cpp b/modules/cvv/src/qtutil/filter/sobelfilterwidget.cpp
+index f5c54ed0dc..c9f0a8aec0 100644
+--- a/modules/cvv/src/qtutil/filter/sobelfilterwidget.cpp
++++ b/modules/cvv/src/qtutil/filter/sobelfilterwidget.cpp
+@@ -12,6 +12,7 @@
+ 
+ namespace cvv
+ {
++using namespace cv;
+ namespace qtutil
+ {
+ 
