@@ -9,6 +9,8 @@ source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
     sha256: a35b00a71d77b484f73ec485c65fe56c7a6fa48acd5ce55c197aef2e13c78746
+    patches:
+      - 13232-fix_numThreadsMax_for_OpenMP.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
@@ -17,7 +19,7 @@ source:
       - 1905-cvv_repair_build.patch
 
 build:
-  number: 200
+  number: 201
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
