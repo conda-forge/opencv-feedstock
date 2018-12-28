@@ -68,6 +68,13 @@ cmake -LAH                                                                \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
+    -DCMAKE_AR="${AR}"                                                    \
+    -DCMAKE_LINKER="${LD}"                                                \
+    -DCMAKE_NM="${NM}"                                                    \
+    -DCMAKE_OBJCOPY="${OBJCOPY}"                                          \
+    -DCMAKE_OBJDUMP="${OBJDUMP}"                                          \
+    -DCMAKE_RANLIB="${RANLIB}"                                            \
+    -DCMAKE_STRIP="${STRIP}"                                              \
     $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
@@ -103,7 +110,7 @@ cmake -LAH                                                                \
     -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
     -DOPENCV_SKIP_PYTHON_LOADER=1                                         \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
-    -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz.${DYNAMIC_EXT}              \
+    -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz{SHLIB_EXT                   \
     -DPNG_INCLUDE_DIR=${PREFIX}/include                                   \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
