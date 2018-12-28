@@ -114,4 +114,4 @@ cmake -LAH                                                                \
     $PYTHON_UNSET_INSTALL                                                 \
     ..
 
-make install -j${CPU_COUNT}
+make install -j${CPU_COUNT} VERBOSE=1
