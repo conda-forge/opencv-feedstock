@@ -2,16 +2,20 @@
 
 set +x
 SHORT_OS_STR=$(uname -s)
-export CXXFLAGS="$CXXFLAGS -std=c++11"
 
 QT="5"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
+    DYNAMIC_EXT=so
     OPENMP="-DWITH_OPENMP=1"
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
     # with GCC opencv/issues/8097
     export CXXFLAGS="$CXXFLAGS -D__STDC_CONSTANT_MACROS"
+
+    export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
+    export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
+    DYNAMIC_EXT=dylib
     OPENMP=""
     QT="0"
     # The old OSX compilers don't know what to do with AVX instructions
@@ -98,6 +102,11 @@ cmake -LAH                                                                \
     -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
     -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
     -DOPENCV_SKIP_PYTHON_LOADER=1                                         \
+    -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
+    -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz.${DYNAMIC_EXT}              \
+    -DPNG_INCLUDE_DIR=${PREFIX}/include                                   \
+    -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
+    -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
     $PYTHON_SET_FLAG                                                      \
     $PYTHON_SET_EXE                                                       \
     $PYTHON_SET_INC                                                       \
