@@ -13,6 +13,8 @@ if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
 
     export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
     export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
+    
+    export LDFLAGS="${LDFLAGS} -Wl,-rpath-link,${PREFIX}/lib"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     DYNAMIC_EXT=dylib
