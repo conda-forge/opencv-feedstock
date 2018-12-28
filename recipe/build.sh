@@ -2,7 +2,7 @@
 
 set +x
 SHORT_OS_STR=$(uname -s)
-export CXXFLAGS="-std=c++11 $CXXFLAGS"
+export CXXFLAGS="$CXXFLAGS -std=c++11"
 
 QT="5"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
