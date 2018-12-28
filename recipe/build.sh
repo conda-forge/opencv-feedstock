@@ -79,7 +79,7 @@ cmake -LAH                                                                \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
-    -DOpenBLAS_LIB=$PREFIX/lib/libopenblas$SHLIB_EXT                      \
+    -DOpenBLAS_LIB=$PREFIX/lib/libopenblas${SHLIB_EXT}                    \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
@@ -110,7 +110,7 @@ cmake -LAH                                                                \
     -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
     -DOPENCV_SKIP_PYTHON_LOADER=1                                         \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
-    -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz{SHLIB_EXT                   \
+    -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
     -DPNG_INCLUDE_DIR=${PREFIX}/include                                   \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
