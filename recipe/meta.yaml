@@ -33,11 +33,12 @@ requirements:
     - cmake
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - make                         # [unix]
   host:
     - python
     - numpy
     - hdf5                         # [unix]
-    - eigen 3.2.*
+    - eigen 3.3.*
     - jasper                       # [unix]
     - zlib
     - jpeg
@@ -47,9 +48,8 @@ requirements:
     - libpng
     - openblas                     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg                       # [not win]
+    - ffmpeg 4.1.*                 # [not win]
     - qt                           # [not osx]
-
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -63,7 +63,7 @@ requirements:
     - libpng
     - openblas                     # [not win]
     - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg                       # [not win]
+    - ffmpeg 4.1.*                 # [not win]
     - qt                           # [not osx]
 
 test:
