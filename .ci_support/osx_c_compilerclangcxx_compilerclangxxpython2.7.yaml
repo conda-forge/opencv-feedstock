@@ -1,13 +1,15 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '10.9'
+build_number_decrement:
+- '0'
 c_compiler:
-- toolchain_c
+- clang
 channel_sources:
-- conda-forge,defaults
+- conda-forge/label/gcc7,defaults
 channel_targets:
-- conda-forge main
+- conda-forge gcc7
 cxx_compiler:
-- toolchain_cxx
-docker_image:
-- condaforge/linux-anvil
+- clangxx
 ffmpeg:
 - '4.0'
 harfbuzz:
@@ -24,6 +26,10 @@ libtiff:
 - 4.0.9
 libwebp:
 - 1.0.0
+macos_machine:
+- x86_64-apple-darwin13.4.0
+macos_min_version:
+- '10.9'
 numpy:
 - '1.9'
 openblas:
@@ -48,13 +54,15 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-  qt:
-    max_pin: x.x
   zlib:
     max_pin: x.x
 python:
 - '2.7'
-qt:
-- '5.6'
+zip_keys:
+- - c_compiler
+  - cxx_compiler
+  - channel_sources
+  - channel_targets
+  - build_number_decrement
 zlib:
 - '1.2'

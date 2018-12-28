@@ -6,10 +6,18 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      linux_python2.7:
-        CONFIG: linux_python2.7
-      linux_python3.6:
-        CONFIG: linux_python3.6
+      linux_c_compilergcccxx_compilergxxpython2.7:
+        CONFIG: linux_c_compilergcccxx_compilergxxpython2.7
+      linux_c_compilergcccxx_compilergxxpython3.6:
+        CONFIG: linux_c_compilergcccxx_compilergxxpython3.6
+      linux_c_compilergcccxx_compilergxxpython3.7:
+        CONFIG: linux_c_compilergcccxx_compilergxxpython3.7
+      linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython2.7:
+        CONFIG: linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython2.7
+      linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.6:
+        CONFIG: linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.6
+      linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.7:
+        CONFIG: linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.7
   steps:
   - script: |
       sudo pip install --upgrade pip
