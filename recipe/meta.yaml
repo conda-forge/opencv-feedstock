@@ -74,6 +74,8 @@ requirements:
 
 test:
     requires:
+      - {{ compiler('c') }}
+      - {{ compiler('cxx') }}
       - requests
       - certifi
     imports:
