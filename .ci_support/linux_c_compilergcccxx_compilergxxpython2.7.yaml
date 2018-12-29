@@ -10,8 +10,6 @@ cxx_compiler:
 - gxx
 docker_image:
 - condaforge/linux-anvil-comp7
-ffmpeg:
-- '4.0'
 harfbuzz:
 - '1'
 hdf5:
@@ -31,8 +29,6 @@ numpy:
 openblas:
 - 0.3.3
 pin_run_as_build:
-  ffmpeg:
-    max_pin: x.x
   harfbuzz:
     max_pin: x
   jasper:

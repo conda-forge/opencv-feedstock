@@ -10,8 +10,6 @@ channel_targets:
 - conda-forge main
 cxx_compiler:
 - toolchain_cxx
-ffmpeg:
-- '4.0'
 harfbuzz:
 - '1'
 hdf5:
@@ -35,8 +33,6 @@ numpy:
 openblas:
 - 0.3.3
 pin_run_as_build:
-  ffmpeg:
-    max_pin: x.x
   harfbuzz:
     max_pin: x
   jasper:
