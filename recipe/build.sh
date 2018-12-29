@@ -5,7 +5,6 @@ SHORT_OS_STR=$(uname -s)
 
 QT="5"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
-    DYNAMIC_EXT=so
     OPENMP="-DWITH_OPENMP=1"
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
     # with GCC opencv/issues/8097
@@ -17,7 +16,6 @@ if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     export LDFLAGS="${LDFLAGS} -Wl,-rpath-link,${PREFIX}/lib"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
-    DYNAMIC_EXT=dylib
     OPENMP=""
     QT="0"
     # The old OSX compilers don't know what to do with AVX instructions
