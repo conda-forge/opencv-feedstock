@@ -28,43 +28,43 @@ build:
 requirements:
   build:
     # Required to find ffpmeg
-    - pkg-config                   # [not win]
-    - m2-patch                     # [win]
+    - pkg-config                     # [not win]
+    - m2-patch                       # [win]
     - cmake
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - make                         # [unix]
+    - make                           # [unix]
   host:
     - python
     - numpy
-    - hdf5                         # [unix]
+    - hdf5                           # [unix]
     - eigen 3.3.*
-    - jasper                       # [unix]
+    - jasper                         # [unix]
     - zlib
     - jpeg
     - libtiff
     - libwebp
-    - harfbuzz                     # [unix]
+    - harfbuzz                       # [unix]
     - libpng
-    - openblas                     # [not win]
-    - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg 4.1.*                 # [not win]
-    - qt                           # [not osx]
+    - openblas                       # [not win]
+    - blas 1.1 {{ blas_variant }}    # [not win]
+    - ffmpeg 4.1.*                   # [not win]
+    - qt                             # [not osx]
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - hdf5                         # [unix]
-    - jasper                       # [unix]
+    - hdf5                           # [unix]
+    - jasper                         # [unix]
     - zlib
     - jpeg
     - libwebp
-    - harfbuzz                     # [unix]
+    - harfbuzz                       # [unix]
     - libtiff
     - libpng
-    - openblas                     # [not win]
-    - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg 4.1.*                 # [not win]
-    - qt                           # [not osx]
+    - openblas                       # [not win]
+    - blas 1.1 {{ blas_variant }}    # [not win]
+    - ffmpeg 4.1.*                   # [not win]
+    - qt                             # [not osx]
 
 test:
     requires:
