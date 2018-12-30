@@ -1,5 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
+build_number_decrement:
+- '1000'
 c_compiler:
 - toolchain_c
 channel_sources:
@@ -8,8 +10,6 @@ channel_targets:
 - conda-forge main
 cxx_compiler:
 - toolchain_cxx
-ffmpeg:
-- '4.0'
 harfbuzz:
 - '1'
 hdf5:
@@ -33,8 +33,6 @@ numpy:
 openblas:
 - 0.3.3
 pin_run_as_build:
-  ffmpeg:
-    max_pin: x.x
   harfbuzz:
     max_pin: x
   jasper:
@@ -56,5 +54,11 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - '3.6'
+zip_keys:
+- - c_compiler
+  - cxx_compiler
+  - channel_sources
+  - channel_targets
+  - build_number_decrement
 zlib:
 - '1.2'

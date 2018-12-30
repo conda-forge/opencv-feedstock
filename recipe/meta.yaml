@@ -19,7 +19,7 @@ source:
       - 1905-cvv_repair_build.patch
 
 build:
-  number: 201
+  number: 1202
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
@@ -28,46 +28,54 @@ build:
 requirements:
   build:
     # Required to find ffpmeg
-    - pkg-config                   # [not win]
-    - m2-patch                     # [win]
+    - pkg-config                     # [not win]
+    - m2-patch                       # [win]
     - cmake
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ cdt('mesa-libgl-devel') }}  # [linux]
+    - {{ cdt('mesa-dri-drivers') }}  # [linux]
+    - {{ cdt('libselinux') }}        # [linux]
+    - {{ cdt('libxdamage') }}        # [linux]
+    - {{ cdt('libxfixes') }}         # [linux]
+    - {{ cdt('libxxf86vm') }}        # [linux]
+    - make                           # [unix]
   host:
     - python
     - numpy
-    - hdf5                         # [unix]
-    - eigen 3.2.*
-    - jasper                       # [unix]
+    - hdf5                           # [unix]
+    - eigen 3.3.*
+    - jasper                         # [unix]
     - zlib
     - jpeg
     - libtiff
     - libwebp
-    - harfbuzz                     # [unix]
+    - harfbuzz                       # [unix]
     - libpng
-    - openblas                     # [not win]
-    - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg                       # [not win]
-    - qt                           # [not osx]
-
+    - openblas                       # [not win]
+    - blas 1.1 {{ blas_variant }}    # [not win]
+    - ffmpeg 4.1.*                   # [not win]
+    - qt                             # [not osx]
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - hdf5                         # [unix]
-    - jasper                       # [unix]
+    - hdf5                           # [unix]
+    - jasper                         # [unix]
     - zlib
     - jpeg
     - libwebp
-    - harfbuzz                     # [unix]
+    - harfbuzz                       # [unix]
     - libtiff
     - libpng
-    - openblas                     # [not win]
-    - blas 1.1 {{ blas_variant }}  # [not win]
-    - ffmpeg                       # [not win]
-    - qt                           # [not osx]
+    - openblas                       # [not win]
+    - blas 1.1 {{ blas_variant }}    # [not win]
+    - ffmpeg 4.1.*                   # [not win]
+    - qt                             # [not osx]
 
 test:
     requires:
+      - {{ compiler('c') }}
+      - {{ compiler('cxx') }}
       - requests
       - certifi
     imports:
@@ -119,7 +127,7 @@ test:
             "xobjdetect",
             "xphoto"
         ] %}
-        - g++ $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
+        - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         {% for each_opencv_lib in opencv_libs %}
