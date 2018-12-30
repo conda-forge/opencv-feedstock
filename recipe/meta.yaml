@@ -24,6 +24,9 @@ build:
   skip: true  # [win and py27]
   features:                        # [not win]
     - blas_{{ blas_variant }}      # [not win]
+  run_exports:
+    # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
+    - {{ pin_subpackage('opencv', max_pin='x.x') }}
 
 requirements:
   build:
@@ -57,19 +60,14 @@ requirements:
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
   run:
+    # Many of the c host dependencies have run exports
     - python
     - {{ pin_compatible('numpy') }}
-    - hdf5                           # [unix]
     - jasper                         # [unix]
-    - zlib
-    - jpeg
     - libwebp
     - harfbuzz                       # [unix]
-    - libtiff
-    - libpng
     - openblas                       # [not win]
     - blas 1.1 {{ blas_variant }}    # [not win]
-    - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
 
 test:
