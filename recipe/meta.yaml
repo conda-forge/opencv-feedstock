@@ -1,3 +1,25 @@
+# This recipe creates 3 packages
+# libopencv, py-opencv, opencv
+#
+# libopencv actually contains lal the files, including the site-packges
+# file needed to run opencv with python.
+#     opencv-dnn seems to change on every patch version, therefore, we pin
+#     to the patch version x.x.x
+#
+# py-opencv is a meta package that constrains the python dependencies
+#     This one is pinned to the minor version. x.x
+#
+# opencv is a backward compatible package, essentially the same as
+#     py-opencv but pinned to x.x.x
+#
+# This approach is different than the one in defaults. Default's package
+# seperates well the files generated with python dependencies, from those
+# generated without. Unfortunately, this isn't entirely supported by
+# upstream. Their hacks are quite elaborate, making it seem difficult to
+# maintain as opencv has been changing their build system recently.
+#
+# By putting all the generated files in 1 package, this makes the build process
+# much easier, at the expense of a few MBs in the 'lib' package.
 {% set version = "3.4.4" %}
 {% set blas_variant = "openblas" %}
 
@@ -24,117 +46,154 @@ build:
   skip: true  # [win and py27]
   features:                        # [not win]
     - blas_{{ blas_variant }}      # [not win]
-  run_exports:
-    # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
-    - {{ pin_subpackage('opencv', max_pin='x.x') }}
 
-requirements:
-  build:
-    # Required to find ffpmeg
-    - pkg-config                     # [not win]
-    - m2-patch                       # [win]
-    - cmake
-    - ninja
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ cdt('mesa-libgl-devel') }}  # [linux]
-    - {{ cdt('mesa-dri-drivers') }}  # [linux]
-    - {{ cdt('libselinux') }}        # [linux]
-    - {{ cdt('libxdamage') }}        # [linux]
-    - {{ cdt('libxfixes') }}         # [linux]
-    - {{ cdt('libxxf86vm') }}        # [linux]
-  host:
-    - python
-    - numpy
-    - hdf5                           # [unix]
-    - eigen 3.3.*
-    - jasper                         # [unix]
-    - zlib
-    - jpeg
-    - libtiff
-    - libwebp
-    - harfbuzz                       # [unix]
-    - libpng
-    - openblas                       # [not win]
-    - blas 1.1 {{ blas_variant }}    # [not win]
-    - ffmpeg 4.1.*                   # [not win]
-    - qt                             # [not osx]
-  run:
-    # Many of the c host dependencies have run exports
-    - python
-    - {{ pin_compatible('numpy') }}
-    - jasper                         # [unix]
-    - libwebp
-    - harfbuzz                       # [unix]
-    - openblas                       # [not win]
-    - blas 1.1 {{ blas_variant }}    # [not win]
-    - qt                             # [not osx]
-
-test:
-    requires:
-      - {{ compiler('c') }}
-      - {{ compiler('cxx') }}
-      - requests
-      - certifi
-    imports:
-      - cv2
-      - cv2.xfeatures2d
-
-    commands:
-        # Verify dynamic libraries on all systems
-        {% set win_ver_lib = version|replace(".", "") %}
-        {% set opencv_libs = [
-            "aruco",
-            "bgsegm",
-            "calib3d",
-            "ccalib",
-            "core",
-            "datasets",
-            "dnn",
-            "dpm",
-            "face",
-            "features2d",
-            "flann",
-            "fuzzy",
-            "highgui",
-            "imgcodecs",
-            "imgproc",
-            "line_descriptor",
-            "ml",
-            "objdetect",
-            "optflow",
-            "phase_unwrapping",
-            "photo",
-            "plot",
-            "reg",
-            "rgbd",
-            "saliency",
-            "shape",
-            "stereo",
-            "stitching",
-            "structured_light",
-            "superres",
-            "surface_matching",
-            "text",
-            "tracking",
-            "video",
-            "videoio",
-            "videostab",
-            "xfeatures2d",
-            "ximgproc",
-            "xobjdetect",
-            "xphoto"
-        ] %}
-        - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
-        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
+outputs:
+  - name: opencv
+    build:
+      run_exports:
+        # pin like dependencies on libopencv
+        - {{ pin_subpackage('opencv', max_pin='x.x.x') }}
+      features:                        # [not win]
+        - blas_{{ blas_variant }}      # [not win]
+    requirements:
+      run:
+        - {{ pin_subpackage('libopencv', exact=True) }}
+        - {{ pin_subpackage('py-opencv', exact=True) }}
+  - name: py-opencv
+    build:
+      run_exports:
+        # don't pin the python version so hard.
+        - {{ pin_subpackage('py-opencv', max_pin='x.x') }}
+      features:                        # [not win]
+        - blas_{{ blas_variant }}      # [not win]
+    requirements:
+      # There is no build script, but I just want it to think
+      # that it needs python and numpy at build time
+      host:
+        - python
+        - numpy
+      run:
+        - python
+        - {{ pin_compatible('numpy') }}
+        - {{ pin_subpackage('libopencv') }}
+    test:
+      requires:                        # [not win]
+        - requests                     # [not win]
+        - certifi                      # [not win]
+      imports:
+        - cv2
+        - cv2.xfeatures2d
+      commands:
+        - python cv2_ffmpeg_test.py    # [not win]
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
-        {% for each_opencv_lib in opencv_libs %}
-        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
-        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
-        {% endfor %}
-        - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
-        - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
+  - name: libopencv
+    script: build_opencv.sh    # [unix]
+    script: bld_opencv.bat     # [win]
+    build:
+      run_exports:
+        # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
+        # Things seem to change every patch versions, mostly the dnn module
+        - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
+      features:                        # [not win]
+        - blas_{{ blas_variant }}      # [not win]
+    requirements:
+      build:
+        # Required to find ffpmeg
+        - pkg-config                     # [not win]
+        - m2-patch                       # [win]
+        - cmake
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ cdt('mesa-libgl-devel') }}  # [linux]
+        - {{ cdt('mesa-dri-drivers') }}  # [linux]
+        - {{ cdt('libselinux') }}        # [linux]
+        - {{ cdt('libxdamage') }}        # [linux]
+        - {{ cdt('libxfixes') }}         # [linux]
+        - {{ cdt('libxxf86vm') }}        # [linux]
+        - make                           # [unix]
+      host:
+        - python
+        - numpy
+        - hdf5                           # [unix]
+        - eigen 3.3.*
+        - jasper                         # [unix]
+        - zlib
+        - jpeg
+        - libtiff
+        - libwebp
+        - harfbuzz                       # [unix]
+        - libpng
+        - openblas                       # [not win]
+        - blas 1.1 {{ blas_variant }}    # [not win]
+        - ffmpeg 4.1.*                   # [not win]
+        - qt                             # [not osx]
+      run:
+        # Many of the c host dependencies have run exports
+        - jasper                         # [unix]
+        - libwebp
+        - harfbuzz                       # [unix]
+        - openblas                       # [not win]
+        - blas 1.1 {{ blas_variant }}    # [not win]
+        - qt                             # [not osx]
+    test:
+      requires:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+
+      commands:
+          # Verify dynamic libraries on all systems
+          {% set win_ver_lib = version|replace(".", "") %}
+          {% set opencv_libs = [
+              "aruco",
+              "bgsegm",
+              "calib3d",
+              "ccalib",
+              "core",
+              "datasets",
+              "dnn",
+              "dpm",
+              "face",
+              "features2d",
+              "flann",
+              "fuzzy",
+              "highgui",
+              "imgcodecs",
+              "imgproc",
+              "line_descriptor",
+              "ml",
+              "objdetect",
+              "optflow",
+              "phase_unwrapping",
+              "photo",
+              "plot",
+              "reg",
+              "rgbd",
+              "saliency",
+              "shape",
+              "stereo",
+              "stitching",
+              "structured_light",
+              "superres",
+              "surface_matching",
+              "text",
+              "tracking",
+              "video",
+              "videoio",
+              "videostab",
+              "xfeatures2d",
+              "ximgproc",
+              "xobjdetect",
+              "xphoto"
+          ] %}
+          - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
+          - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                 # [unix]
+          {% for each_opencv_lib in opencv_libs %}
+          - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
+          - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
+          {% endfor %}
+          - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
+          - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
+          - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
 
 about:
   home: http://opencv.org/
