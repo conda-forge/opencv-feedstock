@@ -19,7 +19,7 @@ source:
       - 1905-cvv_repair_build.patch
 
 build:
-  number: 1202
+  number: 1203
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
@@ -31,6 +31,7 @@ requirements:
     - pkg-config                     # [not win]
     - m2-patch                       # [win]
     - cmake
+    - ninja
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
@@ -39,7 +40,6 @@ requirements:
     - {{ cdt('libxdamage') }}        # [linux]
     - {{ cdt('libxfixes') }}         # [linux]
     - {{ cdt('libxxf86vm') }}        # [linux]
-    - make                           # [unix]
   host:
     - python
     - numpy

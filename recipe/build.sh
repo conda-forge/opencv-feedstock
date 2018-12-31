@@ -80,7 +80,7 @@ PYTHON_UNSET_INSTALL="-DOPENCV_PYTHON${PY_UNSET_MAJOR}_INSTALL_PATH=${SP_DIR}"
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
-cmake -LAH                                                                \
+cmake -LAH -G "Ninja"                                                     \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
@@ -141,4 +141,4 @@ cmake -LAH                                                                \
     $PYTHON_UNSET_INSTALL                                                 \
     ..
 
-make install -j${CPU_COUNT} VERBOSE=1
+ninja install -v

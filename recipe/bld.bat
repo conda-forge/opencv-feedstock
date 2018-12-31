@@ -28,7 +28,7 @@ set UNIX_LIBRARY_LIB=%LIBRARY_LIB:\=/%
 set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
-cmake -LAH -G "NMake Makefiles"                                                     ^
+cmake -LAH -G "Ninja"                                                               ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
     -DCMAKE_PREFIX_PATH=%UNIX_LIBRARY_PREFIX%                                       ^
@@ -83,7 +83,7 @@ cmake -LAH -G "NMake Makefiles"                                                 
     ..
 if errorlevel 1 exit 1
 
-cmake --build . --target INSTALL --config Release
+cmake --build . --target install --config Release
 if errorlevel 1 exit 1
 
 if "%ARCH%" == "32" ( set "OPENCV_ARCH=86")
