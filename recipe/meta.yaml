@@ -31,6 +31,7 @@ requirements:
     - pkg-config                     # [not win]
     - m2-patch                       # [win]
     - cmake
+    - ninja
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
@@ -39,7 +40,6 @@ requirements:
     - {{ cdt('libxdamage') }}        # [linux]
     - {{ cdt('libxfixes') }}         # [linux]
     - {{ cdt('libxxf86vm') }}        # [linux]
-    - make                           # [unix]
   host:
     - python
     - numpy
