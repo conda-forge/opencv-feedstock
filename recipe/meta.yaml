@@ -75,7 +75,7 @@ outputs:
       run:
         - python
         - {{ pin_compatible('numpy') }}
-        - {{ pin_subpackage('libopencv') }}
+        - {{ pin_subpackage('libopencv', exact=True) }}
     test:
       requires:                        # [not win]
         - requests                     # [not win]
@@ -135,12 +135,13 @@ outputs:
         - openblas                       # [not win]
         - blas 1.1 {{ blas_variant }}    # [not win]
         - qt                             # [not osx]
+
     test:
       requires:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-
       commands:
+        - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
           # Verify dynamic libraries on all systems
           {% set win_ver_lib = version|replace(".", "") %}
           {% set opencv_libs = [
@@ -185,15 +186,14 @@ outputs:
               "xobjdetect",
               "xphoto"
           ] %}
-          - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
-          - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                 # [unix]
-          {% for each_opencv_lib in opencv_libs %}
-          - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
-          - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
-          {% endfor %}
-          - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
-          - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
-          - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
+        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                 # [unix]
+        {% for each_opencv_lib in opencv_libs %}
+        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
+        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
+        {% endfor %}
+        - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
+        - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
 
 about:
   home: http://opencv.org/
