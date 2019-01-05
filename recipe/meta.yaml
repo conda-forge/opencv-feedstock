@@ -1,7 +1,7 @@
 # This recipe creates 3 packages
 # libopencv, py-opencv, opencv
 #
-# libopencv actually contains lal the files, including the site-packges
+# libopencv actually contains all the files, including the site-packages
 # file needed to run opencv with python.
 #     opencv-dnn seems to change on every patch version, therefore, we pin
 #     to the patch version x.x.x
@@ -127,6 +127,9 @@ outputs:
         - libpng
         - openblas                       # [not win]
         - blas 1.1 {{ blas_variant }}    # [not win]
+        # required because at time of writing ffmpeg was pinned to 4.0
+        # remove when it gets increased to 4.1
+        # https://github.com/conda-forge/conda-forge-pinning-feedstock/blob/master/recipe/conda_build_config.yaml
         - ffmpeg 4.1.*                   # [not win]
         - qt                             # [not osx]
       run:
