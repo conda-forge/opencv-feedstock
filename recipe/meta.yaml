@@ -140,8 +140,10 @@ outputs:
       requires:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+      files:
+        - test.cpp
       commands:
-        - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
+        - $CXX test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
           # Verify dynamic libraries on all systems
           {% set win_ver_lib = version|replace(".", "") %}
           {% set opencv_libs = [
