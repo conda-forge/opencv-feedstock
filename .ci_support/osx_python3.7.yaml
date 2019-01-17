@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 harfbuzz:
-- '1'
+- '2'
 hdf5:
 - 1.10.4
 jasper:

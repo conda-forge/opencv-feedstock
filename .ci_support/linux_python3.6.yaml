@@ -9,7 +9,7 @@ cxx_compiler:
 docker_image:
 - condaforge/linux-anvil-comp7
 harfbuzz:
-- '1'
+- '2'
 hdf5:
 - 1.10.4
 jasper:
