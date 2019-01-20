@@ -143,4 +143,4 @@ cmake -LAH -G "Ninja"                                                     \
     $PYTHON_UNSET_INSTALL                                                 \
     ..
 
-ninja install -v
+ninja install -v -j1
