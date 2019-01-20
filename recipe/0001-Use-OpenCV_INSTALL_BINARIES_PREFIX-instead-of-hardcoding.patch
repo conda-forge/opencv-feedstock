@@ -1,0 +1,22 @@
+--- work/cmake/templates/OpenCVConfig.root-WIN32.cmake.in.orig	2018-08-06 23:16:54.000000000 +0100
++++ work/cmake/templates/OpenCVConfig.root-WIN32.cmake.in	2018-08-06 23:18:37.000000000 +0100
+@@ -64,15 +64,15 @@
+   endif()
+   set(candidates)
+   if(OpenCV_STATIC)
+-    list(APPEND candidates "${OpenCV_ARCH}/${OpenCV_RUNTIME}/staticlib")
++    list(APPEND candidates "${OpenCV_INSTALL_BINARIES_PREFIX}staticlib")
+   endif()
+   if(OpenCV_CUDA)
+-    list(APPEND candidates "gpu/${OpenCV_ARCH}/${OpenCV_RUNTIME}/lib")
++    list(APPEND candidates "gpu/${OpenCV_INSTALL_BINARIES_PREFIX}lib")
+   endif()
+   if(OpenCV_CUDA AND OpenCV_STATIC)
+-    list(APPEND candidates "gpu/${OpenCV_ARCH}/${OpenCV_RUNTIME}/staticlib")
++    list(APPEND candidates "gpu/${OpenCV_INSTALL_BINARIES_PREFIX}staticlib")
+   endif()
+-  list(APPEND candidates "${OpenCV_ARCH}/${OpenCV_RUNTIME}/lib")
++  list(APPEND candidates "${OpenCV_INSTALL_BINARIES_PREFIX}lib")
+   foreach(c ${candidates})
+     set(p "${OpenCV_CONFIG_PATH}/${c}")
+     if(EXISTS "${p}/OpenCVConfig.cmake")

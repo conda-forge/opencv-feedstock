@@ -1,37 +1,27 @@
 @echo ON
-setlocal enabledelayedexpansion
-
-
-if "%PY3K%" == "0" (
-    echo "Copying stdint.h for windows"
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\calib3d\include\stdint.h
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\videoio\include\stdint.h
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\highgui\include\stdint.h
-)
+setlocal EnableDelayedExpansion
 
 mkdir build
-cd build
+pushd build
 
-for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
-   set "PY_MAJOR=%%a"
-   set "PY_MINOR=%%b"
+if "%vc%" == "9" (
+  echo "Copying stdint.h for windows"
+  copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\calib3d\include\stdint.h
+  copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\videoio\include\stdint.h
+  copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\highgui\include\stdint.h
 )
-set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
-
 
 :: CMake/OpenCV like Unix-style paths for some reason.
-set UNIX_PREFIX=%PREFIX:\=/%
-set UNIX_LIBRARY_PREFIX=%LIBRARY_PREFIX:\=/%
-set UNIX_LIBRARY_BIN=%LIBRARY_BIN:\=/%
-set UNIX_LIBRARY_INC=%LIBRARY_INC:\=/%
-set UNIX_LIBRARY_LIB=%LIBRARY_LIB:\=/%
-set UNIX_SP_DIR=%SP_DIR:\=/%
-set UNIX_SRC_DIR=%SRC_DIR:\=/%
+set U_PREFIX=%PREFIX:\=/%
+set U_LIBRARY_PREFIX=%LIBRARY_PREFIX:\=/%
+set U_LIBRARY_BIN=%LIBRARY_BIN:\=/%
+set U_SP_DIR=%SP_DIR:\=/%
+set U_SRC_DIR=%SRC_DIR:\=/%
 
-cmake -LAH -G "Ninja"                                                               ^
+cmake .. -LAH -G "NMake Makefiles JOM"                                              ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
-    -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
-    -DCMAKE_PREFIX_PATH=%UNIX_LIBRARY_PREFIX%                                       ^
+    -DCMAKE_INSTALL_PREFIX=%U_LIBRARY_PREFIX%                                       ^
+    -DOpenCV_INSTALL_BINARIES_PREFIX=""                                             ^
     -DWITH_EIGEN=1                                                                  ^
     -DBUILD_TESTS=0                                                                 ^
     -DBUILD_DOCS=0                                                                  ^
@@ -41,61 +31,27 @@ cmake -LAH -G "Ninja"                                                           
     -DBUILD_TIFF=0                                                                  ^
     -DBUILD_PNG=0                                                                   ^
     -DBUILD_OPENEXR=1                                                               ^
-    -DBUILD_JASPER=1                                                                ^
+    -DBUILD_JASPER=0                                                                ^
     -DBUILD_JPEG=0                                                                  ^
     -DWITH_CUDA=0                                                                   ^
     -DWITH_OPENCL=0                                                                 ^
     -DWITH_OPENNI=0                                                                 ^
     -DWITH_FFMPEG=1                                                                 ^
-    -DWITH_GSTREAMER=0                                                              ^
+    -DWITH_MATLAB=0                                                                 ^
     -DWITH_VTK=0                                                                    ^
-    -DWITH_QT=5                                                                     ^
+    -DWITH_GTK=0                                                                    ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
-    -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
-    -DEXECUTABLE_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                     ^
-    -DLIBRARY_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                        ^
-    -DPYTHON_EXECUTABLE=""                                                          ^
-    -DPYTHON_INCLUDE_DIR=""                                                         ^
-    -DPYTHON_PACKAGES_PATH=""                                                       ^
-    -DPYTHON_LIBRARY=""                                                             ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=""                                                  ^
-    -DBUILD_opencv_python2=0                                                        ^
-    -DPYTHON2_EXECUTABLE=""                                                         ^
-    -DPYTHON2_INCLUDE_DIR=""                                                        ^
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                                 ^
-    -DPYTHON2_LIBRARY=""                                                            ^
-    -DPYTHON2_PACKAGES_PATH=""                                                      ^
-    -DOPENCV_PYTHON2_INSTALL_PATH=""                                                ^
+    -DOPENCV_EXTRA_MODULES_PATH=%U_SRC_DIR%/opencv_contrib-%PKG_VERSION%/modules    ^
+    -DEXECUTABLE_OUTPUT_PATH=%U_LIBRARY_BIN%                                        ^
+    -DLIBRARY_OUTPUT_PATH=%U_LIBRARY_BIN%                                           ^
     -DBUILD_opencv_python3=0                                                        ^
-    -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
-    -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
-    -DPYTHON_PACKAGES_PATH=%UNIX_SP_DIR%                                            ^
-    -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                    ^
-    -DBUILD_opencv_python3=1                                                        ^
-    -DOPENCV_SKIP_PYTHON_LOADER=1                                                   ^
-    -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
-    -DPYTHON3_INCLUDE_DIR=%UNIX_PREFIX%/include                                     ^
-    -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                   ^
-    -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
-    -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
-    -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
-    ..
-if errorlevel 1 exit 1
+    -DBUILD_opencv_python2=0
 
-cmake --build . --target install --config Release
-if errorlevel 1 exit 1
-
-if "%ARCH%" == "32" ( set "OPENCV_ARCH=86")
-if "%ARCH%" == "64" ( set "OPENCV_ARCH=64")
-
-robocopy %LIBRARY_PREFIX%\x%OPENCV_ARCH%\vc%VS_MAJOR%\ %LIBRARY_PREFIX%\ *.* /E
-if %ERRORLEVEL% GEQ 8 exit 1
-
-rem Remove files installed in the wrong locations
-rd /S /Q "%LIBRARY_BIN%\Release"
-rd /S /Q "%LIBRARY_PREFIX%\x%OPENCV_ARCH%"
-rem RD is a bit horrible and doesn't return an errorcode properly, so
-rem the errorcode from robocopy is propagated (which is non-zero), so we
-rem forcibly exit 0 here
-exit 0
+if errorlevel 1 exit /b 1
+cmake --build . --target all --config Release
+if errorlevel 1 exit /b 1
+echo cmake --build . --target all --config Release ok
+:: The DLLs get built directly in the bin folder, cmake install in install-libopenv will handle this.
+del /s /q %LIBRARY_BIN%\opencv*.dll
+echo exiting the lot OK.
+exit /b 0
