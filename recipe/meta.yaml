@@ -240,3 +240,13 @@ about:
     It has a modular structure,which means that the package includes several shared or static libraries.
   doc_url: http://docs.opencv.org/
   doc_source_url: https://github.com/opencv/opencv/tree/master/doc
+
+extra:
+  recipe-maintainers:
+    - jakirkham
+    - msarahan
+    - patricksnape
+    - zym1010
+    - hajapy
+    - ocefpaf
+    - hmaarrfk
