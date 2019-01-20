@@ -121,6 +121,8 @@ cmake -LAH -G "Ninja"                                                     \
     -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
     -DOPENCV_SKIP_PYTHON_LOADER=1                                         \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
+    -D_qt5gui_OPENGL_INCLUDE_DIR=${PREFIX}/include                        \
+    -DOPENGL_INCLUDE_DIR=${PREFIX}/include                                \
     -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
     -DPNG_INCLUDE_DIR=${PREFIX}/include                                   \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
