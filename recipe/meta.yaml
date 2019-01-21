@@ -19,7 +19,7 @@ source:
     folder: opencv_contrib-{{ version }}
 
 build:
-  number: 1
+  number: 1204
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
   ignore_run_exports:
