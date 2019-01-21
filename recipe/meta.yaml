@@ -20,6 +20,8 @@ source:
 
 build:
   number: 1204
+  #features:                        # [not win]
+  #  - blas_{{ blas_variant }}      # [not win]
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
 
@@ -34,6 +36,8 @@ requirements:
     - jom                   # [win]
     - cmake
     - make                  # [unix]
+    # Use ninja on windows for parallel builds
+    - ninja                 # [win]
   host:
     - hdf5                  # [unix]
     - eigen
@@ -46,12 +50,16 @@ requirements:
     - libpng
     - ffmpeg                # [not win]
     - msinttypes            # [win and py<35]
+    #- openblas                       # [not win]
+    #- blas 1.1 {{ blas_variant }}    # [not win]
     # protobuf is bundled and incompatible with headers from the latest.
     # conda-forge doesn't have a version 3.5.1 compiled with gcc 7
 
 outputs:
   - name: opencv
     build:
+      #features:                        # [not win]
+      #  - blas_{{ blas_variant }}      # [not win]
       run_exports:
         # pin to exact version
         # https://abi-laboratory.pro/tracker/timeline/opencv/
@@ -74,6 +82,8 @@ outputs:
     script: install-py-opencv.sh   # [not win]
     script: install-py-opencv.bat  # [win]
     build:
+      #features:                        # [not win]
+      #  - blas_{{ blas_variant }}      # [not win]
       run_exports:
         # more liberal that libopencv
         - {{ pin_subpackage('py-opencv', max_pin='x.x') }}
@@ -113,6 +123,8 @@ outputs:
         - libpng
         - ffmpeg                # [not win]
         - msinttypes            # [win and py<35]
+        #- openblas                       # [not win]
+        #- blas 1.1 {{ blas_variant }}    # [not win]
         - python
         - numpy =1.11*
       run:
@@ -130,6 +142,8 @@ outputs:
     script: install-libopencv.sh   # [unix]
     script: install-libopencv.bat  # [win]
     build:
+      #features:                        # [not win]
+      #  - blas_{{ blas_variant }}      # [not win]
       run_exports:
         # pin to exact version
         # https://abi-laboratory.pro/tracker/timeline/opencv/
@@ -157,6 +171,8 @@ outputs:
         - libpng
         - ffmpeg                # [not win]
         - msinttypes            # [win and py<35]
+        #- openblas                       # [not win]
+        #- blas 1.1 {{ blas_variant }}    # [not win]
       run:
         - harfbuzz                       # [not win]
         - jasper                         # [unix]
