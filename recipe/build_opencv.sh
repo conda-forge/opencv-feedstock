@@ -25,24 +25,7 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     # a successful call to cmake without the parameter specified
     # The default flag as of OpenCV 3.4.4 are:
     # CPU_DISPATCH:STRING=SSE4_1;SSE4_2;AVX;FP16;AVX2;AVX512_SKX
-    CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;AVX;FP16"
-fi
-
-CMAKE_TOOLCHAIN_CMD_FLAGS=""
-if [ "$c_compiler" = clang ]; then
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_AR=${AR}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_LINKER=${LD}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_NM=${NM}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_RANLIB=${RANLIB}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_STRIP=${STRIP}"
-elif [ "$c_compiler" = gcc ]; then
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_AR=${AR}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_LINKER=${LD}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_NM=${NM}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_OBJCOPY=${OBJCOPY}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_OBJDUMP=${OBJDUMP}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_RANLIB=${RANLIB}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_STRIP=${STRIP}"
+    # CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;AVX;FP16"
 fi
 
 mkdir -p build
@@ -85,8 +68,13 @@ cmake -LAH -G "Ninja"                                                     \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
-    $CMAKE_TOOLCHAIN_CMD_FLAGS                                            \
-    $CPU_DISPATCH_FLAGS                                                   \
+    -DCMAKE_AR=${AR}"                                                     \
+    -DCMAKE_LINKER=${LD}"                                                 \
+    -DCMAKE_NM=${NM}"                                                     \
+    -DCMAKE_OBJCOPY=${OBJCOPY}"                                           \
+    -DCMAKE_OBJDUMP=${OBJDUMP}"                                           \
+    -DCMAKE_RANLIB=${RANLIB}"                                             \
+    -DCMAKE_STRIP=${STRIP}"                                               \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
