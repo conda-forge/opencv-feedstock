@@ -164,6 +164,8 @@ outputs:
         - ffmpeg                # [not win]
         - msinttypes            # [win and py<35]
         - libprotobuf =3.5.2    # [not win]
+      run:
+        - harfbuzz              # [not win]
 
     test:
       requires:
