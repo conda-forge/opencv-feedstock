@@ -22,8 +22,6 @@ build:
   number: 1204
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
-  ignore_run_exports:
-    - libprotobuf
 
 requirements:
   build:
@@ -49,7 +47,7 @@ requirements:
     - ffmpeg                # [not win]
     - msinttypes            # [win and py<35]
     # protobuf is bundled and incompatible with headers from the latest.
-    - libprotobuf =3.5.2    # [not win]
+    # conda-forge doesn't have a version 3.5.1 compiled with gcc 7
 
 outputs:
   - name: opencv
@@ -87,7 +85,6 @@ outputs:
         - jasper
         - jpeg
         - libpng
-        - libprotobuf
         - libtiff
         - zlib
     requirements:
@@ -116,7 +113,6 @@ outputs:
         - libpng
         - ffmpeg                # [not win]
         - msinttypes            # [win and py<35]
-        - libprotobuf =3.5.2    # [not win]
         - python
         - numpy =1.11*
       run:
@@ -134,8 +130,6 @@ outputs:
     script: install-libopencv.sh   # [unix]
     script: install-libopencv.bat  # [win]
     build:
-      ignore_run_exports:
-        - libprotobuf
       run_exports:
         # pin to exact version
         # https://abi-laboratory.pro/tracker/timeline/opencv/
@@ -163,7 +157,6 @@ outputs:
         - libpng
         - ffmpeg                # [not win]
         - msinttypes            # [win and py<35]
-        - libprotobuf =3.5.2    # [not win]
       run:
         - harfbuzz                       # [not win]
         - jasper                         # [unix]
