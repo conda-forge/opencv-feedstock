@@ -2,10 +2,10 @@
 
 set -ex
 
-if [[ ! $(uname) =~ M* ]]; then
+if [[ ! "$(uname)" =~ "M*" ]]; then
   function cygpath()
   {
-    echo "$1"
+    echo "$2"
   }
 fi
 
