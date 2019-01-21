@@ -165,7 +165,12 @@ outputs:
         - msinttypes            # [win and py<35]
         - libprotobuf =3.5.2    # [not win]
       run:
-        - harfbuzz              # [not win]
+        - harfbuzz                       # [not win]
+        - jasper                         # [unix]
+        - libwebp
+        #- openblas                       # [not win]
+        #- blas 1.1 {{ blas_variant }}    # [not win]
+        - qt                             # [not osx]
 
     test:
       requires:
