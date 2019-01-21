@@ -68,13 +68,13 @@ cmake -LAH -G "Ninja"                                                     \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
-    -DCMAKE_AR=${AR}"                                                     \
-    -DCMAKE_LINKER=${LD}"                                                 \
-    -DCMAKE_NM=${NM}"                                                     \
-    -DCMAKE_OBJCOPY=${OBJCOPY}"                                           \
-    -DCMAKE_OBJDUMP=${OBJDUMP}"                                           \
-    -DCMAKE_RANLIB=${RANLIB}"                                             \
-    -DCMAKE_STRIP=${STRIP}"                                               \
+    -DCMAKE_AR=${AR}                                                      \
+    -DCMAKE_LINKER=${LD}                                                  \
+    -DCMAKE_NM=${NM}                                                      \
+    -DCMAKE_OBJCOPY=${OBJCOPY}                                            \
+    -DCMAKE_OBJDUMP=${OBJDUMP}                                            \
+    -DCMAKE_RANLIB=${RANLIB}                                              \
+    -DCMAKE_STRIP=${STRIP}                                                \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
     -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
