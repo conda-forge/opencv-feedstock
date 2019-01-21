@@ -5,8 +5,8 @@ set -ex
 # The 2nd Python 3 variant does of course cause us problems that we hack
 # around in install-py-opencv.sh, still better than building all of libopencv
 # 6 times instead of twice (3 * python, 2 * hdf5).
-conda create -yp ${PWD}/py2 --override-channels -c https://repo.continuum.io/pkgs/main python=2.7 numpy=1.11 || exit 1
-conda create -yp ${PWD}/py3 --override-channels -c https://repo.continuum.io/pkgs/main -c local python=3.7 numpy=1.11 || exit 1
+conda create -yp ${PWD}/py2 python=2.7 numpy=1.11 || exit 1
+conda create -yp ${PWD}/py3 python=3.7 numpy=1.11 || exit 1
 
 # Make sure shared libs are not found:
 if [[ ${target_platform} =~ .*linux.* ]]; then
