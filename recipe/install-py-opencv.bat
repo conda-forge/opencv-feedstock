@@ -66,7 +66,9 @@ for %%p in (!PY_VERS!) do (
       -DOPENCV_EXTRA_MODULES_PATH=!U_SRC_DIR!/opencv_contrib-%PKG_VERSION%/modules    ^
       -DEXECUTABLE_OUTPUT_PATH=!U_LIBRARY_BIN!                                        ^
       -DLIBRARY_OUTPUT_PATH=!U_LIBRARY_BIN!                                           ^
+      -DOPENCV_SKIP_PYTHON_LOADER=1                                                   ^
       -DBUILD_opencv_python2=1                                                        ^
+      -DOPENCV_PYTHON2_INSTALL_PATH=!U_SRC_DIR!/py2.7/Lib/site-packages               ^
       -DPYTHON2_EXECUTABLE=!U_SRC_DIR!/py2.7/python.exe                               ^
       -DPYTHON2_INCLUDE_DIR=!U_SRC_DIR!/py2.7/include                                 ^
       -DPYTHON2_NUMPY_INCLUDE_DIRS=!U_SRC_DIR!/py2.7/Lib/site-packages/numpy/core/include ^
@@ -106,8 +108,10 @@ for %%p in (!PY_VERS!) do (
       -DOPENCV_EXTRA_MODULES_PATH=!U_SRC_DIR!/opencv_contrib-%PKG_VERSION%/modules    ^
       -DEXECUTABLE_OUTPUT_PATH=!U_LIBRARY_BIN!                                        ^
       -DLIBRARY_OUTPUT_PATH=!U_LIBRARY_BIN!                                           ^
+      -DOPENCV_SKIP_PYTHON_LOADER=1                                                   ^
       -DBUILD_opencv_python2=0                                                        ^
       -DBUILD_opencv_python3=1                                                        ^
+      -DOPENCV_PYTHON3_INSTALL_PATH=!U_SRC_DIR!/py%%p/Lib/site-packages               ^
       -DPYTHON3_EXECUTABLE=!U_SRC_DIR!/py%%p/python.exe                               ^
       -DPYTHON3_INCLUDE_DIR=!U_SRC_DIR!/py%%p/include                                 ^
       -DPYTHON3_NUMPY_INCLUDE_DIRS=!U_SRC_DIR!/py%%p/Lib/site-packages/numpy/core/include ^

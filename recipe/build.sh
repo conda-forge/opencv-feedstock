@@ -60,7 +60,9 @@ if [[ ! -f Makefile ]]; then
     -DBUILD_OPENEXR=1                                                       \
     -DBUILD_JASPER=0                                                        \
     -DBUILD_JPEG=0                                                          \
+    -DWITH_V4L=0                                                            \
     -DWITH_CUDA=0                                                           \
+    -DWITH_CUBLAS=0                                                         \
     -DWITH_OPENCL=0                                                         \
     -DWITH_OPENNI=0                                                         \
     -DWITH_FFMPEG=1                                                         \
@@ -68,13 +70,16 @@ if [[ ! -f Makefile ]]; then
     -DWITH_VTK=0                                                            \
     -DWITH_GTK=0                                                            \
     -DINSTALL_C_EXAMPLES=0                                                  \
+    -DOPENCV_SKIP_PYTHON_LOADER=1                                           \
     -DBUILD_opencv_python2=1                                                \
+    -DOPENCV_PYTHON2_INSTALL_PATH=${SRC_DIR}/py2/lib/python2.7/site-packages/  \
     -DPYTHON2_EXECUTABLE=${SRC_DIR}/py2/bin/python                          \
     -DPYTHON2_INCLUDE_DIR=${SRC_DIR}/py2/include/python2.7                  \
     -DPYTHON2_NUMPY_INCLUDE_DIRS=${SRC_DIR}/py2/lib/python2.7/site-packages/numpy/core/include   \
     -DPYTHON2_LIBRARY=${SRC_DIR}/py2/lib/libpython2.7m.${DYNAMIC_EXT}       \
     -DPYTHON2_PACKAGES_PATH=${SRC_DIR}/py2/lib/python2.7/site-packages      \
     -DBUILD_opencv_python3=1                                                \
+    -DOPENCV_PYTHON3_INSTALL_PATH=${SRC_DIR}/py2/lib/python3.7/site-packages/  \
     -DPYTHON3_EXECUTABLE=${SRC_DIR}/py3/bin/python                          \
     -DPYTHON3_INCLUDE_DIR=${SRC_DIR}/py3/include/python3.7m                 \
     -DPYTHON3_NUMPY_INCLUDE_DIRS=${SRC_DIR}/py3/lib/python3.7/site-packages/numpy/core/include   \

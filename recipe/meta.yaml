@@ -1,22 +1,22 @@
-{% set version = "3.4.2" %}
+{% set version = "3.4.4" %}
 
 package:
   name: opencv-suite
   version: {{ version }}
 
 source:
-  # - git_url: https://github.com/opencv/opencv
-  #   git_tag: {{ version }}
-  - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
-    fn: opencv-{{ version }}.zip
+  - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
+    fn: opencv-{{ version }}.tar.gz
+    sha256: a35b00a71d77b484f73ec485c65fe56c7a6fa48acd5ce55c197aef2e13c78746
     patches:
-      - 0001-Use-OpenCV_INSTALL_BINARIES_PREFIX-instead-of-hardcoding.patch
-      - 0002-Fix-protobuf-Parser-call.patch
-    sha256: 9405c5d7d8ab1696e98631d0c92125816356ec366a73c417bdcc4d74783b42aa
+      - 13232-fix_numThreadsMax_for_OpenMP.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 45a52764ebd2558fa0b7fd8dc47379b37dd0956d912abbf7c786228374fdf60d
+    sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
+    sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
     folder: opencv_contrib-{{ version }}
+    patches:
+      - 1905-cvv_repair_build.patch
 
 build:
   number: 1204
