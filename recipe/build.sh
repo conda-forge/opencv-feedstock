@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -ex
 # We install two local pythons so that we can build everything at once.
 # The 2nd Python 3 variant does of course cause us problems that we hack
 # around in install-py-opencv.sh, still better than building all of libopencv
