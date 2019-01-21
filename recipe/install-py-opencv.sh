@@ -26,7 +26,7 @@ if [[ ${PY3K} == 1 ]]; then
     if [[ ${target_platform} =~ win* ]]; then
       export CONDA_SUBDIR=win-${ARCH}
     fi
-    conda install -y python=${PY_VER} numpy=1.11 --override-channels -c local -c https://repo.continuum.io/pkgs/main
+    conda install -y python=${PY_VER} numpy=1.11
     pushd build/modules/python3
       LC_ALL=C find ./ -type f -exec sed -i'' -e "s/python3.7/python${PY_VER}/g" {} \;
       LC_ALL=C find ./ -type f -exec sed -i'' -e "s/37m/${PY_VER//./}m/g" {} \;
