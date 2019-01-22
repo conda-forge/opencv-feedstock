@@ -1,11 +1,14 @@
 #!/bin/bash
 
-# We install two local pythons so that we can build everything at once.
-# The 2nd Python 3 variant does of course cause us problems that we hack
-# around in install-py-opencv.sh, still better than building all of libopencv
-# 6 times instead of twice (3 * python, 2 * hdf5).
-conda create -yp ${PWD}/py2 --override-channels -c https://repo.continuum.io/pkgs/main python=2.7 numpy=1.11 || exit 1
-conda create -yp ${PWD}/py3 --override-channels -c https://repo.continuum.io/pkgs/main -c local python=3.7 numpy=1.11 || exit 1
+PYTHON_INTERPS=""
+for _PY_VER in 2.7 3.6 3.7; do
+  conda create -yp ${PWD}/py${_PY_VER} --override-channels -c https://repo.continuum.io/pkgs/main python=${_PY_VER} numpy=1.11 pylint flake8 || exit 1
+  if [[ ${PYTHON_INTERPS} ]]; then
+    PYTHON_INTERPS="${PYTHON_INTERPS};${PWD}/py${_PY_VER}/bin/python"
+  else
+    PYTHON_INTERPS="${PWD}/py${_PY_VER}/bin/python"
+  fi
+done
 
 # Make sure shared libs are not found:
 if [[ ${target_platform} =~ .*linux.* ]]; then
@@ -71,18 +74,11 @@ if [[ ! -f Makefile ]]; then
     -DWITH_VTK=0                                                            \
     -DWITH_GTK=0                                                            \
     -DINSTALL_C_EXAMPLES=0                                                  \
-    -DBUILD_opencv_python2=1                                                \
-    -DPYTHON2_EXECUTABLE=${SRC_DIR}/py2/bin/python                          \
-    -DPYTHON2_INCLUDE_DIR=${SRC_DIR}/py2/include/python2.7                  \
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=${SRC_DIR}/py2/lib/python2.7/site-packages/numpy/core/include   \
-    -DPYTHON2_LIBRARY=${SRC_DIR}/py2/lib/libpython2.7m.${DYNAMIC_EXT}       \
-    -DPYTHON2_PACKAGES_PATH=${SRC_DIR}/py2/lib/python2.7/site-packages      \
-    -DBUILD_opencv_python3=1                                                \
-    -DPYTHON3_EXECUTABLE=${SRC_DIR}/py3/bin/python                          \
-    -DPYTHON3_INCLUDE_DIR=${SRC_DIR}/py3/include/python3.7m                 \
-    -DPYTHON3_NUMPY_INCLUDE_DIRS=${SRC_DIR}/py3/lib/python3.7/site-packages/numpy/core/include   \
-    -DPYTHON3_LIBRARY=${SRC_DIR}/py3/lib/libpython3.7m.${DYNAMIC_EXT}       \
-    -DPYTHON3_PACKAGES_PATH=${SRC_DIR}/py3/lib/python3.7/site-packages      \
+    -DPYTHON_DEFAULT_EXECUTABLE="${SYS_PYTHON}"                             \
+    -DPYTHON_NATIVE_INTERPRETERS="${PYTHON_INTERPS}"                        \
+    -DINSTALL_PYTHON_EXAMPLES=1                                             \
+    -DENABLE_PYLINT=1                                                       \
+    -DENABLE_FLAKE8=1                                                       \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-${PKG_VERSION}/modules"  \
     "${CMAKE_EXTRA_ARGS[@]}"
 

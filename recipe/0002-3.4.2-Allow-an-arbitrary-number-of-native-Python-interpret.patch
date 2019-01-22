@@ -1,0 +1,129 @@
+From 05417c5b03cf69c9d5d49f19a67bab708ea73c4d Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Mon, 21 Jan 2019 22:40:25 -0600
+Subject: [PATCH] Allow an arbitrary number of native Python interpreters
+
+---
+ cmake/OpenCVDetectPython.cmake        | 60 ++++++++++++++++++++-------
+ modules/python/CMakeLists.txt         |  8 +++-
+ modules/python/pythonX/CMakeLists.txt | 16 +++++++
+ 3 files changed, 68 insertions(+), 16 deletions(-)
+ create mode 100644 modules/python/pythonX/CMakeLists.txt
+
+diff --git a/cmake/OpenCVDetectPython.cmake b/cmake/OpenCVDetectPython.cmake
+index b6c7a2535c..6ab355bdb2 100644
+--- a/cmake/OpenCVDetectPython.cmake
++++ b/cmake/OpenCVDetectPython.cmake
+@@ -235,22 +235,54 @@ if(OPENCV_PYTHON_SKIP_DETECTION)
+   return()
+ endif()
+ 
+-find_python(2.7 "${MIN_VER_PYTHON2}" PYTHON2_LIBRARY PYTHON2_INCLUDE_DIR
+-    PYTHON2INTERP_FOUND PYTHON2_EXECUTABLE PYTHON2_VERSION_STRING
+-    PYTHON2_VERSION_MAJOR PYTHON2_VERSION_MINOR PYTHON2LIBS_FOUND
+-    PYTHON2LIBS_VERSION_STRING PYTHON2_LIBRARIES PYTHON2_LIBRARY
+-    PYTHON2_DEBUG_LIBRARIES PYTHON2_LIBRARY_DEBUG PYTHON2_INCLUDE_PATH
+-    PYTHON2_INCLUDE_DIR PYTHON2_INCLUDE_DIR2 PYTHON2_PACKAGES_PATH
+-    PYTHON2_NUMPY_INCLUDE_DIRS PYTHON2_NUMPY_VERSION)
++set(PYTHON_NATIVE_INTERPRETERS "" CACHE FILEPATH "List of paths to Python interpreters (not cross-compatible)")
+ 
+-find_python(3.4 "${MIN_VER_PYTHON3}" PYTHON3_LIBRARY PYTHON3_INCLUDE_DIR
+-    PYTHON3INTERP_FOUND PYTHON3_EXECUTABLE PYTHON3_VERSION_STRING
+-    PYTHON3_VERSION_MAJOR PYTHON3_VERSION_MINOR PYTHON3LIBS_FOUND
+-    PYTHON3LIBS_VERSION_STRING PYTHON3_LIBRARIES PYTHON3_LIBRARY
+-    PYTHON3_DEBUG_LIBRARIES PYTHON3_LIBRARY_DEBUG PYTHON3_INCLUDE_PATH
+-    PYTHON3_INCLUDE_DIR PYTHON3_INCLUDE_DIR2 PYTHON3_PACKAGES_PATH
+-    PYTHON3_NUMPY_INCLUDE_DIRS PYTHON3_NUMPY_VERSION)
++# set(PYTHON_INFIXES "")
++if(PYTHON_NATIVE_INTERPRETERS)
++  foreach(py_interp ${PYTHON_NATIVE_INTERPRETERS})
++    # message(STATUS py_interp=${py_interp})
++    execute_process(COMMAND ${py_interp} -c "import sys; sys.stdout.write('%s_%s_%s' % (sys.version_info.major,sys.version_info.minor,sys.version_info.micro))" OUTPUT_VARIABLE v)
++    # message(STATUS pyver=${v})
++    list(APPEND PYTHON_INFIXES ${v})
++    set(PYTHON${v}_EXECUTABLE ${py_interp})
++    find_python("" "" PYTHON${v}_LIBRARY, PYTHON${v}_INCLUDE_DIR
++        PYTHON${v}INTERP_FOUND PYTHON${v}_EXECUTABLE PYTHON${v}_VERSION_STRING
++        PYTHON${v}_VERSION_MAJOR PYTHON${v}_VERSION_MINOR PYTHON${v}LIBS_FOUND
++        PYTHON${v}LIBS_VERSION_STRING PYTHON${v}_LIBRARIES PYTHON${v}_LIBRARY
++        PYTHON${v}_DEBUG_LIBRARIES PYTHON${v}_LIBRARY_DEBUG PYTHON${v}_INCLUDE_PATH
++        PYTHON${v}_INCLUDE_DIR PYTHON${v}_INCLUDE_DIR2 PYTHON${v}_PACKAGES_PATH
++        PYTHON${v}_NUMPY_INCLUDE_DIRS PYTHON${v}_NUMPY_VERSION)
++    # message(STATUS PYTHON${v}_PACKAGES_PATH=${PYTHON${v}_PACKAGES_PATH})
++  endforeach()
++else(PYTHON_NATIVE_INTERPRETERS)
++  find_python(2.7 "${MIN_VER_PYTHON2}" PYTHON2_LIBRARY PYTHON2_INCLUDE_DIR
++      PYTHON2INTERP_FOUND PYTHON2_EXECUTABLE PYTHON2_VERSION_STRING
++      PYTHON2_VERSION_MAJOR PYTHON2_VERSION_MINOR PYTHON2LIBS_FOUND
++      PYTHON2LIBS_VERSION_STRING PYTHON2_LIBRARIES PYTHON2_LIBRARY
++      PYTHON2_DEBUG_LIBRARIES PYTHON2_LIBRARY_DEBUG PYTHON2_INCLUDE_PATH
++      PYTHON2_INCLUDE_DIR PYTHON2_INCLUDE_DIR2 PYTHON2_PACKAGES_PATH
++      PYTHON2_NUMPY_INCLUDE_DIRS PYTHON2_NUMPY_VERSION)
++  if(PYTHON2INTERP_FOUND)
++    list(APPEND PYTHON_INFIXES 2)
++  endif()
++
++
++  find_python(3.4 "${MIN_VER_PYTHON3}" PYTHON3_LIBRARY PYTHON3_INCLUDE_DIR
++      PYTHON3INTERP_FOUND PYTHON3_EXECUTABLE PYTHON3_VERSION_STRING
++      PYTHON3_VERSION_MAJOR PYTHON3_VERSION_MINOR PYTHON3LIBS_FOUND
++      PYTHON3LIBS_VERSION_STRING PYTHON3_LIBRARIES PYTHON3_LIBRARY
++      PYTHON3_DEBUG_LIBRARIES PYTHON3_LIBRARY_DEBUG PYTHON3_INCLUDE_PATH
++      PYTHON3_INCLUDE_DIR PYTHON3_INCLUDE_DIR2 PYTHON3_PACKAGES_PATH
++      PYTHON3_NUMPY_INCLUDE_DIRS PYTHON3_NUMPY_VERSION)
++
++  if(PYTHON3INTERP_FOUND)
++    list(APPEND PYTHON_INFIXES 3)
++  endif()
++endif(PYTHON_NATIVE_INTERPRETERS)
+ 
++# foreach(infix ${PYTHON_INFIXES})
++#   message(STATUS infix=${infix})
++# endforeach()
+ 
+ if(PYTHON_DEFAULT_EXECUTABLE)
+     set(PYTHON_DEFAULT_AVAILABLE "TRUE")
+diff --git a/modules/python/CMakeLists.txt b/modules/python/CMakeLists.txt
+index bcaa7d957a..74252bc5f5 100644
+--- a/modules/python/CMakeLists.txt
++++ b/modules/python/CMakeLists.txt
+@@ -27,8 +27,12 @@ if(__disable_python2 AND __disable_python3)
+   return()
+ endif()
+ 
+-add_subdirectory(python2)
+-add_subdirectory(python3)
++if(NOT PYTHON_NATIVE_INTERPRETERS)
++  add_subdirectory(python2)
++  add_subdirectory(python3)
++else(NOT PYTHON_NATIVE_INTERPRETERS)
++  add_subdirectory(pythonX)
++endif(NOT PYTHON_NATIVE_INTERPRETERS)
+ 
+ else()  # standalone build
+ 
+diff --git a/modules/python/pythonX/CMakeLists.txt b/modules/python/pythonX/CMakeLists.txt
+new file mode 100644
+index 0000000000..3f3bed19a4
+--- /dev/null
++++ b/modules/python/pythonX/CMakeLists.txt
+@@ -0,0 +1,16 @@
++foreach(py_infix ${PYTHON_INFIXES})
++  if(NOT PYTHON${py_infix}_INCLUDE_PATH OR NOT PYTHON${py_infix}_NUMPY_INCLUDE_DIRS)
++    ocv_module_disable(python${py_infix})
++  endif()
++
++  set(the_description "The python${py_infix} bindings")
++  set(MODULE_NAME python${py_infix})
++  set(MODULE_INSTALL_SUBDIR python${py_infix})
++
++  set(PYTHON PYTHON${py_infix})
++
++  include(../common.cmake)
++
++  unset(MODULE_NAME)
++  unset(MODULE_INSTALL_SUBDIR)
++endforeach()
+-- 
+2.17.2 (Apple Git-113)
+

@@ -1,25 +1,27 @@
-{% set version = "3.4.2" %}
+{% set version = "3.4.5" %}
 
 package:
   name: opencv-suite
   version: {{ version }}
 
 source:
-  # - git_url: https://github.com/opencv/opencv
-  #   git_tag: {{ version }}
-  - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
-    fn: opencv-{{ version }}.zip
+  - git_url: https://github.com/opencv/opencv
+    git_tag: {{ version }}
+  # - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
+  #   fn: opencv-{{ version }}.zip
+  #   sha256: 9405c5d7d8ab1696e98631d0c92125816356ec366a73c417bdcc4d74783b42aa
     patches:
-      - 0001-Use-OpenCV_INSTALL_BINARIES_PREFIX-instead-of-hardcoding.patch
-      - 0002-Fix-protobuf-Parser-call.patch
-    sha256: 9405c5d7d8ab1696e98631d0c92125816356ec366a73c417bdcc4d74783b42aa
+      - 0001-Use-OpenCV_INSTALL_BINARIES_PREFIX-instead-of-hardco.patch
+      # - 0002-3.4.2-Allow-an-arbitrary-number-of-native-Python-interpret.patch
+      - 0002-3.4.5-Allow-an-arbitrary-number-of-native-Python-interpret.patch
+      # - 0002-Allow-an-arbitrary-number-of-native-Python-interpret.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 45a52764ebd2558fa0b7fd8dc47379b37dd0956d912abbf7c786228374fdf60d
+    sha256: 8f73d029887c726fed89c69a2b0fcb1d098099fcd81c1070e1af3b452669fbe2
     folder: opencv_contrib-{{ version }}
 
 build:
-  number: 1
+  number: 0
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
   ignore_run_exports:
