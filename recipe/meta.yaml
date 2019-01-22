@@ -183,6 +183,7 @@ outputs:
 
     test:
       requires:
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - cmake
       files:
