@@ -79,7 +79,7 @@ if [[ ! -f Makefile ]]; then
     -DPYTHON2_LIBRARY=${SRC_DIR}/py2/lib/libpython2.7m.${DYNAMIC_EXT}       \
     -DPYTHON2_PACKAGES_PATH=${SRC_DIR}/py2/lib/python2.7/site-packages      \
     -DBUILD_opencv_python3=1                                                \
-    -DOPENCV_PYTHON3_INSTALL_PATH=${SRC_DIR}/py2/lib/python3.7/site-packages/  \
+    -DOPENCV_PYTHON3_INSTALL_PATH=${SRC_DIR}/py3/lib/python3.7/site-packages/  \
     -DPYTHON3_EXECUTABLE=${SRC_DIR}/py3/bin/python                          \
     -DPYTHON3_INCLUDE_DIR=${SRC_DIR}/py3/include/python3.7m                 \
     -DPYTHON3_NUMPY_INCLUDE_DIRS=${SRC_DIR}/py3/lib/python3.7/site-packages/numpy/core/include   \
