@@ -12,7 +12,7 @@ jobs:
     matrix:
       win_c_compilervs2015cxx_compilervs2015:
         CONFIG: win_c_compilervs2015cxx_compilervs2015
-        CONDA_BLD_PATH: D:\\bld\\
+        CONDA_BLD_PATH: C:\\bld\\
         UPLOAD_PACKAGES: False
   steps:
     # TODO: Fast finish on azure pipelines?
