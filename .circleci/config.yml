@@ -1,11 +1,15 @@
+# This file was generated automatically from conda-smithy. To update this configuration,
+# update the conda-forge.yml and/or the recipe/meta.yaml.
+# -*- mode: yaml -*-
+
 version: 2
 
 jobs:
-  build_linux_c_compilergcccxx_compilergxxpython2.7:
+  build_linux_target_platformlinux-64:
     working_directory: ~/test
     machine: true
     environment:
-      - CONFIG: "linux_c_compilergcccxx_compilergxxpython2.7"
+      - CONFIG: "linux_target_platformlinux-64"
     steps:
       - checkout
       - run:
@@ -14,15 +18,16 @@ jobs:
             ./.circleci/fast_finish_ci_pr_build.sh
             ./.circleci/checkout_merge_commit.sh
       - run:
-          command: docker pull condaforge/linux-anvil
+          command: docker pull condaforge/linux-anvil-comp7
       - run:
           # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
           command: ./.circleci/run_docker_build.sh
-  build_linux_c_compilergcccxx_compilergxxpython3.6:
+  build_osx_target_platformosx-64:
     working_directory: ~/test
-    machine: true
+    macos:
+      xcode: "9.0"
     environment:
-      - CONFIG: "linux_c_compilergcccxx_compilergxxpython3.6"
+      - CONFIG: "osx_target_platformosx-64"
     steps:
       - checkout
       - run:
@@ -31,86 +36,12 @@ jobs:
             ./.circleci/fast_finish_ci_pr_build.sh
             ./.circleci/checkout_merge_commit.sh
       - run:
-          command: docker pull condaforge/linux-anvil
-      - run:
           # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
-          command: ./.circleci/run_docker_build.sh
-  build_linux_c_compilergcccxx_compilergxxpython3.7:
-    working_directory: ~/test
-    machine: true
-    environment:
-      - CONFIG: "linux_c_compilergcccxx_compilergxxpython3.7"
-    steps:
-      - checkout
-      - run:
-          name: Fast finish outdated PRs and merge PRs
-          command: |
-            ./.circleci/fast_finish_ci_pr_build.sh
-            ./.circleci/checkout_merge_commit.sh
-      - run:
-          command: docker pull condaforge/linux-anvil
-      - run:
-          # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
-          command: ./.circleci/run_docker_build.sh
-  build_linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython2.7:
-    working_directory: ~/test
-    machine: true
-    environment:
-      - CONFIG: "linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython2.7"
-    steps:
-      - checkout
-      - run:
-          name: Fast finish outdated PRs and merge PRs
-          command: |
-            ./.circleci/fast_finish_ci_pr_build.sh
-            ./.circleci/checkout_merge_commit.sh
-      - run:
-          command: docker pull condaforge/linux-anvil
-      - run:
-          # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
-          command: ./.circleci/run_docker_build.sh
-  build_linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.6:
-    working_directory: ~/test
-    machine: true
-    environment:
-      - CONFIG: "linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.6"
-    steps:
-      - checkout
-      - run:
-          name: Fast finish outdated PRs and merge PRs
-          command: |
-            ./.circleci/fast_finish_ci_pr_build.sh
-            ./.circleci/checkout_merge_commit.sh
-      - run:
-          command: docker pull condaforge/linux-anvil
-      - run:
-          # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
-          command: ./.circleci/run_docker_build.sh
-  build_linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.7:
-    working_directory: ~/test
-    machine: true
-    environment:
-      - CONFIG: "linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.7"
-    steps:
-      - checkout
-      - run:
-          name: Fast finish outdated PRs and merge PRs
-          command: |
-            ./.circleci/fast_finish_ci_pr_build.sh
-            ./.circleci/checkout_merge_commit.sh
-      - run:
-          command: docker pull condaforge/linux-anvil
-      - run:
-          # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
-          command: ./.circleci/run_docker_build.sh
+          command: ./.circleci/run_osx_build.sh
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_linux_c_compilergcccxx_compilergxxpython2.7
-      - build_linux_c_compilergcccxx_compilergxxpython3.6
-      - build_linux_c_compilergcccxx_compilergxxpython3.7
-      - build_linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython2.7
-      - build_linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.6
-      - build_linux_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.7
+      - build_linux_target_platformlinux-64
+      - build_osx_target_platformosx-64

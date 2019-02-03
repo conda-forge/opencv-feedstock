@@ -1,7 +1,9 @@
-About opencv
-============
+<!--
+# -*- mode: jinja -*-
+-->
 
-[![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
+About opencv-suite
+==================
 
 Home: http://opencv.org/
 
@@ -11,13 +13,14 @@ Feedstock license: BSD 3-Clause
 
 Summary: Computer vision and machine learning software library.
 
+OpenCV (Open Source Computer Vision Library) includes several hundreds of computer vision algorithms.
+It has a modular structure,which means that the package includes several shared or static libraries.
 
 
 Current build status
 ====================
 
-[![Linux](https://img.shields.io/circleci/project/github/conda-forge/opencv-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/opencv-feedstock)
-[![OSX](https://img.shields.io/travis/conda-forge/opencv-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/opencv-feedstock)
+[![Linux,OSX](https://img.shields.io/circleci/project/github/conda-forge/opencv-feedstock/master.svg?label=Linux,OSX)](https://circleci.com/gh/conda-forge/opencv-feedstock)
 [![Windows](https://img.shields.io/appveyor/ci/conda-forge/opencv-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/opencv-feedstock/branch/master)
 
 Current release info
@@ -25,32 +28,36 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libopencv-green.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-opencv-green.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-py--opencv-green.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) |
 
-Installing opencv
-=================
+Installing opencv-suite
+=======================
 
-Installing `opencv` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `opencv-suite` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `opencv` can be installed with:
+Once the `conda-forge` channel has been enabled, `libopencv, opencv, py-opencv` can be installed with:
 
 ```
-conda install opencv
+conda install libopencv opencv py-opencv
 ```
 
-It is possible to list all of the versions of `opencv` available on your platform with:
+It is possible to list all of the versions of `libopencv` available on your platform with:
 
 ```
-conda search opencv --channel conda-forge
+conda search libopencv --channel conda-forge
 ```
 
 
 About conda-forge
 =================
+
+[![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
 
 conda-forge is a community-led conda channel of installable packages.
 In order to provide high-quality builds, the process has been automated into the
@@ -85,17 +92,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating opencv-feedstock
-=========================
+Updating opencv-suite-feedstock
+===============================
 
-If you would like to improve the opencv recipe or build a new
+If you would like to improve the opencv-suite recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/opencv-feedstock are
+Note that all branches in the conda-forge/opencv-suite-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.

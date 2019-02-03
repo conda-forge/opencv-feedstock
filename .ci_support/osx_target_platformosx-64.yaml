@@ -1,17 +1,21 @@
-build_number_decrement:
-- '1000'
+MACOSX_DEPLOYMENT_TARGET:
+- '10.9'
+VERBOSE_CM:
+- VERBOSE=1
 c_compiler:
-- toolchain_c
+- clang
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- toolchain_cxx
-docker_image:
-- condaforge/linux-anvil
+- clangxx
+ffmpeg:
+- '4.0'
+freetype:
+- 2.9.1
 harfbuzz:
-- '1'
+- '2'
 hdf5:
 - 1.10.4
 jasper:
@@ -24,11 +28,15 @@ libtiff:
 - 4.0.9
 libwebp:
 - 1.0.0
-numpy:
-- '1.9'
-openblas:
-- 0.3.3
+macos_machine:
+- x86_64-apple-darwin13.4.0
+macos_min_version:
+- '10.9'
 pin_run_as_build:
+  ffmpeg:
+    max_pin: x.x
+  freetype:
+    max_pin: x
   harfbuzz:
     max_pin: x
   jasper:
@@ -41,25 +49,16 @@ pin_run_as_build:
     max_pin: x
   libwebp:
     max_pin: x.x
-  openblas:
-    max_pin: x.x.x
   python:
     min_pin: x.x
-    max_pin: x.x
-  qt:
     max_pin: x.x
   zlib:
     max_pin: x.x
 python:
+- '2.7'
+- '3.6'
 - '3.7'
-qt:
-- '5.6'
-zip_keys:
-- - c_compiler
-  - cxx_compiler
-  - channel_sources
-  - channel_targets
-  - docker_image
-  - build_number_decrement
+target_platform:
+- osx-64
 zlib:
 - '1.2'
