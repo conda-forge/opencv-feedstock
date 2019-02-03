@@ -186,6 +186,8 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - cmake
+        - pkg-config            # [unix]
+        - make                  # [unix]
       files:
         - test-cmake/CMakeLists.txt
         - test-cmake/DisplayImage.cpp
