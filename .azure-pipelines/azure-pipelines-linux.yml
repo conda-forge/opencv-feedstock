@@ -3,7 +3,7 @@
 # -*- mode: yaml -*-
 
 jobs:
-- job: linux_64
+- job: linux
   pool:
     vmImage: ubuntu-16.04
   timeoutInMinutes: 240
@@ -28,10 +28,12 @@ jobs:
   # configure qemu binfmt-misc running.  This allows us to run docker containers 
   # embedded qemu-static
   - script: |
-      docker run --rm --privileged multiarch/qemu-user-static:register
+      docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
       ls /proc/sys/fs/binfmt_misc/
     condition: not(startsWith(variables['CONFIG'], 'linux_64'))
     displayName: Configure binfmt_misc
 
   - script: .azure-pipelines/run_docker_build.sh
     displayName: Run docker build
+    env:
+      BINSTAR_TOKEN: $(BINSTAR_TOKEN)
