@@ -1,17 +1,15 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
-build_number_decrement:
-- '1000'
 c_compiler:
-- toolchain_c
+- clang
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- toolchain_cxx
+- clangxx
 harfbuzz:
-- '1'
+- '2'
 hdf5:
 - 1.10.4
 jasper:
@@ -54,11 +52,5 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - '2.7'
-zip_keys:
-- - c_compiler
-  - cxx_compiler
-  - channel_sources
-  - channel_targets
-  - build_number_decrement
 zlib:
 - '1.2'
