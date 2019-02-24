@@ -9,8 +9,7 @@
 # py-opencv is a meta package that constrains the python dependencies
 #     This one is pinned to the minor version. x.x
 #
-# opencv is a backward compatible package, essentially the same as
-#     py-opencv but pinned to x.x.x
+# opencv is a backward compatible package, with no pinnings
 #
 # This approach is different than the one in defaults. Default's package
 # seperates well the files generated with python dependencies, from those
