@@ -1,8 +1,30 @@
+# This recipe creates 3 packages
+# libopencv, py-opencv, opencv
+#
+# libopencv actually contains all the files, including the site-packages
+# file needed to run opencv with python.
+#     opencv-dnn seems to change on every patch version, therefore, we pin
+#     to the patch version x.x.x
+#
+# py-opencv is a meta package that constrains the python dependencies
+#     This one is pinned to the minor version. x.x
+#
+# opencv is a backward compatible package, essentially the same as
+#     py-opencv but pinned to x.x.x
+#
+# This approach is different than the one in defaults. Default's package
+# seperates well the files generated with python dependencies, from those
+# generated without. Unfortunately, this isn't entirely supported by
+# upstream. Their hacks are quite elaborate, making it seem difficult to
+# maintain as opencv has been changing their build system recently.
+#
+# By putting all the generated files in 1 package, this makes the build process
+# much easier, at the expense of a few MBs in the 'lib' package.
 {% set version = "3.4.4" %}
 {% set blas_variant = "openblas" %}
 
 package:
-  name: opencv
+  name: libopencv
   version: {{ version }}
 
 source:
@@ -24,6 +46,10 @@ build:
   skip: true  # [win and py27]
   features:                        # [not win]
     - blas_{{ blas_variant }}      # [not win]
+  run_exports:
+    # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
+    # Things seem to change every patch versions, mostly the dnn module
+    - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
 
 requirements:
   build:
@@ -76,11 +102,6 @@ test:
     requires:
       - {{ compiler('c') }}
       - {{ compiler('cxx') }}
-      - requests
-      - certifi
-    imports:
-      - cv2
-      - cv2.xfeatures2d
 
     commands:
         # Verify dynamic libraries on all systems
@@ -139,6 +160,47 @@ test:
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
+
+outputs:
+  - name: libopencv
+  - name: opencv
+    build:
+      features:                        # [not win]
+        - blas_{{ blas_variant }}      # [not win]
+    requirements:
+      run:
+        - {{ pin_subpackage('libopencv', exact=True) }}
+        - {{ pin_subpackage('py-opencv', exact=True) }}
+  - name: py-opencv
+    build:
+      run_exports:
+        # don't pin the python version so hard.
+        - {{ pin_subpackage('py-opencv', max_pin='x.x') }}
+      features:                        # [not win]
+        - blas_{{ blas_variant }}      # [not win]
+    requirements:
+      # There is no build script, but I just want it to think
+      # that it needs python and numpy at build time
+      host:
+        - python
+        - numpy
+      run:
+        - python
+        - {{ pin_compatible('numpy') }}
+        - {{ pin_subpackage('libopencv', exact=True) }}
+    test:
+      requires:                        # [not win]
+        - requests                     # [not win]
+        - certifi                      # [not win]
+      imports:
+        - cv2
+        - cv2.xfeatures2d
+      files:
+        - cv2_ffmpeg_test.py
+      commands:
+        - python cv2_ffmpeg_test.py    # [not win]
+        - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
+
 
 about:
   home: http://opencv.org/
