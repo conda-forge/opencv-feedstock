@@ -1,23 +1,24 @@
+# This file was generated automatically from conda-smithy. To update this configuration,
+# update the conda-forge.yml and/or the recipe/meta.yaml.
+# -*- mode: yaml -*-
+
 jobs:
-- job: osx_64
+- job: osx
   pool:
     vmImage: macOS-10.13
   timeoutInMinutes: 240
   strategy:
     maxParallel: 8
     matrix:
-      osx_c_compilerclangcxx_compilerclangxxpython2.7:
-        CONFIG: osx_c_compilerclangcxx_compilerclangxxpython2.7
-      osx_c_compilerclangcxx_compilerclangxxpython3.6:
-        CONFIG: osx_c_compilerclangcxx_compilerclangxxpython3.6
-      osx_c_compilerclangcxx_compilerclangxxpython3.7:
-        CONFIG: osx_c_compilerclangcxx_compilerclangxxpython3.7
-      osx_c_compilertoolchain_ccxx_compilertoolchain_cxxpython2.7:
-        CONFIG: osx_c_compilertoolchain_ccxx_compilertoolchain_cxxpython2.7
-      osx_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.6:
-        CONFIG: osx_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.6
-      osx_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.7:
-        CONFIG: osx_c_compilertoolchain_ccxx_compilertoolchain_cxxpython3.7
+      osx_python2.7:
+        CONFIG: osx_python2.7
+        UPLOAD_PACKAGES: False
+      osx_python3.6:
+        CONFIG: osx_python3.6
+        UPLOAD_PACKAGES: False
+      osx_python3.7:
+        CONFIG: osx_python3.7
+        UPLOAD_PACKAGES: False
 
   steps:
   # TODO: Fast finish on azure pipelines?
@@ -46,7 +47,7 @@ jobs:
   - script: |
       export PATH=$(Build.StagingDirectory)/miniconda/bin:$PATH
       set -x -e
-      conda install -n base -c conda-forge --quiet --yes conda-forge-ci-setup=2
+      conda install -n base -c conda-forge --quiet --yes conda-forge-ci-setup=2 conda-build
     displayName: 'Add conda-forge-ci-setup=2'
 
   - script: |
@@ -81,4 +82,11 @@ jobs:
       conda build ./recipe -m ./.ci_support/${CONFIG}.yaml --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
     displayName: Build recipe
 
-  
+  - script: |
+      export PATH=$(Build.StagingDirectory)/miniconda/bin:$PATH
+      set -x -e
+      upload_package ./ ./recipe ./.ci_support/${CONFIG}.yaml
+    displayName: Upload recipe
+    env:
+      BINSTAR_TOKEN: $(BINSTAR_TOKEN)
+    condition: not(eq(variables['UPLOAD_PACKAGES'], 'False'))

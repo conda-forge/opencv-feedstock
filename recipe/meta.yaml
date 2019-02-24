@@ -19,7 +19,7 @@ source:
       - 1905-cvv_repair_build.patch
 
 build:
-  number: 1203
+  number: 1204
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
@@ -127,6 +127,8 @@ test:
             "xobjdetect",
             "xphoto"
         ] %}
+        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
+        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
         - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
