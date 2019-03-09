@@ -1,4 +1,4 @@
-{% set version = "3.4.4" %}
+{% set version = "4.0.0" %}
 {% set blas_variant = "openblas" %}
 
 package:
@@ -8,18 +8,17 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: a35b00a71d77b484f73ec485c65fe56c7a6fa48acd5ce55c197aef2e13c78746
-    patches:
-      - 13232-fix_numThreadsMax_for_OpenMP.patch
+    sha256: 3787b3cc7b21bba1441819cb00c636911a846c0392ddf6211d398040a1e4886c
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
+    sha256: 4fb0681414df4baedce6e3f4a01318d6f4fcde6ee14854d761fd4e397a397763
     folder: opencv_contrib
     patches:
-      - 1905-cvv_repair_build.patch
+      # https://github.com/opencv/opencv_contrib/pull/1915
+      - 1915-Fix_build_error.patch
 
 build:
-  number: 1204
+  number: 200
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
@@ -78,6 +77,7 @@ test:
       - {{ compiler('cxx') }}
       - requests
       - certifi
+      - pkg-config                 # [not win]
     imports:
       - cv2
       - cv2.xfeatures2d
@@ -129,7 +129,8 @@ test:
         ] %}
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
-        - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
+        - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
+        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test   # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         {% for each_opencv_lib in opencv_libs %}

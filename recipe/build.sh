@@ -12,7 +12,7 @@ if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
 
     export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
     export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
-    
+
     export LDFLAGS="${LDFLAGS} -Wl,-rpath-link,${PREFIX}/lib"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
@@ -86,6 +86,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
     $CMAKE_TOOLCHAIN_CMD_FLAGS                                            \
+    -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
     $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
     -DOpenBLAS=1                                                          \
