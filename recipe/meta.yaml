@@ -18,7 +18,6 @@ build:
   number: 201
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
-  features:                        # [not win]
 
 requirements:
   build:
@@ -36,8 +35,6 @@ requirements:
     - {{ cdt('libxfixes') }}         # [linux]
     - {{ cdt('libxxf86vm') }}        # [linux]
   host:
-    - libblas
-    - libcblas
     - python
     - numpy
     - hdf5                           # [unix]
