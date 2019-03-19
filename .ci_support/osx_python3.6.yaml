@@ -20,10 +20,8 @@ jasper:
 - 1.900.1
 jpeg:
 - '9'
-libblas:
-- 3.8 *netlib
-libcblas:
-- 3.8 *netlib
+liblapacke:
+- 3.8.0 *netlib
 libpng:
 - 1.6.35
 libtiff:
