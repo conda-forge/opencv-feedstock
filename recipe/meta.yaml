@@ -48,6 +48,7 @@ requirements:
     - libpng
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
+    - liblapacke
   run:
     - python
     - {{ pin_compatible('numpy') }}
