@@ -89,9 +89,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
     $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
-    -DOpenBLAS=1                                                          \
-    -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
-    -DOpenBLAS_LIB=$PREFIX/lib/libopenblas${SHLIB_EXT}                    \
+    -DLAPACK_LIBRARIES="-lblas -lcblas -llapack -llapacke"                \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
