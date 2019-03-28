@@ -15,11 +15,9 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 200
+  number: 201
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
-  features:                        # [not win]
-    - blas_{{ blas_variant }}      # [not win]
 
 requirements:
   build:
@@ -48,10 +46,9 @@ requirements:
     - libwebp
     - harfbuzz                       # [unix]
     - libpng
-    - openblas                       # [not win]
-    - blas 1.1 {{ blas_variant }}    # [not win]
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
+    - liblapacke
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -63,8 +60,6 @@ requirements:
     - harfbuzz                       # [unix]
     - libtiff
     - libpng
-    - openblas                       # [not win]
-    - blas 1.1 {{ blas_variant }}    # [not win]
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
 

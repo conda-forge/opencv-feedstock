@@ -8,6 +8,8 @@ cxx_compiler:
 - vs2015
 jpeg:
 - '9'
+liblapacke:
+- 3.8.0 *netlib
 libpng:
 - 1.6.35
 libtiff:
