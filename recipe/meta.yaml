@@ -115,6 +115,8 @@ test:
             "tracking",
             "video",
             "videoio",
+            "videoio_gstreamer",  # [linux]
+            "videoio_ffmpeg",     # [linux]
             "videostab",
             "xfeatures2d",
             "ximgproc",
