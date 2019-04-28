@@ -12,6 +12,10 @@ cxx_compiler_version:
 - '7'
 docker_image:
 - condaforge/linux-anvil-comp7
+gst_plugins_base:
+- 1.14.4
+gstreamer:
+- 1.14.4
 harfbuzz:
 - '2'
 hdf5:
@@ -53,6 +57,6 @@ pin_run_as_build:
 python:
 - '3.6'
 qt:
-- '5.6'
+- '5.9'
 zlib:
 - '1.2'
