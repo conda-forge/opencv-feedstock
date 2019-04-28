@@ -115,8 +115,6 @@ test:
             "tracking",
             "video",
             "videoio",
-            "videoio_gstreamer",  # [linux]
-            "videoio_ffmpeg",     # [linux]
             "videostab",
             "xfeatures2d",
             "ximgproc",
@@ -136,6 +134,8 @@ test:
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
+        - test -f $PREFIX/lib/libopencv_videoio_gstreamer${SHLIB_EXT}  # [linux]
+        - test -f $PREFIX/lib/libopencv_videoio_ffmpeg${SHLIB_EXT}     # [linux]
 
 about:
   home: http://opencv.org/
