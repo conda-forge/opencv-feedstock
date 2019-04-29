@@ -101,7 +101,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
     -DBUILD_JPEG=0                                                        \
-    -DWITH_V4L=0                                                          \
+    -DWITH_V4L=1                                                          \
     -DWITH_CUDA=0                                                         \
     -DWITH_CUBLAS=0                                                       \
     -DWITH_OPENCL=0                                                       \
