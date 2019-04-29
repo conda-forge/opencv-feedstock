@@ -9,6 +9,8 @@ source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
     sha256: 8f6e4ab393d81d72caae6e78bd0fd6956117ec9f006fba55fcdb88caf62989b7
+    patches:
+        - 14446-support-very-old-v4l2.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: e7d775cc0b87b04308823ca518b11b34cc12907a59af4ccdaf64419c1ba5e682
