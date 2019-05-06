@@ -49,7 +49,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_GSTREAMER=0                                                              ^
     -DWITH_VTK=0                                                                    ^
-    -DWITH_QT=5                                                                     ^
+    -DWITH_QT=0                                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DEXECUTABLE_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                     ^

@@ -3,7 +3,8 @@
 set +x
 SHORT_OS_STR=$(uname -s)
 
-QT="5"
+# QT="5"
+QT="0"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     OPENMP="-DWITH_OPENMP=1"
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG

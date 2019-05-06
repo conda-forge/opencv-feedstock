@@ -47,8 +47,8 @@ requirements:
     - harfbuzz                       # [unix]
     - libpng
     - ffmpeg 4.1.*                   # [not win]
-    - qt                             # [not osx]
     - liblapacke
+    # - qt                             # [not osx]
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -61,7 +61,7 @@ requirements:
     - libtiff
     - libpng
     - ffmpeg 4.1.*                   # [not win]
-    - qt                             # [not osx]
+    # - qt                             # [not osx]
 
 test:
     requires:
