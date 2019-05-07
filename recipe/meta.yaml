@@ -19,7 +19,6 @@ source:
       - 1905-cvv_repair_build.patch
 
 build:
-  #
   number: 1205
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
