@@ -87,12 +87,17 @@ cmake -LAH -G "Ninja"                                                     \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
+    -DOPENCV_DOWNLOAD_TRIES=1\;2\;3                                       \
+    -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT\;30\;TIMEOUT\;300\;SHOW_PROGRESS \
     $CMAKE_TOOLCHAIN_CMD_FLAGS                                            \
     -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
+    -DENABLE_CONFIG_VERIFICATION=ON                                       \
     $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
-    -DLAPACK_LIBRARIES="-llapacke -llapack -lcblas -lblas"                \
     -DWITH_LAPACK=1                                                       \
+    -DLAPACK_LAPACKE_H=lapacke.h                                          \
+    -DLAPACK_CBLAS_H=cblas.h                                              \
+    -DLAPACK_LIBRARIES=lapack\;cblas                                      \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
@@ -107,11 +112,16 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_CUDA=0                                                         \
     -DWITH_CUBLAS=0                                                       \
     -DWITH_OPENCL=0                                                       \
+    -DWITH_OPENCLAMDFFT=0                                                 \
+    -DWITH_OPENCLAMDBLAS=0                                                \
+    -DWITH_OPENCL_D3D11_NV=0                                              \
+    -DWITH_1394=0                                                         \
     -DWITH_OPENNI=0                                                       \
     -DWITH_FFMPEG=1                                                       \
     -DWITH_GSTREAMER=0                                                    \
     -DWITH_MATLAB=0                                                       \
     -DWITH_VTK=0                                                          \
+    -DWITH_GTK=0                                                          \
     -DWITH_QT=$QT                                                         \
     -DWITH_GPHOTO2=0                                                      \
     -DINSTALL_C_EXAMPLES=0                                                \

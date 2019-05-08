@@ -32,7 +32,15 @@ cmake -LAH -G "Ninja"                                                           
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
     -DCMAKE_PREFIX_PATH=%UNIX_LIBRARY_PREFIX%                                       ^
+    -DOPENCV_DOWNLOAD_TRIES=1;2;3                                                   ^
+    -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT;30;TIMEOUT;300;SHOW_PROGRESS        ^
+    -DWITH_LAPACK=1                                                                 ^
+    -DLAPACK_INCLUDE_DIR=%UNIX_LIBRARY_INC%                                         ^
+    -DLAPACK_LAPACKE_H=lapacke.h                                                    ^
+    -DLAPACK_CBLAS_H=cblas.h                                                        ^
+    -DLAPACK_LIBRARIES=%UNIX_LIBRARY_LIB%/lapack.lib;%UNIX_LIBRARY_LIB%/cblas.lib   ^
     -DWITH_EIGEN=1                                                                  ^
+    -DENABLE_CONFIG_VERIFICATION=ON                                                 ^
     -DBUILD_TESTS=0                                                                 ^
     -DBUILD_DOCS=0                                                                  ^
     -DBUILD_PERF_TESTS=0                                                            ^
@@ -45,6 +53,10 @@ cmake -LAH -G "Ninja"                                                           
     -DBUILD_JPEG=0                                                                  ^
     -DWITH_CUDA=0                                                                   ^
     -DWITH_OPENCL=0                                                                 ^
+    -DWITH_OPENCLAMDFFT=0                                                           ^
+    -DWITH_OPENCLAMDBLAS=0                                                          ^
+    -DWITH_OPENCL_D3D11_NV=0                                                        ^
+    -DWITH_1394=0                                                                   ^
     -DWITH_OPENNI=0                                                                 ^
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_GSTREAMER=0                                                              ^
