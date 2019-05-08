@@ -134,6 +134,8 @@ test:
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
+        - python -c "import cv2; 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [unix]
+        - python -c "import cv2; 'Unknown' in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [unix]
 
 about:
   home: http://opencv.org/
