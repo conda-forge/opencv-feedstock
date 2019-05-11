@@ -4,6 +4,7 @@ set +x
 SHORT_OS_STR=$(uname -s)
 
 QT="5"
+V4L="1"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     OPENMP="-DWITH_OPENMP=1"
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
@@ -18,6 +19,7 @@ fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
     QT="0"
+    V4L="0"
     # The old OSX compilers don't know what to do with AVX instructions
     # Therefore, we specify what CPU dispatch operations we want explicitely
     # for OSX..
@@ -101,7 +103,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
     -DBUILD_JPEG=0                                                        \
-    -DWITH_V4L=0                                                          \
+    -DWITH_V4L=$V4L                                                       \
     -DWITH_CUDA=0                                                         \
     -DWITH_CUBLAS=0                                                       \
     -DWITH_OPENCL=0                                                       \

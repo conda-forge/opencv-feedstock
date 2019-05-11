@@ -9,13 +9,15 @@ source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
     sha256: 8f6e4ab393d81d72caae6e78bd0fd6956117ec9f006fba55fcdb88caf62989b7
+    patches:
+        - 14446-support-very-old-v4l2.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: e7d775cc0b87b04308823ca518b11b34cc12907a59af4ccdaf64419c1ba5e682
     folder: opencv_contrib
 
 build:
-  number: 2
+  number: 3
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
 
@@ -132,6 +134,7 @@ test:
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
+        - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
 
 about:
   home: http://opencv.org/
