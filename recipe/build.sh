@@ -87,8 +87,8 @@ cmake -LAH -G "Ninja"                                                     \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
-    -DOPENCV_DOWNLOAD_TRIES=1\;2\;3                                       \
-    -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT\;30\;TIMEOUT\;300\;SHOW_PROGRESS \
+    -DOPENCV_DOWNLOAD_TRIES=1\;2\;3\;4\;5                                 \
+    -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT\;30\;TIMEOUT\;180\;SHOW_PROGRESS \
     $CMAKE_TOOLCHAIN_CMD_FLAGS                                            \
     -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
     -DENABLE_CONFIG_VERIFICATION=ON                                       \

@@ -32,8 +32,8 @@ cmake -LAH -G "Ninja"                                                           
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
     -DCMAKE_PREFIX_PATH=%UNIX_LIBRARY_PREFIX%                                       ^
-    -DOPENCV_DOWNLOAD_TRIES=1;2;3                                                   ^
-    -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT;30;TIMEOUT;300;SHOW_PROGRESS        ^
+    -DOPENCV_DOWNLOAD_TRIES=1;2;3;4;5                                               ^
+    -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT;30;TIMEOUT;180;SHOW_PROGRESS        ^
     -DWITH_LAPACK=1                                                                 ^
     -DLAPACK_INCLUDE_DIR=%UNIX_LIBRARY_INC%                                         ^
     -DLAPACK_LAPACKE_H=lapacke.h                                                    ^
