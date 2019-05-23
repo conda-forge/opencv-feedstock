@@ -1,8 +1,8 @@
+import unittest
 import os.path as op
 import platform
 import shutil
 import tempfile
-import unittest
 
 import numpy as np
 import requests
