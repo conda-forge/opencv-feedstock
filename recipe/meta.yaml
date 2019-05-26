@@ -1,5 +1,4 @@
 {% set version = "4.1.0" %}
-{% set blas_variant = "openblas" %}
 
 package:
   name: opencv
@@ -11,13 +10,16 @@ source:
     sha256: 8f6e4ab393d81d72caae6e78bd0fd6956117ec9f006fba55fcdb88caf62989b7
     patches:
         - 14446-support-very-old-v4l2.patch
+        - 0001-Added-ocv_update_file-cmake-function.patch
+        - 0001-LAPACK-add-support-for-complex-numbers-for-MSVC.patch
+        - 0001-cmake-download-tries-customizable-download-parameter.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: e7d775cc0b87b04308823ca518b11b34cc12907a59af4ccdaf64419c1ba5e682
     folder: opencv_contrib
 
 build:
-  number: 3
+  number: 4
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
 
@@ -72,6 +74,10 @@ test:
       - requests
       - certifi
       - pkg-config                 # [not win]
+      # Test with the two currently supported lapack implementatons
+      # One test done on different versions of python on each platform
+      - liblapack * *openblas         # [py==36]
+      - liblapack * *mkl              # [py==37]
     imports:
       - cv2
       - cv2.xfeatures2d
@@ -135,6 +141,7 @@ test:
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
+        - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
 
 about:
   home: http://opencv.org/
