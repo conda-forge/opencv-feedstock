@@ -29,7 +29,7 @@ libtiff:
 libwebp:
 - 1.0.0
 numpy:
-- '1.9'
+- '1.14'
 pin_run_as_build:
   harfbuzz:
     max_pin: x

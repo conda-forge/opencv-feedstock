@@ -17,7 +17,7 @@ libtiff:
 libwebp:
 - 1.0.0
 numpy:
-- '1.11'
+- '1.14'
 pin_run_as_build:
   jpeg:
     max_pin: x
