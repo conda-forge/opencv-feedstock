@@ -1,4 +1,5 @@
-{% set version = "3.4.5" %}
+{% set version = "4.0.1" %}
+{% set use_n_python_patch = os.environ.get('OPENCV_USE_N_PYTHON_PATCH', '0') %}
 
 package:
   name: opencv-suite
@@ -9,29 +10,37 @@ source:
     git_tag: {{ version }}
   # - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
   #   fn: opencv-{{ version }}.zip
-  #   sha256: 9405c5d7d8ab1696e98631d0c92125816356ec366a73c417bdcc4d74783b42aa
+    # sha256: 2c75b129da2e2c8728d168b7bf14ceca2da0ebe938557b109bae6742855ede13
+    # sha256: b79ccdc4797a959c5ab17249a8a302c066248ae070e4d7010e2d77a625fdb30a
     patches:
       - 0001-Use-OpenCV_INSTALL_BINARIES_PREFIX-instead-of-hardco.patch
-      # - 0002-3.4.2-Allow-an-arbitrary-number-of-native-Python-interpret.patch
-      - 0002-3.4.5-Allow-an-arbitrary-number-of-native-Python-interpret.patch
-      # - 0002-Allow-an-arbitrary-number-of-native-Python-interpret.patch
+      {% if use_n_python_patch == "1" %}
+      - 0002-3.4.5-Allow-an-arbitrary-number-of-native-Python-int.patch
+      - 0003-n-pythons-Debug-cmake-dependency-stuff.patch
+      - 0004-n-pythons-Debug-all-variables-in-modules-python-CMak.patch
+      {% else %}
+      - 0003-2-pythons-Debug-cmake-dependency-stuff.patch
+      - 0004-2-pythons-Debug-all-variables-in-modules-python-CMak.patch
+      {% endif %}
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 8f73d029887c726fed89c69a2b0fcb1d098099fcd81c1070e1af3b452669fbe2
+    sha256: 0d8acbad4b7074cfaafd906a7419c23629179d5e98894714402090b192ef8237
     folder: opencv_contrib-{{ version }}
 
 build:
   number: 0
   # Python 2.7 is not supported on Windows
   skip: True  # [win and py27]
-  ignore_run_exports:
-    - libprotobuf
+  # ignore_run_exports:
+  #   - libprotobuf
+  script_env:
+    - OPENCV_USE_N_PYTHON_PATCH
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-  # - git
+    - git
     - m2-filesystem         # [win]
     - m2w64-pkg-config      # [win]
     - pkg-config            # [not win]
@@ -51,7 +60,7 @@ requirements:
     - ffmpeg                # [not win]
     - msinttypes            # [win and py<35]
     # protobuf is bundled and incompatible with headers from the latest.
-    - libprotobuf =3.5.2    # [not win]
+    # - libprotobuf =3.5.2    # [not win]
 
 outputs:
   - name: opencv

@@ -1,0 +1,233 @@
+From 6a9ac09f55dfabb67107bcf2767df8e83ca190e5 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Mon, 21 Jan 2019 22:40:25 -0600
+Subject: [PATCH 2/4] 3.4.5: Allow an arbitrary number of native Python
+ interpreters
+
+---
+ CMakeLists.txt                        | 31 +++--------
+ cmake/OpenCVDetectPython.cmake        | 80 +++++++++++++++++++++------
+ cmake/OpenCVModule.cmake              |  5 +-
+ modules/python/CMakeLists.txt         | 10 +++-
+ modules/python/pythonX/CMakeLists.txt | 16 ++++++
+ 5 files changed, 98 insertions(+), 44 deletions(-)
+ create mode 100644 modules/python/pythonX/CMakeLists.txt
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f17220b9e0..7644bd0a86 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1624,31 +1624,18 @@ if(WITH_OPENCL OR HAVE_OPENCL)
+ endif()
+ 
+ # ========================== python ==========================
+-if(BUILD_opencv_python2)
++foreach(v ${PYTHON_INFIXES})
+   status("")
+-  status("  Python 2:")
+-  status("    Interpreter:"     PYTHON2INTERP_FOUND  THEN "${PYTHON2_EXECUTABLE} (ver ${PYTHON2_VERSION_STRING})"       ELSE NO)
+-  if(PYTHON2LIBS_VERSION_STRING)
+-    status("    Libraries:"   HAVE_opencv_python2  THEN  "${PYTHON2_LIBRARIES} (ver ${PYTHON2LIBS_VERSION_STRING})"   ELSE NO)
++  status("  Python ${v}:")
++  status("    Interpreter:"     PYTHON${v}INTERP_FOUND  THEN "${PYTHON${v}_EXECUTABLE} (ver ${PYTHON${v}_VERSION_STRING})"       ELSE NO)
++  if(PYTHON${v}LIBS_VERSION_STRING)
++    status("    Libraries:"   HAVE_opencv_python${v}  THEN  "${PYTHON${v}_LIBRARIES} (ver ${PYTHON${v}LIBS_VERSION_STRING})"   ELSE NO)
+   else()
+-    status("    Libraries:"   HAVE_opencv_python2  THEN  "${PYTHON2_LIBRARIES}"                                      ELSE NO)
++    status("    Libraries:"   HAVE_opencv_python${v}  THEN  "${PYTHON${v}_LIBRARIES}"                                      ELSE NO)
+   endif()
+-  status("    numpy:"         PYTHON2_NUMPY_INCLUDE_DIRS THEN "${PYTHON2_NUMPY_INCLUDE_DIRS} (ver ${PYTHON2_NUMPY_VERSION})" ELSE "NO (Python wrappers can not be generated)")
+-  status("    install path:"  HAVE_opencv_python2  THEN "${__INSTALL_PATH_PYTHON2}"                            ELSE "-")
+-endif()
+-
+-if(BUILD_opencv_python3)
+-  status("")
+-  status("  Python 3:")
+-  status("    Interpreter:"     PYTHON3INTERP_FOUND  THEN "${PYTHON3_EXECUTABLE} (ver ${PYTHON3_VERSION_STRING})"       ELSE NO)
+-  if(PYTHON3LIBS_VERSION_STRING)
+-    status("    Libraries:"   HAVE_opencv_python3  THEN  "${PYTHON3_LIBRARIES} (ver ${PYTHON3LIBS_VERSION_STRING})"   ELSE NO)
+-  else()
+-    status("    Libraries:"   HAVE_opencv_python3  THEN  "${PYTHON3_LIBRARIES}"                                      ELSE NO)
+-  endif()
+-  status("    numpy:"         PYTHON3_NUMPY_INCLUDE_DIRS THEN "${PYTHON3_NUMPY_INCLUDE_DIRS} (ver ${PYTHON3_NUMPY_VERSION})" ELSE "NO (Python3 wrappers can not be generated)")
+-  status("    install path:"  HAVE_opencv_python3  THEN "${__INSTALL_PATH_PYTHON3}"                            ELSE "-")
+-endif()
++  status("    numpy:"         PYTHON${v}_NUMPY_INCLUDE_DIRS THEN "${PYTHON${v}_NUMPY_INCLUDE_DIRS} (ver ${PYTHON${v}_NUMPY_VERSION})" ELSE "NO (Python wrappers can not be generated)")
++  status("    install path:"  HAVE_opencv_python${v}  THEN "${__INSTALL_PATH_PYTHON${v}}"                            ELSE "-")
++endforeach()
+ 
+ status("")
+ status("  Python (for build):"  PYTHON_DEFAULT_AVAILABLE THEN "${PYTHON_DEFAULT_EXECUTABLE}" ELSE NO)
+diff --git a/cmake/OpenCVDetectPython.cmake b/cmake/OpenCVDetectPython.cmake
+index c3c467002e..a6253ca28c 100644
+--- a/cmake/OpenCVDetectPython.cmake
++++ b/cmake/OpenCVDetectPython.cmake
+@@ -5,7 +5,7 @@
+ #   library_env (value): Name of Python library ENV variable to check
+ #   include_dir_env (value): Name of Python include directory ENV variable to check
+ #   found (variable): Set if interpreter found
+-#   executable (variable): Output of executable found
++#   executable (variable): Input is executable to use (or PYTHON_EXECUTABLE?), output is executable found
+ #   version_string (variable): Output of found version
+ #   version_major (variable): Output of found major version
+ #   version_minor (variable): Output of found minor version
+@@ -33,9 +33,15 @@ if(NOT ${found})
+     set(__update_python_vars 1)
+   endif()
+ 
+-  ocv_check_environment_variables(${executable})
+-  if(${executable})
++  message(WARNING "Checking if IS_ABSOLUTE ${executable} => ${${executable}}")
++  if(IS_ABSOLUTE "${${executable}}")
+     set(PYTHON_EXECUTABLE "${${executable}}")
++    message(WARNING "It is! using it as PYTHON_EXECUTABLE: ${PYTHON_EXECUTABLE}")
++  else()
++    ocv_check_environment_variables(${executable})
++    if(${executable})
++      set(PYTHON_EXECUTABLE "${${executable}}")
++    endif()
+   endif()
+ 
+   if(WIN32 AND NOT ${executable} AND OPENCV_PYTHON_PREFER_WIN32_REGISTRY)  # deprecated
+@@ -272,23 +278,61 @@ if(OPENCV_PYTHON_SKIP_DETECTION)
+   return()
+ endif()
+ 
+-find_python("" "${MIN_VER_PYTHON2}" PYTHON2_LIBRARY PYTHON2_INCLUDE_DIR
+-    PYTHON2INTERP_FOUND PYTHON2_EXECUTABLE PYTHON2_VERSION_STRING
+-    PYTHON2_VERSION_MAJOR PYTHON2_VERSION_MINOR PYTHON2LIBS_FOUND
+-    PYTHON2LIBS_VERSION_STRING PYTHON2_LIBRARIES PYTHON2_LIBRARY
+-    PYTHON2_DEBUG_LIBRARIES PYTHON2_LIBRARY_DEBUG PYTHON2_INCLUDE_PATH
+-    PYTHON2_INCLUDE_DIR PYTHON2_INCLUDE_DIR2 PYTHON2_PACKAGES_PATH
+-    PYTHON2_NUMPY_INCLUDE_DIRS PYTHON2_NUMPY_VERSION)
++set(PYTHON_NATIVE_INTERPRETERS "" CACHE FILEPATH "List of paths to Python interpreters (not cross-compatible)")
+ 
+-option(OPENCV_PYTHON3_VERSION "Python3 version" "")
+-find_python("${OPENCV_PYTHON3_VERSION}" "${MIN_VER_PYTHON3}" PYTHON3_LIBRARY PYTHON3_INCLUDE_DIR
+-    PYTHON3INTERP_FOUND PYTHON3_EXECUTABLE PYTHON3_VERSION_STRING
+-    PYTHON3_VERSION_MAJOR PYTHON3_VERSION_MINOR PYTHON3LIBS_FOUND
+-    PYTHON3LIBS_VERSION_STRING PYTHON3_LIBRARIES PYTHON3_LIBRARY
+-    PYTHON3_DEBUG_LIBRARIES PYTHON3_LIBRARY_DEBUG PYTHON3_INCLUDE_PATH
+-    PYTHON3_INCLUDE_DIR PYTHON3_INCLUDE_DIR2 PYTHON3_PACKAGES_PATH
+-    PYTHON3_NUMPY_INCLUDE_DIRS PYTHON3_NUMPY_VERSION)
++# set(PYTHON_INFIXES "")
++if(PYTHON_NATIVE_INTERPRETERS)
++  foreach(py_interp ${PYTHON_NATIVE_INTERPRETERS})
++    message(STATUS py_interp=${py_interp})
++    execute_process(COMMAND ${py_interp} -c "import sys; sys.stdout.write('%s_%s_%s' % (sys.version_info.major,sys.version_info.minor,sys.version_info.micro))" OUTPUT_VARIABLE v)
++    message(STATUS pyver=${v})
++    list(APPEND PYTHON_INFIXES ${v})
++    set(PYTHON${v}_EXECUTABLE ${py_interp})
++    find_python("" "" PYTHON${v}_LIBRARY, PYTHON${v}_INCLUDE_DIR
++        PYTHON${v}INTERP_FOUND PYTHON${v}_EXECUTABLE PYTHON${v}_VERSION_STRING
++        PYTHON${v}_VERSION_MAJOR PYTHON${v}_VERSION_MINOR PYTHON${v}LIBS_FOUND
++        PYTHON${v}LIBS_VERSION_STRING PYTHON${v}_LIBRARIES PYTHON${v}_LIBRARY
++        PYTHON${v}_DEBUG_LIBRARIES PYTHON${v}_LIBRARY_DEBUG PYTHON${v}_INCLUDE_PATH
++        PYTHON${v}_INCLUDE_DIR PYTHON${v}_INCLUDE_DIR2 PYTHON${v}_PACKAGES_PATH
++        PYTHON${v}_NUMPY_INCLUDE_DIRS PYTHON${v}_NUMPY_VERSION)
++    if(PYTHON${v}INTERP_FOUND)
++      set(BUILD_opencv_python${v} ON)
++      set(HAVE_opencv_python${v} ON)
++      message(STATUS "Hey ... PYTHON${v}_INCLUDE_DIR=${PYTHON${v}_INCLUDE_DIR}")
++    else()
++      message(ERROR "Failed to find details of ${py_interp}, investigate in SRC/cmake/OpenCVDetectPython.cmake and BUILD_PREFIX/share/cmake-3.12/Modules/FindPythonLibs.cmake")
++    endif()
++    # message(STATUS PYTHON${v}_PACKAGES_PATH=${PYTHON${v}_PACKAGES_PATH})
++  endforeach()
++else(PYTHON_NATIVE_INTERPRETERS)
++  find_python("" "${MIN_VER_PYTHON2}" PYTHON2_LIBRARY PYTHON2_INCLUDE_DIR
++      PYTHON2INTERP_FOUND PYTHON2_EXECUTABLE PYTHON2_VERSION_STRING
++      PYTHON2_VERSION_MAJOR PYTHON2_VERSION_MINOR PYTHON2LIBS_FOUND
++      PYTHON2LIBS_VERSION_STRING PYTHON2_LIBRARIES PYTHON2_LIBRARY
++      PYTHON2_DEBUG_LIBRARIES PYTHON2_LIBRARY_DEBUG PYTHON2_INCLUDE_PATH
++      PYTHON2_INCLUDE_DIR PYTHON2_INCLUDE_DIR2 PYTHON2_PACKAGES_PATH
++      PYTHON2_NUMPY_INCLUDE_DIRS PYTHON2_NUMPY_VERSION)
++  if(PYTHON2INTERP_FOUND)
++    list(APPEND PYTHON_INFIXES 2)
++  endif()
++
++  option(OPENCV_PYTHON3_VERSION "Python3 version" "")
++  find_python("${OPENCV_PYTHON3_VERSION}" "${MIN_VER_PYTHON3}" PYTHON3_LIBRARY PYTHON3_INCLUDE_DIR
++      PYTHON3INTERP_FOUND PYTHON3_EXECUTABLE PYTHON3_VERSION_STRING
++      PYTHON3_VERSION_MAJOR PYTHON3_VERSION_MINOR PYTHON3LIBS_FOUND
++      PYTHON3LIBS_VERSION_STRING PYTHON3_LIBRARIES PYTHON3_LIBRARY
++      PYTHON3_DEBUG_LIBRARIES PYTHON3_LIBRARY_DEBUG PYTHON3_INCLUDE_PATH
++      PYTHON3_INCLUDE_DIR PYTHON3_INCLUDE_DIR2 PYTHON3_PACKAGES_PATH
++      PYTHON3_NUMPY_INCLUDE_DIRS PYTHON3_NUMPY_VERSION)
++
++  if(PYTHON3INTERP_FOUND)
++    list(APPEND PYTHON_INFIXES 3)
++  endif()
++endif(PYTHON_NATIVE_INTERPRETERS)
+ 
++foreach(infix ${PYTHON_INFIXES})
++  message(STATUS infix=${infix})
++endforeach()
+ 
+ if(PYTHON_DEFAULT_EXECUTABLE)
+     set(PYTHON_DEFAULT_AVAILABLE "TRUE")
+diff --git a/cmake/OpenCVModule.cmake b/cmake/OpenCVModule.cmake
+index 3c45d774cc..e083bf836e 100644
+--- a/cmake/OpenCVModule.cmake
++++ b/cmake/OpenCVModule.cmake
+@@ -104,7 +104,10 @@ macro(ocv_add_dependencies full_modname)
+   list(FIND OPENCV_MODULE_${full_modname}_WRAPPERS "python" __python_idx)
+   if (NOT __python_idx EQUAL -1)
+     list(REMOVE_ITEM OPENCV_MODULE_${full_modname}_WRAPPERS "python")
+-    list(APPEND OPENCV_MODULE_${full_modname}_WRAPPERS "python_bindings_generator" "python2" "python3")
++    list(APPEND OPENCV_MODULE_${full_modname}_WRAPPERS "python_bindings_generator")
++    foreach(py_infix ${PYTHON_INFIXES})
++      list(APPEND OPENCV_MODULE_${full_modname}_WRAPPERS "python${py_infix}")
++    endforeach()
+   endif()
+   unset(__python_idx)
+ 
+diff --git a/modules/python/CMakeLists.txt b/modules/python/CMakeLists.txt
+index fbf01d6e82..3f32e78078 100644
+--- a/modules/python/CMakeLists.txt
++++ b/modules/python/CMakeLists.txt
+@@ -29,12 +29,16 @@ endif()
+ if(__disable_python3)
+   ocv_module_disable_(python3)
+ endif()
+-if(__disable_python2 AND __disable_python3)
++if(__disable_python2 AND __disable_python3 AND NOT PYTHON_NATIVE_INTERPRETERS)
+   return()
+ endif()
+ 
+-add_subdirectory(python2)
+-add_subdirectory(python3)
++if(NOT PYTHON_NATIVE_INTERPRETERS)
++  add_subdirectory(python2)
++  add_subdirectory(python3)
++else(NOT PYTHON_NATIVE_INTERPRETERS)
++  add_subdirectory(pythonX)
++endif(NOT PYTHON_NATIVE_INTERPRETERS)
+ 
+ else()  # standalone build
+ 
+diff --git a/modules/python/pythonX/CMakeLists.txt b/modules/python/pythonX/CMakeLists.txt
+new file mode 100644
+index 0000000000..3f3bed19a4
+--- /dev/null
++++ b/modules/python/pythonX/CMakeLists.txt
+@@ -0,0 +1,16 @@
++foreach(py_infix ${PYTHON_INFIXES})
++  if(NOT PYTHON${py_infix}_INCLUDE_PATH OR NOT PYTHON${py_infix}_NUMPY_INCLUDE_DIRS)
++    ocv_module_disable(python${py_infix})
++  endif()
++
++  set(the_description "The python${py_infix} bindings")
++  set(MODULE_NAME python${py_infix})
++  set(MODULE_INSTALL_SUBDIR python${py_infix})
++
++  set(PYTHON PYTHON${py_infix})
++
++  include(../common.cmake)
++
++  unset(MODULE_NAME)
++  unset(MODULE_INSTALL_SUBDIR)
++endforeach()
+-- 
+2.17.2 (Apple Git-113)
+

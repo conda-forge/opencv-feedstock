@@ -1,0 +1,45 @@
+From 434d3dc383036b3a5561cb669392c1f9c4c44afd Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 19 Feb 2019 21:35:28 +0100
+Subject: [PATCH 4/4] n-pythons: Debug all variables in
+ modules/python/CMakeLists.txt
+
+---
+ modules/python/CMakeLists.txt | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/modules/python/CMakeLists.txt b/modules/python/CMakeLists.txt
+index 3f32e78078..3882ed4aa4 100644
+--- a/modules/python/CMakeLists.txt
++++ b/modules/python/CMakeLists.txt
+@@ -1,3 +1,12 @@
++macro(print_all_variables)
++    message(STATUS "print_all_variables------------------------------------------{")
++    get_cmake_property(_variableNames VARIABLES)
++    foreach (_variableName ${_variableNames})
++        message(STATUS "${_variableName}=${${_variableName}}")
++    endforeach()
++    message(STATUS "print_all_variables------------------------------------------}")
++endmacro()
++
+ # ----------------------------------------------------------------------------
+ #  CMake file for python support
+ # ----------------------------------------------------------------------------
+@@ -33,12 +42,14 @@ if(__disable_python2 AND __disable_python3 AND NOT PYTHON_NATIVE_INTERPRETERS)
+   return()
+ endif()
+ 
++print_all_variables()
+ if(NOT PYTHON_NATIVE_INTERPRETERS)
+   add_subdirectory(python2)
+   add_subdirectory(python3)
+ else(NOT PYTHON_NATIVE_INTERPRETERS)
+   add_subdirectory(pythonX)
+ endif(NOT PYTHON_NATIVE_INTERPRETERS)
++print_all_variables()
+ 
+ else()  # standalone build
+ 
+-- 
+2.17.2 (Apple Git-113)
+

@@ -1,0 +1,41 @@
+From aa99ce05288ea4a715d0579533a462ecc13246b6 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 19 Feb 2019 21:35:28 +0100
+Subject: [PATCH 4/4] 2-pythons: Debug all variables in
+ modules/python/CMakeLists.txt
+
+---
+ modules/python/CMakeLists.txt | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/modules/python/CMakeLists.txt b/modules/python/CMakeLists.txt
+index fbf01d6e82..d0741ccf23 100644
+--- a/modules/python/CMakeLists.txt
++++ b/modules/python/CMakeLists.txt
+@@ -1,3 +1,12 @@
++macro(print_all_variables)
++    message(STATUS "print_all_variables------------------------------------------{")
++    get_cmake_property(_variableNames VARIABLES)
++    foreach (_variableName ${_variableNames})
++        message(STATUS "${_variableName}=${${_variableName}}")
++    endforeach()
++    message(STATUS "print_all_variables------------------------------------------}")
++endmacro()
++
+ # ----------------------------------------------------------------------------
+ #  CMake file for python support
+ # ----------------------------------------------------------------------------
+@@ -33,8 +42,10 @@ if(__disable_python2 AND __disable_python3)
+   return()
+ endif()
+ 
++print_all_variables()
+ add_subdirectory(python2)
+ add_subdirectory(python3)
++print_all_variables()
+ 
+ else()  # standalone build
+ 
+-- 
+2.20.1
+

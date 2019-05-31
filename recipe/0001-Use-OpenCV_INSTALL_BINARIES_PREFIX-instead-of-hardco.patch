@@ -1,7 +1,7 @@
-From d5f6f09765ecf5e7be4737b21e22c74b6cf449f8 Mon Sep 17 00:00:00 2001
+From b214184477d869019ac58e4d2815bb72fc54f4f6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 22 Jan 2019 00:23:19 -0600
-Subject: [PATCH 1/2] Use OpenCV_INSTALL_BINARIES_PREFIX instead of hardcoding
+Subject: [PATCH 1/4] Use OpenCV_INSTALL_BINARIES_PREFIX instead of hardcoding
 
 ---
  cmake/templates/OpenCVConfig.root-WIN32.cmake.in | 8 ++++----

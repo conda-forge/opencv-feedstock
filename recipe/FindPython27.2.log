@@ -1,0 +1,112 @@
+CMake Warning at cmake/OpenCVDetectPython.cmake:36 (message):
+  Checking if IS_ABSOLUTE PYTHON2_7_15_EXECUTABLE =>
+  /Users/rdonnelly/opencv-build/work/py2.7/bin/python
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at cmake/OpenCVDetectPython.cmake:39 (message):
+  It is! using it as PYTHON_EXECUTABLE:
+  /Users/rdonnelly/opencv-build/work/py2.7/bin/python
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:47 (message):
+  CMake Sucks :: PYTHON_EXECUTABLE is
+  /Users/rdonnelly/opencv-build/work/py2.7/bin/python
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:68 (message):
+  CMake Sucks :: _Python_PREFIX is
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:69 (message):
+  CMake Sucks :: _Python_LIBRARY_PATH_HINT is
+  /Users/rdonnelly/opencv-build/work/py2.7/lib
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:166 (message):
+  CMake Sucks :: _CURRENT_VERSION = 2.7.15, _Python_LIBRARY_PATH_HINT =
+  /Users/rdonnelly/opencv-build/work/py2.7/lib
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:167 (message):
+  CMake Sucks :: PYTHON_LIBRARY (shared, discarded?!) =
+  PYTHON_LIBRARY-NOTFOUND
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:175 (message):
+  CMake Sucks :: PYTHON_LIBRARY (static, retained?!, used for other stuff?!)
+  = PYTHON_LIBRARY-NOTFOUND
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:166 (message):
+  CMake Sucks :: _CURRENT_VERSION = 2.7, _Python_LIBRARY_PATH_HINT =
+  /Users/rdonnelly/opencv-build/work/py2.7/lib
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:167 (message):
+  CMake Sucks :: PYTHON_LIBRARY (shared, discarded?!) =
+  /usr/lib/libpython2.7.dylib
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:175 (message):
+  CMake Sucks :: PYTHON_LIBRARY (static, retained?!, used for other stuff?!)
+  = /usr/lib/libpython2.7.dylib
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:195 (message):
+  CMake Sucks :: _Python_INCLUDE_PATH_HINT = /usr/include
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+
+
+CMake Warning at /Users/rdonnelly/opencv-build/_build_env/share/cmake-3.12/Modules/FindPythonLibs.cmake:220 (message):
+  CMake Sucks :: PYTHON_INCLUDE_DIR =
+  /opt/MacOSX10.10.sdk/usr/include/python2.7
+Call Stack (most recent call first):
+  cmake/OpenCVDetectPython.cmake:146 (find_package)
+  cmake/OpenCVDetectPython.cmake:291 (find_python)
+  CMakeLists.txt:700 (include)
+

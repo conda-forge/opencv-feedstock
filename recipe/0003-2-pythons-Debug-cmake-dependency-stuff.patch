@@ -1,0 +1,76 @@
+From 2e7c4d15f4de694f18e2edf8fed92c0af65a7203 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 19 Feb 2019 21:38:15 +0100
+Subject: [PATCH 3/4] 2-pythons: Debug cmake dependency stuff
+
+---
+ cmake/OpenCVModule.cmake | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/cmake/OpenCVModule.cmake b/cmake/OpenCVModule.cmake
+index 3c45d774cc..65d8d6fbc2 100644
+--- a/cmake/OpenCVModule.cmake
++++ b/cmake/OpenCVModule.cmake
+@@ -524,7 +524,7 @@ function(__ocv_resolve_dependencies)
+     endforeach()
+   endwhile()
+ 
+-#  message(STATUS "List of active modules: ${OPENCV_MODULES_BUILD}")
++  message(STATUS "List of active modules: ${OPENCV_MODULES_BUILD}")
+ 
+   foreach(m ${OPENCV_MODULES_BUILD})
+     set(deps_${m} ${OPENCV_MODULE_${m}_REQ_DEPS})
+@@ -535,7 +535,7 @@ function(__ocv_resolve_dependencies)
+         endif()
+       endif()
+     endforeach()
+-#    message(STATUS "Initial deps of ${m} (w/o private deps): ${deps_${m}}")
++    message(STATUS "Initial deps of ${m} (w/o private deps): ${deps_${m}}")
+   endforeach()
+ 
+   # propagate dependencies
+@@ -547,7 +547,7 @@ function(__ocv_resolve_dependencies)
+         if((NOT m STREQUAL m2) AND ";${deps_${m}};" MATCHES ";${m2};")
+           foreach(d ${deps_${m2}})
+             if(NOT (";${deps_${m}};" MATCHES ";${d};"))
+-#              message(STATUS "  Transfer dependency ${d} from ${m2} to ${m}")
++              message(STATUS "  Transfer dependency ${d} from ${m2} to ${m}")
+               list(APPEND deps_${m} ${d})
+               set(has_changes ON)
+             endif()
+@@ -557,7 +557,7 @@ function(__ocv_resolve_dependencies)
+                 AND OPENCV_MODULE_${m2}_IS_PART_OF_WORLD
+                 AND NOT OPENCV_MODULE_${m}_IS_PART_OF_WORLD)
+               if(NOT (";${deps_${m}};" MATCHES ";opencv_world;"))
+-#                message(STATUS "  Transfer dependency opencv_world alias ${m2} to ${m}")
++                message(STATUS "  Transfer dependency opencv_world alias ${m2} to ${m}")
+                 list(APPEND deps_${m} opencv_world)
+                 set(has_changes ON)
+               endif()
+@@ -587,7 +587,7 @@ function(__ocv_resolve_dependencies)
+   ocv_list_sort(OPENCV_MODULES_BUILD)
+ 
+   foreach(m ${OPENCV_MODULES_BUILD})
+-#    message(STATUS "FULL deps of ${m}: ${deps_${m}}")
++    message(STATUS "FULL deps of ${m}: ${deps_${m}}")
+     set(OPENCV_MODULE_${m}_DEPS ${deps_${m}})
+     set(OPENCV_MODULE_${m}_DEPS_EXT ${deps_${m}})
+     ocv_list_filterout(OPENCV_MODULE_${m}_DEPS_EXT "^opencv_[^ ]+$")
+@@ -626,10 +626,10 @@ function(__ocv_resolve_dependencies)
+     set(OPENCV_MODULE_${m}_DEPS_EXT ${OPENCV_MODULE_${m}_DEPS_EXT} CACHE INTERNAL "Extra dependencies of ${m} module")
+     set(OPENCV_MODULE_${m}_DEPS_TO_LINK ${LINK_DEPS} CACHE INTERNAL "Flattened dependencies of ${m} module (for linker)")
+ 
+-#    message(STATUS "  module deps of ${m}: ${OPENCV_MODULE_${m}_DEPS}")
+-#    message(STATUS "  module link deps of ${m}: ${OPENCV_MODULE_${m}_DEPS_TO_LINK}")
+-#    message(STATUS "  extra deps of ${m}: ${OPENCV_MODULE_${m}_DEPS_EXT}")
+-#    message(STATUS "")
++    message(STATUS "  module deps of ${m}: ${OPENCV_MODULE_${m}_DEPS}")
++    message(STATUS "  module link deps of ${m}: ${OPENCV_MODULE_${m}_DEPS_TO_LINK}")
++    message(STATUS "  extra deps of ${m}: ${OPENCV_MODULE_${m}_DEPS_EXT}")
++    message(STATUS "")
+   endforeach()
+ 
+   __ocv_sort_modules_by_deps(OPENCV_MODULES_BUILD)
+-- 
+2.20.1
+
