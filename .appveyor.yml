@@ -23,6 +23,7 @@ platform:
     - x64
 
 install:
+    - cmd: set "CI=appveyor"
     # If there is a newer build queued for the same PR, cancel this one.
     - cmd: |
         powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/conda-forge/conda-forge-ci-setup-feedstock/master/recipe/conda_forge_ci_setup/ff_ci_pr_build.py', 'ff_ci_pr_build.py')"
