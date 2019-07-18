@@ -32,6 +32,10 @@ cmake -LAH -G "Ninja"                                                           
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
     -DCMAKE_PREFIX_PATH=%UNIX_LIBRARY_PREFIX%                                       ^
+    -DOPENCV_CONFIG_INSTALL_PATH=cmake                                              ^
+    -DOPENCV_BIN_INSTALL_PATH=bin                                                   ^
+    -DOPENCV_LIB_INSTALL_PATH=lib                                                   ^
+    -DOPENCV_GENERATE_SETUPVARS=OFF                                                 ^
     -DOPENCV_DOWNLOAD_TRIES=1;2;3;4;5                                               ^
     -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT;30;TIMEOUT;180;SHOW_PROGRESS        ^
     -DWITH_LAPACK=1                                                                 ^
@@ -64,8 +68,6 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_QT=5                                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
-    -DEXECUTABLE_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                     ^
-    -DLIBRARY_OUTPUT_PATH=%UNIX_LIBRARY_BIN%                                        ^
     -DPYTHON_EXECUTABLE=""                                                          ^
     -DPYTHON_INCLUDE_DIR=""                                                         ^
     -DPYTHON_PACKAGES_PATH=""                                                       ^
@@ -98,16 +100,4 @@ if errorlevel 1 exit 1
 cmake --build . --target install --config Release
 if errorlevel 1 exit 1
 
-if "%ARCH%" == "32" ( set "OPENCV_ARCH=86")
-if "%ARCH%" == "64" ( set "OPENCV_ARCH=64")
-
-robocopy %LIBRARY_PREFIX%\x%OPENCV_ARCH%\vc%VS_MAJOR%\ %LIBRARY_PREFIX%\ *.* /E
-if %ERRORLEVEL% GEQ 8 exit 1
-
-rem Remove files installed in the wrong locations
-rd /S /Q "%LIBRARY_BIN%\Release"
-rd /S /Q "%LIBRARY_PREFIX%\x%OPENCV_ARCH%"
-rem RD is a bit horrible and doesn't return an errorcode properly, so
-rem the errorcode from robocopy is propagated (which is non-zero), so we
-rem forcibly exit 0 here
 exit 0
