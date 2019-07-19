@@ -1,5 +1,5 @@
 # Mostly follows <opencv>/samples/cpp/example_cmake/CMakeLists.txt
-cmake_minimum_required(3.5.1)
+cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 project(cmake_build_test)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
