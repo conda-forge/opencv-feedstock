@@ -85,6 +85,7 @@ test:
       - cv2.xfeatures2d
     files:
       - CMakeLists.txt
+      - test.cpp
     commands:
         # Verify dynamic libraries on all systems
         {% set win_ver_lib = version|replace(".", "") %}
