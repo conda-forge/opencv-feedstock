@@ -145,7 +145,7 @@ test:
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
         - mkdir -p cmake_build_test && pushd cmake_build_test
-        - cmake -G "Ninja" -D "OpenCV_DIR=$PREFIX/cmake" "$RECIPE_DIR"
+        - cmake -G "Ninja" -D "OpenCV_DIR={{ PREFIX }}/cmake" "${{ RECIPE_DIR }}"
         - cmake --build . --config Release
         - popd
 
