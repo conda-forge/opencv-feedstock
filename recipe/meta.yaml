@@ -19,7 +19,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 5
+  number: 6
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
 
@@ -78,10 +78,14 @@ test:
       # One test done on different versions of python on each platform
       - liblapack * *openblas         # [py==36]
       - liblapack * *mkl              # [py==37]
+      - cmake
+      - ninja
     imports:
       - cv2
       - cv2.xfeatures2d
-
+    files:
+      - CMakeLists.txt
+      - test.cpp
     commands:
         # Verify dynamic libraries on all systems
         {% set win_ver_lib = version|replace(".", "") %}
@@ -142,6 +146,10 @@ test:
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
+        - mkdir -p cmake_build_test && pushd cmake_build_test
+        - cmake -G "Ninja" ..
+        - cmake --build . --config Release
+        - popd
 
 about:
   home: http://opencv.org/

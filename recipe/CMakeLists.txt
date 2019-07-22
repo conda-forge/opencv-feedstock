@@ -1,0 +1,13 @@
+# Mostly follows <opencv>/samples/cpp/example_cmake/CMakeLists.txt
+cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
+project(cmake_build_test)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+find_package(OpenCV REQUIRED)
+message(STATUS "OpenCV library status:")
+message(STATUS "    config: ${OpenCV_DIR}")
+message(STATUS "    version: ${OpenCV_VERSION}")
+message(STATUS "    libraries: ${OpenCV_LIBS}")
+message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+add_executable(cmake_build_test test.cpp)
+target_link_libraries(cmake_build_test LINK_PRIVATE ${OpenCV_LIBS})
