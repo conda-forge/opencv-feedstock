@@ -9,9 +9,6 @@ source:
     fn: opencv-{{ version }}.tar.gz
     sha256: 5de5d96bdfb9dad6e6061d70f47a0a91cee96bb35afb9afb9ecb3d43e243d217
     patches:
-        - 14446-support-very-old-v4l2.patch
-        - 0001-Added-ocv_update_file-cmake-function.patch
-        - 0001-LAPACK-add-support-for-complex-numbers-for-MSVC.patch
         - 0001-cmake-download-tries-customizable-download-parameter.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
