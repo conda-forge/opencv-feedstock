@@ -10,6 +10,7 @@ source:
     sha256: 5de5d96bdfb9dad6e6061d70f47a0a91cee96bb35afb9afb9ecb3d43e243d217
     patches:
         - 0001-cmake-download-tries-customizable-download-parameter.patch
+        - 0001-Fix-for-building-with-old-V4L.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 9f85d380758498d800fec26307e389620cde8b1a2e86ab51cddc5200fbe37102
