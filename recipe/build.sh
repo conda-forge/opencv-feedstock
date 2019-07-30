@@ -92,6 +92,7 @@ cmake -LAH -G "Ninja"                                                     \
     $CMAKE_TOOLCHAIN_CMD_FLAGS                                            \
     -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
     -DENABLE_CONFIG_VERIFICATION=ON                                       \
+    -DENABLE_PRECOMPILED_HEADERS=OFF                                      \
     $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
     -DWITH_LAPACK=1                                                       \
