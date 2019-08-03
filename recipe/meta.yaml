@@ -1,4 +1,4 @@
-{% set version = "3.4.4" %}
+{% set version = "3.4.7" %}
 {% set blas_variant = "openblas" %}
 
 package:
@@ -8,22 +8,20 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: a35b00a71d77b484f73ec485c65fe56c7a6fa48acd5ce55c197aef2e13c78746
-    patches:
-      - 13232-fix_numThreadsMax_for_OpenMP.patch
+    sha256: ea743896a604a6ba1e1c1651ad42c97d0f90165debe9940811c7e0bdaa307526
+    #patches:
+      #- 13232-fix_numThreadsMax_for_OpenMP.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 765446d994713363554978d1da447fef77a2cdf9e38742f0a98b13b92652626d
+    sha256: 5e3ba5fbe0ff3ab7462d42c08501f8c15d3e46b0684aee281f735345e1353cb4
     folder: opencv_contrib
-    patches:
-      - 1905-cvv_repair_build.patch
+    #patches:
+      #- 1905-cvv_repair_build.patch
 
 build:
-  number: 1205
+  number: 0
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
-  features:                        # [not win]
-    - blas_{{ blas_variant }}      # [not win]
 
 requirements:
   build:
@@ -52,10 +50,9 @@ requirements:
     - libwebp
     - harfbuzz                       # [unix]
     - libpng
-    - openblas                       # [not win]
-    - blas 1.1 {{ blas_variant }}    # [not win]
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
+    - liblapacke
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -67,8 +64,6 @@ requirements:
     - harfbuzz                       # [unix]
     - libtiff
     - libpng
-    - openblas                       # [not win]
-    - blas 1.1 {{ blas_variant }}    # [not win]
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
 

@@ -12,7 +12,7 @@ if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
 
     export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
     export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
-    
+
     export LDFLAGS="${LDFLAGS} -Wl,-rpath-link,${PREFIX}/lib"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
@@ -88,9 +88,8 @@ cmake -LAH -G "Ninja"                                                     \
     $CMAKE_TOOLCHAIN_CMD_FLAGS                                            \
     $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
-    -DOpenBLAS=1                                                          \
-    -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
-    -DOpenBLAS_LIB=$PREFIX/lib/libopenblas${SHLIB_EXT}                    \
+    -DLAPACK_LIBRARIES="-llapacke -llapack -lcblas -lblas"                \
+    -DWITH_LAPACK=1                                                       \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
