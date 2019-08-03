@@ -51,6 +51,7 @@ requirements:
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
     - liblapacke
+    - freetype
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -64,6 +65,10 @@ requirements:
     - libpng
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
+    # https://github.com/conda-forge/opencv-feedstock/issues/174
+    # Seems like the OSX ABI has changed between 2.9 and 2.10???
+    # That or a dependency wasn't merged in
+    - {{ pin_compatible('freetype', min_pin='x.x') }}  # [osx]
 
 test:
     requires:
