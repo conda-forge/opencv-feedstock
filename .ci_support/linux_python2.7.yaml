@@ -15,7 +15,7 @@ docker_image:
 harfbuzz:
 - '2'
 hdf5:
-- 1.10.4
+- 1.10.5
 jasper:
 - 1.900.1
 jpeg:
@@ -23,13 +23,13 @@ jpeg:
 libpng:
 - 1.6.35
 libtiff:
-- 4.0.9
+- 4.0.10
 libwebp:
 - 1.0.0
 numpy:
-- '1.9'
+- '1.14'
 openblas:
-- 0.3.3
+- 0.3.6
 pin_run_as_build:
   harfbuzz:
     max_pin: x
