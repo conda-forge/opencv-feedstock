@@ -1,7 +1,7 @@
 {% set version = "4.1.1" %}
 
 package:
-  name: opencv
+  name: opencv_testing
   version: {{ version }}
 
 source:
@@ -20,134 +20,23 @@ build:
   number: 0
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
+  script:
+    - echo hi
 
 requirements:
-  build:
-    # Required to find ffpmeg
-    - pkg-config                     # [not win]
-    - m2-patch                       # [win]
-    - cmake
-    - ninja
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ cdt('mesa-libgl-devel') }}  # [linux]
-    - {{ cdt('mesa-dri-drivers') }}  # [linux]
-    - {{ cdt('libselinux') }}        # [linux]
-    - {{ cdt('libxdamage') }}        # [linux]
-    - {{ cdt('libxfixes') }}         # [linux]
-    - {{ cdt('libxxf86vm') }}        # [linux]
   host:
     - python
     - numpy
-    - hdf5                           # [unix]
-    - eigen 3.3.*
-    - jasper                         # [unix]
-    - zlib
-    - jpeg
-    - libtiff
-    - libwebp
-    - harfbuzz                       # [unix]
-    - libpng
-    - ffmpeg 4.1.*                   # [not win]
-    - qt                             # [not osx]
-    - liblapacke
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - hdf5                           # [unix]
-    - jasper                         # [unix]
-    - zlib
-    - jpeg
-    - libwebp
-    - harfbuzz                       # [unix]
-    - libtiff
-    - libpng
-    - ffmpeg 4.1.*                   # [not win]
-    - qt                             # [not osx]
 
 test:
     requires:
-      - {{ compiler('c') }}
-      - {{ compiler('cxx') }}
-      - requests
-      - certifi
-      - pkg-config                 # [not win]
-      # Test with the two currently supported lapack implementatons
-      # One test done on different versions of python on each platform
-      - liblapack * *openblas         # [py==36]
-      - liblapack * *mkl              # [py==37]
-      - cmake
-      - ninja
+      - opencv
+      - freetype 2.9
     imports:
       - cv2
-      - cv2.xfeatures2d
-    files:
-      - CMakeLists.txt
-      - test.cpp
-    commands:
-        # Verify dynamic libraries on all systems
-        {% set win_ver_lib = version|replace(".", "") %}
-        {% set opencv_libs = [
-            "aruco",
-            "bgsegm",
-            "calib3d",
-            "ccalib",
-            "core",
-            "datasets",
-            "dnn",
-            "dpm",
-            "face",
-            "features2d",
-            "flann",
-            "fuzzy",
-            "highgui",
-            "imgcodecs",
-            "imgproc",
-            "line_descriptor",
-            "ml",
-            "objdetect",
-            "optflow",
-            "phase_unwrapping",
-            "photo",
-            "plot",
-            "reg",
-            "rgbd",
-            "saliency",
-            "shape",
-            "stereo",
-            "stitching",
-            "structured_light",
-            "superres",
-            "surface_matching",
-            "text",
-            "tracking",
-            "video",
-            "videoio",
-            "videostab",
-            "xfeatures2d",
-            "ximgproc",
-            "xobjdetect",
-            "xphoto"
-        ] %}
-        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
-        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
-        - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
-        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test   # [unix]
-        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
-        - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
-        {% for each_opencv_lib in opencv_libs %}
-        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
-        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
-        {% endfor %}
-        - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
-        - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
-        - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
-        - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
-        - mkdir -p cmake_build_test && pushd cmake_build_test
-        - cmake -G "Ninja" ..
-        - cmake --build . --config Release
-        - popd
 
 about:
   home: http://opencv.org/
