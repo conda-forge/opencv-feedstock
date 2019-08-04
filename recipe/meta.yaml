@@ -68,7 +68,8 @@ requirements:
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
     # That or a dependency wasn't merged in
-    - {{ pin_compatible('freetype', min_pin='x.x') }}  # [osx]
+    # Since we don't know the cause, we are choosing this pinning on all platforms.
+    - {{ pin_compatible('freetype', min_pin='x.x') }}
 
 test:
     requires:
