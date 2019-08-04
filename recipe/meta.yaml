@@ -12,6 +12,8 @@ source:
     patches:
       - 0001-Fix-for-building-with-old-V4L.patch
       - 0001-cmake-download-tries-customizable-download-parameter.patch
+      # https://github.com/opencv/opencv/pull/15222
+      - 15222-verify_carbon_correctly.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 5e3ba5fbe0ff3ab7462d42c08501f8c15d3e46b0684aee281f735345e1353cb4
