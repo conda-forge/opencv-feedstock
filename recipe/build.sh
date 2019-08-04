@@ -28,6 +28,8 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     # The default flag as of OpenCV 3.4.4 are:
     # CPU_DISPATCH:STRING=SSE4_1;SSE4_2;AVX;FP16;AVX2;AVX512_SKX
     CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;AVX;FP16"
+
+    CARBON_FLAG="-DWITH_CARBON=1"
 fi
 
 CMAKE_TOOLCHAIN_CMD_FLAGS=""
@@ -117,6 +119,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_OPENCLAMDBLAS=0                                                \
     -DWITH_OPENCL_D3D11_NV=0                                              \
     -DWITH_1394=0                                                         \
+    $CARBON_FLAG                                                          \
     -DWITH_OPENNI=0                                                       \
     -DWITH_FFMPEG=1                                                       \
     -DWITH_GSTREAMER=0                                                    \
