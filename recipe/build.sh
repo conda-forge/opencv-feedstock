@@ -4,6 +4,7 @@ set +x
 SHORT_OS_STR=$(uname -s)
 
 QT="5"
+V4L="1"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     OPENMP="-DWITH_OPENMP=1"
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
@@ -12,12 +13,13 @@ if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
 
     export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
     export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
-    
+
     export LDFLAGS="${LDFLAGS} -Wl,-rpath-link,${PREFIX}/lib"
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
     QT="0"
+    V4L="0"
     # The old OSX compilers don't know what to do with AVX instructions
     # Therefore, we specify what CPU dispatch operations we want explicitely
     # for OSX..
@@ -85,12 +87,18 @@ cmake -LAH -G "Ninja"                                                     \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
+    -DOPENCV_DOWNLOAD_TRIES=1\;2\;3\;4\;5                                 \
+    -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT\;30\;TIMEOUT\;180\;SHOW_PROGRESS \
     $CMAKE_TOOLCHAIN_CMD_FLAGS                                            \
+    -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
+    -DENABLE_CONFIG_VERIFICATION=ON                                       \
+    -DENABLE_PRECOMPILED_HEADERS=OFF                                      \
     $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
-    -DOpenBLAS=1                                                          \
-    -DOpenBLAS_INCLUDE_DIR=$PREFIX/include                                \
-    -DOpenBLAS_LIB=$PREFIX/lib/libopenblas${SHLIB_EXT}                    \
+    -DWITH_LAPACK=1                                                       \
+    -DLAPACK_LAPACKE_H=lapacke.h                                          \
+    -DLAPACK_CBLAS_H=cblas.h                                              \
+    -DLAPACK_LIBRARIES=lapack\;cblas                                      \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
@@ -101,15 +109,21 @@ cmake -LAH -G "Ninja"                                                     \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
     -DBUILD_JPEG=0                                                        \
-    -DWITH_V4L=0                                                          \
+    -DWITH_V4L=$V4L                                                       \
     -DWITH_CUDA=0                                                         \
     -DWITH_CUBLAS=0                                                       \
     -DWITH_OPENCL=0                                                       \
+    -DWITH_OPENCLAMDFFT=0                                                 \
+    -DWITH_OPENCLAMDBLAS=0                                                \
+    -DWITH_OPENCL_D3D11_NV=0                                              \
+    -DWITH_1394=0                                                         \
+    -DWITH_CARBON=0                                                       \
     -DWITH_OPENNI=0                                                       \
     -DWITH_FFMPEG=1                                                       \
     -DWITH_GSTREAMER=0                                                    \
     -DWITH_MATLAB=0                                                       \
     -DWITH_VTK=0                                                          \
+    -DWITH_GTK=0                                                          \
     -DWITH_QT=$QT                                                         \
     -DWITH_GPHOTO2=0                                                      \
     -DINSTALL_C_EXAMPLES=0                                                \

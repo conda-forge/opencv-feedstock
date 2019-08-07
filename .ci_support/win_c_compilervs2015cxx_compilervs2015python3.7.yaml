@@ -11,11 +11,11 @@ jpeg:
 libpng:
 - 1.6.35
 libtiff:
-- 4.0.9
+- 4.0.10
 libwebp:
 - 1.0.0
 numpy:
-- '1.11'
+- '1.14'
 pin_run_as_build:
   jpeg:
     max_pin: x
