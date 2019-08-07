@@ -14,6 +14,8 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '4'
+freetype:
+- 2.9.1
 harfbuzz:
 - '2'
 hdf5:
@@ -37,6 +39,8 @@ macos_min_version:
 numpy:
 - '1.14'
 pin_run_as_build:
+  freetype:
+    max_pin: x
   harfbuzz:
     max_pin: x
   jasper:
