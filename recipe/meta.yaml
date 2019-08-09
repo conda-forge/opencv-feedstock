@@ -18,7 +18,7 @@ source:
 
 build:
   number: 2
-  # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
+  # Python2.7 support dropped:  https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
 
 requirements:
