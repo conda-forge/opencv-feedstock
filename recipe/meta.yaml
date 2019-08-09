@@ -20,7 +20,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 0
+  number: 1
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   features:                        # [not win]
@@ -57,6 +57,7 @@ requirements:
     - blas 1.1 {{ blas_variant }}    # [not win]
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
+    - freetype 
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -72,6 +73,11 @@ requirements:
     - blas 1.1 {{ blas_variant }}    # [not win]
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
+    # https://github.com/conda-forge/opencv-feedstock/issues/174
+    # Seems like the OSX ABI has changed between 2.9 and 2.10???
+    # That or a dependency wasn't merged in
+    # Since we don't know the cause, we are choosing this pinning on all platforms.
+    - {{ pin_compatible('freetype', min_pin='x.x') }}
 
 test:
     requires:

@@ -12,6 +12,8 @@ cxx_compiler_version:
 - '7'
 docker_image:
 - condaforge/linux-anvil-comp7
+freetype:
+- 2.9.1
 harfbuzz:
 - '2'
 hdf5:
@@ -31,6 +33,8 @@ numpy:
 openblas:
 - 0.3.6
 pin_run_as_build:
+  freetype:
+    max_pin: x
   harfbuzz:
     max_pin: x
   jasper:
