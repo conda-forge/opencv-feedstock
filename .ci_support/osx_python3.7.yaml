@@ -25,7 +25,7 @@ jpeg:
 liblapacke:
 - 3.8.0 *netlib
 libpng:
-- 1.6.35
+- '1.6'
 libtiff:
 - 4.0.10
 libwebp:
