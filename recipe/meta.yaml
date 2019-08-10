@@ -65,7 +65,7 @@ requirements:
     - harfbuzz                       # [unix]
     - libtiff
     - libpng
-    - openblas                       # [not win]
+    - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
@@ -140,7 +140,7 @@ test:
         ] %}
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
-        - OPENCV_FLAGS=`pkg-config --cflags opencv4`                           # [unix]
+        - OPENCV_FLAGS=`pkg-config --cflags opencv3`                           # [unix]
         - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test         # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
