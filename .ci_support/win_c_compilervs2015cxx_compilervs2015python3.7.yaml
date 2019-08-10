@@ -10,8 +10,10 @@ freetype:
 - 2.9.1
 jpeg:
 - '9'
+liblapacke:
+- 3.8.0 *netlib
 libpng:
-- 1.6.35
+- '1.6'
 libtiff:
 - 4.0.10
 libwebp:
@@ -39,7 +41,7 @@ pin_run_as_build:
 python:
 - '3.7'
 qt:
-- '5.9'
+- '5.12'
 zip_keys:
 - - python
   - c_compiler

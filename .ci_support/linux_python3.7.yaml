@@ -22,16 +22,16 @@ jasper:
 - 1.900.1
 jpeg:
 - '9'
+liblapacke:
+- 3.8.0 *netlib
 libpng:
-- 1.6.35
+- '1.6'
 libtiff:
 - 4.0.10
 libwebp:
 - 1.0.0
 numpy:
 - '1.14'
-openblas:
-- 0.3.6
 pin_run_as_build:
   freetype:
     max_pin: x
@@ -47,8 +47,6 @@ pin_run_as_build:
     max_pin: x
   libwebp:
     max_pin: x.x
-  openblas:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x
@@ -59,6 +57,6 @@ pin_run_as_build:
 python:
 - '3.7'
 qt:
-- '5.9'
+- '5.12'
 zlib:
 - '1.2'
