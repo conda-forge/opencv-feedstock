@@ -19,7 +19,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 1
+  number: 2
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
 
@@ -140,7 +140,7 @@ test:
         ] %}
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
-        - OPENCV_FLAGS=`pkg-config --cflags opencv3`                           # [unix]
+        - OPENCV_FLAGS=`pkg-config --cflags opencv2`                           # [unix]
         - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test         # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
