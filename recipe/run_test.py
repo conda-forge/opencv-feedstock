@@ -1,11 +1,13 @@
 import unittest
-import tempfile
 import os.path as op
 import platform
 import shutil
-import requests
-import cv2
+import tempfile
 
+import numpy as np
+import requests
+
+import cv2
 
 OPENCV_AVI_URL = 'https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi'
 
@@ -28,7 +30,19 @@ class TestVideoRead(unittest.TestCase):
 
     def test_load_avi(self):
         cap = cv2.VideoCapture(self.avi_path)
-        assert cap.read()[0]
+        res, frame = cap.read()
+        self.assertTrue(res, "Can not read video frame from file")
+
+
+class TestGEMM(unittest.TestCase):
+    def test_gemm_big(self):
+        sz = (500, 500)
+        a = np.ones(sz, dtype=float)
+        b = np.eye(sz[0])
+        c = np.ones(sz, dtype=float)
+        x = cv2.gemm(a, b, 2, c, 3)
+        gold = np.full(sz, 5, dtype=float)
+        self.assertTrue(np.array_equal(gold, x), "Array returned by GEMM is not valid")
 
 
 if __name__ == '__main__':

@@ -1,5 +1,4 @@
 {% set version = "3.4.7" %}
-{% set blas_variant = "openblas" %}
 
 package:
   name: opencv
@@ -20,11 +19,9 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 1
+  number: 2
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
-  features:                        # [not win]
-    - blas_{{ blas_variant }}      # [not win]
 
 requirements:
   build:
@@ -53,11 +50,10 @@ requirements:
     - libwebp
     - harfbuzz                       # [unix]
     - libpng
-    - openblas                       # [not win]
-    - blas 1.1 {{ blas_variant }}    # [not win]
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
-    - freetype 
+    - liblapacke
+    - freetype
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -69,8 +65,6 @@ requirements:
     - harfbuzz                       # [unix]
     - libtiff
     - libpng
-    - openblas                       # [not win]
-    - blas 1.1 {{ blas_variant }}    # [not win]
     - ffmpeg 4.1.*                   # [not win]
     - qt                             # [not osx]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
@@ -85,9 +79,19 @@ test:
       - {{ compiler('cxx') }}
       - requests
       - certifi
+      - pkg-config                 # [not win]
+      # Test with the two currently supported lapack implementatons
+      # One test done on different versions of python on each platform
+      - liblapack * *openblas         # [py==36]
+      - liblapack * *mkl              # [py==37]
+      - cmake
+      - ninja
     imports:
       - cv2
       - cv2.xfeatures2d
+    files:
+      - CMakeLists.txt
+      - test.cpp
 
     commands:
         # Verify dynamic libraries on all systems
@@ -136,7 +140,8 @@ test:
         ] %}
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
-        - $CXX $RECIPE_DIR/test.cpp -I$PREFIX/include  -L$PREFIX/lib -o test   # [unix]
+        - OPENCV_FLAGS=`pkg-config --cflags opencv`                           # [unix]
+        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test         # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         {% for each_opencv_lib in opencv_libs %}
@@ -146,6 +151,12 @@ test:
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
+        - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
+        - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
+        - mkdir -p cmake_build_test && pushd cmake_build_test
+        - cmake -G "Ninja" ..
+        - cmake --build . --config Release
+        - popd
 
 about:
   home: http://opencv.org/
