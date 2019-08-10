@@ -41,7 +41,7 @@ pin_run_as_build:
 python:
 - '3.6'
 qt:
-- '5.9'
+- '5.12'
 zip_keys:
 - - python
   - c_compiler
