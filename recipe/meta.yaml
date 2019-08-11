@@ -197,7 +197,7 @@ outputs:
         - {{ pin_compatible('numpy') }}
         - {{ pin_subpackage('libopencv', exact=True) }}
     test:
-      requires:                        # [not win]
+      requires:
         - requests                     # [not win]
         - certifi                      # [not win]
         # Test with the two currently supported lapack implementatons
