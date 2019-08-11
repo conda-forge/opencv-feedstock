@@ -208,9 +208,9 @@ outputs:
         - cv2
         - cv2.xfeatures2d
       files:
-        - cv2_ffmpeg_test.py
+        - run_py_test.py
       commands:
-        - python cv2_ffmpeg_test.py    # [not win]
+        - python run_py_test.py
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
