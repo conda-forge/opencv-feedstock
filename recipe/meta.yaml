@@ -198,8 +198,8 @@ outputs:
         - {{ pin_subpackage('libopencv', exact=True) }}
     test:
       requires:
-        - requests                     # [not win]
-        - certifi                      # [not win]
+        - requests
+        - certifi
         # Test with the two currently supported lapack implementatons
         # One test done on different versions of python on each platform
         - liblapack * *openblas         # [py==36]
