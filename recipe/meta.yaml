@@ -184,8 +184,11 @@ outputs:
   - name: py-opencv
     build:
       run_exports:
+        # Should we even have this???
         # don't pin the python version so hard.
-        - {{ pin_subpackage('py-opencv', max_pin='x.x') }}
+        # Actually, I have found pretty good compatibility in the python
+        # package
+        - {{ pin_subpackage('py-opencv') }}
     requirements:
       # There is no build script, but I just want it to think
       # that it needs python and numpy at build time
