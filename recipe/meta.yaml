@@ -19,7 +19,6 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-#
 {% set version = "4.1.1" %}
 
 package:
