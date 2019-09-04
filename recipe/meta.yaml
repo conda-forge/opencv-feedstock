@@ -1,7 +1,28 @@
+# This recipe creates 3 packages
+# libopencv, py-opencv, opencv
+#
+# libopencv actually contains all the files, including the site-packages
+# file needed to run opencv with python.
+#     opencv-dnn seems to change on every patch version, therefore, we pin
+#     to the patch version x.x.x
+#
+# py-opencv is a meta package that constrains the python dependencies
+#     This one is pinned to the minor version. x.x
+#
+# opencv is a backward compatible package, with no pinnings
+#
+# This approach is different than the one in defaults. Default's package
+# seperates well the files generated with python dependencies, from those
+# generated without. Unfortunately, this isn't entirely supported by
+# upstream. Their hacks are quite elaborate, making it seem difficult to
+# maintain as opencv has been changing their build system recently.
+#
+# By putting all the generated files in 1 package, this makes the build process
+# much easier, at the expense of a few MBs in the 'lib' package.
 {% set version = "4.1.1" %}
 
 package:
-  name: opencv
+  name: libopencv
   version: {{ version }}
 
 source:
@@ -17,9 +38,13 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 2
+  number: 3
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
+  run_exports:
+    # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
+    # Things seem to change every patch versions, mostly the dnn module
+    - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
 
 requirements:
   build:
@@ -53,8 +78,8 @@ requirements:
     - liblapacke
     - freetype
   run:
-    - python
-    - {{ pin_compatible('numpy') }}
+    # Don't depend on python in the run section
+    # py-opencv will depend on python
     - hdf5                           # [unix]
     - jasper                         # [unix]
     - zlib
@@ -75,18 +100,13 @@ test:
     requires:
       - {{ compiler('c') }}
       - {{ compiler('cxx') }}
-      - requests
-      - certifi
-      - pkg-config                 # [not win]
+      - pkg-config                    # [not win]
       # Test with the two currently supported lapack implementatons
       # One test done on different versions of python on each platform
       - liblapack * *openblas         # [py==36]
       - liblapack * *mkl              # [py==37]
       - cmake
       - ninja
-    imports:
-      - cv2
-      - cv2.xfeatures2d
     files:
       - CMakeLists.txt
       - test.cpp
@@ -140,7 +160,6 @@ test:
         - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
         - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test   # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
-        - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         {% for each_opencv_lib in opencv_libs %}
         - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
         - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
@@ -148,12 +167,56 @@ test:
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
-        - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
-        - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
         - mkdir -p cmake_build_test && pushd cmake_build_test
         - cmake -G "Ninja" ..
         - cmake --build . --config Release
         - popd
+
+outputs:
+  - name: libopencv
+  - name: opencv
+    requirements:
+      run:
+        - {{ pin_subpackage('libopencv', exact=True) }}
+        - {{ pin_subpackage('py-opencv', exact=True) }}
+
+  - name: py-opencv
+    build:
+      run_exports:
+        # Should we even have this???
+        # don't pin the python version so hard.
+        # Actually, I have found pretty good compatibility in the python
+        # package
+        - {{ pin_subpackage('py-opencv') }}
+    requirements:
+      # There is no build script, but I just want it to think
+      # that it needs python and numpy at build time
+      host:
+        - python
+        - numpy
+      run:
+        - python
+        - {{ pin_compatible('numpy') }}
+        - {{ pin_subpackage('libopencv', exact=True) }}
+    test:
+      requires:
+        - requests
+        - certifi
+        # Test with the two currently supported lapack implementatons
+        # One test done on different versions of python on each platform
+        - liblapack * *openblas         # [py==36]
+        - liblapack * *mkl              # [py==37]
+      imports:
+        - cv2
+        - cv2.xfeatures2d
+      files:
+        - run_py_test.py
+      commands:
+        - python run_py_test.py
+        - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
+        - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
+        - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
+
 
 about:
   home: http://opencv.org/
