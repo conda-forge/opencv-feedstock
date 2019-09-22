@@ -99,6 +99,7 @@ jobs:
       condition: not(contains(variables['CONFIG'], 'vs2008'))
 
     - script: |
+        set "GIT_BRANCH=%BUILD_SOURCEBRANCHNAME%"
         upload_package .\ .\recipe .ci_support\%CONFIG%.yaml
       env:
         BINSTAR_TOKEN: $(BINSTAR_TOKEN)

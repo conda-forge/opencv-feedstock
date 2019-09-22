@@ -1,5 +1,5 @@
-About opencv
-============
+About libopencv
+===============
 
 Home: http://opencv.org/
 
@@ -97,7 +97,12 @@ Current build status
       </details>
     </td>
   </tr>
-![ppc64le disabled](https://img.shields.io/badge/ppc64le-disabled-lightgrey.svg)
+  <tr>
+    <td>Linux_ppc64le</td>
+    <td>
+      <img src="https://img.shields.io/badge/ppc64le-disabled-lightgrey.svg" alt="ppc64le disabled">
+    </td>
+  </tr>
 </table>
 
 Current release info
@@ -105,27 +110,29 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libopencv-green.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-opencv-green.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-py--opencv-green.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) |
 
-Installing opencv
-=================
+Installing libopencv
+====================
 
-Installing `opencv` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `libopencv` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `opencv` can be installed with:
+Once the `conda-forge` channel has been enabled, `libopencv, opencv, py-opencv` can be installed with:
 
 ```
-conda install opencv
+conda install libopencv opencv py-opencv
 ```
 
-It is possible to list all of the versions of `opencv` available on your platform with:
+It is possible to list all of the versions of `libopencv` available on your platform with:
 
 ```
-conda search opencv --channel conda-forge
+conda search libopencv --channel conda-forge
 ```
 
 
@@ -167,17 +174,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating opencv-feedstock
-=========================
+Updating libopencv-feedstock
+============================
 
-If you would like to improve the opencv recipe or build a new
+If you would like to improve the libopencv recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/opencv-feedstock are
+Note that all branches in the conda-forge/libopencv-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.

@@ -51,4 +51,5 @@ build: off
 test_script:
     - conda.exe build recipe -m .ci_support\%CONFIG%.yaml
 deploy_script:
+    - set "GIT_BRANCH=%APPVEYOR_REPO_BRANCH%"
     - cmd: upload_package .\ .\recipe .ci_support\%CONFIG%.yaml
