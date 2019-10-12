@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
 set +x
+
+
 SHORT_OS_STR=$(uname -s)
+
+# https://github.com/conda-forge/qt-feedstock/issues/123
+if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
+  sed -i 's|_qt5gui_find_extra_libs(EGL.*)|_qt5gui_find_extra_libs(EGL "EGL" "" "")|g' $PREFIX/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake
+  sed -i 's|_qt5gui_find_extra_libs(OPENGL.*)|_qt5gui_find_extra_libs(OPENGL "GL" "" "")|g' $PREFIX/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake
+fi
+
 
 QT="5"
 V4L="1"
@@ -29,7 +38,6 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     # CPU_DISPATCH:STRING=SSE4_1;SSE4_2;AVX;FP16;AVX2;AVX512_SKX
     CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;AVX;FP16"
 fi
-
 CMAKE_TOOLCHAIN_CMD_FLAGS=""
 if [ "$c_compiler" = clang ]; then
     CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_AR=${AR}"
