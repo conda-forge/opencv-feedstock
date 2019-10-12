@@ -40,6 +40,7 @@ build:
   skip: true  # [win and py27]
   # debugging, remove this line
   skip: true  # [not linux]
+  skip: true  # [py!=36]
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
@@ -62,7 +63,7 @@ requirements:
     - {{ cdt('libxfixes') }}          # [linux]
     - {{ cdt('libxxf86vm') }}         # [linux]
   host:
-    - {{ cdt('mesa-libel-devel') }}   # [linux]
+    - {{ cdt('mesa-libgl-devel') }}   # [linux]
     - {{ cdt('mesa-libegl-devel') }}  # [linux]
     - python
     - numpy
