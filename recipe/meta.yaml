@@ -62,6 +62,7 @@ requirements:
     - {{ cdt('libxfixes') }}          # [linux]
     - {{ cdt('libxxf86vm') }}         # [linux]
   host:
+    - {{ cdt('mesa-libegl-devel') }}  # [linux]
     - python
     - numpy
     - hdf5                           # [unix]
