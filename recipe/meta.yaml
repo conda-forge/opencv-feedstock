@@ -63,8 +63,6 @@ requirements:
     - {{ cdt('libxfixes') }}          # [linux]
     - {{ cdt('libxxf86vm') }}         # [linux]
   host:
-    - {{ cdt('mesa-libgl-devel') }}   # [linux]
-    - {{ cdt('mesa-libegl-devel') }}  # [linux]
     - python
     - numpy
     - hdf5                           # [unix]
@@ -103,8 +101,6 @@ test:
     requires:
       - {{ compiler('c') }}
       - {{ compiler('cxx') }}
-      - {{ cdt('mesa-libgl-devel') }}   # [linux]
-      - {{ cdt('mesa-libegl-devel') }}  # [linux]
       - pkg-config                    # [not win]
       # Test with the two currently supported lapack implementatons
       # One test done on different versions of python on each platform
