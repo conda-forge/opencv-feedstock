@@ -100,7 +100,8 @@ test:
     requires:
       - {{ compiler('c') }}
       - {{ compiler('cxx') }}
-      - {{ cdt('mesa-libgl-devel') }}  # [linux]
+      - {{ cdt('mesa-libgl-devel') }}   # [linux]
+      - {{ cdt('mesa-libegl-devel') }}  # [linux] 
       - pkg-config                    # [not win]
       # Test with the two currently supported lapack implementatons
       # One test done on different versions of python on each platform
