@@ -56,6 +56,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
+    - {{ cdt('mesa-libegl-devel') }}  # [linux]
     - {{ cdt('mesa-dri-drivers') }}  # [linux]
     - {{ cdt('libselinux') }}        # [linux]
     - {{ cdt('libxdamage') }}        # [linux]
