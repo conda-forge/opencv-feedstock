@@ -73,7 +73,7 @@ requirements:
     - libwebp
     - harfbuzz                       # [unix]
     - libpng
-    - ffmpeg 4.1.*                   # [not win]
+    - ffmpeg                         # [not win]
     - qt                             # [not osx]
     - liblapacke
     - freetype
@@ -88,7 +88,7 @@ requirements:
     - harfbuzz                       # [unix]
     - libtiff
     - libpng
-    - ffmpeg 4.1.*                   # [not win]
+    - ffmpeg                         # [not win]
     - qt                             # [not osx]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
