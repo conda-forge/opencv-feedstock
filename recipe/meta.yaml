@@ -108,7 +108,7 @@ test:
       - liblapack * *mkl              # [py==37]
       - cmake
       - ninja
-      - qt 5.12.1  # [linux]
+      - qt 5.12.1                     # [linux]
     files:
       - CMakeLists.txt
       - test.cpp
