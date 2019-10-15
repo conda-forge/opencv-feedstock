@@ -74,7 +74,7 @@ requirements:
     - harfbuzz                       # [unix]
     - libpng
     - ffmpeg                         # [not win]
-    - qt 5.12.1                      # [not osx]
+    - qt 5.9                         # [not osx]
     - liblapacke
     - freetype
   run:
@@ -89,7 +89,7 @@ requirements:
     - libtiff
     - libpng
     - ffmpeg                         # [not win]
-    - qt  5.12                       # [not osx]
+    - qt  5.9                        # [not osx]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
     # That or a dependency wasn't merged in
@@ -109,7 +109,6 @@ test:
       - liblapack * *mkl              # [py==37]
       - cmake
       - ninja
-      - qt 5.12.1   # [not osx]
     files:
       - CMakeLists.txt
       - test.cpp
