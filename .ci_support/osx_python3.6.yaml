@@ -3,7 +3,7 @@ MACOSX_DEPLOYMENT_TARGET:
 c_compiler:
 - clang
 c_compiler_version:
-- '4'
+- '9'
 channel_sources:
 - conda-forge,defaults
 channel_targets:
@@ -11,7 +11,9 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '4'
+- '9'
+ffmpeg:
+- '4.1'
 freetype:
 - 2.9.1
 harfbuzz:
@@ -37,6 +39,8 @@ macos_min_version:
 numpy:
 - '1.14'
 pin_run_as_build:
+  ffmpeg:
+    max_pin: x.x
   freetype:
     max_pin: x
   harfbuzz:

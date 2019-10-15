@@ -12,6 +12,8 @@ cxx_compiler_version:
 - '7'
 docker_image:
 - condaforge/linux-anvil-comp7
+ffmpeg:
+- '4.1'
 freetype:
 - 2.9.1
 harfbuzz:
@@ -33,6 +35,8 @@ libwebp:
 numpy:
 - '1.14'
 pin_run_as_build:
+  ffmpeg:
+    max_pin: x.x
   freetype:
     max_pin: x
   harfbuzz:
@@ -50,13 +54,9 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-  qt:
-    max_pin: x.x
   zlib:
     max_pin: x.x
 python:
 - '2.7'
-qt:
-- '5.12'
 zlib:
 - '1.2'
