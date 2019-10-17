@@ -40,7 +40,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 4
+  number: 5
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   run_exports:
@@ -75,8 +75,8 @@ requirements:
     - libwebp
     - harfbuzz                       # [unix]
     - libpng
-    - ffmpeg 4.1.*                   # [not win]
-    - qt                             # [not osx]
+    - ffmpeg                         # [not win]
+    - qt       5.12.1                # [not osx]
     - liblapacke
     - freetype
   run:
@@ -90,8 +90,8 @@ requirements:
     - harfbuzz                       # [unix]
     - libtiff
     - libpng
-    - ffmpeg 4.1.*                   # [not win]
-    - qt                             # [not osx]
+    - ffmpeg                         # [not win]
+    - qt        5.12                 # [not osx]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
     # That or a dependency wasn't merged in
@@ -109,6 +109,7 @@ test:
       - liblapack * *mkl              # [py==37]
       - cmake
       - ninja
+      - qt        5.12.1              # [linux]
     files:
       - CMakeLists.txt
       - test.cpp
