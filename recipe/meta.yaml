@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.1.1" %}
+{% set version = "4.1.2" %}
 
 package:
   name: libopencv
@@ -28,17 +28,14 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: 5de5d96bdfb9dad6e6061d70f47a0a91cee96bb35afb9afb9ecb3d43e243d217
-    patches:
-        - 0001-cmake-download-tries-customizable-download-parameter.patch
-        - 0001-Fix-for-building-with-old-V4L.patch
+    sha256: 385dd0a9c25e67ef0dd60e022d2a2d7b17e2f36819cf3cb46aa8cdff5c5282c9
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 9f85d380758498d800fec26307e389620cde8b1a2e86ab51cddc5200fbe37102
+    sha256: 0f6c3d30baa39e3e7611afb481ee86dea45dafb182cac87d570c95dccd83eb8b
     folder: opencv_contrib
 
 build:
-  number: 4
+  number: 0
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   run_exports:
