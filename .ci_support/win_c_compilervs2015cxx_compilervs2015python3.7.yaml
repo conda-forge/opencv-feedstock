@@ -17,7 +17,7 @@ libpng:
 libtiff:
 - 4.0.10
 libwebp:
-- 1.0.0
+- '1.0'
 numpy:
 - '1.14'
 pin_run_as_build:
