@@ -53,8 +53,8 @@ cd build
 if [ $PY3K -eq 1 ]; then
     PY_MAJOR=3
     PY_UNSET_MAJOR=2
-    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}m${SHLIB_EXT}"
-    INC_PYTHON="$PREFIX/include/python${PY_VER}m"
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
+    INC_PYTHON="$PREFIX/include/python${PY_VER}"
 else
     PY_MAJOR=2
     PY_UNSET_MAJOR=3
