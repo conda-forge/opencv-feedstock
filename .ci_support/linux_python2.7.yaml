@@ -13,7 +13,7 @@ cxx_compiler_version:
 docker_image:
 - condaforge/linux-anvil-comp7
 ffmpeg:
-- '4.0'
+- '4.1'
 freetype:
 - 2.9.1
 harfbuzz:
@@ -31,7 +31,7 @@ libpng:
 libtiff:
 - 4.0.10
 libwebp:
-- 1.0.0
+- '1.0'
 numpy:
 - '1.14'
 pin_run_as_build:

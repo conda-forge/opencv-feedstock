@@ -1,27 +1,13 @@
 c_compiler:
-- gcc
-c_compiler_version:
-- '7'
+- vs2015
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
-cxx_compiler_version:
-- '7'
-docker_image:
-- condaforge/linux-anvil-comp7
-ffmpeg:
-- '4.1'
+- vs2015
 freetype:
 - 2.9.1
-harfbuzz:
-- '2'
-hdf5:
-- 1.10.5
-jasper:
-- 1.900.1
 jpeg:
 - '9'
 liblapacke:
@@ -35,13 +21,7 @@ libwebp:
 numpy:
 - '1.14'
 pin_run_as_build:
-  ffmpeg:
-    max_pin: x.x
   freetype:
-    max_pin: x
-  harfbuzz:
-    max_pin: x
-  jasper:
     max_pin: x
   jpeg:
     max_pin: x
@@ -57,6 +37,10 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- '3.7'
+- '3.8'
+zip_keys:
+- - python
+  - c_compiler
+  - cxx_compiler
 zlib:
 - '1.2'
