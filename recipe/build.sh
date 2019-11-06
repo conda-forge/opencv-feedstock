@@ -53,8 +53,14 @@ cd build
 if [ $PY3K -eq 1 ]; then
     PY_MAJOR=3
     PY_UNSET_MAJOR=2
-    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}m${SHLIB_EXT}"
-    INC_PYTHON="$PREFIX/include/python${PY_VER}m"
+    # Python 3.8 now combines the "m" and the "no m" builds in 1.
+    if [ ${PY_VER} == "3.6" ] || [ ${PY_VER} == "3.7" ]; then
+        LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}m"
+        INC_PYTHON="$PREFIX/include/python${PY_VER}m"
+    else
+        LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
+        INC_PYTHON="$PREFIX/include/python${PY_VER}"
+    fi
 else
     PY_MAJOR=2
     PY_UNSET_MAJOR=3
