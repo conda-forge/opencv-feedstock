@@ -35,7 +35,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 0
+  number: 1
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   run_exports:
@@ -205,6 +205,8 @@ outputs:
         # One test done on different versions of python on each platform
         - liblapack * *openblas         # [py==36]
         - liblapack * *mkl              # [py==37]
+        - libtiff 4.1                   # [py==36]
+        - libtiff 4.0                   # [py==37]
       imports:
         - cv2
         - cv2.xfeatures2d
