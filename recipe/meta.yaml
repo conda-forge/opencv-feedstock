@@ -33,6 +33,9 @@ source:
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 0f6c3d30baa39e3e7611afb481ee86dea45dafb182cac87d570c95dccd83eb8b
     folder: opencv_contrib
+  - url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi
+    fn: VID00003-20100701-2204.avi
+    sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
 
 build:
   number: 1
@@ -201,8 +204,6 @@ outputs:
         - {{ pin_subpackage('libopencv', exact=True) }}
     test:
       requires:
-        - requests
-        - certifi
         # Test with the two currently supported lapack implementatons
         # One test done on different versions of python on each platform
         - liblapack * *mkl              # [py==36]
@@ -214,6 +215,7 @@ outputs:
         - cv2.xfeatures2d
       files:
         - run_py_test.py
+        - VID00003-20100701-2204.avi
       commands:
         - python run_py_test.py
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
