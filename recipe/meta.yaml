@@ -101,8 +101,10 @@ test:
       - pkg-config                    # [not win]
       # Test with the two currently supported lapack implementatons
       # One test done on different versions of python on each platform
-      - liblapack * *openblas         # [py==36]
+      - liblapack * *mkl              # [py==36]
       - liblapack * *mkl              # [py==37]
+      - libtiff   4.0                 # [py==36]
+      - libtiff   4.1                 # [py==37]
       - cmake
       - ninja
       - qt 5.12.1                     # [linux]
@@ -203,10 +205,10 @@ outputs:
         - certifi
         # Test with the two currently supported lapack implementatons
         # One test done on different versions of python on each platform
-        - liblapack * *openblas         # [py==36]
+        - liblapack * *mkl              # [py==36]
         - liblapack * *mkl              # [py==37]
-        - libtiff 4.1                   # [py==36]
-        - libtiff 4.0                   # [py==37]
+        - libtiff 4.0                   # [py==36]
+        - libtiff 4.1                   # [py==37]
       imports:
         - cv2
         - cv2.xfeatures2d
