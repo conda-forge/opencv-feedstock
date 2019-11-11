@@ -1,11 +1,7 @@
 import unittest
-import os.path as op
 import platform
-import shutil
-import tempfile
 
 import numpy as np
-import requests
 
 import cv2
 
@@ -31,7 +27,8 @@ class TestGEMM(unittest.TestCase):
         c = np.ones(sz, dtype=float)
         x = cv2.gemm(a, b, 2, c, 3)
         gold = np.full(sz, 5, dtype=float)
-        self.assertTrue(np.array_equal(gold, x), "Array returned by GEMM is not valid")
+        self.assertTrue(np.array_equal(gold, x),
+                        "Array returned by GEMM is not valid")
 
 
 if __name__ == '__main__':
