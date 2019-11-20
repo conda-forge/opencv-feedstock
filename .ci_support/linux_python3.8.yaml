@@ -29,7 +29,7 @@ liblapacke:
 libpng:
 - '1.6'
 libtiff:
-- 4.0.10
+- 4.1.0
 libwebp:
 - '1.0'
 numpy:
