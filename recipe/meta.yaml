@@ -20,6 +20,9 @@
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
 {% set version = "4.1.2" %}
+{% set PY_VER_MAJOR = PY_VER[0] %}
+{% set PY_VER_MINOR = PY_VER[2] %}
+
 
 package:
   name: libopencv
@@ -38,7 +41,7 @@ build:
   # Trailing 2 is the build number
   number: 2
   # How to remove the dot in the py_ver???
-  string: py{{ PY_VER }}_{{ PKG_BUILDNUM }}
+  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   run_exports:
