@@ -93,6 +93,8 @@ requirements:
     # That or a dependency wasn't merged in
     # Since we don't know the cause, we are choosing this pinning on all platforms.
     - {{ pin_compatible('freetype', min_pin='x.x') }}
+  run_constrained:
+    - python
 
 test:
     requires:
@@ -178,6 +180,8 @@ outputs:
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
+      run_constrained:
+        - python
 
   - name: py-opencv
     build:
