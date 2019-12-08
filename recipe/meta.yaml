@@ -30,10 +30,10 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    #sha256: ea743896a604a6ba1e1c1651ad42c97d0f90165debe9940811c7e0bdaa307526
+    sha256: f0901648a1db3dc3af30e65082665921dbe998673137380450bdd91e8251b567
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    #sha256: 5e3ba5fbe0ff3ab7462d42c08501f8c15d3e46b0684aee281f735345e1353cb4
+    sha256: f7daa4136a73261566e4b372d0a5186ce46bb5dbdf6d1bcce0d373a1bb887f83
     folder: opencv_contrib
 
 build:
