@@ -10,17 +10,17 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      osx_python2.7:
-        CONFIG: osx_python2.7
+      osx_python2.7qt_version5.12:
+        CONFIG: osx_python2.7qt_version5.12
         UPLOAD_PACKAGES: True
-      osx_python3.6:
-        CONFIG: osx_python3.6
+      osx_python3.6qt_version5.12:
+        CONFIG: osx_python3.6qt_version5.12
         UPLOAD_PACKAGES: True
-      osx_python3.7:
-        CONFIG: osx_python3.7
+      osx_python3.7qt_version5.12:
+        CONFIG: osx_python3.7qt_version5.12
         UPLOAD_PACKAGES: True
-      osx_python3.8:
-        CONFIG: osx_python3.8
+      osx_python3.8qt_version5.12:
+        CONFIG: osx_python3.8qt_version5.12
         UPLOAD_PACKAGES: True
 
   steps:

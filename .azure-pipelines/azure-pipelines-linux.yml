@@ -10,20 +10,36 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      linux_python2.7:
-        CONFIG: linux_python2.7
+      linux_python2.7qt_version5.12:
+        CONFIG: linux_python2.7qt_version5.12
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_python3.6:
-        CONFIG: linux_python3.6
+      linux_python2.7qt_version5.9:
+        CONFIG: linux_python2.7qt_version5.9
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_python3.7:
-        CONFIG: linux_python3.7
+      linux_python3.6qt_version5.12:
+        CONFIG: linux_python3.6qt_version5.12
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_python3.8:
-        CONFIG: linux_python3.8
+      linux_python3.6qt_version5.9:
+        CONFIG: linux_python3.6qt_version5.9
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      linux_python3.7qt_version5.12:
+        CONFIG: linux_python3.7qt_version5.12
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      linux_python3.7qt_version5.9:
+        CONFIG: linux_python3.7qt_version5.9
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      linux_python3.8qt_version5.12:
+        CONFIG: linux_python3.8qt_version5.12
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      linux_python3.8qt_version5.9:
+        CONFIG: linux_python3.8qt_version5.9
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-comp7
   steps:
