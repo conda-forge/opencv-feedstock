@@ -213,6 +213,7 @@ outputs:
         - cv2.xfeatures2d
       files:
         - run_py_test.py
+        - color_palette_alpha.png
       commands:
         - python run_py_test.py
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]

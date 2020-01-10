@@ -11,7 +11,6 @@ import cv2
 
 OPENCV_AVI_URL = 'https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi'
 
-
 @unittest.skipIf(platform.system() == 'Windows',
                  'FFMPEG currently not built on Windows')
 class TestVideoRead(unittest.TestCase):
@@ -32,6 +31,12 @@ class TestVideoRead(unittest.TestCase):
         cap = cv2.VideoCapture(self.avi_path)
         res, frame = cap.read()
         self.assertTrue(res, "Can not read video frame from file")
+
+
+class TestImageRead(unittest.TestCase):
+    def test_load_image(self):
+        im = cv2.imread('color_palette_alpha.png')
+        self.assertIsNotNone(im, "Cannot read image from file")
 
 
 class TestGEMM(unittest.TestCase):
