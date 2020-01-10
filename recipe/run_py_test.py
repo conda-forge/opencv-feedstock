@@ -10,7 +10,7 @@ import requests
 import cv2
 
 OPENCV_AVI_URL = 'https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi'
-
+OPENCV_IMAGE_URL = 'https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/readwrite/color_palette_alpha.png'
 
 @unittest.skipIf(platform.system() == 'Windows',
                  'FFMPEG currently not built on Windows')
@@ -32,6 +32,24 @@ class TestVideoRead(unittest.TestCase):
         cap = cv2.VideoCapture(self.avi_path)
         res, frame = cap.read()
         self.assertTrue(res, "Can not read video frame from file")
+
+
+class TestImageRead(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.temp_dir = tempfile.mkdtemp()
+        cls.image_path = op.join(cls.temp_dir, 'test.png')
+        req = requests.get(OPENCV_IMAGE_URL, stream=True)
+        with open(cls.image_path, 'wb') as f:
+            shutil.copyfileobj(req.raw, f)
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.image_path, ignore_errors=True)
+
+    def test_load_image(self):
+        im = cv2.imread(self.image_path)
+        self.assertIsNotNone(im, "Cannot read image from file")
 
 
 class TestGEMM(unittest.TestCase):
