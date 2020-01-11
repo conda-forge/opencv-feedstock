@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set +x
+set +ex
 SHORT_OS_STR=$(uname -s)
 
 # TODO: cleanup things if this works.
@@ -72,7 +72,6 @@ else
     INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
 
-
 PYTHON_SET_FLAG="-DBUILD_opencv_python${PY_MAJOR}=1"
 PYTHON_SET_EXE="-DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}"
 PYTHON_SET_INC="-DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON} "
@@ -91,7 +90,6 @@ PYTHON_UNSET_INSTALL="-DOPENCV_PYTHON${PY_UNSET_MAJOR}_INSTALL_PATH=${SP_DIR}"
 
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
-
 
 cmake -LAH -G "Ninja"                                                     \
     -DCMAKE_BUILD_TYPE="Release"                                          \
