@@ -142,6 +142,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
     -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
     -DPNG_INCLUDE_DIR=${PREFIX}/include                                   \
+    -DPNG_LIBRARY=${PREFIX}/lib/libpng${SHLIB_EXT}                        \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
     $PYTHON_SET_FLAG                                                      \
