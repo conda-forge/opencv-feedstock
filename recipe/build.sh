@@ -3,6 +3,10 @@
 set +x
 SHORT_OS_STR=$(uname -s)
 
+# CMake FindPNG seems to look in libpng not libpng16
+# https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
+ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
+
 QT="5"
 V4L="1"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
