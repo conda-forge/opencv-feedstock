@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set +ex
+set +x
 SHORT_OS_STR=$(uname -s)
 
 # TODO: cleanup things if this works.
