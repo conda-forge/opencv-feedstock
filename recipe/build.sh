@@ -3,6 +3,10 @@
 set +x
 SHORT_OS_STR=$(uname -s)
 
+# TODO: cleanup things if this works.
+# FindPNG seems to look in libpng not libpng16
+ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
+
 QT="5"
 V4L="1"
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
