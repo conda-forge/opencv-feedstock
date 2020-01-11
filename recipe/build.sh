@@ -142,7 +142,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DOPENCV_SKIP_PYTHON_LOADER=1                                         \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
     -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
-    -DPNG_INCLUDE_DIR=${PREFIX}/include                                   \
+    -DPNG_PNG_INCLUDE_DIR=${PREFIX}/include                               \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
     $PYTHON_SET_FLAG                                                      \

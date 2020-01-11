@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "3.4.8" %}
+{% set version = "3.4.9" %}
 {% set PY_VER_MAJOR = PY_VER[0] %}
 {% set PY_VER_MINOR = PY_VER[2] %}
 
@@ -30,14 +30,14 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: f0901648a1db3dc3af30e65082665921dbe998673137380450bdd91e8251b567
+    sha256: b7ea364de7273cfb3b771a0d9c111b8b8dfb42ff2bcd2d84681902fb8f49892a
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: f7daa4136a73261566e4b372d0a5186ce46bb5dbdf6d1bcce0d373a1bb887f83
+    sha256: dc7d95be6aaccd72490243efcec31e2c7d3f21125f88286186862cf9edb14a57
     folder: opencv_contrib
 
 build:
-  number: 7
+  number: 0
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
