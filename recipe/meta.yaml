@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "3.4.9" %}
+{% set version = "3.4.7" %}
 {% set PY_VER_MAJOR = PY_VER[0] %}
 {% set PY_VER_MINOR = PY_VER[2] %}
 
@@ -30,14 +30,19 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: b7ea364de7273cfb3b771a0d9c111b8b8dfb42ff2bcd2d84681902fb8f49892a
+    sha256: ea743896a604a6ba1e1c1651ad42c97d0f90165debe9940811c7e0bdaa307526
+    patches:
+      - 0001-Fix-for-building-with-old-V4L.patch- 0001-Fix-for-building-with-old-V4L.patch
+      - 0001-cmake-download-tries-customizable-download-parameter.patch
+      # https://github.com/opencv/opencv/pull/15222
+      - 15222-verify_carbon_correctly.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: dc7d95be6aaccd72490243efcec31e2c7d3f21125f88286186862cf9edb14a57
+    sha256: 5e3ba5fbe0ff3ab7462d42c08501f8c15d3e46b0684aee281f735345e1353cb4
     folder: opencv_contrib
 
 build:
-  number: 1
+  number: 8
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
