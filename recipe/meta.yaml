@@ -42,7 +42,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 8
+  number: 9
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
@@ -218,6 +218,7 @@ outputs:
       files:
         - run_py_test.py
         - color_palette_alpha.png
+        - test_1_c1.jpg
       commands:
         - python run_py_test.py
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
