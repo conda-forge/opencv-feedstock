@@ -8,7 +8,7 @@ Package license: BSD 3-clause
 Feedstock license: BSD 3-Clause
 
 Summary: Computer vision and machine learning software library.
- 
+
 
 
 Current build status
