@@ -1,13 +1,27 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '10.9'
 c_compiler:
-- vs2015
+- clang
+c_compiler_version:
+- '9'
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2015
+- clangxx
+cxx_compiler_version:
+- '9'
+ffmpeg:
+- '4.1'
 freetype:
 - 2.9.1
+harfbuzz:
+- '2'
+hdf5:
+- 1.10.5
+jasper:
+- 1.900.1
 jpeg:
 - '9'
 liblapacke:
@@ -18,10 +32,20 @@ libtiff:
 - 4.1.0
 libwebp:
 - '1.0'
+macos_machine:
+- x86_64-apple-darwin13.4.0
+macos_min_version:
+- '10.9'
 numpy:
 - '1.14'
 pin_run_as_build:
+  ffmpeg:
+    max_pin: x.x
   freetype:
+    max_pin: x
+  harfbuzz:
+    max_pin: x
+  jasper:
     max_pin: x
   jpeg:
     max_pin: x
@@ -34,13 +58,15 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
+  qt:
+    max_pin: x.x
   zlib:
     max_pin: x.x
 python:
-- '3.6'
-zip_keys:
-- - python
-  - c_compiler
-  - cxx_compiler
+- '3.8'
+qt:
+- '5.12'
+qt_version:
+- '5.12'
 zlib:
 - '1.2'

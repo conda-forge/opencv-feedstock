@@ -10,16 +10,28 @@ jobs:
   strategy:
     maxParallel: 4
     matrix:
-      win_c_compilervs2015cxx_compilervs2015python3.6:
-        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.6
+      win_c_compilervs2015cxx_compilervs2015python3.6qt_version5.12:
+        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.6qt_version5.12
         CONDA_BLD_PATH: D:\\bld\\
         UPLOAD_PACKAGES: True
-      win_c_compilervs2015cxx_compilervs2015python3.7:
-        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.7
+      win_c_compilervs2015cxx_compilervs2015python3.6qt_version5.9:
+        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.6qt_version5.9
         CONDA_BLD_PATH: D:\\bld\\
         UPLOAD_PACKAGES: True
-      win_c_compilervs2015cxx_compilervs2015python3.8:
-        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.8
+      win_c_compilervs2015cxx_compilervs2015python3.7qt_version5.12:
+        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.7qt_version5.12
+        CONDA_BLD_PATH: D:\\bld\\
+        UPLOAD_PACKAGES: True
+      win_c_compilervs2015cxx_compilervs2015python3.7qt_version5.9:
+        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.7qt_version5.9
+        CONDA_BLD_PATH: D:\\bld\\
+        UPLOAD_PACKAGES: True
+      win_c_compilervs2015cxx_compilervs2015python3.8qt_version5.12:
+        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.8qt_version5.12
+        CONDA_BLD_PATH: D:\\bld\\
+        UPLOAD_PACKAGES: True
+      win_c_compilervs2015cxx_compilervs2015python3.8qt_version5.9:
+        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.8qt_version5.9
         CONDA_BLD_PATH: D:\\bld\\
         UPLOAD_PACKAGES: True
   steps:

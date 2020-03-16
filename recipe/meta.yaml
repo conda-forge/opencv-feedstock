@@ -38,7 +38,10 @@ source:
 
 build:
   number: 2
-  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
+  # Not sure if we need the line below yet.
+  # string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  # Only have a single osx build
+  skip: true  # [osx and qt_version != "5.12"]
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
   run_exports:
@@ -75,7 +78,8 @@ requirements:
     - harfbuzz                       # [unix]
     - libpng
     - ffmpeg                         # [not win]
-    - qt 5.12.1                      # [not osx]
+    - qt 5.12.1                      # [(not osx) and (qt_version == "5.12")]
+    - qt 5.9                         # [(not osx) and (qt_version == "5.9")]
     - liblapacke
     - freetype
   run:
@@ -90,7 +94,8 @@ requirements:
     - libtiff
     - libpng
     - ffmpeg                         # [not win]
-    - qt 5.12                        # [not osx]
+    - qt 5.12                        # [(not osx) and (qt_version == "5.12")]
+    - qt 5.9                         # [(not osx) and (qt_version == "5.9")]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
     # That or a dependency wasn't merged in
@@ -108,7 +113,8 @@ test:
       - liblapack * *mkl              # [py==37]
       - cmake
       - ninja
-      - qt 5.12.1                     # [linux]
+      # Troubles occur when trying to build things with qt = 5.12.5
+      - qt 5.12.1                     # [(not osx) and (qt_version == "5.12")]
     files:
       - CMakeLists.txt
       - test.cpp
@@ -176,6 +182,9 @@ test:
 
 outputs:
   - name: libopencv
+    # Add something to create a unique hash
+    extra:
+      qt_version: {{ qt_version }}
   - name: opencv
     requirements:
       run:
