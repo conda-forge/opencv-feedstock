@@ -10,16 +10,16 @@ jobs:
   strategy:
     maxParallel: 4
     matrix:
-      win_c_compilervs2015cxx_compilervs2015python3.6:
-        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.6
+      win_python3.6.____cpython:
+        CONFIG: win_python3.6.____cpython
         CONDA_BLD_PATH: D:\\bld\\
         UPLOAD_PACKAGES: True
-      win_c_compilervs2015cxx_compilervs2015python3.7:
-        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.7
+      win_python3.7.____cpython:
+        CONFIG: win_python3.7.____cpython
         CONDA_BLD_PATH: D:\\bld\\
         UPLOAD_PACKAGES: True
-      win_c_compilervs2015cxx_compilervs2015python3.8:
-        CONFIG: win_c_compilervs2015cxx_compilervs2015python3.8
+      win_python3.8.____cpython:
+        CONFIG: win_python3.8.____cpython
         CONDA_BLD_PATH: D:\\bld\\
         UPLOAD_PACKAGES: True
   steps:
@@ -66,13 +66,13 @@ jobs:
       inputs:
         packageSpecs: 'python=3.6 conda-build conda conda-forge::conda-forge-ci-setup=2' # Optional
         installOptions: "-c conda-forge"
-        updateConda: false
+        updateConda: true
       displayName: Install conda-build and activate environment
 
     - script: set PYTHONUNBUFFERED=1
 
     # Configure the VM
-    - script: setup_conda_rc .\ .\recipe .\.ci_support\%CONFIG%.yaml
+    - script: setup_conda_rc .\ ".\recipe" .\.ci_support\%CONFIG%.yaml
 
     # Configure the VM.
     - script: |
@@ -88,7 +88,7 @@ jobs:
 
     # Special cased version setting some more things!
     - script: |
-        conda.exe build recipe -m .ci_support\%CONFIG%.yaml
+        conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml
       displayName: Build recipe (vs2008)
       env:
         VS90COMNTOOLS: "C:\\Program Files (x86)\\Common Files\\Microsoft\\Visual C++ for Python\\9.0\\VC\\bin"
@@ -96,7 +96,7 @@ jobs:
       condition: contains(variables['CONFIG'], 'vs2008')
 
     - script: |
-        conda.exe build recipe -m .ci_support\%CONFIG%.yaml
+        conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml
       displayName: Build recipe
       env:
         PYTHONUNBUFFERED: 1
@@ -104,8 +104,8 @@ jobs:
 
     - script: |
         set "GIT_BRANCH=%BUILD_SOURCEBRANCHNAME%"
-        upload_package .\ .\recipe .ci_support\%CONFIG%.yaml
+        upload_package .\ ".\recipe" .ci_support\%CONFIG%.yaml
       displayName: Upload package
       env:
         BINSTAR_TOKEN: $(BINSTAR_TOKEN)
-      condition: not(eq(variables['UPLOAD_PACKAGES'], 'False'))
+      condition: and(succeeded(), not(eq(variables['UPLOAD_PACKAGES'], 'False')))

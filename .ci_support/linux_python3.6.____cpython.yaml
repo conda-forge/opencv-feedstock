@@ -57,6 +57,6 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- '3.6'
+- 3.6.* *_cpython
 zlib:
 - '1.2'
