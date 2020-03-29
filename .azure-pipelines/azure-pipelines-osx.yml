@@ -5,22 +5,19 @@
 jobs:
 - job: osx
   pool:
-    vmImage: macOS-10.13
+    vmImage: macOS-10.14
   timeoutInMinutes: 360
   strategy:
     maxParallel: 8
     matrix:
-      osx_python2.7:
-        CONFIG: osx_python2.7
+      osx_python3.6.____cpython:
+        CONFIG: osx_python3.6.____cpython
         UPLOAD_PACKAGES: True
-      osx_python3.6:
-        CONFIG: osx_python3.6
+      osx_python3.7.____cpython:
+        CONFIG: osx_python3.7.____cpython
         UPLOAD_PACKAGES: True
-      osx_python3.7:
-        CONFIG: osx_python3.7
-        UPLOAD_PACKAGES: True
-      osx_python3.8:
-        CONFIG: osx_python3.8
+      osx_python3.8.____cpython:
+        CONFIG: osx_python3.8.____cpython
         UPLOAD_PACKAGES: True
 
   steps:
@@ -51,7 +48,7 @@ jobs:
       source activate base
       echo "Configuring conda."
 
-      setup_conda_rc ./ ./recipe ./.ci_support/${CONFIG}.yaml
+      setup_conda_rc ./ "./recipe" ./.ci_support/${CONFIG}.yaml
       export CI=azure
       source run_conda_forge_build_setup
       conda update --yes --quiet --override-channels -c conda-forge -c defaults --all
@@ -62,24 +59,24 @@ jobs:
 
   - script: |
       source activate base
-      mangle_compiler ./ ./recipe ./.ci_support/${CONFIG}.yaml
+      mangle_compiler ./ "./recipe" ./.ci_support/${CONFIG}.yaml
     displayName: Mangle compiler
 
   - script: |
       source activate base
-      make_build_number ./ ./recipe ./.ci_support/${CONFIG}.yaml
+      make_build_number ./ "./recipe" ./.ci_support/${CONFIG}.yaml
     displayName: Generate build number clobber file
 
   - script: |
       source activate base
-      conda build ./recipe -m ./.ci_support/${CONFIG}.yaml --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
+      conda build "./recipe" -m ./.ci_support/${CONFIG}.yaml --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
     displayName: Build recipe
 
   - script: |
       source activate base
       export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
-      upload_package ./ ./recipe ./.ci_support/${CONFIG}.yaml
+      upload_package ./ "./recipe" ./.ci_support/${CONFIG}.yaml
     displayName: Upload package
     env:
       BINSTAR_TOKEN: $(BINSTAR_TOKEN)
-    condition: not(eq(variables['UPLOAD_PACKAGES'], 'False'))
+    condition: and(succeeded(), not(eq(variables['UPLOAD_PACKAGES'], 'False')))
