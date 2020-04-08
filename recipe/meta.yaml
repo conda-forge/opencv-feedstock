@@ -37,7 +37,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 3
+  number: 4
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
@@ -224,9 +224,10 @@ outputs:
 
 about:
   home: http://opencv.org/
-  license: BSD 3-clause
-  summary: Computer vision and machine learning software library.
+  license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
+  summary: Computer vision and machine learning software library.
 
 extra:
   recipe-maintainers:
