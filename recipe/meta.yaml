@@ -224,9 +224,10 @@ outputs:
 
 about:
   home: http://opencv.org/
-  license: BSD 3-clause
-  summary: Computer vision and machine learning software library.
+  license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
+  summary: Computer vision and machine learning software library.
 
 extra:
   recipe-maintainers:
