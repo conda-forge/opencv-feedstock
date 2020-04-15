@@ -37,7 +37,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 4
+  number: 5
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
