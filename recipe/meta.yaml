@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.2.0" %}
+{% set version = "4.3.0" %}
 {% set PY_VER_MAJOR = PY_VER[0] %}
 {% set PY_VER_MINOR = PY_VER[2] %}
 
@@ -28,16 +28,16 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
+  - url: https://codeload.github.com/opencv/opencv/zip/{{ version }}
     fn: opencv-{{ version }}.tar.gz
-    sha256: 9ccb2192d7e8c03c58fee07051364d94ed7599363f3b0dce1c5e6cc11c1bb0ec
-  - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
+    sha256: 36799186756c1e12adde97f0a8d1afc395d5b0f86d8ad9ef951bc33aa732f9b9
+  - url: https://codeload.github.com/opencv/opencv_contrib/tar.gz/{{ version }}
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 8a6b5661611d89baa59a26eb7ccf4abb3e55d73f99bb52d8f7c32265c8a43020
+    sha256: acb8e89c9e7d1174e63e40532125b60d248b00e517255a98a419d415228c6a55
     folder: opencv_contrib
 
 build:
-  number: 7
+  number: 0
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
   skip: true  # [win and py27]
