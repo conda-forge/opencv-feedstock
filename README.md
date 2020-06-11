@@ -221,6 +221,3 @@ Feedstock Maintainers
 * [@patricksnape](https://github.com/patricksnape/)
 * [@zym1010](https://github.com/zym1010/)
 
-
-<!-- dummy commit to enable rerendering -->
-
