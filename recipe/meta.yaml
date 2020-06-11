@@ -78,6 +78,7 @@ requirements:
     - qt 5.12.1                      # [not osx]
     - liblapacke
     - freetype
+    - openjpeg
   run:
     # Don't depend on python in the run section
     # py-opencv will depend on python
