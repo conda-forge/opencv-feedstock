@@ -67,7 +67,7 @@ requirements:
     - numpy
     - hdf5                           # [unix]
     - eigen 3.3.*
-    - jasper                         # [unix]
+    #- jasper                         # [unix]
     - zlib
     - jpeg
     - libtiff
@@ -83,7 +83,7 @@ requirements:
     # Don't depend on python in the run section
     # py-opencv will depend on python
     - hdf5                           # [unix]
-    - jasper                         # [unix]
+    #- jasper                         # [unix]
     - zlib
     - jpeg
     - libwebp

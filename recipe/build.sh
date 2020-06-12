@@ -118,6 +118,8 @@ cmake -LAH -G "Ninja"                                                     \
     -DBUILD_PNG=0                                                         \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
+    -DWITH_JASPER=0                                                       \
+    -DWITH_OPENJPEG=1                                                     \
     -DBUILD_JPEG=0                                                        \
     -DWITH_V4L=$V4L                                                       \
     -DWITH_CUDA=0                                                         \
