@@ -8,6 +8,8 @@ cxx_compiler:
 - vs2017
 freetype:
 - 2.9.1
+jasper:
+- 1.900.1
 jpeg:
 - '9'
 liblapacke:
@@ -20,10 +22,10 @@ libwebp:
 - '1.1'
 numpy:
 - '1.14'
-openjpeg:
-- '2.3'
 pin_run_as_build:
   freetype:
+    max_pin: x
+  jasper:
     max_pin: x
   jpeg:
     max_pin: x
@@ -31,8 +33,6 @@ pin_run_as_build:
     max_pin: x.x
   libtiff:
     max_pin: x
-  openjpeg:
-    max_pin: x.x
   python:
     min_pin: x.x
     max_pin: x.x

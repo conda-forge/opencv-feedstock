@@ -20,6 +20,8 @@ harfbuzz:
 - '2'
 hdf5:
 - 1.10.6
+jasper:
+- 1.900.1
 jpeg:
 - '9'
 liblapacke:
@@ -36,8 +38,6 @@ macos_min_version:
 - '10.9'
 numpy:
 - '1.14'
-openjpeg:
-- '2.3'
 pin_run_as_build:
   ffmpeg:
     max_pin: x.x
@@ -45,14 +45,14 @@ pin_run_as_build:
     max_pin: x
   harfbuzz:
     max_pin: x
+  jasper:
+    max_pin: x
   jpeg:
     max_pin: x
   libpng:
     max_pin: x.x
   libtiff:
     max_pin: x
-  openjpeg:
-    max_pin: x.x
   python:
     min_pin: x.x
     max_pin: x.x
