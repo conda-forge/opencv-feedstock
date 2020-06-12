@@ -54,7 +54,7 @@ cmake -LAH -G "Ninja"                                                           
     -DBUILD_TIFF=0                                                                  ^
     -DBUILD_PNG=0                                                                   ^
     -DBUILD_OPENEXR=1                                                               ^
-    -DBUILD_JASPER=1                                                                ^
+    -DBUILD_JASPER=0                                                                ^
     -DWITH_JASPER=1                                                                 ^
     -DWITH_OPENJPEG=0                                                               ^
     -DBUILD_JPEG=0                                                                  ^
