@@ -38,6 +38,8 @@ macos_min_version:
 - '10.9'
 numpy:
 - '1.18'
+openjpeg:
+- '2.3'
 pin_run_as_build:
   ffmpeg:
     max_pin: x.x
@@ -53,6 +55,8 @@ pin_run_as_build:
     max_pin: x.x
   libtiff:
     max_pin: x
+  openjpeg:
+    max_pin: x.x
   python:
     min_pin: x.x
     max_pin: x.x
