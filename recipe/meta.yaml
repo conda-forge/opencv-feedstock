@@ -67,8 +67,7 @@ requirements:
     - numpy
     - hdf5                           # [unix]
     - eigen 3.3.*
-    - jasper                         # [win]
-    - openjpeg                       # [unix]
+    - jasper
     - zlib
     - jpeg
     - libtiff
