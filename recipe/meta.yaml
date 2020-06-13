@@ -78,6 +78,8 @@ requirements:
     - liblapacke
     - freetype
   run:
+    # https://github.com/conda-forge/harfbuzz-feedstock/pull/52
+    - harfbuzz                       # [unix]
     # Don't depend on python in the run section
     # py-opencv will depend on python
     - qt 5.12                        # [not osx]
