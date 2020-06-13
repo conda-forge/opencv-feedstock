@@ -37,10 +37,8 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 0
+  number: 1
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
-  # Python2.7 support dropped: https://github.com/opencv/opencv/issues/8481
-  skip: true  # [win and py27]
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
@@ -82,14 +80,6 @@ requirements:
   run:
     # Don't depend on python in the run section
     # py-opencv will depend on python
-    - hdf5                           # [unix]
-    - zlib
-    - jpeg
-    - libwebp
-    - harfbuzz                       # [unix]
-    - libtiff
-    - libpng
-    - ffmpeg                         # [not win]
     - qt 5.12                        # [not osx]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
