@@ -13,7 +13,7 @@ cxx_compiler_version:
 docker_image:
 - condaforge/linux-anvil-comp7
 ffmpeg:
-- '4.2'
+- '4.3'
 freetype:
 - 2.9.1
 harfbuzz:
