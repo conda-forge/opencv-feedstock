@@ -30,7 +30,7 @@ package:
 source:
   - url: https://codeload.github.com/opencv/opencv/zip/{{ version }}
     fn: opencv-{{ version }}.tar.gz
-    sha256: 36799186756c1e12adde97f0a8d1afc395d5b0f86d8ad9ef951bc33aa732f9b9
+    sha256: 7faa0991c74cda52313ee37ef73f3e451332a47e7aa36c2bb2240b69f5002d27
   - url: https://codeload.github.com/opencv/opencv_contrib/tar.gz/{{ version }}
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: acb8e89c9e7d1174e63e40532125b60d248b00e517255a98a419d415228c6a55
