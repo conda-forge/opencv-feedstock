@@ -34,8 +34,6 @@ libwebp:
 - '1.1'
 macos_machine:
 - x86_64-apple-darwin13.4.0
-macos_min_version:
-- '10.9'
 numpy:
 - '1.18'
 pin_run_as_build:
@@ -60,6 +58,8 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.6.* *_73_pypy
+target_platform:
+- osx-64
 zip_keys:
 - - numpy
   - python
