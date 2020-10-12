@@ -210,7 +210,7 @@ outputs:
         - color_palette_alpha.png
         - test_1_c1.jpg
       source_files:  # [unix]
-        - test.avi.  # [unix]
+        - test.avi   # [unix]
       commands:
         - python run_py_test.py
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
