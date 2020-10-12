@@ -8,7 +8,7 @@ import cv2
                  'FFMPEG currently not built on Windows')
 class TestVideoRead(unittest.TestCase):
     def test_load_avi(self):
-        cap = cv2.VideoCapture(self.avi_path)
+        cap = cv2.VideoCapture('test.avi')
         res, frame = cap.read()
         self.assertTrue(res, "Can not read video frame from file")
 
