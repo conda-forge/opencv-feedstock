@@ -37,7 +37,7 @@ source:
     folder: opencv_contrib
 
 build:
-  number: 2
+  number: 3
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
