@@ -81,6 +81,7 @@ requirements:
     - qt 5.12.1                      # [not osx]
     - liblapacke
     - freetype
+    - glib                           # [unix]
   run:
     # https://github.com/conda-forge/harfbuzz-feedstock/pull/52
     - harfbuzz                       # [unix]
