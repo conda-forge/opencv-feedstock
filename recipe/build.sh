@@ -2,6 +2,7 @@
 
 set +x
 SHORT_OS_STR=$(uname -s)
+MACHINE_STR=$(uname -m)
 
 # CMake FindPNG seems to look in libpng not libpng16
 # https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
@@ -9,6 +10,8 @@ ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
 
 QT="5"
 V4L="1"
+JASPER="1"
+
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     OPENMP="-DWITH_OPENMP=1"
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
@@ -32,6 +35,13 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     # The default flag as of OpenCV 3.4.4 are:
     # CPU_DISPATCH:STRING=SSE4_1;SSE4_2;AVX;FP16;AVX2;AVX512_SKX
     CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;AVX;FP16"
+fi
+
+if [ "${MACHINE_STR}" == "aarch64" ] || [ "${MACHINE_STR:0:3}" == "arm" ] || [ "${MACHINE_STR:0:3}" == "ppc" ]; then
+    echo Building aarch or ppc
+    OPENMP="-DWITH_OPENMP=1"
+    QT="0"
+    JASPER="0"
 fi
 
 CMAKE_TOOLCHAIN_CMD_FLAGS=""
@@ -118,7 +128,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DBUILD_PNG=0                                                         \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
-    -DWITH_JASPER=1                                                       \
+    -DWITH_JASPER=$JASPER                                                 \
     -DWITH_OPENJPEG=0                                                     \
     -DBUILD_JPEG=0                                                        \
     -DWITH_V4L=$V4L                                                       \
