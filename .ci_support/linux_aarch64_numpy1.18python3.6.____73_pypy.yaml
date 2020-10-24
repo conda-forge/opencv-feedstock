@@ -1,11 +1,15 @@
+BUILD:
+- aarch64-conda_cos7-linux-gnu
 c_compiler:
 - gcc
 c_compiler_version:
 - '7'
+cdt_arch:
+- aarch64
 cdt_name:
-- cos6
+- cos7
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -13,7 +17,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '7'
 docker_image:
-- condaforge/linux-anvil-comp7
+- condaforge/linux-anvil-aarch64
 ffmpeg:
 - '4.3'
 freetype:
@@ -24,8 +28,6 @@ harfbuzz:
 - '2'
 hdf5:
 - 1.10.6
-jasper:
-- 1.900.1
 jpeg:
 - '9'
 liblapacke:
@@ -37,15 +39,13 @@ libtiff:
 libwebp:
 - '1.1'
 numpy:
-- '1.16'
+- '1.18'
 pin_run_as_build:
   ffmpeg:
     max_pin: x.x
   freetype:
     max_pin: x
   harfbuzz:
-    max_pin: x
-  jasper:
     max_pin: x
   jpeg:
     max_pin: x
@@ -59,9 +59,9 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- 3.7.* *_cpython
+- 3.6.* *_73_pypy
 target_platform:
-- linux-64
+- linux-aarch64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
