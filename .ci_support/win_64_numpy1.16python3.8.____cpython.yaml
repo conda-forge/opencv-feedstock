@@ -11,7 +11,7 @@ freetype:
 jpeg:
 - '9'
 liblapacke:
-- 3.8.0 *netlib
+- 3.8 *netlib
 libpng:
 - '1.6'
 libtiff:
@@ -39,7 +39,7 @@ python:
 target_platform:
 - win-64
 zip_keys:
-- - numpy
-  - python
+- - python
+  - numpy
 zlib:
 - '1.2'

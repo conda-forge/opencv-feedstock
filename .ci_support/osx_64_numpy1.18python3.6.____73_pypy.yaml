@@ -1,17 +1,17 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '10.9'
 c_compiler:
-- gcc
+- clang
 c_compiler_version:
-- '7'
+- '10'
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
+- clangxx
 cxx_compiler_version:
-- '7'
-docker_image:
-- condaforge/linux-anvil-comp7
+- '10'
 ffmpeg:
 - '4.3'
 freetype:
@@ -25,15 +25,17 @@ jasper:
 jpeg:
 - '9'
 liblapacke:
-- 3.8.0 *netlib
+- 3.8 *netlib
 libpng:
 - '1.6'
 libtiff:
 - 4.1.0
 libwebp:
 - '1.1'
+macos_machine:
+- x86_64-apple-darwin13.4.0
 numpy:
-- '1.19'
+- '1.18'
 pin_run_as_build:
   ffmpeg:
     max_pin: x.x
@@ -55,13 +57,13 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- 3.9.* *_cpython
+- 3.6.* *_73_pypy
 target_platform:
-- linux-64
+- osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - numpy
-  - python
+- - python
+  - numpy
 zlib:
 - '1.2'

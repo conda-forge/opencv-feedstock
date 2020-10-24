@@ -25,7 +25,7 @@ jasper:
 jpeg:
 - '9'
 liblapacke:
-- 3.8.0 *netlib
+- 3.8 *netlib
 libpng:
 - '1.6'
 libtiff:
@@ -57,13 +57,13 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- 3.7.* *_cpython
+- 3.8.* *_cpython
 target_platform:
 - osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - numpy
-  - python
+- - python
+  - numpy
 zlib:
 - '1.2'
