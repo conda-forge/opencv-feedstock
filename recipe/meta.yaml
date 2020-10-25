@@ -102,11 +102,10 @@ test:
       # Test with the two currently supported lapack implementatons
       # One test done on different versions of python on each platform
       - liblapack * *openblas         # [py==36]
-      - liblapack * *mkl              # [py==37 and not (aarch64 or ppc64le)]
-      - liblapack * *openblas         # [py==37 and (aarch64 or ppc64le)]
+      - liblapack * *mkl              # [py==37 and linux64]
       - cmake
       - ninja
-      - qt 5.12.1                     # [linux and not aarch64 and not ppc64le]
+      - qt 5.12.1                     # [linux64]
     files:
       - CMakeLists.txt
       - test.cpp
@@ -203,8 +202,7 @@ outputs:
         # Test with the two currently supported lapack implementatons
         # One test done on different versions of python on each platform
         - liblapack * *openblas         # [py==36]
-        - liblapack * *mkl              # [py==37 and not (aarch64 or ppc64le)]
-        - liblapack * *openblas         # [py==37 and (aarch64 or ppc64le)]
+        - liblapack * *mkl              # [py==37 and linux64]
       imports:
         - cv2
         - cv2.xfeatures2d
