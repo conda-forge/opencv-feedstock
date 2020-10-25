@@ -71,6 +71,8 @@ requirements:
     - eigen 3.3.*
     # Jasper pin https://github.com/conda-forge/conda-forge-pinning-feedstock/pull/659 (win) and https://github.com/conda-forge/conda-forge-pinning-feedstock/issues/891 (aarch/ppc)
     - jasper                        # [not win and not aarch64 and not ppc64le]
+    - jasper 1.900.31               # [aarch64 or ppc64le]
+    - jasper 2.0.14                 # [win]
     - zlib
     - jpeg
     - libtiff
