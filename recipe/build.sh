@@ -10,7 +10,6 @@ ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
 
 QT="5"
 V4L="1"
-JASPER="1"
 
 if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     OPENMP="-DWITH_OPENMP=1"
@@ -41,7 +40,6 @@ if [ "${MACHINE_STR}" == "aarch64" ] || [ "${MACHINE_STR:0:3}" == "arm" ] || [ "
     echo Building aarch or ppc
     OPENMP="-DWITH_OPENMP=1"
     QT="0"
-    JASPER="0"
 fi
 
 CMAKE_TOOLCHAIN_CMD_FLAGS=""
@@ -128,7 +126,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DBUILD_PNG=0                                                         \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
-    -DWITH_JASPER=$JASPER                                                 \
+    -DWITH_JASPER=1                                                       \
     -DWITH_OPENJPEG=0                                                     \
     -DBUILD_JPEG=0                                                        \
     -DWITH_V4L=$V4L                                                       \
