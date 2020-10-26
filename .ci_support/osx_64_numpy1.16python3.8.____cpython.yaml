@@ -23,7 +23,7 @@ harfbuzz:
 hdf5:
 - 1.10.6
 jasper:
-- 1.900.1
+- '1'
 jpeg:
 - '9'
 liblapacke:
