@@ -175,4 +175,8 @@ cmake -LAH -G "Ninja"                                                     \
     $PYTHON_UNSET_INSTALL                                                 \
     ..
 
-ninja install -v
+if [ "${MACHINE_STR:0:3}" == "ppc" ]; then 
+    # PPC seems to run out of memory quite often, build with fewer jobs.
+    NINJA_OPTS=-j2
+fi
+ninja install -v ${NINJA_OPTS}
