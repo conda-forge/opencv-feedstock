@@ -37,8 +37,6 @@ if [ "${SHORT_OS_STR}" == "Darwin" ]; then
 fi
 
 if [ "${MACHINE_STR}" == "aarch64" ] || [ "${MACHINE_STR:0:3}" == "arm" ] || [ "${MACHINE_STR:0:3}" == "ppc" ]; then
-    echo Building aarch or ppc
-    OPENMP="-DWITH_OPENMP=1"
     QT="0"
 fi
 
