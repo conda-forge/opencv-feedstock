@@ -18,6 +18,8 @@ ffmpeg:
 - '4.3'
 freetype:
 - 2.9.1
+glib:
+- '2.58'
 harfbuzz:
 - '2'
 hdf5:
