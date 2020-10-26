@@ -24,6 +24,8 @@ harfbuzz:
 - '2'
 hdf5:
 - 1.10.6
+jasper:
+- '1'
 jpeg:
 - '9'
 liblapacke:
@@ -42,6 +44,8 @@ pin_run_as_build:
   freetype:
     max_pin: x
   harfbuzz:
+    max_pin: x
+  jasper:
     max_pin: x
   jpeg:
     max_pin: x
