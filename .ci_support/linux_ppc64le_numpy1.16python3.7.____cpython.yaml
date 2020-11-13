@@ -13,11 +13,11 @@ cxx_compiler:
 cxx_compiler_version:
 - '8'
 docker_image:
-- condaforge/linux-anvil-ppc64le
+- quay.io/condaforge/linux-anvil-ppc64le
 ffmpeg:
 - '4.3'
 freetype:
-- 2.9.1
+- '2'
 glib:
 - '2.58'
 harfbuzz:
