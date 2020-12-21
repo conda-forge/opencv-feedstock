@@ -3,7 +3,7 @@ BUILD:
 c_compiler:
 - gcc
 c_compiler_version:
-- '7'
+- '9'
 cdt_arch:
 - aarch64
 cdt_name:
@@ -15,7 +15,7 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '7'
+- '9'
 docker_image:
 - quay.io/condaforge/linux-anvil-aarch64
 ffmpeg:
@@ -23,7 +23,7 @@ ffmpeg:
 freetype:
 - '2'
 glib:
-- '2.58'
+- '2.66'
 harfbuzz:
 - '2'
 hdf5:
