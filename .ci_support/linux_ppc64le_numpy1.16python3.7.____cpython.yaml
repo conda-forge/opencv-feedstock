@@ -1,7 +1,7 @@
 c_compiler:
 - gcc
 c_compiler_version:
-- '8'
+- '9'
 cdt_name:
 - cos7
 channel_sources:
@@ -11,7 +11,7 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '8'
+- '9'
 docker_image:
 - quay.io/condaforge/linux-anvil-ppc64le
 ffmpeg:
@@ -19,7 +19,7 @@ ffmpeg:
 freetype:
 - '2'
 glib:
-- '2.58'
+- '2.66'
 harfbuzz:
 - '2'
 hdf5:
