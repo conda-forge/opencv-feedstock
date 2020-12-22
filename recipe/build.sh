@@ -41,6 +41,7 @@ if [ "${MACHINE_STR}" == "aarch64" ] || [ "${MACHINE_STR:0:3}" == "arm" ] || [ "
 fi
 
 CMAKE_TOOLCHAIN_CMD_FLAGS=""
+export AR=${BUILD_PREFIX}/bin/${AR}
 if [ "$c_compiler" = clang ]; then
     CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_AR=${AR}"
     CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_LINKER=${LD}"
