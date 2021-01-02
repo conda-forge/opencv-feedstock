@@ -38,6 +38,7 @@ cmake -LAH -G "Ninja"                                                           
     -DOPENCV_GENERATE_SETUPVARS=OFF                                                 ^
     -DOPENCV_DOWNLOAD_TRIES=1;2;3;4;5                                               ^
     -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT;30;TIMEOUT;180;SHOW_PROGRESS        ^
+    -DOPENCV_GENERATE_PKGCONFIG=ON                                                  ^
     -DWITH_LAPACK=1                                                                 ^
     -DLAPACK_INCLUDE_DIR=%UNIX_LIBRARY_INC%                                         ^
     -DLAPACK_LAPACKE_H=lapacke.h                                                    ^
