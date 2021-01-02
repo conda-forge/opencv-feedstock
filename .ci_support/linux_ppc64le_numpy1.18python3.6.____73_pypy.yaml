@@ -39,8 +39,6 @@ libwebp:
 numpy:
 - '1.18'
 pin_run_as_build:
-  ffmpeg:
-    max_pin: x.x
   freetype:
     max_pin: x
   harfbuzz:
