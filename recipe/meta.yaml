@@ -58,6 +58,8 @@ requirements:
     - m2-patch                       # [win]
     - cmake
     - ninja
+    - libgomp                        # [linux]
+    - llvm-openmp                    # [osx]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
