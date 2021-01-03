@@ -16,6 +16,7 @@ if [[ "${target_platform}" == linux-* ]]; then
 
     export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
     export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
+    OPENMP="-DWITH_OPENMP=1"
 fi
 if [[ "${target_platform}" == osx-* ]]; then
     QT="0"
@@ -79,7 +80,7 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
     -DENABLE_CONFIG_VERIFICATION=ON                                       \
     -DENABLE_PRECOMPILED_HEADERS=OFF                                      \
-    -DWITH_OPENMP=1                                                       \
+    $OPENMP                                                               \
     -DWITH_LAPACK=1                                                       \
     -DLAPACK_LAPACKE_H=lapacke.h                                          \
     -DLAPACK_CBLAS_H=cblas.h                                              \
