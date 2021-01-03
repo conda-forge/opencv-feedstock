@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 set +x
-SHORT_OS_STR=$(uname -s)
-MACHINE_STR=$(uname -m)
 
 # CMake FindPNG seems to look in libpng not libpng16
 # https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
@@ -11,53 +9,25 @@ ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
 QT="5"
 V4L="1"
 
-if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
-    OPENMP="-DWITH_OPENMP=1"
+if [[ "${target_platform}" == linux-* ]]; then
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
     # with GCC opencv/issues/8097
     export CXXFLAGS="$CXXFLAGS -D__STDC_CONSTANT_MACROS"
 
     export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
     export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
-
-    export LDFLAGS="${LDFLAGS} -Wl,-rpath-link,${PREFIX}/lib"
+    OPENMP="-DWITH_OPENMP=1"
 fi
-if [ "${SHORT_OS_STR}" == "Darwin" ]; then
-    OPENMP=""
+if [[ "${target_platform}" == osx-* ]]; then
     QT="0"
     V4L="0"
-    # The old OSX compilers don't know what to do with AVX instructions
-    # Therefore, we specify what CPU dispatch operations we want explicitely
-    # for OSX..
-    # I took this line from the default build flags that get spewed after
-    # a successful call to cmake without the parameter specified
-    # The default flag as of OpenCV 3.4.4 are:
-    # CPU_DISPATCH:STRING=SSE4_1;SSE4_2;AVX;FP16;AVX2;AVX512_SKX
-    CPU_DISPATCH_FLAGS="-DCPU_DISPATCH=SSE4_1;SSE4_2;AVX;FP16"
 fi
 
-if [ "${MACHINE_STR}" == "aarch64" ] || [ "${MACHINE_STR:0:3}" == "arm" ] || [ "${MACHINE_STR:0:3}" == "ppc" ]; then
+if [[ "${target_platform}" != *-64 ]]; then
     QT="0"
 fi
 
-CMAKE_TOOLCHAIN_CMD_FLAGS=""
-export AR=`which ${AR}`
-export RANLIB=`which ${RANLIB}`
-if [ "$c_compiler" = clang ]; then
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_AR=${AR}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_LINKER=${LD}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_NM=${NM}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_RANLIB=${RANLIB}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_STRIP=${STRIP}"
-elif [ "$c_compiler" = gcc ]; then
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_AR=${AR}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_LINKER=${LD}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_NM=${NM}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_OBJCOPY=${OBJCOPY}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_OBJDUMP=${OBJDUMP}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_RANLIB=${RANLIB}"
-    CMAKE_TOOLCHAIN_CMD_FLAGS="${CMAKE_TOOLCHAIN_CMD_FLAGS} -DCMAKE_STRIP=${STRIP}"
-fi
+export PKG_CONFIG_LIBDIR=$PREFIX/lib
 
 mkdir -p build
 cd build
@@ -84,7 +54,7 @@ fi
 PYTHON_SET_FLAG="-DBUILD_opencv_python${PY_MAJOR}=1"
 PYTHON_SET_EXE="-DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}"
 PYTHON_SET_INC="-DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON} "
-PYTHON_SET_NUMPY="-DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include"
+PYTHON_SET_NUMPY="-DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=$(python -c 'import numpy;print(numpy.get_include())')"
 PYTHON_SET_LIB="-DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON}"
 PYTHON_SET_SP="-DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}"
 PYTHON_SET_INSTALL="-DOPENCV_PYTHON${PY_MAJOR}_INSTALL_PATH=${SP_DIR}"
@@ -100,18 +70,16 @@ PYTHON_UNSET_INSTALL="-DOPENCV_PYTHON${PY_UNSET_MAJOR}_INSTALL_PATH=${SP_DIR}"
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
-cmake -LAH -G "Ninja"                                                     \
+cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
     -DCMAKE_INSTALL_LIBDIR="lib"                                          \
     -DOPENCV_DOWNLOAD_TRIES=1\;2\;3\;4\;5                                 \
     -DOPENCV_DOWNLOAD_PARAMS=INACTIVITY_TIMEOUT\;30\;TIMEOUT\;180\;SHOW_PROGRESS \
-    $CMAKE_TOOLCHAIN_CMD_FLAGS                                            \
     -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
     -DENABLE_CONFIG_VERIFICATION=ON                                       \
     -DENABLE_PRECOMPILED_HEADERS=OFF                                      \
-    $CPU_DISPATCH_FLAGS                                                   \
     $OPENMP                                                               \
     -DWITH_LAPACK=1                                                       \
     -DLAPACK_LAPACKE_H=lapacke.h                                          \
@@ -161,6 +129,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DPNG_PNG_INCLUDE_DIR=${PREFIX}/include                               \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
+    -DOPENCV_ENABLE_PKG_CONFIG=1                                          \
     $PYTHON_SET_FLAG                                                      \
     $PYTHON_SET_EXE                                                       \
     $PYTHON_SET_INC                                                       \
@@ -177,8 +146,4 @@ cmake -LAH -G "Ninja"                                                     \
     $PYTHON_UNSET_INSTALL                                                 \
     ..
 
-if [ "${MACHINE_STR:0:3}" == "ppc" ]; then 
-    # PPC seems to run out of memory quite often, build with fewer jobs.
-    NINJA_OPTS=-j2
-fi
-ninja install -v ${NINJA_OPTS}
+ninja install -v -j${CPU_COUNT}

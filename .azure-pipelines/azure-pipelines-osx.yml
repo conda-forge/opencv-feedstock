@@ -23,6 +23,12 @@ jobs:
       osx_64_numpy1.19python3.9.____cpython:
         CONFIG: osx_64_numpy1.19python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
+      osx_arm64_python3.8.____cpython:
+        CONFIG: osx_arm64_python3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_python3.9.____cpython:
+        CONFIG: osx_arm64_python3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
 
   steps:

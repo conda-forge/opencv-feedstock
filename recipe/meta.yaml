@@ -41,20 +41,28 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310  # [unix]
 
 build:
-  number: 4
+  number: 5
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
+  ignore_run_exports_from:
+    - python
 
 requirements:
   build:
+    - python                                 # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - numpy                                  # [build_platform != target_platform]
     # Required to find ffpmeg
     - pkg-config                     # [not win]
     - m2-patch                       # [win]
     - cmake
     - ninja
+    - libgomp                        # [linux]
+    # ICE when enabling this
+    # - llvm-openmp                    # [osx]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
@@ -79,6 +87,8 @@ requirements:
     - ffmpeg                         # [not win]
     - qt 5.12.1                      # [not osx and not aarch64 and not ppc64le]
     - liblapacke
+    - liblapack
+    - libcblas
     - freetype
     - glib                           # [unix]
   run:
