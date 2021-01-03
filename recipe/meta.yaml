@@ -47,6 +47,8 @@ build:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
+  ignore_run_exports_from:
+    - python
 
 requirements:
   build:
