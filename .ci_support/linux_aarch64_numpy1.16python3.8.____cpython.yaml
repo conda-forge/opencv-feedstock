@@ -32,6 +32,10 @@ jasper:
 - '1'
 jpeg:
 - '9'
+libcblas:
+- 3.8 *netlib
+liblapack:
+- 3.8 *netlib
 liblapacke:
 - 3.8 *netlib
 libpng:
