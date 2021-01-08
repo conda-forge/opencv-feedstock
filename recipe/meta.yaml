@@ -41,8 +41,8 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310  # [unix]
 
 build:
-  number: 6
-  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}_{{ PKG_BUILDNUM }}
+  number: 7
+  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
@@ -183,13 +183,21 @@ test:
 outputs:
   - name: libopencv
   - name: opencv
+    build:
+      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
     requirements:
+      host:
+        # Explicitely add a python requirement so that the hash changes between
+        # opencv    for pypy36 and python3.6
+        # similarly for pypy37 and python3.7
+        - python
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
 
   - name: py-opencv
     build:
+      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       run_exports:
         # Should we even have this???
         # don't pin the python version so hard.
