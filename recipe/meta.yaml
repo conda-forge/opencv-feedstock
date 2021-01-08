@@ -187,6 +187,10 @@ outputs:
       string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH}}_{{ PKG_BUILDNUM }}
     requirements:
       run:
+        # Explicitely add a python requirement so that the hash changes between
+        # opencv    for pypy36 and python3.6
+        # similarly for pypy37 and python3.7
+        - python
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
 
