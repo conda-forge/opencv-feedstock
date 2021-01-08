@@ -42,7 +42,7 @@ source:
 
 build:
   number: 7
-  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{PKG_HASH}}_{{ PKG_BUILDNUM }}
+  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH}}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
@@ -184,7 +184,7 @@ outputs:
   - name: libopencv
   - name: opencv
     build:
-      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{PKG_HASH}}_{{ PKG_BUILDNUM }}
+      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH}}_{{ PKG_BUILDNUM }}
     requirements:
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
@@ -192,7 +192,7 @@ outputs:
 
   - name: py-opencv
     build:
-      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{PKG_HASH}}_{{ PKG_BUILDNUM }}
+      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH}}_{{ PKG_BUILDNUM }}
       run_exports:
         # Should we even have this???
         # don't pin the python version so hard.
