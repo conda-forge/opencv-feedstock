@@ -123,48 +123,49 @@ test:
     commands:
         # Verify dynamic libraries on all systems
         {% set win_ver_lib = version|replace(".", "") %}
-        {% set opencv_libs = [
-            "aruco",
-            "bgsegm",
-            "calib3d",
-            "ccalib",
-            "core",
-            "datasets",
-            "dnn",
-            "dpm",
-            "face",
-            "features2d",
-            "flann",
-            "fuzzy",
-            "highgui",
-            "imgcodecs",
-            "imgproc",
-            "line_descriptor",
-            "ml",
-            "objdetect",
-            "optflow",
-            "phase_unwrapping",
-            "photo",
-            "plot",
-            "reg",
-            "rgbd",
-            "saliency",
-            "shape",
-            "stereo",
-            "stitching",
-            "structured_light",
-            "superres",
-            "surface_matching",
-            "text",
-            "tracking",
-            "video",
-            "videoio",
-            "videostab",
-            "xfeatures2d",
-            "ximgproc",
-            "xobjdetect",
-            "xphoto"
-        ] %}
+        # The bot doesn't support multiline jinja, so use
+        # single line jinja.
+        {% set opencv_libs = [] %}
+        {{ opencv_libs.append("aruco") or "" }}
+        {{ opencv_libs.append("bgsegm") or "" }}
+        {{ opencv_libs.append("calib3d") or "" }}
+        {{ opencv_libs.append("ccalib") or "" }}
+        {{ opencv_libs.append("core") or "" }}
+        {{ opencv_libs.append("datasets") or "" }}
+        {{ opencv_libs.append("dnn") or "" }}
+        {{ opencv_libs.append("dpm") or "" }}
+        {{ opencv_libs.append("face") or "" }}
+        {{ opencv_libs.append("features2d") or "" }}
+        {{ opencv_libs.append("flann") or "" }}
+        {{ opencv_libs.append("fuzzy") or "" }}
+        {{ opencv_libs.append("highgui") or "" }}
+        {{ opencv_libs.append("imgcodecs") or "" }}
+        {{ opencv_libs.append("imgproc") or "" }}
+        {{ opencv_libs.append("line_descriptor") or "" }}
+        {{ opencv_libs.append("ml") or "" }}
+        {{ opencv_libs.append("objdetect") or "" }}
+        {{ opencv_libs.append("optflow") or "" }}
+        {{ opencv_libs.append("phase_unwrapping") or "" }}
+        {{ opencv_libs.append("photo") or "" }}
+        {{ opencv_libs.append("plot") or "" }}
+        {{ opencv_libs.append("reg") or "" }}
+        {{ opencv_libs.append("rgbd") or "" }}
+        {{ opencv_libs.append("saliency") or "" }}
+        {{ opencv_libs.append("shape") or "" }}
+        {{ opencv_libs.append("stereo") or "" }}
+        {{ opencv_libs.append("stitching") or "" }}
+        {{ opencv_libs.append("structured_light") or "" }}
+        {{ opencv_libs.append("superres") or "" }}
+        {{ opencv_libs.append("surface_matching") or "" }}
+        {{ opencv_libs.append("text") or "" }}
+        {{ opencv_libs.append("tracking") or "" }}
+        {{ opencv_libs.append("video") or "" }}
+        {{ opencv_libs.append("videoio") or "" }}
+        {{ opencv_libs.append("videostab") or "" }}
+        {{ opencv_libs.append("xfeatures2d") or "" }}
+        {{ opencv_libs.append("ximgproc") or "" }}
+        {{ opencv_libs.append("xobjdetect") or "" }}
+        {{ opencv_libs.append("xphoto") or "" }}
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
         - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
