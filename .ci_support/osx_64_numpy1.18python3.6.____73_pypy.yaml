@@ -17,7 +17,7 @@ ffmpeg:
 freetype:
 - '2'
 glib:
-- '2.66'
+- '2'
 harfbuzz:
 - '2'
 hdf5:
@@ -35,7 +35,7 @@ liblapacke:
 libpng:
 - '1.6'
 libtiff:
-- 4.1.0
+- '4'
 libwebp:
 - '1.1'
 macos_machine:
