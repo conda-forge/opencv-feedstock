@@ -9,6 +9,7 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/opencv-feedstoc
 
 Summary: Computer vision and machine learning software library.
 
+
 Current build status
 ====================
 
