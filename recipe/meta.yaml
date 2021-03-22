@@ -9,7 +9,7 @@
 # py-opencv is a meta package that constrains the python dependencies
 #     This one is pinned to the minor version. x.x
 #
-# opencv is a backward compatible package, with no pinnings
+# opencv is a backward compatible package, with no pi onnnings
 #
 # This approach is different than the one in defaults. Default's package
 # seperates well the files generated with python dependencies, from those
@@ -87,7 +87,7 @@ requirements:
     - harfbuzz                       # [unix]
     - libpng
     - ffmpeg                         # [not win]
-    - qt 5.12.1                      # [not osx and not aarch64 and not ppc64le]
+    - qt 5.12                        # [not osx and not aarch64 and not ppc64le]
     - liblapacke
     - liblapack
     - libcblas
