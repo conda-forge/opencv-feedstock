@@ -53,6 +53,9 @@ cmake -LAH -G "Ninja"                                                           
     -DBUILD_opencv_bioinspired=0                                                    ^
     -DBUILD_TIFF=0                                                                  ^
     -DBUILD_PNG=0                                                                   ^
+    -DWITH_PROTOBUF=1                                                               ^
+    -DBUILD_PROTOBUF=0                                                              ^
+    -DPROTOBUF_UPDATE_FILES=1                                                       ^
     -DBUILD_OPENEXR=1                                                               ^
     -DBUILD_JASPER=0                                                                ^
     -DWITH_JASPER=1                                                                 ^
