@@ -20,8 +20,10 @@ liblapacke:
 - 3.8 *netlib
 libpng:
 - '1.6'
+libprotobuf:
+- '3.15'
 libtiff:
-- 4.1.0
+- '4'
 libwebp:
 - '1.1'
 numpy:

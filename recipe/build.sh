@@ -27,6 +27,12 @@ if [[ "${target_platform}" != *-64 ]]; then
     QT="0"
 fi
 
+
+if [[ "${target_platform}" != "${build_platform}" ]]; then
+    CMAKE_ARGS="${CMAKE_ARGS} -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc"
+fi
+
+
 export PKG_CONFIG_LIBDIR=$PREFIX/lib
 
 mkdir -p build
@@ -92,6 +98,9 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DBUILD_ZLIB=0                                                        \
     -DBUILD_TIFF=0                                                        \
     -DBUILD_PNG=0                                                         \
+    -DWITH_PROTOBUF=1                                                     \
+    -DBUILD_PROTOBUF=0                                                    \
+    -DPROTOBUF_UPDATE_FILES=1                                             \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
     -DWITH_JASPER=1                                                       \

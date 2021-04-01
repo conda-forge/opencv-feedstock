@@ -5,7 +5,7 @@ c_compiler:
 c_compiler_version:
 - '11'
 channel_sources:
-- conda-forge
+- conda-forge/label/rust_dev,conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -17,7 +17,7 @@ ffmpeg:
 freetype:
 - '2'
 glib:
-- '2.66'
+- '2'
 harfbuzz:
 - '2'
 hdf5:
@@ -34,8 +34,10 @@ liblapacke:
 - 3.9 *netlib
 libpng:
 - '1.6'
+libprotobuf:
+- '3.15'
 libtiff:
-- 4.1.0
+- '4'
 libwebp:
 - '1.1'
 macos_machine:
