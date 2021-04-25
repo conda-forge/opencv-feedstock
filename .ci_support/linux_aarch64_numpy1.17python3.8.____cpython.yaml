@@ -45,7 +45,7 @@ libprotobuf:
 libtiff:
 - '4'
 libwebp:
-- '1.1'
+- '1'
 numpy:
 - '1.17'
 pin_run_as_build:
