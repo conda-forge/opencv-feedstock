@@ -72,6 +72,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_TENGINE=0                                                                ^
     -DWITH_GSTREAMER=0                                                              ^
     -DWITH_VTK=0                                                                    ^
+    -DWITH_WIN32UI=0                                                                ^
     -DWITH_QT=5                                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
