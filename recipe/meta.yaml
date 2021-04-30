@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.5.1" %}
+{% set version = "4.5.2" %}
 {% set PY_VER_MAJOR = PY_VER[0] %}
 {% set PY_VER_MINOR = PY_VER[2] %}
 
@@ -30,12 +30,12 @@ package:
 source:
   - url: https://codeload.github.com/opencv/opencv/tar.gz/{{ version }}
     fn: opencv-{{ version }}.tar.gz
-    sha256: e27fe5b168918ab60d58d7ace2bd82dd14a4d0bd1d3ae182952c2113f5637513
-    patches:
-      - fix-osx-compilation_check_macro.patch
+    sha256: ae258ed50aa039279c3d36afdea5c6ecf762515836b27871a8957c610d0424f8
   - url: https://codeload.github.com/opencv/opencv_contrib/tar.gz/{{ version }}
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 12c3b1ddd0b8c1a7da5b743590a288df0934e5cef243e036ca290c2e45e425f5
+    sha256: 9f52fd3114ac464cb4c9a2a6a485c729a223afb57b9c24848484e55cef0b5c2a
+    patches:
+      - fix-iconv-link.patch
     folder: opencv_contrib
   # FFMPEG builds only supported on unix platforms
   - fn: test.avi  # [unix]
@@ -43,7 +43,7 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310  # [unix]
 
 build:
-  number: 1
+  number: 0
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
@@ -128,28 +128,38 @@ test:
         # The bot doesn't support multiline jinja, so use
         # single line jinja.
         {% set opencv_libs = [] %}
+        {{ opencv_libs.append("alphamat") or "" }}
         {{ opencv_libs.append("aruco") or "" }}
         {{ opencv_libs.append("bgsegm") or "" }}
         {{ opencv_libs.append("calib3d") or "" }}
         {{ opencv_libs.append("ccalib") or "" }}
         {{ opencv_libs.append("core") or "" }}
         {{ opencv_libs.append("datasets") or "" }}
+        {{ opencv_libs.append("dnn_objdetect") or "" }}
+        {{ opencv_libs.append("dnn_superres") or "" }}
         {{ opencv_libs.append("dnn") or "" }}
         {{ opencv_libs.append("dpm") or "" }}
         {{ opencv_libs.append("face") or "" }}
         {{ opencv_libs.append("features2d") or "" }}
         {{ opencv_libs.append("flann") or "" }}
         {{ opencv_libs.append("fuzzy") or "" }}
+        {{ opencv_libs.append("gapi") or "" }}
+        {{ opencv_libs.append("hfs") or "" }}
         {{ opencv_libs.append("highgui") or "" }}
+        {{ opencv_libs.append("img_hash") or "" }}
         {{ opencv_libs.append("imgcodecs") or "" }}
         {{ opencv_libs.append("imgproc") or "" }}
+        {{ opencv_libs.append("intensity_transform") or "" }}
         {{ opencv_libs.append("line_descriptor") or "" }}
+        {{ opencv_libs.append("mcc") or "" }}
         {{ opencv_libs.append("ml") or "" }}
         {{ opencv_libs.append("objdetect") or "" }}
         {{ opencv_libs.append("optflow") or "" }}
         {{ opencv_libs.append("phase_unwrapping") or "" }}
         {{ opencv_libs.append("photo") or "" }}
         {{ opencv_libs.append("plot") or "" }}
+        {{ opencv_libs.append("quality") or "" }}
+        {{ opencv_libs.append("rapid") or "" }}
         {{ opencv_libs.append("reg") or "" }}
         {{ opencv_libs.append("rgbd") or "" }}
         {{ opencv_libs.append("saliency") or "" }}
@@ -164,6 +174,7 @@ test:
         {{ opencv_libs.append("video") or "" }}
         {{ opencv_libs.append("videoio") or "" }}
         {{ opencv_libs.append("videostab") or "" }}
+        {{ opencv_libs.append("wechat_qrcode") or "" }}
         {{ opencv_libs.append("xfeatures2d") or "" }}
         {{ opencv_libs.append("ximgproc") or "" }}
         {{ opencv_libs.append("xobjdetect") or "" }}

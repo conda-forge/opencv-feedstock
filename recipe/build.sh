@@ -119,6 +119,8 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DWITH_TENGINE=0                                                      \
     -DWITH_GSTREAMER=0                                                    \
     -DWITH_MATLAB=0                                                       \
+    -DWITH_VA=0                                                           \
+    -DWITH_VA_INTEL=0                                                     \
     -DWITH_VTK=0                                                          \
     -DWITH_GTK=0                                                          \
     -DWITH_QT=$QT                                                         \
