@@ -87,10 +87,7 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DENABLE_CONFIG_VERIFICATION=ON                                       \
     -DENABLE_PRECOMPILED_HEADERS=OFF                                      \
     $OPENMP                                                               \
-    -DWITH_LAPACK=1                                                       \
-    -DLAPACK_LAPACKE_H=lapacke.h                                          \
-    -DLAPACK_CBLAS_H=cblas.h                                              \
-    -DLAPACK_LIBRARIES=lapack\;cblas                                      \
+    -DWITH_LAPACK=0                                                       \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
@@ -98,9 +95,9 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DBUILD_ZLIB=0                                                        \
     -DBUILD_TIFF=0                                                        \
     -DBUILD_PNG=0                                                         \
-    -DWITH_PROTOBUF=1                                                     \
+    -DWITH_PROTOBUF=0                                                     \
     -DBUILD_PROTOBUF=0                                                    \
-    -DPROTOBUF_UPDATE_FILES=1                                             \
+    -DPROTOBUF_UPDATE_FILES=0                                             \
     -DBUILD_OPENEXR=1                                                     \
     -DBUILD_JASPER=0                                                      \
     -DWITH_JASPER=1                                                       \
@@ -126,7 +123,7 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DWITH_QT=$QT                                                         \
     -DWITH_GPHOTO2=0                                                      \
     -DINSTALL_C_EXAMPLES=0                                                \
-    -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib/modules"               \
+    -DOPENCV_EXTRA_MODULES_PATH="${SRC_DIR}/opencv_contrib/modules"       \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
     -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
     -DPYTHON_EXECUTABLE=${PYTHON}                                         \
@@ -137,6 +134,8 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
     -DJPEG_INCLUDE_DIR=${PREFIX}/include                                  \
     -DTIFF_INCLUDE_DIR=${PREFIX}/include                                  \
+    -DWEBP_INCLUDE_DIR=${PREFIX}/include                                  \
+    -DWEBP_LIBRARIES=${PREFIX}/lib                                        \
     -DPNG_PNG_INCLUDE_DIR=${PREFIX}/include                               \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \

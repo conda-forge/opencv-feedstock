@@ -54,10 +54,6 @@ build:
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]
-    - libprotobuf                            # [build_platform != target_platform]
     # Required to find ffpmeg
     - pkg-config                     # [not win]
     - m2-patch                       # [win]
@@ -88,10 +84,8 @@ requirements:
     - harfbuzz                       # [unix]
     - libpng
     - ffmpeg                         # [not win]
-    - qt 5.12.1                      # [not osx and not aarch64 and not ppc64le]
-    - liblapacke
-    - liblapack
-    - libcblas
+    - libopenblas
+    - openblas
     - freetype
     - glib                           # [unix]
     - libprotobuf
@@ -100,7 +94,6 @@ requirements:
     - harfbuzz                       # [unix]
     # Don't depend on python in the run section
     # py-opencv will depend on python
-    - qt 5.12                        # [not osx and not aarch64 and not ppc64le]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
     # That or a dependency wasn't merged in
@@ -114,8 +107,8 @@ test:
       - pkg-config                    # [not win]
       # Test with the two currently supported lapack implementatons
       # One test done on different versions of python on each platform
-      - liblapack * *openblas         # [py==36]
-      - liblapack * *mkl              # [py==37 and linux64]
+      - openblas
+      - libopenblas
       - cmake
       - ninja
       - qt 5.12.1                     # [linux64]
@@ -207,6 +200,7 @@ outputs:
         # opencv    for pypy36 and python3.6
         # similarly for pypy37 and python3.7
         - python
+        - libwebp
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
@@ -226,6 +220,7 @@ outputs:
       host:
         - python
         - numpy
+        - libwebp
       run:
         - python
         - {{ pin_compatible('numpy') }}
@@ -234,8 +229,8 @@ outputs:
       requires:
         # Test with the two currently supported lapack implementatons
         # One test done on different versions of python on each platform
-        - liblapack * *openblas         # [py==36]
-        - liblapack * *mkl              # [py==37 and linux64]
+        - openblas
+        - libopenblas
       imports:
         - cv2
         - cv2.xfeatures2d
