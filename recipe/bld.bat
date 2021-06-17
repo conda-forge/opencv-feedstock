@@ -102,6 +102,7 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
     -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
     -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
+    -DINSTALL_CREATE_DISTRIB=ON                                                     ^
     ..
 if errorlevel 1 exit 1
 
