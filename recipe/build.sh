@@ -127,6 +127,12 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR}                               \
     -DINSTALL_CREATE_DISTRIB=ON                                           \
     -DBUILD_opencv_python2=0                                              \
+    -DPYTHON2_EXECUTABLE=                                                 \
+    -DPYTHON2_INCLUDE_DIR=                                                \
+    -DPYTHON2_NUMPY_INCLUDE_DIRS=                                         \
+    -DPYTHON2_LIBRARY=                                                    \
+    -DPYTHON2_PACKAGES_PATH=                                              \
+    -DOPENCV_PYTHON2_INSTALL_PATH=${SP_DIR}                               \
     ..
 
 ninja install -v -j${CPU_COUNT}
