@@ -122,6 +122,7 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DWITH_GTK=0                                                          \
     -DWITH_QT=$QT                                                         \
     -DWITH_GPHOTO2=0                                                      \
+    -DWITH_WEBP=0                                                         \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="${SRC_DIR}/opencv_contrib/modules"       \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
@@ -134,8 +135,8 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
     -DJPEG_INCLUDE_DIR=${PREFIX}/include                                  \
     -DTIFF_INCLUDE_DIR=${PREFIX}/include                                  \
-    -DWEBP_INCLUDE_DIR=${PREFIX}/include                                  \
-    -DWEBP_LIBRARIES=${PREFIX}/lib                                        \
+    -DWEBP_INCLUDE_DIR=${BUILD_PREFIX}/include                            \
+    -DWEBP_LIBRARIES=${BUILD_PREFIX}/lib                                  \
     -DPNG_PNG_INCLUDE_DIR=${PREFIX}/include                               \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \

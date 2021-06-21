@@ -80,7 +80,6 @@ requirements:
     - zlib
     - jpeg
     - libtiff
-    - libwebp
     - harfbuzz                       # [unix]
     - libpng
     - ffmpeg                         # [not win]
@@ -128,9 +127,6 @@ test:
         {{ opencv_libs.append("ccalib") or "" }}
         {{ opencv_libs.append("core") or "" }}
         {{ opencv_libs.append("datasets") or "" }}
-        {{ opencv_libs.append("dnn_objdetect") or "" }}
-        {{ opencv_libs.append("dnn_superres") or "" }}
-        {{ opencv_libs.append("dnn") or "" }}
         {{ opencv_libs.append("dpm") or "" }}
         {{ opencv_libs.append("face") or "" }}
         {{ opencv_libs.append("features2d") or "" }}
@@ -144,7 +140,6 @@ test:
         {{ opencv_libs.append("imgproc") or "" }}
         {{ opencv_libs.append("intensity_transform") or "" }}
         {{ opencv_libs.append("line_descriptor") or "" }}
-        {{ opencv_libs.append("mcc") or "" }}
         {{ opencv_libs.append("ml") or "" }}
         {{ opencv_libs.append("objdetect") or "" }}
         {{ opencv_libs.append("optflow") or "" }}
@@ -162,12 +157,10 @@ test:
         {{ opencv_libs.append("structured_light") or "" }}
         {{ opencv_libs.append("superres") or "" }}
         {{ opencv_libs.append("surface_matching") or "" }}
-        {{ opencv_libs.append("text") or "" }}
         {{ opencv_libs.append("tracking") or "" }}
         {{ opencv_libs.append("video") or "" }}
         {{ opencv_libs.append("videoio") or "" }}
         {{ opencv_libs.append("videostab") or "" }}
-        {{ opencv_libs.append("wechat_qrcode") or "" }}
         {{ opencv_libs.append("xfeatures2d") or "" }}
         {{ opencv_libs.append("ximgproc") or "" }}
         {{ opencv_libs.append("xobjdetect") or "" }}
@@ -200,7 +193,6 @@ outputs:
         # opencv    for pypy36 and python3.6
         # similarly for pypy37 and python3.7
         - python
-        - libwebp
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
@@ -220,7 +212,6 @@ outputs:
       host:
         - python
         - numpy
-        - libwebp
       run:
         - python
         - {{ pin_compatible('numpy') }}
@@ -244,7 +235,6 @@ outputs:
         - python run_py_test.py
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
-        - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
 
 
 about:
