@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set +x
 
@@ -56,6 +56,8 @@ else
     INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
 
+mkdir build
+cd build
 
 PYTHON_SET_FLAG="-DBUILD_opencv_python${PY_MAJOR}=1"
 PYTHON_SET_EXE="-DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}"
@@ -73,8 +75,10 @@ PYTHON_UNSET_LIB="-DPYTHON${PY_UNSET_MAJOR}_LIBRARY="
 PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
 PYTHON_UNSET_INSTALL="-DOPENCV_PYTHON${PY_UNSET_MAJOR}_INSTALL_PATH=${SP_DIR}"
 
-# FFMPEG building requires pkgconfig
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
+  if [[ ! $? ]]; then
+    echo "configure failed with $?"
+    exit 1
+  fi
 
 cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DCMAKE_BUILD_TYPE="Release"                                          \
