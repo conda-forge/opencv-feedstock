@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.5.2" %}
+{% set version = "4.5.3" %}
 {% set PY_VER_MAJOR = PY_VER[0] %}
 {% set PY_VER_MINOR = PY_VER[2] %}
 
@@ -30,10 +30,10 @@ package:
 source:
   - url: https://codeload.github.com/opencv/opencv/tar.gz/{{ version }}
     fn: opencv-{{ version }}.tar.gz
-    sha256: ae258ed50aa039279c3d36afdea5c6ecf762515836b27871a8957c610d0424f8
+    sha256: 77f616ae4bea416674d8c373984b20c8bd55e7db887fd38c6df73463a0647bab
   - url: https://codeload.github.com/opencv/opencv_contrib/tar.gz/{{ version }}
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 9f52fd3114ac464cb4c9a2a6a485c729a223afb57b9c24848484e55cef0b5c2a
+    sha256: 73da052fd10e73aaba2560eaff10cc5177e2dcc58b27f8aedf7c649e24c233bc
     patches:
       - fix-iconv-link.patch
     folder: opencv_contrib
