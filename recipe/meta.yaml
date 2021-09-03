@@ -34,8 +34,6 @@ source:
   - url: https://codeload.github.com/opencv/opencv_contrib/tar.gz/{{ version }}
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 73da052fd10e73aaba2560eaff10cc5177e2dcc58b27f8aedf7c649e24c233bc
-    patches:
-      - fix-iconv-link.patch
     folder: opencv_contrib
   # FFMPEG builds only supported on unix platforms
   - fn: test.avi  # [unix]
