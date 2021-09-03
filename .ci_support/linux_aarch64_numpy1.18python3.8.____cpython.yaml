@@ -1,17 +1,23 @@
-MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
+BUILD:
+- aarch64-conda_cos7-linux-gnu
 c_compiler:
-- clang
+- gcc
 c_compiler_version:
-- '11'
+- '9'
+cdt_arch:
+- aarch64
+cdt_name:
+- cos7
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- clangxx
+- gxx
 cxx_compiler_version:
-- '11'
+- '9'
+docker_image:
+- quay.io/condaforge/linux-anvil-aarch64
 ffmpeg:
 - '4.3'
 freetype:
@@ -40,10 +46,8 @@ libtiff:
 - '4'
 libwebp:
 - '1'
-macos_machine:
-- x86_64-apple-darwin13.4.0
 numpy:
-- '1.17'
+- '1.18'
 pin_run_as_build:
   freetype:
     max_pin: x
@@ -65,7 +69,7 @@ pin_run_as_build:
 python:
 - 3.8.* *_cpython
 target_platform:
-- osx-64
+- linux-aarch64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

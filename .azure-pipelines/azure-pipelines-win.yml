@@ -8,14 +8,14 @@ jobs:
     vmImage: vs2017-win2016
   strategy:
     matrix:
-      win_64_numpy1.17python3.6.____cpython:
-        CONFIG: win_64_numpy1.17python3.6.____cpython
+      win_64_numpy1.18python3.6.____cpython:
+        CONFIG: win_64_numpy1.18python3.6.____cpython
         UPLOAD_PACKAGES: 'True'
-      win_64_numpy1.17python3.7.____cpython:
-        CONFIG: win_64_numpy1.17python3.7.____cpython
+      win_64_numpy1.18python3.7.____cpython:
+        CONFIG: win_64_numpy1.18python3.7.____cpython
         UPLOAD_PACKAGES: 'True'
-      win_64_numpy1.17python3.8.____cpython:
-        CONFIG: win_64_numpy1.17python3.8.____cpython
+      win_64_numpy1.18python3.8.____cpython:
+        CONFIG: win_64_numpy1.18python3.8.____cpython
         UPLOAD_PACKAGES: 'True'
       win_64_numpy1.19python3.9.____cpython:
         CONFIG: win_64_numpy1.19python3.9.____cpython
@@ -95,7 +95,7 @@ jobs:
 
     - script: |
         call activate base
-        conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml
+        conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml --suppress-variables
       displayName: Build recipe
       env:
         PYTHONUNBUFFERED: 1
