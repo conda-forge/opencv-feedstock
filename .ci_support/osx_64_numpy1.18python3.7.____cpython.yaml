@@ -21,7 +21,7 @@ glib:
 harfbuzz:
 - '2'
 hdf5:
-- 1.10.6
+- 1.12.1
 jasper:
 - '1'
 jpeg:
