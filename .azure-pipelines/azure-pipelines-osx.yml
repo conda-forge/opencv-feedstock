@@ -8,9 +8,6 @@ jobs:
     vmImage: macOS-10.15
   strategy:
     matrix:
-      osx_64_numpy1.18python3.6.____cpython:
-        CONFIG: osx_64_numpy1.18python3.6.____cpython
-        UPLOAD_PACKAGES: 'True'
       osx_64_numpy1.18python3.7.____cpython:
         CONFIG: osx_64_numpy1.18python3.7.____cpython
         UPLOAD_PACKAGES: 'True'
