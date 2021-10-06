@@ -1,7 +1,7 @@
 c_compiler:
 - vs2017
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -21,7 +21,7 @@ liblapacke:
 libpng:
 - '1.6'
 libprotobuf:
-- '3.16'
+- '3.18'
 libtiff:
 - '4'
 libwebp:
