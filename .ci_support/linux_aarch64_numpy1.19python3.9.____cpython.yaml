@@ -29,7 +29,7 @@ harfbuzz:
 hdf5:
 - 1.12.1
 jasper:
-- '1'
+- '2'
 jpeg:
 - '9'
 libcblas:

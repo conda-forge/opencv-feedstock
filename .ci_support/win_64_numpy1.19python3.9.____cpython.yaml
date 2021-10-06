@@ -1,7 +1,7 @@
 c_compiler:
 - vs2017
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:

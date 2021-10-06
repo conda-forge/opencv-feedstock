@@ -8,9 +8,6 @@ jobs:
     vmImage: vs2017-win2016
   strategy:
     matrix:
-      win_64_numpy1.18python3.6.____cpython:
-        CONFIG: win_64_numpy1.18python3.6.____cpython
-        UPLOAD_PACKAGES: 'True'
       win_64_numpy1.18python3.7.____cpython:
         CONFIG: win_64_numpy1.18python3.7.____cpython
         UPLOAD_PACKAGES: 'True'
