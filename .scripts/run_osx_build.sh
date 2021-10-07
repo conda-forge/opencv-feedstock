@@ -17,7 +17,8 @@ bash $MINIFORGE_FILE -b -p ${MINIFORGE_HOME}
 
 ( startgroup "Configuring conda" ) 2> /dev/null
 
-BUILD_CMD=build
+GET_BOA=boa
+BUILD_CMD=mambabuild
 
 source ${MINIFORGE_HOME}/etc/profile.d/conda.sh
 conda activate base
@@ -63,11 +64,5 @@ conda $BUILD_CMD ./recipe -m ./.ci_support/${CONFIG}.yaml --suppress-variables -
 validate_recipe_outputs "${FEEDSTOCK_NAME}"
 
 ( endgroup "Validating outputs" ) 2> /dev/null
-
-( startgroup "Uploading packages" ) 2> /dev/null
-
-if [[ "${UPLOAD_PACKAGES}" != "False" ]]; then
-  upload_package --validate --feedstock-name="${FEEDSTOCK_NAME}" ./ ./recipe ./.ci_support/${CONFIG}.yaml
-fi
-
-( endgroup "Uploading packages" ) 2> /dev/null
+# we're building with mambabuild, so fail here and DO NOT UPLOAD packages
+exit 1
