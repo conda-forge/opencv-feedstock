@@ -21,7 +21,7 @@ freetype:
 glib:
 - '2'
 harfbuzz:
-- '2'
+- '3'
 hdf5:
 - 1.12.1
 jasper:
@@ -60,10 +60,14 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
+  qt:
+    max_pin: x.x
   zlib:
     max_pin: x.x
 python:
 - 3.8.* *_cpython
+qt:
+- '5.12'
 target_platform:
 - linux-64
 zip_keys:
