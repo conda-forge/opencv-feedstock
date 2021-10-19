@@ -44,6 +44,8 @@ macos_machine:
 - arm64-apple-darwin20.0.0
 numpy:
 - '1.19'
+openmp_impl:
+- noopenmp
 pin_run_as_build:
   freetype:
     max_pin: x

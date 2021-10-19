@@ -1,17 +1,19 @@
-MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
 c_compiler:
-- clang
+- gcc
 c_compiler_version:
-- '11'
+- '9'
+cdt_name:
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- clangxx
+- gxx
 cxx_compiler_version:
-- '11'
+- '9'
+docker_image:
+- quay.io/condaforge/linux-anvil-ppc64le
 ffmpeg:
 - '4.3'
 freetype:
@@ -40,12 +42,10 @@ libtiff:
 - '4'
 libwebp:
 - '1'
-macos_machine:
-- x86_64-apple-darwin13.4.0
 numpy:
 - '1.19'
 openmp_impl:
-- noopenmp
+- openmp
 pin_run_as_build:
   freetype:
     max_pin: x
@@ -67,7 +67,7 @@ pin_run_as_build:
 python:
 - 3.9.* *_cpython
 target_platform:
-- osx-64
+- linux-ppc64le
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

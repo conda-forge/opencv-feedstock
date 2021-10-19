@@ -8,40 +8,76 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_numpy1.18python3.7.____cpython:
-        CONFIG: linux_64_numpy1.18python3.7.____cpython
+      linux_64_numpy1.18openmp_implnoopenmppython3.7.____cpython:
+        CONFIG: linux_64_numpy1.18openmp_implnoopenmppython3.7.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
-      linux_64_numpy1.18python3.8.____cpython:
-        CONFIG: linux_64_numpy1.18python3.8.____cpython
+      linux_64_numpy1.18openmp_implnoopenmppython3.8.____cpython:
+        CONFIG: linux_64_numpy1.18openmp_implnoopenmppython3.8.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
-      linux_64_numpy1.19python3.9.____cpython:
-        CONFIG: linux_64_numpy1.19python3.9.____cpython
+      linux_64_numpy1.18openmp_implopenmppython3.7.____cpython:
+        CONFIG: linux_64_numpy1.18openmp_implopenmppython3.7.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
-      linux_aarch64_numpy1.18python3.7.____cpython:
-        CONFIG: linux_aarch64_numpy1.18python3.7.____cpython
+      linux_64_numpy1.18openmp_implopenmppython3.8.____cpython:
+        CONFIG: linux_64_numpy1.18openmp_implopenmppython3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
+      linux_64_numpy1.19openmp_implnoopenmppython3.9.____cpython:
+        CONFIG: linux_64_numpy1.19openmp_implnoopenmppython3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
+      linux_64_numpy1.19openmp_implopenmppython3.9.____cpython:
+        CONFIG: linux_64_numpy1.19openmp_implopenmppython3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
+      linux_aarch64_numpy1.18openmp_implnoopenmppython3.7.____cpython:
+        CONFIG: linux_aarch64_numpy1.18openmp_implnoopenmppython3.7.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
-      linux_aarch64_numpy1.18python3.8.____cpython:
-        CONFIG: linux_aarch64_numpy1.18python3.8.____cpython
+      linux_aarch64_numpy1.18openmp_implnoopenmppython3.8.____cpython:
+        CONFIG: linux_aarch64_numpy1.18openmp_implnoopenmppython3.8.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
-      linux_aarch64_numpy1.19python3.9.____cpython:
-        CONFIG: linux_aarch64_numpy1.19python3.9.____cpython
+      linux_aarch64_numpy1.18openmp_implopenmppython3.7.____cpython:
+        CONFIG: linux_aarch64_numpy1.18openmp_implopenmppython3.7.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
-      linux_ppc64le_numpy1.18python3.7.____cpython:
-        CONFIG: linux_ppc64le_numpy1.18python3.7.____cpython
+      linux_aarch64_numpy1.18openmp_implopenmppython3.8.____cpython:
+        CONFIG: linux_aarch64_numpy1.18openmp_implopenmppython3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
+      linux_aarch64_numpy1.19openmp_implnoopenmppython3.9.____cpython:
+        CONFIG: linux_aarch64_numpy1.19openmp_implnoopenmppython3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
+      linux_aarch64_numpy1.19openmp_implopenmppython3.9.____cpython:
+        CONFIG: linux_aarch64_numpy1.19openmp_implopenmppython3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
+      linux_ppc64le_numpy1.18openmp_implnoopenmppython3.7.____cpython:
+        CONFIG: linux_ppc64le_numpy1.18openmp_implnoopenmppython3.7.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
-      linux_ppc64le_numpy1.18python3.8.____cpython:
-        CONFIG: linux_ppc64le_numpy1.18python3.8.____cpython
+      linux_ppc64le_numpy1.18openmp_implnoopenmppython3.8.____cpython:
+        CONFIG: linux_ppc64le_numpy1.18openmp_implnoopenmppython3.8.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
-      linux_ppc64le_numpy1.19python3.9.____cpython:
-        CONFIG: linux_ppc64le_numpy1.19python3.9.____cpython
+      linux_ppc64le_numpy1.18openmp_implopenmppython3.7.____cpython:
+        CONFIG: linux_ppc64le_numpy1.18openmp_implopenmppython3.7.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
+      linux_ppc64le_numpy1.18openmp_implopenmppython3.8.____cpython:
+        CONFIG: linux_ppc64le_numpy1.18openmp_implopenmppython3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
+      linux_ppc64le_numpy1.19openmp_implnoopenmppython3.9.____cpython:
+        CONFIG: linux_ppc64le_numpy1.19openmp_implnoopenmppython3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
+      linux_ppc64le_numpy1.19openmp_implopenmppython3.9.____cpython:
+        CONFIG: linux_ppc64le_numpy1.19openmp_implopenmppython3.9.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
   timeoutInMinutes: 360

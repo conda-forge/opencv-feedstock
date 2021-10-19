@@ -44,6 +44,8 @@ libwebp:
 - '1'
 numpy:
 - '1.18'
+openmp_impl:
+- openmp
 pin_run_as_build:
   freetype:
     max_pin: x
