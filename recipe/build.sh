@@ -16,7 +16,12 @@ if [[ "${target_platform}" == linux-* ]]; then
 
     export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
     export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
-    OPENMP="-DWITH_OPENMP=1"
+    if [[ "${openmp_impl}" == "openmp" ]]; then
+        OPENMP="-DWITH_OPENMP=1"
+    else
+        OPENMP="-DWITH_OPENMP=0"
+    fi
+
 fi
 if [[ "${target_platform}" == osx-* ]]; then
     QT="0"

@@ -1,0 +1,3 @@
+openmp_impl:
+  - noopenmp
+  - openmp      # [linux]

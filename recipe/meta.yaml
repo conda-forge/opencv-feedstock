@@ -43,8 +43,8 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310  # [unix]
 
 build:
-  number: 5
-  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  number: 6
+  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ openmp_impl }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
@@ -63,7 +63,7 @@ requirements:
     - m2-patch                       # [win]
     - cmake
     - ninja
-    - libgomp                        # [linux]
+    - libgomp                        # [linux and (openmp_impl == "openmp")]
     # ICE when enabling this
     # - llvm-openmp                    # [osx]
     - {{ compiler('c') }}
@@ -200,7 +200,7 @@ outputs:
   - name: libopencv
   - name: opencv
     build:
-      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ openmp_impl }}
     requirements:
       host:
         # Explicitely add a python requirement so that the hash changes between
@@ -213,7 +213,7 @@ outputs:
 
   - name: py-opencv
     build:
-      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ openmp_impl }}
       run_exports:
         # Should we even have this???
         # don't pin the python version so hard.
