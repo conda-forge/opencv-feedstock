@@ -20,6 +20,10 @@ jobs:
         CONFIG: linux_64_numpy1.19python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
+      linux_64_numpy1.21python3.10.____cpython:
+        CONFIG: linux_64_numpy1.21python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
       linux_aarch64_numpy1.18python3.7.____cpython:
         CONFIG: linux_aarch64_numpy1.18python3.7.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -32,6 +36,10 @@ jobs:
         CONFIG: linux_aarch64_numpy1.19python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
+      linux_aarch64_numpy1.21python3.10.____cpython:
+        CONFIG: linux_aarch64_numpy1.21python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
       linux_ppc64le_numpy1.18python3.7.____cpython:
         CONFIG: linux_ppc64le_numpy1.18python3.7.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -42,6 +50,10 @@ jobs:
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
       linux_ppc64le_numpy1.19python3.9.____cpython:
         CONFIG: linux_ppc64le_numpy1.19python3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
+      linux_ppc64le_numpy1.21python3.10.____cpython:
+        CONFIG: linux_ppc64le_numpy1.21python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le
   timeoutInMinutes: 360
@@ -64,6 +76,11 @@ jobs:
         export CI=azure
         export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
         export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        if [[ "${BUILD_REASON:-}" == "PullRequest" ]]; then
+          export IS_PR_BUILD="True"
+        else
+          export IS_PR_BUILD="False"
+        fi
         .scripts/run_docker_build.sh
     displayName: Run docker build
     env:

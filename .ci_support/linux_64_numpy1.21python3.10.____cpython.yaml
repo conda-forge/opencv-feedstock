@@ -1,0 +1,81 @@
+c_compiler:
+- gcc
+c_compiler_version:
+- '9'
+cdt_name:
+- cos6
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- gxx
+cxx_compiler_version:
+- '9'
+docker_image:
+- quay.io/condaforge/linux-anvil-comp7
+ffmpeg:
+- '4.3'
+freetype:
+- '2'
+glib:
+- '2'
+harfbuzz:
+- '3'
+hdf5:
+- 1.12.1
+jasper:
+- '2'
+jpeg:
+- '9'
+libcblas:
+- 3.8 *netlib
+liblapack:
+- 3.8 *netlib
+liblapacke:
+- 3.8 *netlib
+libpng:
+- '1.6'
+libprotobuf:
+- '3.18'
+libtiff:
+- '4'
+libwebp:
+- '1'
+numpy:
+- '1.21'
+pin_run_as_build:
+  freetype:
+    max_pin: x
+  harfbuzz:
+    max_pin: x
+  jasper:
+    max_pin: x
+  jpeg:
+    max_pin: x
+  libpng:
+    max_pin: x.x
+  libtiff:
+    max_pin: x
+  python:
+    min_pin: x.x
+    max_pin: x.x
+  qt:
+    max_pin: x.x
+  zlib:
+    max_pin: x.x
+python:
+- 3.10.* *_cpython
+qt:
+- '5.12'
+target_platform:
+- linux-64
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
+- - cdt_name
+  - docker_image
+- - python
+  - numpy
+zlib:
+- '1.2'
