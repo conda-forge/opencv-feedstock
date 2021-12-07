@@ -157,6 +157,7 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     $PYTHON_UNSET_LIB                                                     \
     $PYTHON_UNSET_SP                                                      \
     $PYTHON_UNSET_INSTALL                                                 \
+    --debug-output                                                        \
     ..
 
 ninja install -v -j${CPU_COUNT}
