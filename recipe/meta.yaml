@@ -39,7 +39,7 @@ source:
     folder: opencv_contrib
     patches:
       # Allow attempt to find HDF5 on cross-compile
-      - cmake_hdf5_xpile.patch  # [not osx]
+      - cmake_hdf5_xpile.patch
   # FFMPEG builds only supported on unix platforms
   - fn: test.avi  # [unix]
     url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi  # [unix]

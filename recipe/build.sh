@@ -109,9 +109,6 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DWITH_V4L=$V4L                                                       \
     -DWITH_CUDA=0                                                         \
     -DWITH_CUBLAS=0                                                       \
-    -DWITH_HDF5=1                                                         \
-    -DHDF5_INCLUDE_DIRS=${PREFIX}/include                                 \
-    -DHDF5_LIBRARIES=${PREFIX}/lib                                        \
     -DWITH_OPENCL=0                                                       \
     -DWITH_OPENCLAMDFFT=0                                                 \
     -DWITH_OPENCLAMDBLAS=0                                                \
@@ -158,7 +155,6 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     $PYTHON_UNSET_LIB                                                     \
     $PYTHON_UNSET_SP                                                      \
     $PYTHON_UNSET_INSTALL                                                 \
-    --debug-output                                                        \
     ..
 
 ninja install -v -j${CPU_COUNT}
