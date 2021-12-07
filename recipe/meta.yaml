@@ -37,6 +37,9 @@ source:
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 73da052fd10e73aaba2560eaff10cc5177e2dcc58b27f8aedf7c649e24c233bc
     folder: opencv_contrib
+    patches:
+      # Allow attempt to find HDF5 on cross-compile
+      - cmake_hdf5_xpile.patch  # [not osx]
   # FFMPEG builds only supported on unix platforms
   - fn: test.avi  # [unix]
     url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi  # [unix]
