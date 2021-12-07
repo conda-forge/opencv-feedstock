@@ -109,7 +109,8 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DWITH_V4L=$V4L                                                       \
     -DWITH_CUDA=0                                                         \
     -DWITH_CUBLAS=0                                                       \
-    -DWITH_HDF5=1                                                         \
+    -DHDF5_INCLUDE_DIR=${PREFIX}/include                                  \
+    -DHDF5_LIBRARIES=${PREFIX}/lib                                        \
     -DWITH_OPENCL=0                                                       \
     -DWITH_OPENCLAMDFFT=0                                                 \
     -DWITH_OPENCLAMDBLAS=0                                                \
