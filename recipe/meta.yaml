@@ -61,7 +61,6 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - libprotobuf                            # [build_platform != target_platform]
-    - hdf5                                   # [build_platform != target_platform]
     # Required to find ffpmeg
     - pkg-config                     # [not win]
     - m2-patch                       # [win]
