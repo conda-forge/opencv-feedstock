@@ -1,4 +1,4 @@
-#include <opencv/cv.h>
+#include <opencv2/core/version.hpp>
 #include <iostream>
 int main()
 {
