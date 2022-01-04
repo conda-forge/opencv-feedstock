@@ -88,7 +88,7 @@ cmake .. -LAH -GNinja                                                     \
   -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib-${PKG_VERSION}/modules"  \
   -DOpenCV_INSTALL_BINARIES_PREFIX=""                                     \
   -DPROTOBUF_UPDATE_FILES=ON  `# should be used if using protobuf`        \
-  -DPYTHON_DEFAULT_EXECUTABLE=$(which python)                             \
+  -DPYTHON_DEFAULT_EXECUTABLE=${PREFIX}/bin/python                        \
   -DWITH_1394=OFF                                                         \
   -DWITH_CUDA=OFF                                                         \
   -DWITH_GTK=OFF                                                          \
