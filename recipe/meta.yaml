@@ -23,7 +23,8 @@ source:
 build:
   number: 0
   # Python 2.7 is not supported on Windows
-  skip: True  # [win and py27]
+  # Package not supported on s390x
+  skip: True  # [(win and py27) or s390x]
   script_env:
     - OPENCV_USE_N_PYTHON_PATCH
   ignore_run_exports:
