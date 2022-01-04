@@ -1,20 +1,19 @@
 {% set version = "4.5.4" %}
 {% set use_n_python_patch = os.environ.get('OPENCV_USE_N_PYTHON_PATCH', '0') %}
-
 package:
   name: opencv-suite
   version: {{ version }}
 
 source:
-  # - git_url: https://github.com/opencv/opencv
-  #   git_tag: {{ version }}
-  #   git_depth: 10
+  {% if USE_GIT|default(False) %}
+  - git_url: https://github.com/opencv/opencv
+    git_tag: {{ version }}
+    git_depth: 10
+{% else %}
   - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
-  # https://github.com/opencv/opencv/archive/refs/tags/4.5.4.zip
     fn: opencv-{{ version }}.zip
-    # sha256: 2c75b129da2e2c8728d168b7bf14ceca2da0ebe938557b109bae6742855ede13
-    # sha256: b79ccdc4797a959c5ab17249a8a302c066248ae070e4d7010e2d77a625fdb30a
     sha256: 5deac7f7341faf4b23c38d65f8f89dbf5b4b30d345390a60853640967a2bf61b
+{% endif %}
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81
