@@ -22,7 +22,7 @@ echo "${PYTHON_CMAKE_ARGS[@]}"
 # Set defaults for dependencies that change across OSes
 # This should match the meta.yaml deps section
 VAR_DEPS=(EIGEN FFMPEG PROTOBUF GSTREAMER OPENMP QT)
-DEPS_DEFAULTS=(1 1 0 0 1 0)
+DEPS_DEFAULTS=(1 1 0 1 1 5)
 if [[ ${#DEPS_DEFAULTS[@]} != ${#VAR_DEPS[@]} ]];then echo Setting defaults failed: Length mismatch;exit 1; fi
 for ii in ${!VAR_DEPS[@]};do
     eval "WITH_${VAR_DEPS[ii]}=${DEPS_DEFAULTS[ii]}"
@@ -37,16 +37,17 @@ if [[ ${target_platform} == osx-* ]]; then
 elif [[ ${target_platform} == linux-64 ]];then
   # for qt the value is coerced to boolean but it also used to set the version
   # of the QT cmake config file looked for
-  WITH_QT=5
-  WITH_GSTREAMER=1
   WITH_PROTOBUF=1
 elif [[ ${target_platform} == linux-ppc64le ]];then
     # TODO: this should likely be somewhere else... perhaps the compiler activation
-    CMAKE_ARGS=" -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;$BUILD_PREFIX/x86_64-conda-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib"
+  CMAKE_ARGS=" -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;$BUILD_PREFIX/x86_64-conda-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib"
+  WITH_QT=0
+  WITH_GSTREAMER=0
 elif [[ ${target_platform} == linux-aarch64 ]];then
-    echo aarch64
+  WITH_QT=0
 else
-    echo Unsupported platform
+  echo Unsupported platform
+  exit 1
 fi
 
 # append dependencies to CMAKE_EXTRA_ARGS

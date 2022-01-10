@@ -43,9 +43,9 @@ requirements:
     - eigen
     - ffmpeg                # [not osx]
     - freetype
-    - glib                  # [linux64]
-    - gst-plugins-base      # [linux64]
-    - gstreamer             # [linux64]
+    - glib                  # [not ppc64le]
+    - gst-plugins-base      # [not ppc64le]
+    - gstreamer             # [not ppc64le]
     - harfbuzz              # [not win]
     - hdf5
     - jpeg
@@ -57,16 +57,17 @@ requirements:
     - libwebp               # [not osx]
     - numpy {{ numpy }}
     - python
-    - qt ==5.9.7            # [linux64]
+    - qt ==5.9.7            # [x86_64 and not ppc64le]
+    - qt ==5.15.2           # [arm64]
     - zlib
   run:
     - _openmp_mutex         # [linux64 or aarch64]
     - eigen
     - ffmpeg                # [not osx]
     - freetype
-    - glib                  # [linux64]
-    - gstreamer             # [linux64]
-    - gst-plugins-base      # [linux64]
+    - glib                  # [not ppc64le]
+    - gst-plugins-base      # [not ppc64le]
+    - gstreamer             # [not ppc64le]
     - harfbuzz              # [not win]
     - hdf5
     - jpeg
@@ -78,7 +79,8 @@ requirements:
     - libwebp               # [not osx]
     - numpy {{ numpy }}
     - python
-    - qt  ==5.9.7           # [linux64]
+    - qt ==5.9.7            # [x86_64 and not ppc64le]
+    - qt ==5.15.2           # [arm64]
     - zlib
 
 test:
