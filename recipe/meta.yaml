@@ -31,8 +31,8 @@ source:
   - url: https://codeload.github.com/opencv/opencv/tar.gz/{{ version }}
     fn: opencv-{{ version }}.tar.gz
     sha256: a1cfdcf6619387ca9e232687504da996aaa9f7b5689986b8331ec02cb61d28ad
-    patches:
-      - 20386-SetTotalBytesLimit-one-arg.patch
+    # patches:
+    #   - 20386-SetTotalBytesLimit-one-arg.patch
   - url: https://codeload.github.com/opencv/opencv_contrib/tar.gz/{{ version }}
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 73da052fd10e73aaba2560eaff10cc5177e2dcc58b27f8aedf7c649e24c233bc
