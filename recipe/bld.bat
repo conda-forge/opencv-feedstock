@@ -71,6 +71,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_TENGINE=0                                                                ^
     -DWITH_GSTREAMER=0                                                              ^
+    -DWITH_TESSERACT=0                                                              ^
     -DWITH_VTK=0                                                                    ^
     -DWITH_WIN32UI=0                                                                ^
     -DWITH_QT=5                                                                     ^
