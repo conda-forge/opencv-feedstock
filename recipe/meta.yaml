@@ -35,7 +35,7 @@ source:
     #   - 20386-SetTotalBytesLimit-one-arg.patch
   - url: https://codeload.github.com/opencv/opencv_contrib/tar.gz/{{ version }}
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 73da052fd10e73aaba2560eaff10cc5177e2dcc58b27f8aedf7c649e24c233bc
+    sha256: a97c2eaecf7a23c6dbd119a609c6d7fae903e5f9ff5f1fe678933e01c67a6c11
     folder: opencv_contrib
     patches:
       # Allow attempt to find HDF5 on cross-compile
