@@ -44,10 +44,9 @@ elif [[ ${target_platform} == linux-ppc64le ]];then
   WITH_QT=0
   WITH_GSTREAMER=0
 elif [[ ${target_platform} == linux-aarch64 ]];then
-  WITH_QT=0
+    echo aarch64
 else
-  echo Unsupported platform
-  exit 1
+    echo Unsupported platform
 fi
 
 # append dependencies to CMAKE_EXTRA_ARGS

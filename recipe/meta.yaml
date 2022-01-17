@@ -38,6 +38,8 @@ requirements:
     - msinttypes            # [win and py<35]
     - ninja
     - pkg-config
+    - {{ cdt('mesa-libGL-devel') }}         # [aarch64]
+    - {{ cdt('mesa-libEGL-devel') }}        # [aarch64]
   host:
     - cmake
     - eigen
@@ -58,7 +60,7 @@ requirements:
     - numpy {{ numpy }}
     - python
     - qt ==5.9.7            # [x86_64 and not ppc64le]
-    - qt ==5.15.2           # [arm64]
+    - qt ==5.15.2           # [arm64 or aarch64]
     - zlib
   run:
     - _openmp_mutex         # [linux64 or aarch64]
@@ -80,7 +82,7 @@ requirements:
     - numpy {{ numpy }}
     - python
     - qt ==5.9.7            # [x86_64 and not ppc64le]
-    - qt ==5.15.2           # [arm64]
+    - qt ==5.15.2           # [arm64 or aarch64]
     - zlib
 
 test:
