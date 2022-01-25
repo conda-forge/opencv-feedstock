@@ -1,5 +1,5 @@
 {% set version = "4.5.4" %}
-{% set use_n_python_patch = os.environ.get('OPENCV_USE_N_PYTHON_PATCH', '0') %}
+{% set build_num = "0" %}
 package:
   name: opencv-suite
   version: {{ version }}
@@ -20,12 +20,10 @@ source:
     folder: opencv_contrib-{{ version }}
 
 build:
-  number: 0
+  number: {{ build_num }}
   # Python 2.7 is not supported on Windows
   # Package not supported on s390x
   skip: True  # [(win and py27) or s390x]
-  script_env:
-    - OPENCV_USE_N_PYTHON_PATCH
   ignore_run_exports:
     - openblas-devel
     - _openmp_mutex # [linux64 or aarch64]
@@ -85,71 +83,168 @@ requirements:
     - qt ==5.15.2           # [arm64 or aarch64]
     - zlib
 
-test:
-  requires:
-    - {{ compiler('cxx') }}
-    - cmake
-    - python
-    - numpy
-  files:
-    - test-cmake/CMakeLists.txt
-    - test-cmake/DisplayImage.cpp
-    - test.cpp
-  commands:
-    - pushd test-cmake
-    - cmake . -DOpenCV_STATIC=OFF -DOpenCV_SHARED=ON -G"Visual Studio 14 2015"        # [win32]
-    - cmake . -DOpenCV_STATIC=OFF -DOpenCV_SHARED=ON -G"Visual Studio 14 2015 Win64"  # [win64]
-    - cmake . -DOpenCV_STATIC=OFF -DOpenCV_SHARED=ON                                  # [not win]
-    - cmake --build . --config Release
-    - popd
-    # Verify dynamic libraries.
-    # "bioinspired", Not working in 3.1.0
-    {% set opencv_libs = [
-         "aruco",
-         "bgsegm",
-         "calib3d",
-         "ccalib",
-         "core",
-         "datasets",
-         "dpm",
-         "face",
-         "features2d",
-         "flann",
-         "fuzzy",
-         "highgui",
-         "imgcodecs",
-         "imgproc",
-         "line_descriptor",
-         "ml",
-         "objdetect",
-         "optflow",
-         "phase_unwrapping",
-         "photo",
-         "plot",
-         "reg",
-         "rgbd",
-         "saliency",
-         "shape",
-         "stereo",
-         "stitching",
-         "structured_light",
-         "superres",
-         "surface_matching",
-         "text",
-         "tracking",
-         "video",
-         "videoio",
-         "videostab",
-         "xfeatures2d",
-         "ximgproc",
-         "xobjdetect",
-         "xphoto",
-    ] %}
-    {% for each_opencv_lib in opencv_libs %}
-    - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.dylib                        # [osx]
-    - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.so                           # [linux]
-    - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}342.dll exit 1  # [win]
-    {% endfor %}
+
+outputs:
+  - name: opencv
+    script: install.sh
+    build:
+      ignore_run_exports:
+        - openblas-devel
+
+    requirements:
+
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - msinttypes            # [win and py<35]
+        - ninja
+        - pkg-config
+        - {{ cdt('mesa-libGL-devel') }}         # [aarch64]
+        - {{ cdt('mesa-libEGL-devel') }}        # [aarch64]
+      host:
+        - _openmp_mutex         # [linux64 or aarch64]
+        - cmake
+        - eigen
+        - ffmpeg                # [not osx]
+        - freetype
+        - glib                  # [not ppc64le]
+        - gst-plugins-base      # [not ppc64le]
+        - gstreamer             # [not ppc64le]
+        - harfbuzz              # [not win]
+        - hdf5
+        - jpeg
+        - openjpeg              # [not arm64]
+        - openblas-devel        # [x86_64]
+        - libpng
+        - libprotobuf  ==3.5.1  # [linux64]
+        - libtiff
+        - libwebp               # [not osx]
+        - numpy {{ numpy }}
+        - python
+        - qt ==5.9.7            # [x86_64 and not ppc64le]
+        - qt ==5.15.2           # [arm64 or aarch64]
+        - zlib
+      run:
+        - _openmp_mutex         # [linux64 or aarch64]
+        - eigen
+        - ffmpeg                # [not osx]
+        - freetype
+        - glib                  # [not ppc64le]
+        - gst-plugins-base      # [not ppc64le]
+        - gstreamer             # [not ppc64le]
+        - harfbuzz              # [not win]
+        - hdf5
+        - jpeg
+        - openjpeg              # [not arm64]
+        - libopenblas           # [x86_64]
+        - libpng
+        - libprotobuf ==3.5.1   # [linux64]
+        - libtiff
+        - libwebp               # [not osx]
+        - numpy {{ numpy }}
+        - python
+        - qt ==5.9.7            # [x86_64 and not ppc64le]
+        - qt ==5.15.2           # [arm64 or aarch64]
+        - zlib
+    test:
+      requires:
+        - {{ compiler('cxx') }}
+        - cmake
+        - python
+        - numpy
+        - ninja
+        - {{ cdt('libselinux-devel') }}      # [linux]
+        - {{ cdt('libx11-devel') }}          # [linux]
+        - {{ cdt('libxau-devel') }}          # [linux]
+        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxdamage-devel') }}      # [linux]
+        - {{ cdt('libxext-devel') }}         # [linux]
+        - {{ cdt('libxfixes-devel') }}       # [linux]
+        - {{ cdt('libxi-devel') }}           # [linux]
+        - {{ cdt('libxrender-devel') }}      # [linux]
+        - {{ cdt('libxxf86vm') }}            # [linux]
+        - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+      files:
+        - test-cmake/CMakeLists.txt
+        - test-cmake/DisplayImage.cpp
+        - test.cpp
+      commands:
+        - pushd test-cmake
+        - cmake . -GNinja -DOpenCV_SHARED=ON -G"Visual Studio 14 2015"        # [win32]
+        - cmake . -GNinja -DOpenCV_SHARED=ON -G"Visual Studio 14 2015 Win64"  # [win64]
+        - cmake . -GNinja -DOpenCV_SHARED=ON                                  # [not win]
+        - cmake --build . --config Release
+        - popd
+        # Verify dynamic libraries.
+        # "bioinspired", Not working in 3.1.0
+        {% set opencv_libs = [
+             "aruco",
+             "bgsegm",
+             "calib3d",
+             "ccalib",
+             "core",
+             "datasets",
+             "dpm",                               # [x86_64]
+             "face",                              # [X86_64]
+             "features2d",
+             "flann",
+             "fuzzy",
+             "highgui",
+             "imgcodecs",
+             "imgproc",
+             "line_descriptor",
+             "ml",
+             "objdetect",                        # [x86_64]
+             "optflow",
+             "phase_unwrapping",
+             "photo",
+             "plot",
+             "reg",
+             "rgbd",
+             "saliency",
+             "shape",
+             "stereo",
+             "stitching",
+             "structured_light",
+             "superres",
+             "surface_matching",
+             "text",                             # [x86_64]
+             "tracking",
+             "video",
+             "videoio",
+             "videostab",
+             "xfeatures2d",
+             "ximgproc",
+             "xobjdetect",                       # [x86_64]
+             "xphoto",
+        ] %}
+        {% for each_opencv_lib in opencv_libs %}
+        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.dylib                        # [osx]
+        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.so                           # [linux]
+        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}342.dll exit 1  # [win]
+        {% endfor %}
+
+  - name: libopencv
+    script: install-nothing.sh
+    version: {{ version }}
+    build:
+      number: {{ build_num }}
+      skip: True  # [(win and py27) or s390x]
+    requirements:
+      host:
+        - {{ pin_subpackage('opencv', max_pin='x') }}
+
+  - name: py-opencv
+    script: install-nothing.sh
+    version: {{ version }}
+    build:
+      number: {{ build_num }}
+      skip: True  # [(win and py27) or s390x]
+    requirements:
+      host:
+        - {{ pin_subpackage('opencv', max_pin='x') }}
 
 about:
   home: http://opencv.org/
@@ -161,3 +256,5 @@ about:
     It has a modular structure,which means that the package includes several shared or static libraries.
   doc_url: http://docs.opencv.org/
   doc_source_url: https://github.com/opencv/opencv/tree/master/doc
+
+

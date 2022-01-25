@@ -110,5 +110,5 @@ if [[ ! $? ]]; then
   exit 1
 fi
 
-cmake --build . && cmake --install .
+cmake --build .
 
