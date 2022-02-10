@@ -3,7 +3,7 @@ About libopencv
 
 Home: http://opencv.org/
 
-Package license: BSD-3-Clause
+Package license: Apache-2.0
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/opencv-feedstock/blob/master/LICENSE.txt)
 
