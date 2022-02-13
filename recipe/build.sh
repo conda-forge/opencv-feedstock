@@ -142,6 +142,8 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
     -DOPENCV_ENABLE_PKG_CONFIG=1                                          \
+    -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                               \
+    -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                 \
     $PYTHON_SET_FLAG                                                      \
     $PYTHON_SET_EXE                                                       \
     $PYTHON_SET_INC                                                       \
