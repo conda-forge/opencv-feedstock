@@ -31,7 +31,8 @@ source:
   - url: https://codeload.github.com/opencv/opencv/tar.gz/{{ version }}
     fn: opencv-{{ version }}.tar.gz
     sha256: a1cfdcf6619387ca9e232687504da996aaa9f7b5689986b8331ec02cb61d28ad
-    # patches:
+    patches:
+      - install_pip_metadata.patch
     #   - 20386-SetTotalBytesLimit-one-arg.patch
   - url: https://codeload.github.com/opencv/opencv_contrib/tar.gz/{{ version }}
     fn: opencv_contrib-{{ version }}.tar.gz
@@ -46,7 +47,7 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310  # [unix]
 
 build:
-  number: 1
+  number: 2
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
