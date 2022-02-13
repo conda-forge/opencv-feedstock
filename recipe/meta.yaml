@@ -254,7 +254,7 @@ outputs:
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
-        - test $(pip list | grep opencv-python | tr -s " " | grep $PKG_VERSION | wc -l) -eq 1  # [unix]
+        - test $(pip list | grep opencv-python | wc -l) -eq 1  # [unix]
       requires:
         - pip
 
