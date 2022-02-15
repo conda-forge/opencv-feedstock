@@ -103,6 +103,8 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
     -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
     -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
+    -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
+    -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
     ..
 if errorlevel 1 exit 1
 
