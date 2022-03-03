@@ -1,7 +1,7 @@
 c_compiler:
 - gcc
 c_compiler_version:
-- '9'
+- '10'
 cdt_name:
 - cos7
 channel_sources:
@@ -11,7 +11,7 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '9'
+- '10'
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 ffmpeg:
@@ -60,10 +60,14 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
+  qt:
+    max_pin: x.x
   zlib:
     max_pin: x.x
 python:
 - 3.10.* *_cpython
+qt:
+- '5.12'
 target_platform:
 - linux-ppc64le
 zip_keys:
