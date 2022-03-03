@@ -47,7 +47,7 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310  # [unix]
 
 build:
-  number: 2
+  number: 3
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
@@ -92,7 +92,7 @@ requirements:
     - harfbuzz                       # [unix]
     - libpng
     - ffmpeg                         # [not win]
-    - qt                             # [not osx and not aarch64 and not ppc64le]
+    - qt                             # [not osx]
     - liblapacke
     - liblapack
     - libcblas
@@ -104,7 +104,7 @@ requirements:
     - harfbuzz                       # [unix]
     # Don't depend on python in the run section
     # py-opencv will depend on python
-    - qt 5.12                        # [not osx and not aarch64 and not ppc64le]
+    - qt 5.12                        # [not osx]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
     # That or a dependency wasn't merged in
