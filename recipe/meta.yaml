@@ -92,7 +92,7 @@ requirements:
     - harfbuzz                       # [unix]
     - libpng
     - ffmpeg                         # [not win]
-    - qt                             # [not osx]
+    - qt                             # [not osx and not ppc64le]
     - liblapacke
     - liblapack
     - libcblas
@@ -104,7 +104,7 @@ requirements:
     - harfbuzz                       # [unix]
     # Don't depend on python in the run section
     # py-opencv will depend on python
-    - qt 5.12                        # [not osx]
+    - qt 5.12                        # [not osx and not ppc64le]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
     # That or a dependency wasn't merged in
