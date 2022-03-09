@@ -226,6 +226,12 @@ outputs:
         - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}342.dll exit 1  # [win]
         {% endfor %}
 
+  # This recipe has merged the outputs for the compiled libraries with the
+  # python bindings that used to be vendored as libopencv and py-opencv. This
+  # was done to try to improve maintainibility. The following two output
+  # sections provide no files other than those already in the opencv package.
+  # These "virtual" packages provide backwards compatibility with recipes
+  # depending on either of the two old packages.
   - name: libopencv
     script: install-nothing.sh
     version: {{ version }}
