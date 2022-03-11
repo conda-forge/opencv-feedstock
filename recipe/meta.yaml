@@ -221,8 +221,8 @@ outputs:
              "xphoto",
         ] %}
         {% for each_opencv_lib in opencv_libs %}
-        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.dylib                        # [osx]
-        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}.so                           # [linux]
+        - test -f ${CONDA_PREFIX}/lib/libopencv_{{ each_opencv_lib }}.dylib                        # [osx]
+        - test -f ${CONDA_PREFIX}/lib/libopencv_{{ each_opencv_lib }}.so                           # [linux]
         - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}342.dll exit 1  # [win]
         {% endfor %}
 
