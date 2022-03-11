@@ -41,7 +41,7 @@ requirements:
   host:
     - cmake
     - eigen
-    - ffmpeg                # [not osx]
+    - ffmpeg                # [linux64]
     - freetype
     - glib                  # [not ppc64le]
     - gst-plugins-base      # [not ppc64le]
@@ -105,7 +105,7 @@ outputs:
         - _openmp_mutex         # [linux64 or aarch64]
         - cmake
         - eigen
-        - ffmpeg                # [not osx]
+        - ffmpeg                # [linux64]
         - freetype
         - glib                  # [not ppc64le]
         - gst-plugins-base      # [not ppc64le]
@@ -118,7 +118,7 @@ outputs:
         - libpng
         - libprotobuf  ==3.5.1  # [linux64]
         - libtiff
-        - libwebp               # [not osx]
+        - libwebp               # [linux64]
         - numpy {{ numpy }}
         - python
         - qt ==5.9.7            # [x86_64 and not ppc64le]
@@ -140,7 +140,7 @@ outputs:
         - libpng
         - libprotobuf ==3.5.1   # [linux64]
         - libtiff
-        - libwebp               # [not osx]
+        - libwebp               # [linux64]
         - numpy {{ numpy }}
         - python
         - qt ==5.9.7            # [x86_64 and not ppc64le]
@@ -186,8 +186,8 @@ outputs:
              "ccalib",
              "core",
              "datasets",
-             "dpm",                               # [x86_64]
-             "face",                              # [X86_64]
+             "dpm",                               # [linux64]
+             "face",                              # [linux64]
              "features2d",
              "flann",
              "fuzzy",
@@ -196,7 +196,7 @@ outputs:
              "imgproc",
              "line_descriptor",
              "ml",
-             "objdetect",                        # [x86_64]
+             "objdetect",                        # [linux64]
              "optflow",
              "phase_unwrapping",
              "photo",
@@ -210,14 +210,14 @@ outputs:
              "structured_light",
              "superres",
              "surface_matching",
-             "text",                             # [x86_64]
+             "text",                             # [linux64]
              "tracking",
              "video",
              "videoio",
              "videostab",
              "xfeatures2d",
              "ximgproc",
-             "xobjdetect",                       # [x86_64]
+             "xobjdetect",                       # [linux64]
              "xphoto",
         ] %}
         {% for each_opencv_lib in opencv_libs %}
