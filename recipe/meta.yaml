@@ -23,7 +23,7 @@ build:
   number: {{ build_num }}
   # Python 2.7 is not supported on Windows
   # Package not supported on s390x
-  skip: True  # [(win and py27) or s390x]
+  skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
   ignore_run_exports:
     - openblas-devel
     - _openmp_mutex # [linux64 or aarch64]
