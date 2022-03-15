@@ -21,8 +21,8 @@ echo "${PYTHON_CMAKE_ARGS[@]}"
 
 # Set defaults for dependencies that change across OSes
 # This should match the meta.yaml deps section
-VAR_DEPS=(EIGEN FFMPEG PROTOBUF GSTREAMER OPENMP QT)
-DEPS_DEFAULTS=(1 1 0 1 1 5)
+VAR_DEPS=(EIGEN FFMPEG PROTOBUF GSTREAMER OPENJPEG OPENMP QT WEBP)
+DEPS_DEFAULTS=(1 0 0 1 1 1 5 0)
 if [[ ${#DEPS_DEFAULTS[@]} != ${#VAR_DEPS[@]} ]];then echo Setting defaults failed: Length mismatch;exit 1; fi
 for ii in ${!VAR_DEPS[@]};do
     eval "WITH_${VAR_DEPS[ii]}=${DEPS_DEFAULTS[ii]}"
@@ -32,12 +32,17 @@ done
 echo "Platform: ${target_platform}"
 if [[ ${target_platform} == osx-* ]]; then
   CMAKE_EXTRA_ARGS+=("-DCMAKE_OSX_SYSROOT=${CONDA_BUILD_SYSROOT}")
+  CMAKE_EXTRA_ARGS+=("-DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz.dylib")
   WITH_OPENMP=0
-  WITH_FFMPEG=0
+  if [[ ${target_platform} == osx-arm64 ]]; then
+    WITH_OPENJPEG=0
+  fi
 elif [[ ${target_platform} == linux-64 ]];then
   # for qt the value is coerced to boolean but it also used to set the version
   # of the QT cmake config file looked for
   WITH_PROTOBUF=1
+  WITH_WEBP=1
+  WITH_FFMPEG=1
 elif [[ ${target_platform} == linux-ppc64le ]];then
     # TODO: this should likely be somewhere else... perhaps the compiler activation
   CMAKE_ARGS=" -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY -DCMAKE_FIND_ROOT_PATH=$PREFIX;$BUILD_PREFIX/x86_64-conda-linux-gnu/sysroot -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_INSTALL_LIBDIR=lib"
@@ -69,6 +74,7 @@ cmake .. -LAH -GNinja                                                     \
   -DBUILD_DOCS=0                                                          \
   -DBUILD_JASPER=0                                                        \
   -DBUILD_JPEG=0                                                          \
+  -DBUILD_OPENJPEG=0                                                      \
   -DBUILD_LIBPROTOBUF_FROM_SOURCES=0                                      \
   -DBUILD_OPENEXR=ON                                                      \
   -DBUILD_PERF_TESTS=0                                                    \
@@ -77,6 +83,7 @@ cmake .. -LAH -GNinja                                                     \
   -DBUILD_TESTS=0                                                         \
   -DBUILD_TIFF=0                                                          \
   -DBUILD_ZLIB=0                                                          \
+  -DBUILD_WEBP=0                                                          \
   -DBUILD_opencv_apps=OFF `# issue linking with opencv_model_diagnostics` \
   -DCMAKE_BUILD_TYPE="Release"                                            \
   -DCMAKE_CROSSCOMPILING=ON         `# may not need`                      \
@@ -110,5 +117,5 @@ if [[ ! $? ]]; then
   exit 1
 fi
 
-cmake --build . && cmake --install .
+cmake --build .
 
