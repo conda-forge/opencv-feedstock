@@ -47,7 +47,7 @@ libtiff:
 libwebp:
 - '1'
 numpy:
-- '1.18'
+- '1.19'
 pin_run_as_build:
   freetype:
     max_pin: x
