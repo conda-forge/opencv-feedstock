@@ -11,7 +11,7 @@ diff --git a/modules/python/common.cmake b/modules/python/common.cmake
 index c5df8bca8fc5..2acbe19b663c 100644
 --- a/modules/python/common.cmake
 +++ b/modules/python/common.cmake
-@@ -230,6 +230,30 @@ if(NOT OPENCV_SKIP_PYTHON_LOADER)
+@@ -230,6 +230,26 @@ if(NOT OPENCV_SKIP_PYTHON_LOADER)
    install(FILES "${__python_loader_install_tmp_path}/cv2/${__target_config}" DESTINATION "${OPENCV_PYTHON_INSTALL_PATH}/cv2/" COMPONENT python)
  endif()  # NOT OPENCV_SKIP_PYTHON_LOADER
  
@@ -23,11 +23,7 @@ index c5df8bca8fc5..2acbe19b663c 100644
 +set(OPENCV_PYTHON_PIP_METADATA_INSTALLER "cmake" CACHE STRING "Specify the string to identify the pip Installer. Default: cmake, change this if you are using another tool.")
 +mark_as_advanced(OPENCV_PYTHON_PIP_METADATA_INSTALLER)
 +if (OPENCV_PYTHON_PIP_METADATA_INSTALL)
-+  if (WIN32)
-+    set(NEW_LINE "\n\r")
-+  else()
-+    set(NEW_LINE "\n")
-+  endif()
++  set(NEW_LINE "\n")
 +  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/METADATA "")
 +  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/METADATA "Metadata-Version: 2.1${NEW_LINE}")
 +  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/METADATA "Name: opencv-python${NEW_LINE}")
