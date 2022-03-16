@@ -2,7 +2,7 @@ import unittest
 import platform
 import numpy as np
 import cv2
-from importlib import metadata
+import sys
 
 @unittest.skipIf(platform.system() == 'Windows',
                  'FFMPEG currently not built on Windows')
@@ -34,8 +34,10 @@ class TestGEMM(unittest.TestCase):
         self.assertTrue(np.array_equal(gold, x), "Array returned by GEMM is not valid")
 
 # Regression test for https://github.com/conda-forge/opencv-feedstock/issues/302
+@unittest.skipIf(sys.version_info < (3,8), "Test requires Python >= 3.8")
 class TestMETADATA(unittest.TestCase):
     def test_metadata(self):
+        from importlib import metadata
         self.assertIsNotNone(metadata.version('opencv-python'), "Version contained in the METADATA file is not valid")
 
 if __name__ == '__main__':
