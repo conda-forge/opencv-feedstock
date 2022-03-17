@@ -10,6 +10,21 @@ if "%vc%" == "9" (
   copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\highgui\include\stdint.h
 )
 
+:: The following options are set in a way to make sure that the cmake files for
+:: both the main library and modules/functionality are detected correctly by
+:: downstreams... modify with caution:  OPENCV_CONFIG_INSTALL_PATH
+:: OPENCV_INSTALL_BINARIES_PREFIX OPENCV_INSTALL_BINARIES_SUFFIX
+rem Note that though a dependency may be installed it may not be detected
+rem correctly by this build system and so some functionality may be disabled
+rem (this is more frequent on Windows but does sometimes happen on other OSes).
+rem Note that -DBUILD_x=0 may not be honoured for any particular dependency x.
+rem If -DHAVE_x=1 is used it may be that the undetected conda package is
+rem ignored in lieu of libraries that are built as part of this build (this
+rem will likely result in an overdepending error). Check the 3rdparty libraries
+rem directory in the build directory to see what has been vendored by the
+rem opencv build
+
+
 cmake .. -LAH -G Ninja                                                              ^
     -DBUILD_DOCS=0                                                                  ^
     -DBUILD_IPP_IW=0                                                                ^
