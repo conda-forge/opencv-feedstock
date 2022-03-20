@@ -104,7 +104,6 @@ requirements:
     - harfbuzz                       # [unix]
     # Don't depend on python in the run section
     # py-opencv will depend on python
-    - qt 5.12                        # [not osx and not ppc64le]
     # https://github.com/conda-forge/opencv-feedstock/issues/174
     # Seems like the OSX ABI has changed between 2.9 and 2.10???
     # That or a dependency wasn't merged in
@@ -122,7 +121,6 @@ test:
       - liblapack * *mkl              # [py==37 and linux64]
       - cmake
       - ninja
-      - qt                            # [linux64]
     files:
       - CMakeLists.txt
       - test.cpp
