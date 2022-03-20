@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set +x
+set +ex
 
 # CMake FindPNG seems to look in libpng not libpng16
 # https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
@@ -18,12 +18,11 @@ if [[ "${target_platform}" == linux-* ]]; then
     export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
     OPENMP="-DWITH_OPENMP=1"
 fi
+
 if [[ "${target_platform}" == osx-* ]]; then
     QT="0"
     V4L="0"
-fi
-
-if [[ "${target_platform}" != *-64 ]]; then
+elif [[ "${target_platform}" == linux-ppc64le ]]; then
     QT="0"
 fi
 
