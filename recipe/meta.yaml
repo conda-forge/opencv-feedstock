@@ -1,5 +1,5 @@
 {% set version = "4.5.4" %}
-{% set build_num = "1" %}
+{% set build_num = "2" %}
 package:
   name: opencv-suite
   version: {{ version }}
@@ -245,10 +245,13 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
-      skip: True  # [(win and py27) or s390x]
+      skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
     requirements:
       host:
         - {{ pin_subpackage('opencv', max_pin='x') }}
+      run:
+        - {{ pin_subpackage('opencv', max_pin='x') }}
+
 
 
   - name: py-opencv
@@ -257,10 +260,13 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
-      skip: True  # [(win and py27) or s390x]
+      skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
     requirements:
       host:
         - {{ pin_subpackage('opencv', max_pin='x') }}
+      run:
+        - {{ pin_subpackage('opencv', max_pin='x') }}
+
 
 about:
   home: https://opencv.org/
