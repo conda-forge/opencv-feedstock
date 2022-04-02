@@ -248,10 +248,9 @@ outputs:
       skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
     requirements:
       host:
-        - {{ pin_subpackage('opencv', max_pin='x.x.x') }}
+        - opencv =={{ version }}
       run:
-        - {{ pin_subpackage('opencv', max_pin='x.x.x') }}
-
+        - opencv =={{ version }}
 
 
   - name: py-opencv
@@ -263,10 +262,9 @@ outputs:
       skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
     requirements:
       host:
-        - {{ pin_subpackage('opencv', max_pin='x') }}
+        - opencv =={{ version }}
       run:
-        - {{ pin_subpackage('opencv', max_pin='x') }}
-
+        - opencv =={{ version }}
 
 about:
   home: https://opencv.org/
