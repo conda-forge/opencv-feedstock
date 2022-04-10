@@ -1,0 +1,59 @@
+c_compiler:
+- vs2017
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- vs2017
+freetype:
+- '2'
+jasper:
+- '2'
+jpeg:
+- '9'
+libcblas:
+- 3.8 *netlib
+liblapack:
+- 3.8 *netlib
+liblapacke:
+- 3.8 *netlib
+libpng:
+- '1.6'
+libprotobuf:
+- '3.19'
+libtiff:
+- '4'
+libwebp:
+- '1'
+numpy:
+- '1.19'
+pin_run_as_build:
+  freetype:
+    max_pin: x
+  jasper:
+    max_pin: x
+  jpeg:
+    max_pin: x
+  libpng:
+    max_pin: x.x
+  libtiff:
+    max_pin: x
+  python:
+    min_pin: x.x
+    max_pin: x.x
+  qt:
+    max_pin: x.x
+  zlib:
+    max_pin: x.x
+python:
+- 3.8.* *_73_pypy
+qt:
+- '5.12'
+target_platform:
+- win-64
+zip_keys:
+- - python
+  - numpy
+zlib:
+- '1.2'
