@@ -13,7 +13,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '12'
 ffmpeg:
-- '4.4'
+- '5'
 freetype:
 - '2'
 glib:
