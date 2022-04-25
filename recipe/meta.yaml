@@ -83,7 +83,9 @@ requirements:
     - python
     - numpy
     - hdf5                           # [unix]
-    - eigen
+    # eigen 3.4 has build failures on windows
+    # https://github.com/opencv/opencv/issues/21675
+    - eigen 3.3.*
     - jasper
     - zlib
     - jpeg
