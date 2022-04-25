@@ -83,7 +83,7 @@ requirements:
     - python
     - numpy
     - hdf5                           # [unix]
-    - eigen 3.3.*
+    - eigen
     - jasper
     - zlib
     - jpeg
