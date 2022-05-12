@@ -1,5 +1,5 @@
-{% set version = "4.5.4" %}
-{% set build_num = "3" %}
+{% set version = "4.5.5" %}
+{% set build_num = "0" %}
 package:
   name: opencv-suite
   version: {{ version }}
@@ -12,11 +12,11 @@ source:
 {% else %}
   - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
     fn: opencv-{{ version }}.zip
-    sha256: 5deac7f7341faf4b23c38d65f8f89dbf5b4b30d345390a60853640967a2bf61b
+    sha256: fb16b734db3a28e5119d513bd7c61ef417edf3756165dc6259519bb9d23d04e2
 {% endif %}
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81
+    sha256: a97c2eaecf7a23c6dbd119a609c6d7fae903e5f9ff5f1fe678933e01c67a6c11
     folder: opencv_contrib-{{ version }}
 
 build:
@@ -30,7 +30,6 @@ build:
     - python
 
 requirements:
-
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
@@ -277,5 +276,3 @@ about:
   doc_url: https://docs.opencv.org/
   doc_source_url: https://github.com/opencv/opencv/tree/master/doc
   dev_url: https://github.com/opencv/opencv/
-
-
