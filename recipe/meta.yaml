@@ -95,9 +95,9 @@ outputs:
     build:
       ignore_run_exports:
         - openblas-devel # [x86_64 and not win]
-
+    run_exports:
+      - {{ pin_subpackage('opencv', max_pin='x.x') }}
     requirements:
-
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
