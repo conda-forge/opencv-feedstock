@@ -53,7 +53,7 @@ requirements:
     - openjpeg              # [not (win or arm64)]
     - openblas-devel        # [x86_64 and not win]
     - libpng
-    - libprotobuf           # [linux64]
+    - libprotobuf           # [linux64 or win]
     - libtiff
     - libwebp-base          # [win or linux64]
     - numpy {{ numpy }}
@@ -120,7 +120,7 @@ outputs:
         - openjpeg              # [not (arm64 or win)]
         - openblas-devel        # [x86_64 and not win]
         - libpng
-        - libprotobuf           # [linux64]
+        - libprotobuf           # [linux64 or win]
         - libtiff
         - libwebp-base          # [win or linux64]
         - numpy {{ numpy }}
