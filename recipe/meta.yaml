@@ -22,7 +22,7 @@ source:
 build:
   number: {{ build_num }}
   # Package not supported on win32 and s390x
-  skip: True  # [win32 or s390x or (aarch64 and py<38)]
+  skip: true  # [win32 or s390x or (aarch64 and py<38)]
   ignore_run_exports:
     - openblas-devel # [x86_64 and not win]
     - _openmp_mutex # [linux64 or aarch64]
@@ -90,6 +90,7 @@ outputs:
   - name: opencv
     script: install.sh                           # [not win]
     script: install.bat                          # [win]
+    skip: true  # [win32 or s390x or (aarch64 and py<38)]
     build:
       ignore_run_exports:
         - openblas-devel # [x86_64 and not win]
@@ -241,7 +242,7 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
-      skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
+      skip: true  # [win32 or s390x or (aarch64 and py<38)]
     requirements:
       host:
         - opencv =={{ version }}
@@ -255,7 +256,7 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
-      skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
+      skip: true  # [win32 or s390x or (aarch64 and py<38)]
     requirements:
       host:
         - opencv =={{ version }}
