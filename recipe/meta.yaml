@@ -35,8 +35,8 @@ requirements:
     - msinttypes            # [win and py<35]
     - ninja
     - pkg-config
-    - {{ cdt('mesa-libGL-devel') }}
-    - {{ cdt('mesa-libEGL-devel') }}
+    - {{ cdt('mesa-libGL-devel') }}  # [linux]
+    - {{ cdt('mesa-libEGL-devel') }}  # [linux and not ppc64le]
   host:
     - cmake
     - eigen
