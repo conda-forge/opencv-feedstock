@@ -77,7 +77,6 @@ requirements:
     - openjpeg              # [not (win or arm64)]
     - libopenblas           # [x86_64 and not win]
     - libpng
-    - libprotobuf
     - libtiff
     - libwebp-base          # [win or linux64]
     - numpy {{ numpy }}
