@@ -22,7 +22,7 @@ source:
 build:
   number: {{ build_num }}
   # Package not supported on win32 and s390x
-  skip: True  # [win32 or s390x]
+  skip: True  # [win32 or s390x or (aarch64 and py<38)]
   ignore_run_exports:
     - openblas-devel # [x86_64 and not win]
     - _openmp_mutex # [linux64 or aarch64]
