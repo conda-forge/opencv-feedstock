@@ -27,12 +27,16 @@ build:
     - openblas-devel # [x86_64 and not win]
     - _openmp_mutex # [linux64 or aarch64]
     - python
+  patches:  # [win]
+    # See https://github.com/opencv/opencv/pull/21500
+    - recipe/add-gstreamer-audio-dep.patch  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - msinttypes            # [win and py<35]
+    - m2-patch  # [win]
     - ninja
     - pkg-config
     - {{ cdt('mesa-libGL-devel') }}  # [linux]
