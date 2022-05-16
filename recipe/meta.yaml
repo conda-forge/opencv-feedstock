@@ -28,14 +28,15 @@ build:
     - _openmp_mutex # [linux64 or aarch64]
     - python
   patches:  # [win]
-    # See https://github.com/opencv/opencv/pull/21500
-    - recipe/add-gstreamer-audio-dep.patch  # [win]
+    # See https://github.com/opencv/opencv/issues/21393
+    - recipe/gstreamer-audio.patch
+    - recipe/gstreamer-audio-windows.patch  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - msinttypes            # [win and py<35]
+    - patch  # [not win]
     - m2-patch  # [win]
     - ninja
     - pkg-config
