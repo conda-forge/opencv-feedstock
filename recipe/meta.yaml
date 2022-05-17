@@ -18,9 +18,8 @@ source:
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: a97c2eaecf7a23c6dbd119a609c6d7fae903e5f9ff5f1fe678933e01c67a6c11
     folder: opencv_contrib-{{ version }}
-  - patches:
+  - patches:  # [win]
     # See https://github.com/opencv/opencv/issues/21393
-    - gstreamer-audio.patch
     - gstreamer-audio-windows.patch  # [win]
 
 build:
