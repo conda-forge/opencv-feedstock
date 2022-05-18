@@ -90,7 +90,7 @@ requirements:
     - zlib
     # specifically compile with svt-av1 to show that
     # they aren't compatible
-    - svt-av1  1.0
+    - svt-av1  0.9
     - jpeg
     - libtiff
     - libwebp
