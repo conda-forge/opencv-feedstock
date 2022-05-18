@@ -114,8 +114,6 @@ requirements:
     # That or a dependency wasn't merged in
     # Since we don't know the cause, we are choosing this pinning on all platforms.
     - {{ pin_compatible('freetype', min_pin='x.x') }}
-    # depend on 1.1 to reproduce the error
-    - svt-av1 1.1
 
 test:
     requires:
