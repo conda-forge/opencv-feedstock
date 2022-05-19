@@ -27,8 +27,8 @@ build:
   # Package not supported on win32 and s390x
   skip: true  # [win32 or s390x or (aarch64 and py>39)]
   ignore_run_exports:
-    - openblas-devel # [x86_64 and not win]
-    - _openmp_mutex # [linux64 or aarch64]
+    - openblas-devel  # [x86_64 and not win]
+    - _openmp_mutex  # [linux]
     - python
 
 requirements:
@@ -66,7 +66,7 @@ requirements:
     - qt ==5.15.2           # [arm64 or aarch64]
     - zlib
   run:
-    - _openmp_mutex         # [linux64 or aarch64]
+    - _openmp_mutex         # [linux]
     - eigen
     - ffmpeg                # [linux64]
     - freetype              # [not win]
@@ -115,7 +115,7 @@ outputs:
         - {{ cdt('mesa-libEGL-devel') }}        # [aarch64]
       host:
         - cmake
-        - _openmp_mutex         # [linux64 or aarch64]
+        - _openmp_mutex         # [linux]
         - eigen
         - ffmpeg                # [linux64]
         - freetype              # [not win]
@@ -139,7 +139,7 @@ outputs:
         - qt ==5.15.2           # [arm64 or aarch64]
         - zlib
       run:
-        - _openmp_mutex         # [linux64 or aarch64]
+        - _openmp_mutex         # [linux]
         - eigen
         - ffmpeg                # [linux64]
         - freetype              # [not win]
