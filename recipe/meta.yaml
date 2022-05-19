@@ -98,6 +98,12 @@ outputs:
       ignore_run_exports:
         - openblas-devel # [x86_64 and not win]
     run_exports:
+      # We are cautiously optimistic here that patch-level updates won't break
+      # ABI. However, it sounds like upstream won't guarantee *any* sort of
+      # binary compatibility any longer. See also
+      #
+      #     https://github.com/opencv/opencv/wiki/OE-4.-OpenCV-4
+      #
       - {{ pin_subpackage('opencv', max_pin='x.x') }}
     requirements:
       build:
