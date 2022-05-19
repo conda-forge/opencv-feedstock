@@ -1,5 +1,5 @@
-{% set version = "4.5.4" %}
-{% set build_num = "3" %}
+{% set version = "4.5.5" %}
+{% set build_num = "0" %}
 package:
   name: opencv-suite
   version: {{ version }}
@@ -12,33 +12,35 @@ source:
 {% else %}
   - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
     fn: opencv-{{ version }}.zip
-    sha256: 5deac7f7341faf4b23c38d65f8f89dbf5b4b30d345390a60853640967a2bf61b
+    sha256: fb16b734db3a28e5119d513bd7c61ef417edf3756165dc6259519bb9d23d04e2
 {% endif %}
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81
+    sha256: a97c2eaecf7a23c6dbd119a609c6d7fae903e5f9ff5f1fe678933e01c67a6c11
     folder: opencv_contrib-{{ version }}
+  - patches:  # [win]
+    # See https://github.com/opencv/opencv/issues/21393
+    - gstreamer-audio-windows.patch  # [win]
 
 build:
   number: {{ build_num }}
-  # Python 2.7 is not supported on Windows
-  # Package not supported on s390x
-  skip: True  # [win32 or (win and py27) or s390x or (aarch64 and py>39)]
+  # Package not supported on win32 and s390x
+  skip: true  # [win32 or s390x or (aarch64 and py>39)]
   ignore_run_exports:
-    - openblas-devel # [x86_64 and not win]
-    - _openmp_mutex # [linux64 or aarch64]
+    - openblas-devel  # [x86_64 and not win]
+    - _openmp_mutex  # [linux]
     - python
 
 requirements:
-
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - msinttypes            # [win and py<35]
+    - patch  # [not win]
+    - m2-patch  # [win]
     - ninja
     - pkg-config
-    - {{ cdt('mesa-libGL-devel') }}         # [aarch64]
-    - {{ cdt('mesa-libEGL-devel') }}        # [aarch64]
+    - {{ cdt('mesa-libGL-devel') }}  # [linux]
+    - {{ cdt('mesa-libEGL-devel') }}  # [linux and not ppc64le]
   host:
     - cmake
     - eigen
@@ -55,7 +57,7 @@ requirements:
     - openjpeg              # [not (win or arm64)]
     - openblas-devel        # [x86_64 and not win]
     - libpng
-    - libprotobuf  ==3.5.1  # [linux64 or win]
+    - libprotobuf           # [linux64 or win]
     - libtiff
     - libwebp-base          # [win or linux64]
     - numpy {{ numpy }}
@@ -64,7 +66,7 @@ requirements:
     - qt ==5.15.2           # [arm64 or aarch64]
     - zlib
   run:
-    - _openmp_mutex         # [linux64 or aarch64]
+    - _openmp_mutex         # [linux]
     - eigen
     - ffmpeg                # [linux64]
     - freetype              # [not win]
@@ -79,7 +81,6 @@ requirements:
     - openjpeg              # [not (win or arm64)]
     - libopenblas           # [x86_64 and not win]
     - libpng
-    - libprotobuf ==3.5.1   # [linux64 or win]
     - libtiff
     - libwebp-base          # [win or linux64]
     - numpy {{ numpy }}
@@ -96,9 +97,15 @@ outputs:
     build:
       ignore_run_exports:
         - openblas-devel # [x86_64 and not win]
-
+    run_exports:
+      # We are cautiously optimistic here that patch-level updates won't break
+      # ABI. However, it sounds like upstream won't guarantee *any* sort of
+      # binary compatibility any longer. See also
+      #
+      #     https://github.com/opencv/opencv/wiki/OE-4.-OpenCV-4
+      #
+      - {{ pin_subpackage('opencv', max_pin='x.x') }}
     requirements:
-
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
@@ -108,7 +115,7 @@ outputs:
         - {{ cdt('mesa-libEGL-devel') }}        # [aarch64]
       host:
         - cmake
-        - _openmp_mutex         # [linux64 or aarch64]
+        - _openmp_mutex         # [linux]
         - eigen
         - ffmpeg                # [linux64]
         - freetype              # [not win]
@@ -123,7 +130,7 @@ outputs:
         - openjpeg              # [not (arm64 or win)]
         - openblas-devel        # [x86_64 and not win]
         - libpng
-        - libprotobuf  ==3.5.1  # [linux64 or win]
+        - libprotobuf           # [linux64 or win]
         - libtiff
         - libwebp-base          # [win or linux64]
         - numpy {{ numpy }}
@@ -132,7 +139,7 @@ outputs:
         - qt ==5.15.2           # [arm64 or aarch64]
         - zlib
       run:
-        - _openmp_mutex         # [linux64 or aarch64]
+        - _openmp_mutex         # [linux]
         - eigen
         - ffmpeg                # [linux64]
         - freetype              # [not win]
@@ -147,7 +154,6 @@ outputs:
         - openjpeg              # [not (arm64 or win)]
         - libopenblas           # [x86_64 and not win]
         - libpng
-        - libprotobuf ==3.5.1   # [linux64 or win]
         - libtiff
         - libwebp-base          # [win or linux64]
         - numpy {{ numpy }}
@@ -245,7 +251,6 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
-      skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
     requirements:
       host:
         - opencv =={{ version }}
@@ -259,7 +264,6 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
-      skip: True  # [(win and py27) or s390x or (aarch64 and py>39)]
     requirements:
       host:
         - opencv =={{ version }}
@@ -277,5 +281,3 @@ about:
   doc_url: https://docs.opencv.org/
   doc_source_url: https://github.com/opencv/opencv/tree/master/doc
   dev_url: https://github.com/opencv/opencv/
-
-
