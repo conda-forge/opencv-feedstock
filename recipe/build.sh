@@ -48,7 +48,7 @@ if [ $PY3K -eq 1 ]; then
         INC_PYTHON="$PREFIX/include/python${PY_VER}m"
     else
         LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
-        if [[ ${IS_PYPY} == "0" ]]; then
+        if [[ ${IS_PYPY} == "1" ]]; then
             INC_PYTHON="$PREFIX/include/pypy${PY_VER}"
         else
             INC_PYTHON="$PREFIX/include/python${PY_VER}"
