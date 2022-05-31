@@ -37,6 +37,8 @@ export PKG_CONFIG_LIBDIR=$PREFIX/lib
 mkdir -p build
 cd build
 
+IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
+
 if [ $PY3K -eq 1 ]; then
     PY_MAJOR=3
     PY_UNSET_MAJOR=2
@@ -46,7 +48,7 @@ if [ $PY3K -eq 1 ]; then
         INC_PYTHON="$PREFIX/include/python${PY_VER}m"
     else
         LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
-        if [[ ${python_impl} == "pypy" ]]; then
+        if [[ ${IS_PYPY} == "0" ]]; then
             INC_PYTHON="$PREFIX/include/pypy${PY_VER}"
         else
             INC_PYTHON="$PREFIX/include/python${PY_VER}"
