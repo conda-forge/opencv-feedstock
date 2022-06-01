@@ -34,47 +34,26 @@ fi
 
 export PKG_CONFIG_LIBDIR=$PREFIX/lib
 
-mkdir -p build
-cd build
+IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
 
-if [ $PY3K -eq 1 ]; then
-    PY_MAJOR=3
-    PY_UNSET_MAJOR=2
-    # Python 3.8 now combines the "m" and the "no m" builds in 1.
-    if [ ${PY_VER} == "3.6" ] || [ ${PY_VER} == "3.7" ]; then
-        LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}m"
-        INC_PYTHON="$PREFIX/include/python${PY_VER}m"
+# Python 3.8 now combines the "m" and the "no m" builds in 1.
+if [ ${PY_VER} == "3.6" ] || [ ${PY_VER} == "3.7" ]; then
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}m"
+    INC_PYTHON="$PREFIX/include/python${PY_VER}m"
+else
+    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
+    if [[ ${IS_PYPY} == "1" ]]; then
+        INC_PYTHON="$PREFIX/include/pypy${PY_VER}"
     else
-        LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
         INC_PYTHON="$PREFIX/include/python${PY_VER}"
     fi
-else
-    PY_MAJOR=2
-    PY_UNSET_MAJOR=3
-    LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
-    INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
-
-
-PYTHON_SET_FLAG="-DBUILD_opencv_python${PY_MAJOR}=1"
-PYTHON_SET_EXE="-DPYTHON${PY_MAJOR}_EXECUTABLE=${PYTHON}"
-PYTHON_SET_INC="-DPYTHON${PY_MAJOR}_INCLUDE_DIR=${INC_PYTHON} "
-PYTHON_SET_NUMPY="-DPYTHON${PY_MAJOR}_NUMPY_INCLUDE_DIRS=$(python -c 'import numpy;print(numpy.get_include())')"
-PYTHON_SET_LIB="-DPYTHON${PY_MAJOR}_LIBRARY=${LIB_PYTHON}"
-PYTHON_SET_SP="-DPYTHON${PY_MAJOR}_PACKAGES_PATH=${SP_DIR}"
-PYTHON_SET_INSTALL="-DOPENCV_PYTHON${PY_MAJOR}_INSTALL_PATH=${SP_DIR}"
-
-PYTHON_UNSET_FLAG="-DBUILD_opencv_python${PY_UNSET_MAJOR}=0"
-PYTHON_UNSET_EXE="-DPYTHON${PY_UNSET_MAJOR}_EXECUTABLE="
-PYTHON_UNSET_INC="-DPYTHON${PY_UNSET_MAJOR}_INCLUDE_DIR="
-PYTHON_UNSET_NUMPY="-DPYTHON${PY_UNSET_MAJOR}_NUMPY_INCLUDE_DIRS="
-PYTHON_UNSET_LIB="-DPYTHON${PY_UNSET_MAJOR}_LIBRARY="
-PYTHON_UNSET_SP="-DPYTHON${PY_UNSET_MAJOR}_PACKAGES_PATH="
-PYTHON_UNSET_INSTALL="-DOPENCV_PYTHON${PY_UNSET_MAJOR}_INSTALL_PATH=${SP_DIR}"
 
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
+mkdir -p build
+cd build
 cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
@@ -143,20 +122,20 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DOPENCV_ENABLE_PKG_CONFIG=1                                          \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                               \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                 \
-    $PYTHON_SET_FLAG                                                      \
-    $PYTHON_SET_EXE                                                       \
-    $PYTHON_SET_INC                                                       \
-    $PYTHON_SET_NUMPY                                                     \
-    $PYTHON_SET_LIB                                                       \
-    $PYTHON_SET_SP                                                        \
-    $PYTHON_SET_INSTALL                                                   \
-    $PYTHON_UNSET_FLAG                                                    \
-    $PYTHON_UNSET_EXE                                                     \
-    $PYTHON_UNSET_INC                                                     \
-    $PYTHON_UNSET_NUMPY                                                   \
-    $PYTHON_UNSET_LIB                                                     \
-    $PYTHON_UNSET_SP                                                      \
-    $PYTHON_UNSET_INSTALL                                                 \
+    -DBUILD_opencv_python3=1                                              \
+    -DPYTHON3_EXECUTABLE=${PYTHON}                                        \
+    -DPYTHON3_INCLUDE_DIR=${INC_PYTHON}                                   \
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=$(python -c 'import numpy;print(numpy.get_include())')  \
+    -DPYTHON3_LIBRARY=${LIB_PYTHON}                                       \
+    -DPYTHON3_PACKAGES_PATH=${SP_DIR}                                     \
+    -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR}                               \
+    -DBUILD_opencv_python2=0                                              \
+    -DPYTHON2_EXECUTABLE=                                                 \
+    -DPYTHON2_INCLUDE_DIR=                                                \
+    -DPYTHON2_NUMPY_INCLUDE_DIRS=                                         \
+    -DPYTHON2_LIBRARY=                                                    \
+    -DPYTHON2_PACKAGES_PATH=                                              \
+    -DOPENCV_PYTHON2_INSTALL_PATH=                                        \
     ..
 
 ninja install -v -j${CPU_COUNT}

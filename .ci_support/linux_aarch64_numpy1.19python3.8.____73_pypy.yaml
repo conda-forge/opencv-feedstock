@@ -1,9 +1,13 @@
+BUILD:
+- aarch64-conda_cos7-linux-gnu
 c_compiler:
 - gcc
 c_compiler_version:
 - '10'
+cdt_arch:
+- aarch64
 cdt_name:
-- cos6
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
@@ -43,7 +47,7 @@ libtiff:
 libwebp:
 - '1'
 numpy:
-- '1.21'
+- '1.19'
 pin_run_as_build:
   freetype:
     max_pin: x
@@ -65,11 +69,11 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- 3.10.* *_cpython
+- 3.8.* *_73_pypy
 qt:
 - '5.12'
 target_platform:
-- linux-64
+- linux-aarch64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

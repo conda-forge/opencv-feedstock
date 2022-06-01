@@ -3,7 +3,7 @@ c_compiler:
 c_compiler_version:
 - '10'
 cdt_name:
-- cos6
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
@@ -43,7 +43,7 @@ libtiff:
 libwebp:
 - '1'
 numpy:
-- '1.21'
+- '1.19'
 pin_run_as_build:
   freetype:
     max_pin: x
@@ -60,16 +60,12 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-  qt:
-    max_pin: x.x
   zlib:
     max_pin: x.x
 python:
-- 3.10.* *_cpython
-qt:
-- '5.12'
+- 3.9.* *_73_pypy
 target_platform:
-- linux-64
+- linux-ppc64le
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

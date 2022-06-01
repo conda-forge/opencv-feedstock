@@ -33,11 +33,11 @@ jasper:
 jpeg:
 - '9'
 libcblas:
-- 3.8 *netlib
+- 3.9 *netlib
 liblapack:
-- 3.8 *netlib
+- 3.9 *netlib
 liblapacke:
-- 3.8 *netlib
+- 3.9 *netlib
 libpng:
 - '1.6'
 libprotobuf:
