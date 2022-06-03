@@ -64,14 +64,12 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
-  qt:
-    max_pin: x.x
   zlib:
     max_pin: x.x
 python:
 - 3.9.* *_73_pypy
-qt:
-- '5.12'
+qt_main:
+- '5.15'
 target_platform:
 - linux-aarch64
 zip_keys:
