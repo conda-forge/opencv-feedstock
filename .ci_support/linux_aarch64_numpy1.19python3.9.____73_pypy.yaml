@@ -9,7 +9,7 @@ cdt_arch:
 cdt_name:
 - cos7
 channel_sources:
-- conda-forge
+- mark.harfouche,conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
