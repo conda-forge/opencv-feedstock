@@ -49,6 +49,7 @@ source:
 build:
   number: 11
   skip: true  # [not linux]
+  skip: true  # [py!=39]
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
