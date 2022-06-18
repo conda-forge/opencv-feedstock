@@ -10,3 +10,8 @@ provider:
   linux_aarch64: azure
   linux_ppc64le: azure
 test_on_native_only: true
+channels:
+  # sources selects the channels to pull packages from, in order.
+  sources:
+    - mark.harfouche
+    - conda-forge
