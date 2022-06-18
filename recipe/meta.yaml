@@ -93,7 +93,8 @@ requirements:
     - libwebp
     - harfbuzz                       # [unix]
     - libpng
-    - ffmpeg                         # [not win]
+    - ffmpeg                              # [not win]
+    - ffmpeg * lgpl*                      # [not win]
     - qt-main                             # [not osx and not ppc64le]
     - liblapacke
     - liblapack
@@ -123,6 +124,8 @@ test:
       - liblapack * *mkl              # [py==37 and linux64]
       - cmake
       - ninja
+      # Specifically test with the GPL version
+      - ffmpeg * gpl*                      # [not win]
     files:
       - CMakeLists.txt
       - test.cpp
