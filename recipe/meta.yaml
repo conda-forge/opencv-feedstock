@@ -31,7 +31,7 @@ build:
     - _openmp_mutex  # [linux]
     - python
   missing_dso_whitelist:     # [osx]
-    - lib/libopencv*.dylib   # [osx]
+    - "*"   # [osx]
 
 requirements:
   build:
