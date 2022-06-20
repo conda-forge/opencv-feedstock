@@ -1,5 +1,5 @@
 {% set version = "4.5.5" %}
-{% set build_num = "0" %}
+{% set build_num = "1" %}
 package:
   name: opencv-suite
   version: {{ version }}

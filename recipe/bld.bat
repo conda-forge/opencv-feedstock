@@ -26,6 +26,7 @@ rem opencv build
 
 
 cmake .. -LAH -G Ninja                                                              ^
+    -DOPENCV_GENERATE_PKGCONFIG=ON ^
     -DBUILD_DOCS=0                                                                  ^
     -DBUILD_IPP_IW=0                                                                ^
     -DBUILD_JASPER=0                                                                ^
