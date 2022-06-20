@@ -99,6 +99,8 @@ outputs:
     build:
       ignore_run_exports:
         - openblas-devel # [x86_64 and not win]
+      missing_dso_whitelist:     # [osx]
+        - "*"   # [osx]
     run_exports:
       # We are cautiously optimistic here that patch-level updates won't break
       # ABI. However, it sounds like upstream won't guarantee *any* sort of
@@ -253,6 +255,8 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
+      missing_dso_whitelist:     # [osx]
+        - "*"   # [osx]
     requirements:
       host:
         - opencv =={{ version }}
@@ -266,6 +270,8 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
+      missing_dso_whitelist:     # [osx]
+        - "*"   # [osx]
     requirements:
       host:
         - opencv =={{ version }}
