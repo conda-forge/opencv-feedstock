@@ -30,6 +30,8 @@ build:
     - openblas-devel  # [x86_64 and not win]
     - _openmp_mutex  # [linux]
     - python
+  missing_dso_whitelist:     # [osx]
+    - lib/libopencv*.dylib   # [osx]
 
 requirements:
   build:
