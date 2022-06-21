@@ -45,14 +45,13 @@ requirements:
     - {{ cdt('mesa-libEGL-devel') }}  # [linux and not ppc64le]
   host:
     - cmake
+    - jasper                # [win]
     - eigen
-    - ffmpeg                # [linux64]
+    - ffmpeg                # [linux64 or win]
     - freetype              # [not win]
     - glib                  # [not ppc64le]
-    - gst-plugins-base      # [not (win or ppc64le)]
-    - gstreamer             # [not (win or ppc64le)]
-    - gst-plugins-base ==1.18.5      # [win]
-    - gstreamer ==1.18.5             # [win]
+    - gst-plugins-base      # [not (ppc64le)]
+    - gstreamer             # [not (ppc64le)]
     - harfbuzz              # [not win]
     - hdf5
     - jpeg                  # [not win]
@@ -72,11 +71,10 @@ requirements:
     - eigen
     - ffmpeg                # [linux64]
     - freetype              # [not win]
+    - jasper                # [win]
     - glib                  # [not ppc64le]
-    - gst-plugins-base      # [not (win or ppc64le)]
-    - gstreamer             # [not (win or ppc64le)]
-    - gst-plugins-base ==1.18.5      # [win]
-    - gstreamer ==1.18.5             # [win]
+    - gst-plugins-base      # [not (ppc64le)]
+    - gstreamer             # [not (ppc64le)]
     - harfbuzz              # [not win]
     - hdf5
     - jpeg                  # [not win]
