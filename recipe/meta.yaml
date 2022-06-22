@@ -111,6 +111,16 @@ outputs:
     build:
       ignore_run_exports:
         - openblas-devel # [x86_64 and not win]
+        - libwebp-base # [win]
+        - libprotobuf  # [win]
+        - gst-plugins-base # [win]
+        - qt         # [win]
+        - gstreamer  # [win]
+        - glib       # [win]
+        - libtiff    # [win]
+        - hdf5       # [win]
+        - libpng     # [win]
+        - zlib       # [win]
       missing_dso_whitelist:     # [osx]
         - "*"   # [osx]
     run_exports:
