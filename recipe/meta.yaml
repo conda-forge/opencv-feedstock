@@ -30,6 +30,16 @@ build:
     - openblas-devel  # [x86_64 and not win]
     - _openmp_mutex  # [linux]
     - python
+    - libwebp-base # [win]
+    - libprotobuf  # [win]
+    - gst-plugins-base # [win]
+    - qt         # [win]
+    - gstreamer  # [win]
+    - glib       # [win]
+    - libtiff    # [win]
+    - hdf5       # [win]
+    - libpng     # [win]
+    - zlib       # [win]
   missing_dso_whitelist:     # [osx]
     - "*"   # [osx]
 
