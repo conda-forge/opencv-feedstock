@@ -63,14 +63,16 @@ done
 CMAKE_EXTRA_ARGS+=("${CMAKE_DEBUG_ARGS[@]}")
 echo "CMake_EXTRA_ARGS : ${CMAKE_EXTRA_ARGS[@]}"
 
-#export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
-#export PKG_CONFIG_LIBDIR=$PREFIX/lib
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=$PREFIX/lib
+
 mkdir -p build
 cd build
 cmake .. -LAH -GNinja                                                     \
   ${CMAKE_ARGS}                                                           \
   "${CMAKE_EXTRA_ARGS[@]}" `#includes platform specific deps and options` \
   "${PYTHON_CMAKE_ARGS[@]}"                                               \
+  -DOPENCV_GENERATE_PKGCONFIG=ON                                          \
   -DBUILD_DOCS=0                                                          \
   -DBUILD_JASPER=0                                                        \
   -DBUILD_JPEG=0                                                          \

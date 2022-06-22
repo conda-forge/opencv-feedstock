@@ -1,5 +1,5 @@
 {% set version = "4.5.5" %}
-{% set build_num = "0" %}
+{% set build_num = "1" %}
 package:
   name: opencv-suite
   version: {{ version }}
@@ -30,6 +30,18 @@ build:
     - openblas-devel  # [x86_64 and not win]
     - _openmp_mutex  # [linux]
     - python
+    - libwebp-base # [win]
+    - libprotobuf  # [win]
+    - gst-plugins-base # [win]
+    - qt         # [win]
+    - gstreamer  # [win]
+    - glib       # [win]
+    - libtiff    # [win]
+    - hdf5       # [win]
+    - libpng     # [win]
+    - zlib       # [win]
+  missing_dso_whitelist:     # [osx]
+    - "*"   # [osx]
 
 requirements:
   build:
@@ -43,8 +55,9 @@ requirements:
     - {{ cdt('mesa-libEGL-devel') }}  # [linux and not ppc64le]
   host:
     - cmake
+    - jasper                # [win]
     - eigen
-    - ffmpeg                # [linux64]
+    - ffmpeg                # [linux64 or win]
     - freetype              # [not win]
     - glib                  # [not ppc64le]
     - gst-plugins-base      # [not (win or ppc64le)]
@@ -70,6 +83,7 @@ requirements:
     - eigen
     - ffmpeg                # [linux64]
     - freetype              # [not win]
+    - jasper                # [win]
     - glib                  # [not ppc64le]
     - gst-plugins-base      # [not (win or ppc64le)]
     - gstreamer             # [not (win or ppc64le)]
@@ -97,6 +111,18 @@ outputs:
     build:
       ignore_run_exports:
         - openblas-devel # [x86_64 and not win]
+        - libwebp-base # [win]
+        - libprotobuf  # [win]
+        - gst-plugins-base # [win]
+        - qt         # [win]
+        - gstreamer  # [win]
+        - glib       # [win]
+        - libtiff    # [win]
+        - hdf5       # [win]
+        - libpng     # [win]
+        - zlib       # [win]
+      missing_dso_whitelist:     # [osx]
+        - "*"   # [osx]
     run_exports:
       # We are cautiously optimistic here that patch-level updates won't break
       # ABI. However, it sounds like upstream won't guarantee *any* sort of
@@ -251,6 +277,8 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
+      missing_dso_whitelist:     # [osx]
+        - "*"   # [osx]
     requirements:
       host:
         - opencv =={{ version }}
@@ -264,6 +292,8 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_num }}
+      missing_dso_whitelist:     # [osx]
+        - "*"   # [osx]
     requirements:
       host:
         - opencv =={{ version }}
