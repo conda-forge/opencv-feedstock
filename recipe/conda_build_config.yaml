@@ -1,3 +1,7 @@
 # This needs to be removed after the pinning of libprotobuf has been adjusted.
 libprotobuf:
 - 3.20
+libopenblas:
+- 0.3.20
+openblas_devel:
+- 0.3.20
