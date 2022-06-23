@@ -31,7 +31,6 @@ build:
     - _openmp_mutex  # [linux]
     - python
     - libwebp-base # [win]
-    - libprotobuf  # [win]
     - gst-plugins-base # [win]
     - qt         # [win]
     - gstreamer  # [win]
@@ -112,7 +111,6 @@ outputs:
       ignore_run_exports:
         - openblas-devel # [x86_64 and not win]
         - libwebp-base # [win]
-        - libprotobuf  # [win]
         - gst-plugins-base # [win]
         - qt         # [win]
         - gstreamer  # [win]
