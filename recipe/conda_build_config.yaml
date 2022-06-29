@@ -11,6 +11,3 @@ libopenblas:
 - 0.3.20
 openblas_devel:
 - 0.3.20
-# This needs to be removed after the pinning of harfbuzz has been adjusted.
-harfbuzz:
-- 4.3.0
