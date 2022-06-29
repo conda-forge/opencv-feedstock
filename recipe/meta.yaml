@@ -310,6 +310,7 @@ about:
   home: https://opencv.org/
   license: Apache-2.0
   license_family: Apache
+  license_file: LICENSE
   summary: Computer vision and machine learning software library.
   description: |
     OpenCV (Open Source Computer Vision Library) includes several hundreds of computer vision algorithms.
