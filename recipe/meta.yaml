@@ -277,6 +277,14 @@ outputs:
       number: {{ build_num }}
       missing_dso_whitelist:     # [osx]
         - "*"   # [osx]
+    run_exports:
+      # We are cautiously optimistic here that patch-level updates won't break
+      # ABI. However, it sounds like upstream won't guarantee *any* sort of
+      # binary compatibility any longer. See also
+      #
+      #     https://github.com/opencv/opencv/wiki/OE-4.-OpenCV-4
+      #
+      - {{ pin_subpackage('libopencv', max_pin='x.x') }}
     requirements:
       host:
         - opencv =={{ version }}
