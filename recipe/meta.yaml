@@ -1,5 +1,5 @@
 {% set version = "4.5.5" %}
-{% set build_num = "2" %}
+{% set build_num = "3" %}
 package:
   name: opencv-suite
   version: {{ version }}
@@ -277,6 +277,14 @@ outputs:
       number: {{ build_num }}
       missing_dso_whitelist:     # [osx]
         - "*"   # [osx]
+    run_exports:
+      # We are cautiously optimistic here that patch-level updates won't break
+      # ABI. However, it sounds like upstream won't guarantee *any* sort of
+      # binary compatibility any longer. See also
+      #
+      #     https://github.com/opencv/opencv/wiki/OE-4.-OpenCV-4
+      #
+      - {{ pin_subpackage('libopencv', max_pin='x.x') }}
     requirements:
       host:
         - opencv =={{ version }}
@@ -302,6 +310,7 @@ about:
   home: https://opencv.org/
   license: Apache-2.0
   license_family: Apache
+  license_file: LICENSE
   summary: Computer vision and machine learning software library.
   description: |
     OpenCV (Open Source Computer Vision Library) includes several hundreds of computer vision algorithms.
