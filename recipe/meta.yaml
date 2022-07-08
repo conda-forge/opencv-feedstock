@@ -91,6 +91,9 @@ requirements:
     - libwebp
     - harfbuzz                       # [unix]
     - libpng
+    # Specify lgpl version of ffmpeg so that there are
+    # no quesitons about the license of the resulting opencv
+    # binary
     - ffmpeg {{ ffmpeg }}=*lgpl_*    # [not win]
     - qt-main                             # [not osx and not ppc64le]
     - liblapacke
