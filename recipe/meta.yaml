@@ -47,7 +47,7 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310  # [unix]
 
 build:
-  number: 12
+  number: 13
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
@@ -91,7 +91,10 @@ requirements:
     - libwebp
     - harfbuzz                       # [unix]
     - libpng
-    - ffmpeg                         # [not win]
+    # Specify lgpl version of ffmpeg so that there are
+    # no quesitons about the license of the resulting opencv
+    # binary
+    - ffmpeg {{ ffmpeg }}=*lgpl_*    # [not win]
     - qt-main                             # [not osx and not ppc64le]
     - liblapacke
     - liblapack
