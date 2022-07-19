@@ -1,0 +1,22 @@
+diff --git a/modules/videoio/cmake/detect_ffmpeg.cmake b/modules/videoio/cmake/detect_ffmpeg.cmake
+index c33eaf221b..43ab5d3454 100644
+--- a/modules/videoio/cmake/detect_ffmpeg.cmake
++++ b/modules/videoio/cmake/detect_ffmpeg.cmake
+@@ -9,16 +9,6 @@ if(NOT HAVE_FFMPEG AND OPENCV_FFMPEG_USE_FIND_PACKAGE)
+   endif()
+ endif()
+ 
+-if(NOT HAVE_FFMPEG AND WIN32 AND NOT ARM AND NOT OPENCV_FFMPEG_SKIP_DOWNLOAD)
+-  include("${OpenCV_SOURCE_DIR}/3rdparty/ffmpeg/ffmpeg.cmake")
+-  download_win_ffmpeg(FFMPEG_CMAKE_SCRIPT)
+-  if(FFMPEG_CMAKE_SCRIPT)
+-    include("${FFMPEG_CMAKE_SCRIPT}")
+-    set(HAVE_FFMPEG TRUE)
+-    set(HAVE_FFMPEG_WRAPPER TRUE)
+-  endif()
+-endif()
+-
+ set(_required_ffmpeg_libraries libavcodec libavformat libavutil libswscale)
+ set(_used_ffmpeg_libraries ${_required_ffmpeg_libraries})
+ if(NOT HAVE_FFMPEG AND PKG_CONFIG_FOUND)
+

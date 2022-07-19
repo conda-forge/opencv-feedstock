@@ -4,8 +4,6 @@ import numpy as np
 import cv2
 import sys
 
-@unittest.skipIf(platform.system() == 'Windows',
-                 'FFMPEG currently not built on Windows')
 class TestVideoRead(unittest.TestCase):
     def test_load_avi(self):
         cap = cv2.VideoCapture('test.avi')
