@@ -1,0 +1,19 @@
+diff --git a/cmake/OpenCVGenPkgconfig.cmake b/cmake/OpenCVGenPkgconfig.cmake
+index 43d6a87e74..9e9d379544 100644
+--- a/cmake/OpenCVGenPkgconfig.cmake
++++ b/cmake/OpenCVGenPkgconfig.cmake
+@@ -1,4 +1,4 @@
+-if(MSVC OR IOS)
++if(IOS)
+   return()
+ endif()
+ 
+@@ -103,7 +103,7 @@ add_custom_target(gen-pkgconfig ALL SOURCES "${CMAKE_BINARY_DIR}/unix-install/${
+ add_dependencies(developer_scripts gen-pkgconfig)
+ 
+ 
+-if(UNIX AND NOT ANDROID)
++if(NOT ANDROID)
+   install(FILES ${CMAKE_BINARY_DIR}/unix-install/${OPENCV_PC_FILE_NAME} DESTINATION ${OPENCV_LIB_INSTALL_PATH}/pkgconfig COMPONENT dev)
+ endif()
+ 
