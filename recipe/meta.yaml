@@ -239,8 +239,8 @@ outputs:
       requires:
         # Test with the two currently supported lapack implementatons
         # One test done on different versions of python on each platform
-        - liblapack * *openblas         # [py==36]
-        - liblapack * *mkl              # [py==37 and linux64]
+        - liblapack * *openblas         # [py==39]
+        - liblapack * *mkl              # [py==310 and linux64]
       imports:
         - cv2
         - cv2.xfeatures2d
