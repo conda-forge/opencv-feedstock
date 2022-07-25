@@ -28,6 +28,9 @@ set UNIX_LIBRARY_LIB=%LIBRARY_LIB:\=/%
 set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
+:REM FFMPEG building requires pkgconfig
+set PKG_CONFIG_PATH=%UNIX_LIBRARY_PREFIX%/lib/pkgconfig
+
 cmake -LAH -G "Ninja"                                                               ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
@@ -68,6 +71,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_OPENCL_D3D11_NV=0                                                        ^
     -DWITH_1394=0                                                                   ^
     -DWITH_OPENNI=0                                                                 ^
+    -DOPENCV_ENABLE_PKG_CONFIG=1                                                    ^
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_TENGINE=0                                                                ^
     -DWITH_GSTREAMER=0                                                              ^
