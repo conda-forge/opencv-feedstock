@@ -54,8 +54,8 @@ requirements:
     - {{ compiler('cxx') }}
     - patch  # [not win]
     - m2-patch  # [win]
-    - curl  # [osx]
-    - unzip # [osx]
+    - curl
+    - unzip # [not win]
     - ninja
     - pkg-config
     - {{ cdt('mesa-libGL-devel') }}  # [linux]
