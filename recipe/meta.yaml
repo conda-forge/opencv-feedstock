@@ -1,5 +1,12 @@
 {% set version = "4.5.5" %}
-{% set build_num = "3" %}
+{% set build_num = "4" %}
+
+{% if target_platform != "linux-aarch64" and target_platform != "linux-64"%}
+{% set enable_testingui = true %}
+{% else %}
+{% set enable_testingui = false %}
+{% endif %}
+
 package:
   name: opencv-suite
   version: {{ version }}
@@ -32,7 +39,6 @@ build:
     - python
     - libwebp-base # [win]
     - gst-plugins-base # [win]
-    - qt         # [win]
     - gstreamer  # [win]
     - glib       # [win]
     - libtiff    # [win]
@@ -74,8 +80,9 @@ requirements:
     - libwebp-base          # [win or linux64]
     - numpy {{ numpy }}
     - python
-    - qt ==5.9.7            # [(x86_64 or win) and not ppc64le]
-    - qt ==5.15.2           # [arm64 or aarch64]
+    - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
+    - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
+    - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
     - zlib
   run:
     - _openmp_mutex         # [linux]
@@ -98,8 +105,9 @@ requirements:
     - libwebp-base          # [win or linux64]
     - numpy {{ numpy }}
     - python
-    - qt ==5.9.7            # [(x86_64 or win) and not ppc64le]
-    - qt ==5.15.2           # [arm64 or aarch64]
+    - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
+    - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
+    - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
     - zlib
 
 
@@ -112,7 +120,6 @@ outputs:
         - openblas-devel # [x86_64 and not win]
         - libwebp-base # [win]
         - gst-plugins-base # [win]
-        - qt         # [win]
         - gstreamer  # [win]
         - glib       # [win]
         - libtiff    # [win]
@@ -159,8 +166,9 @@ outputs:
         - libwebp-base          # [win or linux64]
         - numpy {{ numpy }}
         - python
-        - qt ==5.9.7            # [(x86_64 or win) and not ppc64le]
-        - qt ==5.15.2           # [arm64 or aarch64]
+        - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
+        - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
+        - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
         - zlib
       run:
         - _openmp_mutex         # [linux]
@@ -182,8 +190,9 @@ outputs:
         - libwebp-base          # [win or linux64]
         - numpy {{ numpy }}
         - python
-        - qt ==5.9.7            # [(x86_64 or win) and not ppc64le]
-        - qt ==5.15.2           # [arm64 or aarch64]
+        - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
+        - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
+        - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
         - zlib
     test:
       requires:
