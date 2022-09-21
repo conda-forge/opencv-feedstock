@@ -106,7 +106,7 @@ requirements:
     - libpng
     - libtiff
     - libwebp-base          # [win or linux64]
-    - numpy {{ numpy }}
+    - numpy
     - python
     - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
     - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
@@ -120,17 +120,20 @@ outputs:
     script: install.bat                          # [win]
     build:
       ignore_run_exports:
-        - openblas-devel # [x86_64 and not win]
-        - libwebp-base # [win]
-        - gst-plugins-base # [win]
-        - gstreamer  # [win]
-        - glib       # [win]
-        - libtiff    # [win]
-        - hdf5       # [win]
-        - libpng     # [win]
-        - zlib       # [win]
-      missing_dso_whitelist:     # [osx]
-        - "*"   # [osx]
+        - openblas-devel      # [x86_64 and not win]
+        - libwebp-base        # [win]
+        - gst-plugins-base    # [win]
+        - gstreamer           # [win]
+        - glib                # [win]
+        - libtiff             # [win]
+        - hdf5                # [win]
+        - libpng              # [win]
+        - zlib                # [win]
+        - qt-main             # [not (linux and (s390x or ppc64le))]
+        - qt-webengine        # [not (linux and (s390x or ppc64le))]
+        - qtwebkit            # [not (linux and (s390x or ppc64le))]
+      missing_dso_whitelist:  # [osx]
+        - "*"                 # [osx]
     run_exports:
       # We are cautiously optimistic here that patch-level updates won't break
       # ABI. However, it sounds like upstream won't guarantee *any* sort of
@@ -192,7 +195,7 @@ outputs:
         - libpng
         - libtiff
         - libwebp-base          # [win or linux64]
-        - numpy {{ numpy }}
+        - numpy
         - python
         - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
         - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
