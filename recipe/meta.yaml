@@ -1,10 +1,11 @@
-{% set version = "4.5.5" %}
-{% set build_num = "4" %}
+{% set version = "4.6.0" %}
+{% set build_num = "0" %}
+
 
 {% if target_platform != "linux-aarch64" and target_platform != "linux-64"%}
-{% set enable_testingui = true %}
+{%   set enable_testingui = true %}
 {% else %}
-{% set enable_testingui = false %}
+{%   set enable_testingui = false %}
 {% endif %}
 
 package:
@@ -12,22 +13,19 @@ package:
   version: {{ version }}
 
 source:
-  {% if USE_GIT|default(False) %}
+{% if USE_GIT|default(False) %}
   - git_url: https://github.com/opencv/opencv
     git_tag: {{ version }}
     git_depth: 10
 {% else %}
   - url: https://github.com/opencv/opencv/archive/{{ version }}.zip
     fn: opencv-{{ version }}.zip
-    sha256: fb16b734db3a28e5119d513bd7c61ef417edf3756165dc6259519bb9d23d04e2
+    sha256: 158db5813a891c7eda8644259fc1dbd76b21bd1ffb9854a8b4b8115a4ceec359
 {% endif %}
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: a97c2eaecf7a23c6dbd119a609c6d7fae903e5f9ff5f1fe678933e01c67a6c11
+    sha256: 1777d5fd2b59029cf537e5fd6f8aa68d707075822f90bde683fcde086f85f7a7
     folder: opencv_contrib-{{ version }}
-  - patches:  # [win]
-    # See https://github.com/opencv/opencv/issues/21393
-    - gstreamer-audio-windows.patch  # [win]
 
 build:
   number: {{ build_num }}
@@ -52,11 +50,9 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - patch  # [not win]
-    - m2-patch  # [win]
     - curl
-    - unzip # [not win]
-    - ninja
+    - unzip     # [not win]
+    - ninja-base
     - pkg-config
     - {{ cdt('mesa-libGL-devel') }}  # [linux]
     - {{ cdt('mesa-libEGL-devel') }}  # [linux and not ppc64le]
@@ -105,7 +101,7 @@ requirements:
     - libpng
     - libtiff
     - libwebp-base          # [win or linux64]
-    - numpy {{ numpy }}
+    - numpy
     - python
     - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
     - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
@@ -119,17 +115,20 @@ outputs:
     script: install.bat                          # [win]
     build:
       ignore_run_exports:
-        - openblas-devel # [x86_64 and not win]
-        - libwebp-base # [win]
-        - gst-plugins-base # [win]
-        - gstreamer  # [win]
-        - glib       # [win]
-        - libtiff    # [win]
-        - hdf5       # [win]
-        - libpng     # [win]
-        - zlib       # [win]
-      missing_dso_whitelist:     # [osx]
-        - "*"   # [osx]
+        - openblas-devel      # [x86_64 and not win]
+        - libwebp-base        # [win]
+        - gst-plugins-base    # [win]
+        - gstreamer           # [win]
+        - glib                # [win]
+        - libtiff             # [win]
+        - hdf5                # [win]
+        - libpng              # [win]
+        - zlib                # [win]
+        - qt-main             # [not (linux and (s390x or ppc64le))]
+        - qt-webengine        # [not (linux and (s390x or ppc64le))]
+        - qtwebkit            # [not (linux and (s390x or ppc64le))]
+      missing_dso_whitelist:  # [osx]
+        - "*"                 # [osx]
     run_exports:
       # We are cautiously optimistic here that patch-level updates won't break
       # ABI. However, it sounds like upstream won't guarantee *any* sort of
@@ -191,7 +190,7 @@ outputs:
         - libpng
         - libtiff
         - libwebp-base          # [win or linux64]
-        - numpy {{ numpy }}
+        - numpy
         - python
         - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
         - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
