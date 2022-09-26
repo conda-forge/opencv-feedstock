@@ -112,7 +112,9 @@ cmake .. -LAH -GNinja                                                     \
   -DWITH_TESSERACT=OFF                                                    \
   -DWITH_VA=OFF                                                           \
   -DWITH_VA_INTEL=OFF                                                     \
-  -DWITH_VTK=OFF
+  -DWITH_VTK=OFF                                                          \
+  -DBUILD_opencv_python2=OFF
+
 
 if [[ ! $? ]]; then
   echo "configure failed with $?"
@@ -120,4 +122,3 @@ if [[ ! $? ]]; then
 fi
 
 cmake --build .
-
