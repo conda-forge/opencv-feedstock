@@ -1,25 +1,19 @@
-BUILD:
-- aarch64-conda_cos7-linux-gnu
+MACOSX_DEPLOYMENT_TARGET:
+- '10.9'
 c_compiler:
-- gcc
+- clang
 c_compiler_version:
-- '10'
-cdt_arch:
-- aarch64
-cdt_name:
-- cos7
+- '14'
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
+- clangxx
 cxx_compiler_version:
-- '10'
-docker_image:
-- quay.io/condaforge/linux-anvil-cos7-x86_64
+- '14'
 ffmpeg:
-- '4.4'
+- '5'
 freetype:
 - '2'
 glib:
@@ -46,32 +40,18 @@ libtiff:
 - '4'
 libwebp:
 - '1'
+macos_machine:
+- x86_64-apple-darwin13.4.0
 numpy:
-- '1.19'
+- '1.20'
 pin_run_as_build:
-  freetype:
-    max_pin: x
-  harfbuzz:
-    max_pin: x
-  jasper:
-    max_pin: x
-  jpeg:
-    max_pin: x
-  libpng:
-    max_pin: x.x
-  libtiff:
-    max_pin: x
   python:
     min_pin: x.x
     max_pin: x.x
-  zlib:
-    max_pin: x.x
 python:
-- 3.7.* *_cpython
-qt_main:
-- '5.15'
+- 3.9.* *_73_pypy
 target_platform:
-- linux-aarch64
+- osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

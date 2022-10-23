@@ -15,7 +15,7 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 ffmpeg:
-- '4.4'
+- '5'
 freetype:
 - '2'
 glib:
@@ -45,22 +45,8 @@ libwebp:
 numpy:
 - '1.21'
 pin_run_as_build:
-  freetype:
-    max_pin: x
-  harfbuzz:
-    max_pin: x
-  jasper:
-    max_pin: x
-  jpeg:
-    max_pin: x
-  libpng:
-    max_pin: x.x
-  libtiff:
-    max_pin: x
   python:
     min_pin: x.x
-    max_pin: x.x
-  zlib:
     max_pin: x.x
 python:
 - 3.10.* *_cpython
