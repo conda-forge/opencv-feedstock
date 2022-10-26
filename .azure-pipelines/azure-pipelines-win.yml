@@ -8,9 +8,6 @@ jobs:
     vmImage: windows-2019
   strategy:
     matrix:
-      win_64_numpy1.20python3.7.____cpython:
-        CONFIG: win_64_numpy1.20python3.7.____cpython
-        UPLOAD_PACKAGES: 'True'
       win_64_numpy1.20python3.8.____73_pypy:
         CONFIG: win_64_numpy1.20python3.8.____73_pypy
         UPLOAD_PACKAGES: 'True'
@@ -25,6 +22,9 @@ jobs:
         UPLOAD_PACKAGES: 'True'
       win_64_numpy1.21python3.10.____cpython:
         CONFIG: win_64_numpy1.21python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+      win_64_numpy1.23python3.11.____cpython:
+        CONFIG: win_64_numpy1.23python3.11.____cpython
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables:
