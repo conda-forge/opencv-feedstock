@@ -12,6 +12,9 @@ if "%PY3K%" == "0" (
 mkdir build
 cd build
 
+if "%qt_version%"=="5" set WITH_QT="-DWITH_QT=5"
+if "%qt_version%"=="none" set WITH_QT="-DWITH_QT=0"
+
 for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
    set "PY_MAJOR=%%a"
    set "PY_MINOR=%%b"
@@ -78,7 +81,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_TESSERACT=0                                                              ^
     -DWITH_VTK=0                                                                    ^
     -DWITH_WIN32UI=0                                                                ^
-    -DWITH_QT=5                                                                     ^
+    %WITH_QT%                                                                       ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DPYTHON_EXECUTABLE=""                                                          ^

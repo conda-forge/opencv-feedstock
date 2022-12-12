@@ -6,8 +6,11 @@ set +ex
 # https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
 ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
 
-QT="5"
-V4L="1"
+if [[ "$qt_version" == "5" ]]; then
+    QT="5"
+else
+    QT="0"
+fi
 
 if [[ "${target_platform}" == linux-* ]]; then
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
@@ -20,10 +23,9 @@ if [[ "${target_platform}" == linux-* ]]; then
 fi
 
 if [[ "${target_platform}" == osx-* ]]; then
-    QT="0"
     V4L="0"
-elif [[ "${target_platform}" == linux-ppc64le ]]; then
-    QT="0"
+else
+    V4L="1"
 fi
 
 

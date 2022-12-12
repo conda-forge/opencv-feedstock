@@ -47,9 +47,17 @@ source:
     url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
 
+{% set build = 1 %}
+
+# Prioritize qt5 for noq over none and over qt6
+
+{% if qt_version == "5" %}
+{% set build = build + 400 %}
+{% endif %}
+
 build:
-  number: 0
-  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  number: {{ build }}
+  string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
@@ -96,7 +104,7 @@ requirements:
     # no quesitons about the license of the resulting opencv
     # binary
     - ffmpeg {{ ffmpeg }}=lgpl_*
-    - qt-main                             # [not osx and not ppc64le]
+    - qt-main     # [qt_version == 5]
     - liblapacke
     - liblapack
     - libcblas
@@ -205,7 +213,7 @@ outputs:
   - name: libopencv
   - name: opencv
     build:
-      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
     requirements:
       host:
         # Explicitely add a python requirement so that the hash changes between
@@ -218,7 +226,7 @@ outputs:
 
   - name: py-opencv
     build:
-      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       run_exports:
         # Should we even have this???
         # don't pin the python version so hard.
