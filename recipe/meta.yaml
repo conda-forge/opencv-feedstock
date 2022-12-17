@@ -245,7 +245,7 @@ outputs:
       imports:
         - cv2
         - cv2.xfeatures2d
-        . cv2.freetype
+        - cv2.freetype
       files:
         - run_py_test.py
         - color_palette_alpha.png
