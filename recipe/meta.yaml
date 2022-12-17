@@ -50,8 +50,6 @@ source:
 
 build:
   number: 7
-  skip: true  # [osx]
-  skip: true  # [linux]
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
