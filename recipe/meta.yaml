@@ -90,7 +90,7 @@ requirements:
     - jpeg
     - libtiff
     - libwebp
-    - harfbuzz                       # [unix]
+    - harfbuzz
     - libpng
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
