@@ -104,8 +104,6 @@ requirements:
     - glib                           # [unix]
     - libprotobuf
   run:
-    # https://github.com/conda-forge/harfbuzz-feedstock/pull/52
-    - harfbuzz                       # [unix]
     # Don't depend on python in the run section
     # py-opencv will depend on python
     # https://github.com/conda-forge/opencv-feedstock/issues/174
@@ -185,6 +183,7 @@ test:
         {{ opencv_libs.append("ximgproc") or "" }}
         {{ opencv_libs.append("xobjdetect") or "" }}
         {{ opencv_libs.append("xphoto") or "" }}
+        {{ opencv_libs.append("freetype") or "" }}
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
         - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
@@ -196,7 +195,6 @@ test:
         {% endfor %}
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
-        - test -f $PREFIX/lib/libopencv_freetype${SHLIB_EXT}     # [unix]
         - mkdir -p cmake_build_test && pushd cmake_build_test
         - cmake -G "Ninja" ..
         - cmake --build . --config Release
