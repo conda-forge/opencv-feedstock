@@ -29,6 +29,7 @@ jobs:
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
+    UPLOAD_TEMP: D:\\tmp
 
   steps:
     - task: PythonScript@0
@@ -50,7 +51,7 @@ jobs:
 
     - script: |
         call activate base
-        mamba.exe install 'python=3.9' conda-build conda pip boa 'conda-forge-ci-setup=3' -c conda-forge --strict-channel-priority --yes
+        mamba.exe install "python=3.9" conda-build conda pip boa conda-forge-ci-setup=3 "py-lief<0.12" -c conda-forge --strict-channel-priority --yes
       displayName: Install conda-build
 
     - script: set PYTHONUNBUFFERED=1
@@ -87,6 +88,9 @@ jobs:
     - script: |
         set "GIT_BRANCH=%BUILD_SOURCEBRANCHNAME%"
         set "FEEDSTOCK_NAME=%BUILD_REPOSITORY_NAME:*/=%"
+        set "TEMP=$(UPLOAD_TEMP)"
+        if not exist "%TEMP%\" md "%TEMP%"
+        set "TMP=%TEMP%"
         call activate base
         upload_package --validate --feedstock-name="%FEEDSTOCK_NAME%" .\ ".\recipe" .ci_support\%CONFIG%.yaml
       displayName: Upload package
