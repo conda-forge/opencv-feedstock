@@ -37,7 +37,7 @@ libpng:
 libprotobuf:
 - '3.21'
 libtiff:
-- '4.4'
+- '4.5'
 libwebp:
 - '1'
 macos_machine:
