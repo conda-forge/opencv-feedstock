@@ -111,7 +111,7 @@ requirements:
     - libcblas
     - freetype
     - harfbuzz
-    - glib                           # [unix]
+    - glib
     - libprotobuf
   run:
     # Don't depend on python in the run section
