@@ -57,6 +57,7 @@ source:
 
 build:
   number: {{ build }}
+  skip: true  # [unix]
   string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
@@ -200,6 +201,7 @@ test:
         {% for each_opencv_lib in opencv_libs %}
         - echo Testing for presence of {{ each_opencv_lib }}
         - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
+        - echo Testing for {{ each_opencv_lib }}                                                         # [win]
         - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
         {% endfor %}
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
