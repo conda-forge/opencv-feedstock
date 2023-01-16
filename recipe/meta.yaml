@@ -109,7 +109,6 @@ requirements:
     - liblapack
     - libcblas
     - freetype
-    - harfbuzz
     - glib
     - libprotobuf
   run:
