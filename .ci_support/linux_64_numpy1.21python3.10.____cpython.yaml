@@ -3,7 +3,7 @@ c_compiler:
 c_compiler_version:
 - '11'
 cdt_name:
-- cos6
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:

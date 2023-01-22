@@ -12,3 +12,5 @@ provider:
   linux_aarch64: azure
   linux_ppc64le: azure
 test_on_native_only: true
+os_version:
+  linux_64: cos7
