@@ -98,7 +98,6 @@ requirements:
     - jpeg
     - libtiff
     - libwebp
-    - harfbuzz  # [linux]
     - libpng
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
@@ -108,8 +107,12 @@ requirements:
     - liblapacke
     - liblapack
     - libcblas
+    # harfbuzz, freetype and glib are required to build libopencv_freetype
+    # I think that glib is required due to
+    # https://github.com/conda-forge/conda-forge.github.io/issues/1880
+    - harfbuzz
     - freetype
-    - glib                           # [unix]
+    - glib
     - libprotobuf
   run:
     # Don't depend on python in the run section
