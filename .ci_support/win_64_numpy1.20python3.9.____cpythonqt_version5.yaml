@@ -1,29 +1,17 @@
 c_compiler:
-- gcc
-c_compiler_version:
-- '11'
-cdt_name:
-- cos7
+- vs2019
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
-cxx_compiler_version:
-- '11'
-docker_image:
-- quay.io/condaforge/linux-anvil-cos7-x86_64
+- vs2019
 ffmpeg:
 - '5'
 freetype:
 - '2'
 glib:
 - '2'
-harfbuzz:
-- '6'
-hdf5:
-- 1.12.2
 jasper:
 - '2'
 jpeg:
@@ -52,13 +40,13 @@ python:
 - 3.9.* *_cpython
 qt:
 - '5.15'
+qt_main:
+- '5.15'
 qt_version:
-- none
+- '5'
 target_platform:
-- linux-ppc64le
+- win-64
 zip_keys:
-- - c_compiler_version
-  - cxx_compiler_version
 - - python
   - numpy
 zlib:
