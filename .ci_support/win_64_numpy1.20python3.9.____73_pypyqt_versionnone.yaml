@@ -10,8 +10,6 @@ ffmpeg:
 - '5'
 freetype:
 - '2'
-glib:
-- '2'
 jasper:
 - '2'
 jpeg:
