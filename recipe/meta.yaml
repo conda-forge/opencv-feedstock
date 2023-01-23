@@ -109,7 +109,7 @@ requirements:
     - liblapack
     - libcblas
     - freetype
-    - glib
+    - glib                           # [unix]
     - libprotobuf
   run:
     # Don't depend on python in the run section
