@@ -10,6 +10,10 @@ ffmpeg:
 - '5'
 freetype:
 - '2'
+glib:
+- '2'
+harfbuzz:
+- '6'
 jasper:
 - '2'
 jpeg:
