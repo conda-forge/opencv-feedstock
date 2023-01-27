@@ -3,7 +3,7 @@ BUILD:
 c_compiler:
 - gcc
 c_compiler_version:
-- '9'
+- '11'
 cdt_arch:
 - aarch64
 cdt_name:
@@ -15,17 +15,17 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '9'
+- '11'
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 ffmpeg:
-- '4.3'
+- '4.4'
 freetype:
 - '2'
 glib:
 - '2'
 harfbuzz:
-- '3'
+- '6'
 hdf5:
 - 1.12.1
 jasper:
@@ -33,38 +33,24 @@ jasper:
 jpeg:
 - '9'
 libcblas:
-- 3.8 *netlib
+- 3.9 *netlib
 liblapack:
-- 3.8 *netlib
+- 3.9 *netlib
 liblapacke:
-- 3.8 *netlib
+- 3.9 *netlib
 libpng:
 - '1.6'
 libprotobuf:
-- '3.19'
+- '3.21'
 libtiff:
-- '4'
+- '4.4'
 libwebp:
 - '1'
 numpy:
 - '1.21'
 pin_run_as_build:
-  freetype:
-    max_pin: x
-  harfbuzz:
-    max_pin: x
-  jasper:
-    max_pin: x
-  jpeg:
-    max_pin: x
-  libpng:
-    max_pin: x.x
-  libtiff:
-    max_pin: x
   python:
     min_pin: x.x
-    max_pin: x.x
-  zlib:
     max_pin: x.x
 python:
 - 3.10.* *_cpython
