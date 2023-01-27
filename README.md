@@ -289,5 +289,6 @@ Feedstock Maintainers
 * [@msarahan](https://github.com/msarahan/)
 * [@ocefpaf](https://github.com/ocefpaf/)
 * [@patricksnape](https://github.com/patricksnape/)
+* [@xhochy](https://github.com/xhochy/)
 * [@zym1010](https://github.com/zym1010/)
 
