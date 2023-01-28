@@ -34,8 +34,8 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.8.* *_cpython
-qt:
-- '5.12'
+qt_main:
+- '5.15'
 target_platform:
 - win-64
 zip_keys:
