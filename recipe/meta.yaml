@@ -89,7 +89,7 @@ requirements:
     - libtiff >=4.1.0,<5.0a0  # [not ((osx and arm64) or (linux and aarch64))]
     - libtiff >=4.2.0,<5.0a0  # [(osx and arm64) or (linux and aarch64)]
     - libwebp-base          # [win or (linux and x86_64)]
-    - numpy
+    - numpy >={{ numpy }},<2
     - python
     - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
     - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
@@ -168,7 +168,7 @@ outputs:
         - libtiff >=4.1.0,<5.0a0  # [not ((osx and arm64) or (linux and aarch64))]
         - libtiff >=4.2.0,<5.0a0  # [(osx and arm64) or (linux and aarch64)]
         - libwebp-base          # [win or (linux and x86_64)]
-        - numpy
+        - numpy >={{ numpy }},<2
         - python
         - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
         - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
