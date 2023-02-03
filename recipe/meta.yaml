@@ -75,7 +75,7 @@ requirements:
     - freetype >=2.10.4,<3.0a0
     - jasper          # [not s390x]
     - glib >=2.69,<3.0a0                 # [not ppc64le]
-    - gst-plugins-base >=1.14.1,<1.15.0a0     # [not (win or ppc64le)]
+    - gst-plugins-base >=1.14.0,<1.15.0a0     # [not (win or ppc64le)]
     - gstreamer >=1.14.0,<1.15.0a        # [not (win or ppc64le)]
     - gst-plugins-base >=1.18.5,<1.19.0a # [win]
     - gstreamer >=1.18.5,<1.19.0a # [win]
@@ -154,7 +154,7 @@ outputs:
         - ffmpeg                # [linux and x86_64]
         - freetype >=2.10.4,<3.0a0
         - glib >=2.69,<3.0a0                # [not ppc64le]
-        - gst-plugins-base >=1.14.1,<1.15.0a0  # [not (win or ppc64le)]
+        - gst-plugins-base >=1.14.0,<1.15.0a0  # [not (win or ppc64le)]
         - gstreamer >=1.14.0,<1.15.0a            # [not (win or ppc64le)]
         - gst-plugins-base >=1.18.5,<1.19.0a # [win]
         - gstreamer >=1.18.5,<1.19.0a # [win]
