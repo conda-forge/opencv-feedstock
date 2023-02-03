@@ -73,7 +73,7 @@ requirements:
     - eigen
     - ffmpeg                # [linux and x86_64]
     - freetype              # [not win]
-    - jasper 2.0.14         # [not s390x]
+    - jasper          # [not s390x]
     - glib                  # [not ppc64le]
     - gst-plugins-base      # [not (win or ppc64le)]
     - gstreamer         # [not (win or ppc64le)]
