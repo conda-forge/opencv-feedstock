@@ -58,10 +58,10 @@ requirements:
     - openjpeg 2.3.0        # [not (win or arm64)]
     - openblas-devel 0.3.20  # [x86_64 and not win]
     - libpng 1.6
-    - libprotobuf           # [(linux and x86_64) or win]
+    - libprotobuf 3.20.3     # [(linux and x86_64) or win]
     - libtiff 4.1  # [not ((osx and arm64) or (linux and aarch64))]
     - libtiff 4.2  # [(osx and arm64) or (linux and aarch64)]
-    - libwebp-base          # [win or (linux and x86_64)]
+    - libwebp-base 1.2.0     # [win or (linux and x86_64)]
     - numpy {{ numpy }}
     - python
     - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
@@ -136,10 +136,10 @@ outputs:
         - openjpeg              # [not (arm64 or win)]
         - openblas-devel 0.3.2  # [x86_64 and not win]
         - libpng 1.6
-        - libprotobuf           # [(linux and x86_64) or win]
+        - libprotobuf 3.20.3    # [(linux and x86_64) or win]
         - libtiff 4.1  # [not ((osx and arm64) or (linux and aarch64))]
         - libtiff 4.2  # [(osx and arm64) or (linux and aarch64)]
-        - libwebp-base          # [win or (linux and x86_64)]
+        - libwebp-base 1.2.0    # [win or (linux and x86_64)]
         - numpy {{ numpy }}
         - python
         - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
