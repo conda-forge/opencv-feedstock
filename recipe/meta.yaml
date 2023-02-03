@@ -42,41 +42,42 @@ requirements:
     - {{ cdt('mesa-libEGL-devel') }}  # [linux and not ppc64le]
   host:
     - cmake
-    - jasper                # [win]
+    - jasper 2.0.14  # [not s390x]
     - eigen
-    - ffmpeg                # [linux64 or win]
-    - freetype              # [not win]
-    - glib                  # [not ppc64le]
-    - gst-plugins-base      # [not (win or ppc64le)]
-    - gstreamer             # [not (win or ppc64le)]
-    - gst-plugins-base ==1.18.5      # [win]
-    - gstreamer ==1.18.5             # [win]
-    - harfbuzz              # [not win]
-    - hdf5
-    - jpeg                  # [not win]
-    - openjpeg              # [not (win or arm64)]
-    - openblas-devel        # [x86_64 and not win]
-    - libpng
-    - libprotobuf           # [linux64 or win]
-    - libtiff
-    - libwebp-base          # [win or linux64]
+    - ffmpeg                # [(linux and x86_64) or win]
+    - freetype 2.10
+    - glib 2                # [not ppc64le]
+    - gst-plugins-base 1.14  # [not (win or ppc64le)]
+    - gstreamer 1.14        # [not (win or ppc64le)]
+    - gstreamer 1.18.5        # [win]
+    - gst-plugins-base 1.18.5      # [win]
+    - harfbuzz 4.3.0        # [not win]
+    - hdf5 1.10.6
+    - jpeg 9e               # [not win]
+    - openjpeg 2.3.0        # [not (win or arm64)]
+    - openblas-devel 0.3.20  # [x86_64 and not win]
+    - libpng 1.6
+    - libprotobuf           # [(linux and x86_64) or win]
+    - libtiff 4.1  # [not ((osx and arm64) or (linux and aarch64))]
+    - libtiff 4.2  # [(osx and arm64) or (linux and aarch64)]
+    - libwebp-base          # [win or (linux and x86_64)]
     - numpy {{ numpy }}
     - python
     - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
     - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
     - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
-    - zlib
+    - zlib 1.2
   run:
     - _openmp_mutex         # [linux]
     - eigen
-    - ffmpeg                # [linux64]
+    - ffmpeg                # [linux and x86_64]
     - freetype              # [not win]
-    - jasper                # [win]
+    - jasper 2.0.14         # [not s390x]
     - glib                  # [not ppc64le]
     - gst-plugins-base      # [not (win or ppc64le)]
-    - gstreamer             # [not (win or ppc64le)]
-    - gst-plugins-base ==1.18.5      # [win]
-    - gstreamer ==1.18.5             # [win]
+    - gstreamer         # [not (win or ppc64le)]
+    - gst-plugins-base # [win] # ==1.18.5      # [win]
+    - gstreamer # [win] # ==1.18.5             # [win]
     - harfbuzz              # [not win]
     - hdf5
     - jpeg                  # [not win]
@@ -84,7 +85,7 @@ requirements:
     - libopenblas           # [x86_64 and not win]
     - libpng
     - libtiff
-    - libwebp-base          # [win or linux64]
+    - libwebp-base          # [win or (linux and x86_64)]
     - numpy
     - python
     - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
@@ -120,38 +121,39 @@ outputs:
         - cmake
         - _openmp_mutex         # [linux]
         - eigen
-        - ffmpeg                # [linux64]
-        - freetype              # [not win]
-        - glib                  # [not ppc64le]
-        - gst-plugins-base      # [not (win or ppc64le)]
-        - gstreamer             # [not (win or ppc64le)]
-        - gst-plugins-base ==1.18.5      # [win]
-        - gstreamer ==1.18.5             # [win]
-        - harfbuzz              # [not win]
-        - hdf5
+        - ffmpeg                # [linux and x86_64]
+        - freetype 2.10
+        - glib 2                # [not ppc64le]
+        - gst-plugins-base 1.14  # [not (win or ppc64le)]
+        - gstreamer 1.14        # [not (win or ppc64le)]
+        - gst-plugins-base 1.18.5 [win]
+        - gstreamer 1.18.5      # [win]
+        - harfbuzz 4.3.0        # [not win]
+        - hdf5 1.10.6
         - jpeg                  # [not win]
         - openjpeg              # [not (arm64 or win)]
-        - openblas-devel        # [x86_64 and not win]
-        - libpng
-        - libprotobuf           # [linux64 or win]
-        - libtiff
-        - libwebp-base          # [win or linux64]
+        - openblas-devel 0.3.2  # [x86_64 and not win]
+        - libpng 1.6
+        - libprotobuf           # [(linux and x86_64) or win]
+        - libtiff 4.1  # [not ((osx and arm64) or (linux and aarch64))]
+        - libtiff 4.2  # [(osx and arm64) or (linux and aarch64)]
+        - libwebp-base          # [win or (linux and x86_64)]
         - numpy {{ numpy }}
         - python
         - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
         - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
         - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
-        - zlib
+        - zlib 1.2
       run:
         - _openmp_mutex         # [linux]
         - eigen
-        - ffmpeg                # [linux64]
+        - ffmpeg                # [linux and x86_64]
         - freetype              # [not win]
-        - glib                  # [not ppc64le]
-        - gst-plugins-base      # [not (win or ppc64le)]
+        - glib                 # [not ppc64le]
+        - gst-plugins-base   # [not (win or ppc64le)]
         - gstreamer             # [not (win or ppc64le)]
-        - gst-plugins-base ==1.18.5      # [win]
-        - gstreamer ==1.18.5             # [win]
+        - gst-plugins-base # [win] # 1.18.5      # [win]
+        - gstreamer # [win]  # 1.18.5             # [win]
         - harfbuzz              # [not win]
         - hdf5
         - jpeg                  # [not win]
@@ -159,7 +161,7 @@ outputs:
         - libopenblas           # [x86_64 and not win]
         - libpng
         - libtiff
-        - libwebp-base          # [win or linux64]
+        - libwebp-base          # [win or (linux and x86_64)]
         - numpy
         - python
         - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
@@ -204,8 +206,8 @@ outputs:
              "ccalib",
              "core",
              "datasets",
-             "dpm",                               # [linux64]
-             "face",                              # [linux64]
+             "dpm",                               # [linux and x86_64]
+             "face",                              # [linux and x86_64]
              "features2d",
              "flann",
              "fuzzy",
@@ -214,7 +216,7 @@ outputs:
              "imgproc",
              "line_descriptor",
              "ml",
-             "objdetect",                        # [linux64]
+             "objdetect",                        # [linux and x86_64]
              "optflow",
              "phase_unwrapping",
              "photo",
@@ -228,14 +230,14 @@ outputs:
              "structured_light",
              "superres",
              "surface_matching",
-             "text",                             # [linux64]
+             "text",                             # [linux and x86_64]
              "tracking",
              "video",
              "videoio",
              "videostab",
              "xfeatures2d",
              "ximgproc",
-             "xobjdetect",                       # [linux64]
+             "xobjdetect",                       # [linux and x86_64]
              "xphoto",
         ] %}
         {% for each_opencv_lib in opencv_libs %}
