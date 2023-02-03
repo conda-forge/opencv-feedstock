@@ -52,7 +52,8 @@ requirements:
     - gstreamer 1.18.5        # [win]
     - gst-plugins-base 1.18.5      # [win]
     - harfbuzz 4.3.0        # [not win]
-    - hdf5 1.10.6
+    - hdf5 1.10.6  # [not (osx and arm64)]
+    - hdf5 1.12.1  # [osx and arm64]
     - jpeg 9e               # [not win]
     - openjpeg 2.3.0        # [not (win or arm64)]
     - openblas-devel 0.3.20  # [x86_64 and not win]
@@ -129,7 +130,8 @@ outputs:
         - gst-plugins-base 1.18.5 [win]
         - gstreamer 1.18.5      # [win]
         - harfbuzz 4.3.0        # [not win]
-        - hdf5 1.10.6
+        - hdf5 1.10.6  # [not (osx and arm64)]
+        - hdf5 1.12.1  # [osx and arm64]
         - jpeg                  # [not win]
         - openjpeg              # [not (arm64 or win)]
         - openblas-devel 0.3.2  # [x86_64 and not win]
