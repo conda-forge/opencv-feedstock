@@ -43,8 +43,8 @@ requirements:
   host:
     - cmake
     - jasper 2.0.14            # [not s390x]
-    - eigen
-    - ffmpeg                   # [(linux and x86_64) or win]
+    - eigen 3.3.7
+    - ffmpeg 4.2.2             # [not (linux and s390x)]
     - freetype 2.10
     - glib 2                   # [not ppc64le]
     - gst-plugins-base 1.14    # [not (win or ppc64le)]
@@ -70,8 +70,8 @@ requirements:
     - zlib 1.2.13
   run:
     - _openmp_mutex         # [linux]
-    - eigen
-    - ffmpeg                # [linux and x86_64]
+    - eigen >=3.3.7
+    - ffmpeg >=4.2.2,<4.3.0a0        # [not (linux and s390x)]
     - freetype >=2.10.4,<3.0a0
     - jasper          # [not s390x]
     - glib >=2.69,<3.0a0                 # [not ppc64le]
@@ -84,7 +84,7 @@ requirements:
     - hdf5 >=1.12.1,<1.12.2.0a0  # [osx and arm64]
     - jpeg >=9e,<10a                 # [not win]
     - openjpeg >=2.3.0,<3.0a0             # [not (win or arm64)]
-    - libopenblas           # [x86_64 and not win]
+    - libopenblas >=0.3.20,<1.0a0          # [x86_64 and not win]
     - libpng >=1.6.37,<1.7.0a0
     - libtiff >=4.1.0,<5.0a0  # [not ((osx and arm64) or (linux and aarch64))]
     - libtiff >=4.2.0,<5.0a0  # [(osx and arm64) or (linux and aarch64)]
@@ -123,8 +123,8 @@ outputs:
       host:
         - cmake
         - _openmp_mutex         # [linux]
-        - eigen
-        - ffmpeg                # [linux and x86_64]
+        - eigen 3.3.7
+        - ffmpeg 4.2.2                # [not (linux and s390x)]
         - freetype 2.10
         - glib 2                # [not ppc64le]
         - gst-plugins-base 1.14  # [not (win or ppc64le)]
@@ -150,8 +150,8 @@ outputs:
         - zlib 1.2.13
       run:
         - _openmp_mutex         # [linux]
-        - eigen
-        - ffmpeg                # [linux and x86_64]
+        - eigen >=3.3.7
+        - ffmpeg >=4.2.2,<4.3.0a0               # [not (linux and s390x)]
         - freetype >=2.10.4,<3.0a0
         - glib >=2.69,<3.0a0                # [not ppc64le]
         - gst-plugins-base >=1.14.0,<1.15.0a0  # [not (win or ppc64le)]
@@ -163,7 +163,7 @@ outputs:
         - hdf5 >=1.12.1,<1.12.2.0a0  # [osx and arm64]
         - jpeg >=9e,<10a                 # [not win]
         - openjpeg >=2.3.0,<3.0a0             # [not (arm64 or win)]
-        - libopenblas           # [x86_64 and not win]
+        - libopenblas >=0.3.20,<1.0a0          # [x86_64 and not win]
         - libpng >=1.6.37,<1.7.0a0
         - libtiff >=4.1.0,<5.0a0  # [not ((osx and arm64) or (linux and aarch64))]
         - libtiff >=4.2.0,<5.0a0  # [(osx and arm64) or (linux and aarch64)]
