@@ -57,7 +57,7 @@ requirements:
     - jpeg 9e                  # [not win]
     - openjpeg 2.3.0           # [not (win or arm64)]
     - openblas-devel 0.3.20    # [x86_64 and not win]
-    - libpng 1.6
+    - libpng 1.6.37
     - libprotobuf 3.20.3       # [(linux and x86_64) or win]
     - libtiff 4.1              # [not ((osx and arm64) or (linux and aarch64))]
     - libtiff 4.2              # [(osx and arm64) or (linux and aarch64)]
@@ -74,10 +74,10 @@ requirements:
     - ffmpeg                # [linux and x86_64]
     - freetype >=2.10.4,<3.0a0
     - jasper          # [not s390x]
-    - glib >=2,<3.0a0                 # [not ppc64le]
+    - glib >=2.69,<3.0a0                 # [not ppc64le]
     - gst-plugins-base >=1.14.1,<1.15.0a0     # [not (win or ppc64le)]
     - gstreamer >=1.14.0,<1.15.0a        # [not (win or ppc64le)]
-    - gst-plugins-base # [win] # ==1.18.5      # [win]
+    - gst-plugins-base >=1.18.5,<1.19.0a # [win]
     - gstreamer >=1.18.5,<1.19.0a # [win]
     - harfbuzz >=4.3.0,<5.0a0             # [not win]
     - hdf5 >=1.10.6,<1.10.7.0a0  # [not (osx and arm64)]
@@ -85,7 +85,7 @@ requirements:
     - jpeg >=9e,<10a                 # [not win]
     - openjpeg >=2.3.0,<3.0a0             # [not (win or arm64)]
     - libopenblas           # [x86_64 and not win]
-    - libpng >=1.6,<1.7.0a0
+    - libpng >=1.6.37,<1.7.0a0
     - libtiff >=4.1.0,<5.0a0  # [not ((osx and arm64) or (linux and aarch64))]
     - libtiff >=4.2.0,<5.0a0  # [(osx and arm64) or (linux and aarch64)]
     - libwebp-base          # [win or (linux and x86_64)]
@@ -137,7 +137,7 @@ outputs:
         - jpeg 9e                 # [not win]
         - openjpeg 2.3.0             # [not (arm64 or win)]
         - openblas-devel 0.3.20  # [x86_64 and not win]
-        - libpng 1.6
+        - libpng 1.6.37
         - libprotobuf 3.20.3    # [(linux and x86_64) or win]
         - libtiff 4.1  # [not ((osx and arm64) or (linux and aarch64))]
         - libtiff 4.2  # [(osx and arm64) or (linux and aarch64)]
@@ -153,10 +153,10 @@ outputs:
         - eigen
         - ffmpeg                # [linux and x86_64]
         - freetype >=2.10.4,<3.0a0
-        - glib >=2,<3.0a0                # [not ppc64le]
+        - glib >=2.69,<3.0a0                # [not ppc64le]
         - gst-plugins-base >=1.14.1,<1.15.0a0  # [not (win or ppc64le)]
         - gstreamer >=1.14.0,<1.15.0a            # [not (win or ppc64le)]
-        - gst-plugins-base # [win] # 1.18.5      # [win]
+        - gst-plugins-base >=1.18.5,<1.19.0a # [win]
         - gstreamer >=1.18.5,<1.19.0a # [win]
         - harfbuzz >=4.3.0,<5.0a0             # [not win]
         - hdf5 >=1.10.6,<1.10.7.0a0  # [not (osx and arm64)]
@@ -164,7 +164,7 @@ outputs:
         - jpeg >=9e,<10a                 # [not win]
         - openjpeg >=2.3.0,<3.0a0             # [not (arm64 or win)]
         - libopenblas           # [x86_64 and not win]
-        - libpng >=1.6,<1.7.0a0
+        - libpng >=1.6.37,<1.7.0a0
         - libtiff >=4.1.0,<5.0a0  # [not ((osx and arm64) or (linux and aarch64))]
         - libtiff >=4.2.0,<5.0a0  # [(osx and arm64) or (linux and aarch64)]
         - libwebp-base          # [win or (linux and x86_64)]
