@@ -67,7 +67,7 @@ requirements:
     - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
     - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
     - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
-    - zlib 1.2
+    - zlib 1.2.13
   run:
     - _openmp_mutex         # [linux]
     - eigen
@@ -132,9 +132,9 @@ outputs:
         - harfbuzz 4.3.0        # [not win]
         - hdf5 1.10.6  # [not (osx and arm64)]
         - hdf5 1.12.1  # [osx and arm64]
-        - jpeg                  # [not win]
-        - openjpeg              # [not (arm64 or win)]
-        - openblas-devel 0.3.2  # [x86_64 and not win]
+        - jpeg 9e                 # [not win]
+        - openjpeg 2.3.0             # [not (arm64 or win)]
+        - openblas-devel 0.3.20  # [x86_64 and not win]
         - libpng 1.6
         - libprotobuf 3.20.3    # [(linux and x86_64) or win]
         - libtiff 4.1  # [not ((osx and arm64) or (linux and aarch64))]
@@ -145,7 +145,7 @@ outputs:
         - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
         - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
         - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
-        - zlib 1.2
+        - zlib 1.2.13
       run:
         - _openmp_mutex         # [linux]
         - eigen
