@@ -1,11 +1,11 @@
-About libopencv
-===============
+About libopencv-feedstock
+=========================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/opencv-feedstock/blob/main/LICENSE.txt)
 
 Home: http://opencv.org/
 
 Package license: Apache-2.0
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/opencv-feedstock/blob/main/LICENSE.txt)
 
 Summary: Computer vision and machine learning software library.
 
