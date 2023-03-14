@@ -1,17 +1,29 @@
 c_compiler:
-- vs2019
+- gcc
+c_compiler_version:
+- '11'
+cdt_name:
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2019
+- gxx
+cxx_compiler_version:
+- '11'
+docker_image:
+- quay.io/condaforge/linux-anvil-cos7-x86_64
 ffmpeg:
 - '5'
 freetype:
 - '2'
+glib:
+- '2'
 harfbuzz:
 - '6'
+hdf5:
+- 1.12.2
 jasper:
 - '4'
 libcblas:
@@ -31,18 +43,20 @@ libtiff:
 libwebp:
 - '1'
 numpy:
-- '1.21'
+- '1.20'
 pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.10.* *_cpython
+- 3.9.* *_cpython
 qt_main:
 - '5.15'
 target_platform:
-- win-64
+- linux-64
 zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 - - python
   - numpy
 zlib:
