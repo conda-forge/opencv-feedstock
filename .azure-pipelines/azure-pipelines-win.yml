@@ -5,7 +5,7 @@
 jobs:
 - job: win
   pool:
-    vmImage: windows-2019
+    vmImage: windows-2022
   strategy:
     matrix:
       win_64_numpy1.20python3.8.____73_pypy:
@@ -26,6 +26,7 @@ jobs:
       win_64_numpy1.23python3.11.____cpython:
         CONFIG: win_64_numpy1.23python3.11.____cpython
         UPLOAD_PACKAGES: 'True'
+    maxParallel: 5
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
@@ -51,7 +52,7 @@ jobs:
 
     - script: |
         call activate base
-        mamba.exe install "python=3.9" conda-build conda pip boa conda-forge-ci-setup=3 "py-lief<0.12" -c conda-forge --strict-channel-priority --yes
+        mamba.exe install "python=3.10" conda-build conda pip boa conda-forge-ci-setup=3 -c conda-forge --strict-channel-priority --yes
       displayName: Install conda-build
 
     - script: set PYTHONUNBUFFERED=1
