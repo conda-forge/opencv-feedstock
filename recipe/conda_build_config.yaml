@@ -1,8 +1,8 @@
-# eigen 3.4 is incompatible with vs2017
-# therefore, we bump to 2019 before the conda-forge
-# wide bump
-# https://github.com/opencv/opencv/issues/21675
-c_compiler:                    # [win]
-  - vs2019                     # [win]
-cxx_compiler:                  # [win]
-  - vs2019                     # [win]
+# libnetcdf doesn't seem to want to enable HDF5 1.14 just yet
+# https://github.com/conda-forge/libnetcdf-feedstock/pull/165
+# Due to the overlap between the ecosystems, I (hmaarrfk) am
+# deciding to build with both versions of hdf5 during this transition
+# period
+hdf5:
+  - 1.12.2
+  - 1.14.0
