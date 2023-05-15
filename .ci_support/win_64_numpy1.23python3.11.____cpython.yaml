@@ -11,7 +11,7 @@ ffmpeg:
 freetype:
 - '2'
 harfbuzz:
-- '6'
+- '7'
 jasper:
 - '4'
 libcblas:

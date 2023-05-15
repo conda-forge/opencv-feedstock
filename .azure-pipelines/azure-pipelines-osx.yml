@@ -8,62 +8,62 @@ jobs:
     vmImage: macOS-11
   strategy:
     matrix:
-      osx_64_hdf51.12.2numpy1.20python3.8.____73_pypy:
-        CONFIG: osx_64_hdf51.12.2numpy1.20python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      osx_64_hdf51.12.2numpy1.20python3.8.____cpython:
-        CONFIG: osx_64_hdf51.12.2numpy1.20python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      osx_64_hdf51.12.2numpy1.20python3.9.____73_pypy:
-        CONFIG: osx_64_hdf51.12.2numpy1.20python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      osx_64_hdf51.12.2numpy1.20python3.9.____cpython:
-        CONFIG: osx_64_hdf51.12.2numpy1.20python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
       osx_64_hdf51.12.2numpy1.21python3.10.____cpython:
         CONFIG: osx_64_hdf51.12.2numpy1.21python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_64_hdf51.12.2numpy1.21python3.8.____73_pypy:
+        CONFIG: osx_64_hdf51.12.2numpy1.21python3.8.____73_pypy
+        UPLOAD_PACKAGES: 'True'
+      osx_64_hdf51.12.2numpy1.21python3.8.____cpython:
+        CONFIG: osx_64_hdf51.12.2numpy1.21python3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_64_hdf51.12.2numpy1.21python3.9.____73_pypy:
+        CONFIG: osx_64_hdf51.12.2numpy1.21python3.9.____73_pypy
+        UPLOAD_PACKAGES: 'True'
+      osx_64_hdf51.12.2numpy1.21python3.9.____cpython:
+        CONFIG: osx_64_hdf51.12.2numpy1.21python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
       osx_64_hdf51.12.2numpy1.23python3.11.____cpython:
         CONFIG: osx_64_hdf51.12.2numpy1.23python3.11.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_64_hdf51.14.0numpy1.20python3.8.____73_pypy:
-        CONFIG: osx_64_hdf51.14.0numpy1.20python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      osx_64_hdf51.14.0numpy1.20python3.8.____cpython:
-        CONFIG: osx_64_hdf51.14.0numpy1.20python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      osx_64_hdf51.14.0numpy1.20python3.9.____73_pypy:
-        CONFIG: osx_64_hdf51.14.0numpy1.20python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      osx_64_hdf51.14.0numpy1.20python3.9.____cpython:
-        CONFIG: osx_64_hdf51.14.0numpy1.20python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
       osx_64_hdf51.14.0numpy1.21python3.10.____cpython:
         CONFIG: osx_64_hdf51.14.0numpy1.21python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_64_hdf51.14.0numpy1.21python3.8.____73_pypy:
+        CONFIG: osx_64_hdf51.14.0numpy1.21python3.8.____73_pypy
+        UPLOAD_PACKAGES: 'True'
+      osx_64_hdf51.14.0numpy1.21python3.8.____cpython:
+        CONFIG: osx_64_hdf51.14.0numpy1.21python3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_64_hdf51.14.0numpy1.21python3.9.____73_pypy:
+        CONFIG: osx_64_hdf51.14.0numpy1.21python3.9.____73_pypy
+        UPLOAD_PACKAGES: 'True'
+      osx_64_hdf51.14.0numpy1.21python3.9.____cpython:
+        CONFIG: osx_64_hdf51.14.0numpy1.21python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
       osx_64_hdf51.14.0numpy1.23python3.11.____cpython:
         CONFIG: osx_64_hdf51.14.0numpy1.23python3.11.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_hdf51.12.2numpy1.20python3.8.____cpython:
-        CONFIG: osx_arm64_hdf51.12.2numpy1.20python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      osx_arm64_hdf51.12.2numpy1.20python3.9.____cpython:
-        CONFIG: osx_arm64_hdf51.12.2numpy1.20python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
       osx_arm64_hdf51.12.2numpy1.21python3.10.____cpython:
         CONFIG: osx_arm64_hdf51.12.2numpy1.21python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_hdf51.12.2numpy1.21python3.8.____cpython:
+        CONFIG: osx_arm64_hdf51.12.2numpy1.21python3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_hdf51.12.2numpy1.21python3.9.____cpython:
+        CONFIG: osx_arm64_hdf51.12.2numpy1.21python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
       osx_arm64_hdf51.12.2numpy1.23python3.11.____cpython:
         CONFIG: osx_arm64_hdf51.12.2numpy1.23python3.11.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_hdf51.14.0numpy1.20python3.8.____cpython:
-        CONFIG: osx_arm64_hdf51.14.0numpy1.20python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      osx_arm64_hdf51.14.0numpy1.20python3.9.____cpython:
-        CONFIG: osx_arm64_hdf51.14.0numpy1.20python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
       osx_arm64_hdf51.14.0numpy1.21python3.10.____cpython:
         CONFIG: osx_arm64_hdf51.14.0numpy1.21python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_hdf51.14.0numpy1.21python3.8.____cpython:
+        CONFIG: osx_arm64_hdf51.14.0numpy1.21python3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_hdf51.14.0numpy1.21python3.9.____cpython:
+        CONFIG: osx_arm64_hdf51.14.0numpy1.21python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
       osx_arm64_hdf51.14.0numpy1.23python3.11.____cpython:
         CONFIG: osx_arm64_hdf51.14.0numpy1.23python3.11.____cpython
