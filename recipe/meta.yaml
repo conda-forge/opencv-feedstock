@@ -83,7 +83,7 @@ requirements:
   host:
     - python
     - numpy
-    - hdf5                           # [unix]
+    - hdf5
     - eigen
     - jasper
     - zlib
