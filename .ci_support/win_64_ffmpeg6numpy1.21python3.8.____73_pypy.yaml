@@ -12,6 +12,8 @@ freetype:
 - '2'
 harfbuzz:
 - '7'
+hdf5:
+- 1.14.0
 jasper:
 - '4'
 libcblas:
