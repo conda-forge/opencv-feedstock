@@ -44,7 +44,7 @@ jobs:
       win_64_ffmpeg6numpy1.23python3.11.____cpython:
         CONFIG: win_64_ffmpeg6numpy1.23python3.11.____cpython
         UPLOAD_PACKAGES: 'True'
-    maxParallel: 5
+    maxParallel: 9
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
