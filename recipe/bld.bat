@@ -71,6 +71,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_OPENCL_D3D11_NV=0                                                        ^
     -DWITH_1394=0                                                                   ^
     -DWITH_OPENNI=0                                                                 ^
+    -DWITH_HDF5=1                                                                   ^
     -DOPENCV_ENABLE_PKG_CONFIG=1                                                    ^
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_TENGINE=0                                                                ^

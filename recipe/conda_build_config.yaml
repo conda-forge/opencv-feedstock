@@ -1,8 +1,0 @@
-# libnetcdf doesn't seem to want to enable HDF5 1.14 just yet
-# https://github.com/conda-forge/libnetcdf-feedstock/pull/165
-# Due to the overlap between the ecosystems, I (hmaarrfk) am
-# deciding to build with both versions of hdf5 during this transition
-# period
-hdf5:
-  - 1.12.2
-  - 1.14.0
