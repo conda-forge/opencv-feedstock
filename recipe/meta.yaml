@@ -188,7 +188,7 @@ outputs:
         - numpy
         - ninja
         - {{ cdt('libselinux-devel') }}      # [linux]
-        - {{ cdt('libx11-devel') }}          # [linux]
+        - {{ cdt('libx11-devel') }}          # [linux and build_variant == 'normal']
         - {{ cdt('libxau-devel') }}          # [linux]
         - {{ cdt('libxcb') }}                # [linux]
         - {{ cdt('libxdamage-devel') }}      # [linux]
@@ -199,7 +199,7 @@ outputs:
         - {{ cdt('libxxf86vm') }}            # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux and build_variant == 'normal']
       files:
         - test-cmake/CMakeLists.txt
         - test-cmake/DisplayImage.cpp
