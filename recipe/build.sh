@@ -21,8 +21,15 @@ echo "${PYTHON_CMAKE_ARGS[@]}"
 
 # Set defaults for dependencies that change across OSes
 # This should match the meta.yaml deps section
-VAR_DEPS=(EIGEN FFMPEG PROTOBUF GSTREAMER OPENJPEG OPENMP QT WEBP)
-DEPS_DEFAULTS=(1 0 0 1 1 1 5 0)
+if [[ "$build_variant" == "normal" ]]; then
+  echo "Building normal variant"
+  VAR_DEPS=(EIGEN FFMPEG PROTOBUF GSTREAMER OPENJPEG OPENMP QT WEBP)
+  DEPS_DEFAULTS=(1 0 0 1 1 1 5 0)
+else
+  echo "Building headless variant"
+  VAR_DEPS=(EIGEN FFMPEG PROTOBUF GSTREAMER OPENJPEG OPENMP WEBP)
+  DEPS_DEFAULTS=(1 0 0 1 1 1 0)
+fi
 if [[ ${#DEPS_DEFAULTS[@]} != ${#VAR_DEPS[@]} ]];then echo Setting defaults failed: Length mismatch;exit 1; fi
 for ii in ${!VAR_DEPS[@]};do
     eval "WITH_${VAR_DEPS[ii]}=${DEPS_DEFAULTS[ii]}"
