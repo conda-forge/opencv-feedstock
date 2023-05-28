@@ -32,6 +32,7 @@ set UNIX_SRC_DIR=%SRC_DIR:\=/%
 set PKG_CONFIG_PATH=%UNIX_LIBRARY_PREFIX%/lib/pkgconfig
 
 cmake -LAH -G "Ninja"                                                               ^
+    -DCMAKE_CXX_STANDARD=17                                                         ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
     -DCMAKE_PREFIX_PATH=%UNIX_LIBRARY_PREFIX%                                       ^

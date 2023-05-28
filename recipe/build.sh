@@ -13,9 +13,6 @@ if [[ "${target_platform}" == linux-* ]]; then
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
     # with GCC opencv/issues/8097
     export CXXFLAGS="$CXXFLAGS -D__STDC_CONSTANT_MACROS"
-
-    export CPPFLAGS="${CPPFLAGS//-std=c++17/-std=c++11}"
-    export CXXFLAGS="${CXXFLAGS//-std=c++17/-std=c++11}"
     OPENMP="-DWITH_OPENMP=1"
 fi
 
@@ -63,6 +60,7 @@ cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
     -DLAPACK_LAPACKE_H=lapacke.h                                          \
     -DLAPACK_CBLAS_H=cblas.h                                              \
     -DLAPACK_LIBRARIES=lapack\;cblas                                      \
+    -DCMAKE_CXX_STANDARD=17                                               \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
