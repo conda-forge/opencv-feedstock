@@ -48,6 +48,11 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
 
 build:
+  # Undo these skips after debugging
+  skip: true  # [not linux64]
+  skip: true  # [py!=39]
+  skip: true  # [python_impl == 'pypy']
+  skip: true  # [ffmpeg == 6]
   number: 5
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
