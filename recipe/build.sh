@@ -6,6 +6,17 @@ set +ex
 # https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
 ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
 
+# Be safe, search and replace all the occurances I found
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" platforms/android/build-tests/test_cmake_build.py
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" modules/dnn/cmake/plugin.cmake
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" modules/highgui/cmake/plugin.cmake
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" modules/gapi/cmake/standalone.cmake
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" modules/videoio/cmake/plugin.cmake
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" cmake/OpenCVDetectCXXCompiler.cmake
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" cmake/OpenCVPluginStandalone.cmake
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" modules/objc/test/cmakelists.template
+sed -i.bak "s/CXX_STANDARD 11/CXX_STANDARD 17/" modules/objc/generator/templates/cmakelists.template
+
 QT="5"
 V4L="1"
 
