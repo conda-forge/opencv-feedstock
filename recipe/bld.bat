@@ -10,6 +10,15 @@ if "%vc%" == "9" (
   copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\highgui\include\stdint.h
 )
 
+if "%build_variant%" == "normal" (
+  echo "Building normal variant"
+  set QT_VERSION=5
+)
+else (
+  echo "Building headless variant"
+  set QT_VERSION=0
+)
+
 :: The following options are set in a way to make sure that the cmake files for
 :: both the main library and modules/functionality are detected correctly by
 :: downstreams... modify with caution:  OPENCV_CONFIG_INSTALL_PATH
@@ -88,7 +97,7 @@ cmake .. -LAH -G Ninja             ^
     -DWITH_OPENJPEG=0                               ^
     -DWITH_OPENNI=0                                 ^
     -DWITH_PROTOBUF=1                               ^
-    -DWITH_QT=5                                     ^
+    -DWITH_QT=%QT_VERSION%                          ^
     -DWITH_ZLIB=1 -DWITH_PNG=1 -DWITH_TIFF=1 -DWITH_TBB=0      ^
     -DWITH_TENGINE=0                                ^
     -DWITH_TESSERACT=0                              ^

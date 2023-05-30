@@ -1,11 +1,16 @@
 {% set version = "4.6.0" %}
-{% set build_num = "3" %}
-
+{% set build_num = "4" %}
 
 {% if target_platform != "linux-aarch64" and target_platform != "linux-64"%}
 {%   set enable_testingui = true %}
 {% else %}
 {%   set enable_testingui = false %}
+{% endif %}
+
+{% if build_variant == "headless" %}
+{%   set package_name = "opencv-python-headless" %}
+{% else %}
+{%   set package_name = "opencv" %}
 {% endif %}
 
 package:
@@ -64,9 +69,9 @@ requirements:
     - libwebp-base 1.2.0       # [win or (linux and x86_64)]
     - numpy {{ numpy }}
     - python
-    - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
-    - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
-    - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
+    - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
+    - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
+    - qtwebkit =5               # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
     - zlib 1.2.13
   run:
     - _openmp_mutex         # [linux]
@@ -91,13 +96,13 @@ requirements:
     - libwebp-base          # [win or (linux and x86_64)]
     - numpy >={{ numpy }},<2
     - python
-    - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
-    - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
-    - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
+    - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
+    - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
+    - qtwebkit =5               # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
     - zlib >=1.2.13,<1.3.0a0
 
 outputs:
-  - name: opencv
+  - name: {{ package_name }}
     script: install.sh                           # [not win]
     script: install.bat                          # [win]
     build:
@@ -110,7 +115,8 @@ outputs:
       #
       #     https://github.com/opencv/opencv/wiki/OE-4.-OpenCV-4
       #
-      - {{ pin_subpackage('opencv', max_pin='x.x') }}
+      - {{ pin_subpackage('opencv', max_pin='x.x') }} # [build_variant == 'normal']
+      - {{ pin_subpackage('opencv-python-headless', max_pin='x.x') }} # [build_variant == 'headless']
     requirements:
       build:
         - {{ compiler('c') }}
@@ -144,9 +150,9 @@ outputs:
         - libwebp-base 1.2.0    # [win or (linux and x86_64)]
         - numpy {{ numpy }}
         - python
-        - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
-        - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
-        - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
+        - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
+        - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
+        - qtwebkit =5               # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
         - zlib 1.2.13
       run:
         - _openmp_mutex         # [linux]
@@ -170,9 +176,9 @@ outputs:
         - libwebp-base          # [win or (linux and x86_64)]
         - numpy >={{ numpy }},<2
         - python
-        - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le))]
-        - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le))]
-        - qtwebkit =5               # [not (linux and (s390x or ppc64le))]
+        - qt-main >=5.15,<6         # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
+        - qt-webengine >=5.15.7,<6  # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
+        - qtwebkit =5               # [not (linux and (s390x or ppc64le)) and build_variant == 'normal']
         - zlib >=1.2.13,<1.3.0a0
     test:
       requires:
@@ -182,7 +188,7 @@ outputs:
         - numpy
         - ninja
         - {{ cdt('libselinux-devel') }}      # [linux]
-        - {{ cdt('libx11-devel') }}          # [linux]
+        - {{ cdt('libx11-devel') }}          # [linux and build_variant == 'normal']
         - {{ cdt('libxau-devel') }}          # [linux]
         - {{ cdt('libxcb') }}                # [linux]
         - {{ cdt('libxdamage-devel') }}      # [linux]
@@ -193,7 +199,7 @@ outputs:
         - {{ cdt('libxxf86vm') }}            # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux and build_variant == 'normal']
       files:
         - test-cmake/CMakeLists.txt
         - test-cmake/DisplayImage.cpp
@@ -252,6 +258,7 @@ outputs:
         - if not exist %CONDA_PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ version|replace(".","") }}.dll exit 1 # [win]
         {% endfor %}
 
+  {% if build_variant == "normal" %}
   # This recipe has merged the outputs for the compiled libraries with the
   # python bindings that used to be vendored as libopencv and py-opencv. This
   # was done to try to improve maintainibility. The following two output
@@ -276,10 +283,9 @@ outputs:
       - {{ pin_subpackage('libopencv', max_pin='x.x') }}
     requirements:
       host:
-        - opencv =={{ version }}
+        - {{ package_name }} =={{ version }}
       run:
-        - opencv =={{ version }}
-
+        - {{ package_name }} =={{ version }}
 
   - name: py-opencv
     script: install-nothing.sh                  # [not win]
@@ -291,9 +297,10 @@ outputs:
         - "*"   # [osx]
     requirements:
       host:
-        - opencv =={{ version }}
+        - {{ package_name }} =={{ version }}
       run:
-        - opencv =={{ version }}
+        - {{ package_name }} =={{ version }}
+  {% endif %}
 
 about:
   home: https://opencv.org/
