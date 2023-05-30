@@ -1,7 +1,3 @@
-upload_channels:
-  - sfe1ed40
-channels:
-  - sfe1ed40
 build_parameters:
   - "--suppress-variables"
   - "--error-overlinking"
