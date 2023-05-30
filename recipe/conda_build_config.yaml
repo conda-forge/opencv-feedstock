@@ -1,3 +1,4 @@
 build_variant:
-  - headless
-  # - normal
+  - normal
+  # As of 5/30/2022 headles is only to be available on the sfe1ed40 channel
+  # - headless
