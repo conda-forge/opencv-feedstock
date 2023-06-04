@@ -1,8 +1,17 @@
+From 7c738dee2b128137fafb9ce09b2502bd46bce937 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Tue, 19 Jul 2022 00:22:45 -0400
+Subject: [PATCH 2/3] delete lines that download opencv
+
+---
+ modules/videoio/cmake/detect_ffmpeg.cmake | 10 ----------
+ 1 file changed, 10 deletions(-)
+
 diff --git a/modules/videoio/cmake/detect_ffmpeg.cmake b/modules/videoio/cmake/detect_ffmpeg.cmake
-index c33eaf221b..43ab5d3454 100644
+index aa669f36b0..81b1c498d1 100644
 --- a/modules/videoio/cmake/detect_ffmpeg.cmake
 +++ b/modules/videoio/cmake/detect_ffmpeg.cmake
-@@ -9,16 +9,6 @@ if(NOT HAVE_FFMPEG AND OPENCV_FFMPEG_USE_FIND_PACKAGE)
+@@ -12,16 +12,6 @@ if(NOT HAVE_FFMPEG AND OPENCV_FFMPEG_USE_FIND_PACKAGE)
    endif()
  endif()
  
@@ -19,4 +28,3 @@ index c33eaf221b..43ab5d3454 100644
  set(_required_ffmpeg_libraries libavcodec libavformat libavutil libswscale)
  set(_used_ffmpeg_libraries ${_required_ffmpeg_libraries})
  if(NOT HAVE_FFMPEG AND PKG_CONFIG_FOUND)
-
