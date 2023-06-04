@@ -1,7 +1,7 @@
 From 3037bbc6df2bf273e68ea43fde066646b9d8d4ec Mon Sep 17 00:00:00 2001
 From: Mark Harfouche <mark.harfouche@gmail.com>
 Date: Tue, 19 Jul 2022 00:22:45 -0400
-Subject: [PATCH 3/3] find pkgconfig on windows
+Subject: [PATCH 3/4] find pkgconfig on windows
 
 ---
  CMakeLists.txt | 1 +
