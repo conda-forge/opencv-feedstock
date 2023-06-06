@@ -25,7 +25,7 @@
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
 package:
-  name: libopencv
+  name: opencv-split
   version: {{ version }}
 
 source:
@@ -280,3 +280,4 @@ extra:
     - hajapy
     - ocefpaf
     - hmaarrfk
+  feedstock-name: opencv
