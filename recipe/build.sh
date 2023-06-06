@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
-
-set +ex
+#!/bin/bash
+set -ex
 
 # CMake FindPNG seems to look in libpng not libpng16
 # https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
@@ -45,7 +44,9 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
 mkdir -p build
 cd build
-cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
+
+cmake -LAH -G "Ninja"                                                     \
+    ${CMAKE_ARGS}                                                         \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \

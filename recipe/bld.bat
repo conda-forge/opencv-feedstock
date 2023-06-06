@@ -28,7 +28,7 @@ set UNIX_LIBRARY_LIB=%LIBRARY_LIB:\=/%
 set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
-:REM FFMPEG building requires pkgconfig
+:: FFMPEG building requires pkgconfig
 set PKG_CONFIG_PATH=%UNIX_LIBRARY_PREFIX%/lib/pkgconfig
 
 cmake -LAH -G "Ninja"                                                               ^
