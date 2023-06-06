@@ -112,9 +112,7 @@ cmake -LAH -G "Ninja"                                                           
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
     ..
-if errorlevel 1 exit 1
+if %ERRORLEVEL% neq 0 (type CMakeError.log && exit 1)
 
 cmake --build . --target install --config Release
-if errorlevel 1 exit 1
-
-exit 0
+if %ERRORLEVEL% neq 0 exit 1
