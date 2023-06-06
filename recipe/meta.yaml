@@ -112,10 +112,10 @@ test:
       - {{ compiler('c') }}
       - {{ compiler('cxx') }}
       - pkg-config                    # [not win]
-      # Test with the two currently supported lapack implementatons
-      # One test done on different versions of python on each platform
-      - liblapack * *openblas         # [py==36]
-      - liblapack * *mkl              # [py==37 and linux64]
+      # Run test section against the two main lapack implementatons,
+      # depending on python version (cannot have both in one env/test)
+      - liblapack * *openblas         # [py%2 == 1]
+      - liblapack * *mkl              # [py%2 == 0 and x86_64]
       - cmake
       - ninja
     files:
@@ -234,10 +234,10 @@ outputs:
         - {{ pin_subpackage('libopencv', exact=True) }}
     test:
       requires:
-        # Test with the two currently supported lapack implementatons
-        # One test done on different versions of python on each platform
-        - liblapack * *openblas         # [py==39]
-        - liblapack * *mkl              # [py==310 and linux64]
+        # Run test section against the two main lapack implementatons,
+        # depending on python version (cannot have both in one env/test)
+        - liblapack * *openblas         # [py%2 == 1]
+        - liblapack * *mkl              # [py%2 == 0 and x86_64]
       imports:
         - cv2
         - cv2.xfeatures2d
