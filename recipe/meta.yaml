@@ -179,19 +179,25 @@ outputs:
             "ximgproc",
             "xobjdetect",
             "xphoto"
-        ] %}
+        ] + (not win) * [
+            "bioinspired",
+            "hdf"
+        ]%}
+        {% for each_lib in opencv_libs %}
+        # presence of shared libs
+        - test -f $PREFIX/lib/libopencv_{{ each_lib }}.so                               # [linux]
+        - test -f $PREFIX/lib/libopencv_{{ each_lib }}.dylib                            # [osx]
+        - if not exist %LIBRARY_BIN%\opencv_{{ each_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
+
+        # absence of static libs
+        - test ! -f $PREFIX/lib/libopencv_{{ each_lib }}.a                              # [osx]
+        {% endfor %}
+
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
         - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
         - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test   # [unix]
-        {% for each_opencv_lib in opencv_libs %}
-        - echo Testing for presence of {{ each_opencv_lib }}
-        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
-        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
-        {% endfor %}
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
-        - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - mkdir -p cmake_build_test && pushd cmake_build_test
         - cmake -G "Ninja" ..
         - cmake --build . --config Release
