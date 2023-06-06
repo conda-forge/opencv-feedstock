@@ -121,8 +121,7 @@ outputs:
         - cmake
         - ninja
       files:
-        - CMakeLists.txt
-        - test.cpp
+        - cmake_test/
       commands:
         # Verify dynamic libraries on all systems
         {% set win_ver_lib = version|replace(".", "") %}
@@ -193,15 +192,15 @@ outputs:
         - test ! -f $PREFIX/lib/libopencv_{{ each_lib }}.a                              # [osx]
         {% endfor %}
 
-        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
-        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
-        - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
-        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test   # [unix]
+        # test that CV_VERSION in headers is set correctly
+        - OPENCV_FLAGS=`pkg-config --cflags opencv4`                          # [unix]
+        - $CXX -std=c++11 cmake_test/test.cpp ${OPENCV_FLAGS} -o test         # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
-        - mkdir -p cmake_build_test && pushd cmake_build_test
-        - cmake -G "Ninja" ..
+
+        # CMake integration
+        - cd cmake_test
+        - cmake -G "Ninja" .
         - cmake --build . --config Release
-        - popd
 
   - name: opencv
     build:
