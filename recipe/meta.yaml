@@ -84,26 +84,26 @@ requirements:
   host:
     - python
     - numpy
-    - hdf5
     - eigen
-    - jasper
-    - zlib
-    - libjpeg-turbo
-    - libtiff
-    - libwebp
-    - harfbuzz
-    - libpng
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
     # binary
     - ffmpeg {{ ffmpeg }}=lgpl_*
-    - qt-main                             # [not osx and not ppc64le]
-    - liblapacke
-    - liblapack
-    - libcblas
     - freetype
     - glib                           # [unix]
+    - harfbuzz
+    - hdf5
+    - jasper
+    - libcblas
+    - libjpeg-turbo
+    - liblapack
+    - liblapacke
+    - libpng
     - libprotobuf
+    - libtiff
+    - libwebp
+    - qt-main                        # [not osx and not ppc64le]
+    - zlib
 
 test:
     requires:
