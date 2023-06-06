@@ -107,21 +107,23 @@ requirements:
     - qt-main                        # [not osx and not ppc64le]
     - zlib
 
-test:
-    requires:
-      - {{ compiler('c') }}
-      - {{ compiler('cxx') }}
-      - pkg-config                    # [not win]
-      # Run test section against the two main lapack implementatons,
-      # depending on python version (cannot have both in one env/test)
-      - liblapack * *openblas         # [py%2 == 1]
-      - liblapack * *mkl              # [py%2 == 0 and x86_64]
-      - cmake
-      - ninja
-    files:
-      - CMakeLists.txt
-      - test.cpp
-    commands:
+outputs:
+  - name: libopencv
+    test:
+      requires:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - pkg-config                    # [not win]
+        # Run test section against the two main lapack implementatons,
+        # depending on python version (cannot have both in one env/test)
+        - liblapack * *openblas         # [py%2 == 1]
+        - liblapack * *mkl              # [py%2 == 0 and x86_64]
+        - cmake
+        - ninja
+      files:
+        - CMakeLists.txt
+        - test.cpp
+      commands:
         # Verify dynamic libraries on all systems
         {% set win_ver_lib = version|replace(".", "") %}
         {% set opencv_libs = [
@@ -182,12 +184,12 @@ test:
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
         - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
         - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test   # [unix]
-        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         {% for each_opencv_lib in opencv_libs %}
         - echo Testing for presence of {{ each_opencv_lib }}
         - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
         - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
         {% endfor %}
+        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
         - mkdir -p cmake_build_test && pushd cmake_build_test
@@ -195,8 +197,6 @@ test:
         - cmake --build . --config Release
         - popd
 
-outputs:
-  - name: libopencv
   - name: opencv
     build:
       string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
