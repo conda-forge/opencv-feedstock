@@ -18,6 +18,9 @@ for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
 )
 set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 
+:: Workaround for building LAPACK headers with C++17
+:: see https://github.com/conda-forge/opencv-feedstock/pull/363#issuecomment-1604972688
+set "CXXFLAGS=%CXXFLAGS% -D_CRT_USE_C_COMPLEX_H"
 
 :: CMake/OpenCV like Unix-style paths for some reason.
 set UNIX_PREFIX=%PREFIX:\=/%
