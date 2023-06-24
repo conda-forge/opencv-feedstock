@@ -20,6 +20,7 @@
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
 {% set version = "4.7.0" %}
+{% set major_version = version.split('.')[0] %}
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
@@ -256,11 +257,13 @@ outputs:
 
 
 about:
-  home: http://opencv.org/
+  home: https://opencv.org/
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
   summary: Computer vision and machine learning software library.
+  dev_url: https://github.com/opencv/opencv
+  doc_url: https://docs.opencv.org/{{ major_version }}.x/
 
 extra:
   recipe-maintainers:
