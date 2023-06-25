@@ -66,9 +66,6 @@ requirements:
     - pkg-config
     - cmake
     - ninja
-    - libgomp                        # [linux]
-    # ICE when enabling this
-    # - llvm-openmp                    # [osx]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - sysroot_linux-64 2.17  # [linux64]
@@ -91,6 +88,7 @@ requirements:
     - hdf5
     - jasper
     - libcblas
+    - libgomp                        # [linux]
     - libiconv                       # [unix]
     - libjpeg-turbo
     - liblapack
@@ -99,6 +97,8 @@ requirements:
     - libprotobuf
     - libtiff
     - libwebp
+    # ICE when enabling this
+    # - llvm-openmp                    # [osx]
     - qt-main                        # [not osx and not ppc64le]
     - zlib
 
@@ -126,6 +126,7 @@ outputs:
         - hdf5
         - jasper
         - libcblas
+        - libgomp                        # [linux]
         - libiconv                       # [unix]
         - libjpeg-turbo
         - liblapack
