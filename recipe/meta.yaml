@@ -38,6 +38,8 @@ source:
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
+      # needed to read config for python standalone build from global build step
+      - patches_opencv/0005-point-to-build-cache-for-opencv_python_config.cmake.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 42df840cf9055e59d0e22c249cfb19f04743e1bdad113d31b1573d3934d62584

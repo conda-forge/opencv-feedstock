@@ -1,7 +1,7 @@
 From 0913b73bff8085886dc3f554f552a46e063986d4 Mon Sep 17 00:00:00 2001
 From: Silvio Traversaro <silvio@traversaro.it>
 Date: Sun, 4 Jun 2023 19:21:33 +0200
-Subject: [PATCH 4/4] fix detection for protobuf 23.x
+Subject: [PATCH 4/5] fix detection for protobuf 23.x
 
 ---
  cmake/OpenCVFindProtobuf.cmake | 18 +++++++++++++++++-
