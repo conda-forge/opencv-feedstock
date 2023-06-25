@@ -209,6 +209,9 @@ outputs:
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
+    test:
+      commands:
+        - echo "tested in other outputs"
 
   - name: py-opencv
     build:
