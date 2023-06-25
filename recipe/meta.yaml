@@ -56,14 +56,9 @@ build:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
-  ignore_run_exports_from:
-    - python
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]
     - libprotobuf                            # [build_platform != target_platform]
     # pkg-config is required to find ffpmeg
     - pkg-config
@@ -83,8 +78,6 @@ requirements:
     - {{ cdt('libxfixes') }}         # [linux]
     - {{ cdt('libxxf86vm') }}        # [linux]
   host:
-    - python
-    - numpy
     - eigen
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
@@ -109,15 +102,43 @@ requirements:
 
 outputs:
   - name: libopencv
+    script: install-lib.sh   # [unix]
+    script: install-lib.bat  # [win]
+    requirements:
+      build:
+        - cmake
+        - ninja
+        # for strong run-exports
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - sysroot_linux-64 2.17  # [linux64]
+      host:
+        - eigen
+        # Specify lgpl version of ffmpeg so that there are
+        # no quesitons about the license of the resulting opencv
+        # binary
+        - ffmpeg {{ ffmpeg }}=lgpl_*
+        - freetype
+        - glib                           # [unix]
+        - harfbuzz
+        - hdf5
+        - jasper
+        - libcblas
+        - libiconv                       # [unix]
+        - libjpeg-turbo
+        - liblapack
+        - liblapacke
+        - libpng
+        - libprotobuf
+        - libtiff
+        - libwebp
+        - qt-main                        # [not osx and not ppc64le]
+        - zlib
     test:
       requires:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - pkg-config                    # [not win]
-        # Run test section against the two main lapack implementatons,
-        # depending on python version (cannot have both in one env/test)
-        - liblapack * *openblas         # [py%2 == 1]
-        - liblapack * *mkl              # [py%2 == 0 and x86_64]
         - cmake
         - ninja
       files:
@@ -219,6 +240,8 @@ outputs:
         - echo "tested in other outputs"
 
   - name: py-opencv
+    script: build-py.sh   # [unix]
+    script: build-py.bat  # [win]
     build:
       string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       run_exports:
@@ -228,11 +251,18 @@ outputs:
         # package
         - {{ pin_subpackage('py-opencv') }}
     requirements:
-      # There is no build script, but I just want it to think
-      # that it needs python and numpy at build time
+      build:
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - numpy                                  # [build_platform != target_platform]
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake
+        - ninja
       host:
         - python
         - numpy
+        - {{ pin_subpackage('libopencv', exact=True) }}
       run:
         - python
         - {{ pin_compatible('numpy') }}
