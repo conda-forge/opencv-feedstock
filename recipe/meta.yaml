@@ -51,7 +51,7 @@ source:
 
 build:
   # Undo these skips after debugging
-  skip: true  # [not linux64]
+  skip: true  # [not linux64 and not win]
   skip: true  # [py!=39]
   skip: true  # [python_impl == 'pypy']
   skip: true  # [ffmpeg == 6]
