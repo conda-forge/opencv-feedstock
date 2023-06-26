@@ -84,7 +84,9 @@ requirements:
     # binary
     - ffmpeg {{ ffmpeg }}=lgpl_*
     - freetype
+    - gflags
     - glib                           # [unix]
+    - glog
     - harfbuzz
     - hdf5
     - jasper
