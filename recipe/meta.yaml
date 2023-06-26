@@ -22,6 +22,8 @@
 {% set version = "4.7.0" %}
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
+{% set cuda_enabled = cuda_compiler_version != "None" %}
+{% set build_ext = "cuda" if cuda_enabled else "cpu" %}
 
 package:
   name: libopencv
@@ -48,8 +50,14 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
 
 build:
-  number: 4
-  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  # Undo these skips after debugging
+  skip: true  # [not linux64]
+  skip: true  # [py!=39]
+  skip: true  # [python_impl == 'pypy']
+  skip: true  # [ffmpeg == 6]
+  number: 6
+  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ build_ext }}
+  track_features: {{ "[libopencv-cuda]" if cuda_enabled else "" }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
@@ -72,6 +80,7 @@ requirements:
     # - llvm-openmp                    # [osx]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ compiler("cuda") }}  # [cuda_compiler_version != "None"]
     - sysroot_linux-64 2.17  # [linux64]
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
     - {{ cdt('mesa-libegl-devel') }}  # [linux]
@@ -111,6 +120,7 @@ requirements:
     # That or a dependency wasn't merged in
     # Since we don't know the cause, we are choosing this pinning on all platforms.
     - {{ pin_compatible('freetype', min_pin='x.x') }}
+    - __cuda  # [cuda_compiler_version != "None"]
 
 test:
     requires:
