@@ -112,6 +112,8 @@ requirements:
     - freetype
     - glib                           # [unix]
     - libprotobuf
+    - cudnn  # [cuda_compiler_version != "None"]
+
   run:
     # Don't depend on python in the run section
     # py-opencv will depend on python
