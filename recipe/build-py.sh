@@ -21,6 +21,7 @@ cmake -G "Ninja"                                                            \
     -DCMAKE_BUILD_TYPE="Release"                                            \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                           \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                        \
+    -DMY_SUPER_SECRET_VARIABLE=ON                                           \
     -DOPENCV_INITIAL_PASS=ON                                                \
     -DOPENCV_PYTHON_INSTALL_PATH=${SP_DIR}                                  \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                 \
