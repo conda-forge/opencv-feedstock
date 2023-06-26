@@ -12,7 +12,7 @@ set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 cmake -G "Ninja"                                                            ^
     -DCMAKE_BUILD_TYPE="Release"                                            ^
     -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX%                                    ^
-    -DOPENCV_PYTHON_INSTALL_PATH=%SP_DIR%                                   ^
+    -DOPENCV_PYTHON_STANDALONE_INSTALL_PATH=%SP_DIR%                        ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                 ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER="conda"                          ^
     -DOPENCV_SKIP_PYTHON_LOADER=ON                                          ^
