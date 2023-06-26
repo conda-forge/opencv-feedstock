@@ -38,6 +38,9 @@ cmake -G "Ninja"                                                            \
 
 cmake --build .
 
+# debug
+ls -R .
+
 # run actual build
 cmake -G "Ninja"                                                            \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                 \
