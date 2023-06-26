@@ -13,11 +13,16 @@ else
     INC_PYTHON="$PREFIX/include/python${PY_VER}"
 fi
 
+# need to run with OPENCV_INITIAL_PASS=ON first to run generation steps in
+# https://github.com/opencv/opencv/blob/4.7.0/modules/python/bindings/CMakeLists.txt
 cmake -G "Ninja"                                                            \
     ${CMAKE_ARGS}                                                           \
+    -BUILD_SHARED_LIBS=ON                                                   \
     -DCMAKE_BUILD_TYPE="Release"                                            \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                           \
-    -DOPENCV_PYTHON_STANDALONE_INSTALL_PATH=${SP_DIR}                       \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX}                                        \
+    -DOPENCV_INITIAL_PASS=ON                                                \
+    -DOPENCV_PYTHON_INSTALL_PATH=${SP_DIR}                                  \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                 \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER="conda"                          \
     -DOPENCV_SKIP_PYTHON_LOADER=ON                                          \
@@ -28,7 +33,20 @@ cmake -G "Ninja"                                                            \
     -DPYTHON_PACKAGES_PATH=${SP_DIR}                                        \
     -DBUILD_opencv_python2=OFF                                              \
     -DBUILD_opencv_python3=ON                                               \
-    -DOpenCV_BINARY_DIR=${PREFIX}/lib                                       \
+    ../modules/python
+
+cmake --build .
+
+# run actual build
+cmake -G "Ninja"                                                            \
+    -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                 \
+    -DOPENCV_PYTHON_PIP_METADATA_INSTALLER="conda"                          \
+    -DOPENCV_SKIP_PYTHON_LOADER=ON                                          \
+    -DPYTHON_EXECUTABLE=${PYTHON}                                           \
+    -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                      \
+    -DPYTHON_LIBRARY=${LIB_PYTHON}                                          \
+    -DPYTHON_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include                \
+    -DPYTHON_PACKAGES_PATH=${SP_DIR}                                        \
     ../modules/python
 
 cmake --build . --target install --config Release
