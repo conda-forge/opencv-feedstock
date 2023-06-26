@@ -36,8 +36,7 @@ export PKG_CONFIG_LIBDIR=$PREFIX/lib
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
-
-cmake -LAH -G "Ninja"                                                     \
+cmake -G "Ninja"                                                          \
     ${CMAKE_ARGS}                                                         \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \

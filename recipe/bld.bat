@@ -25,7 +25,7 @@ set UNIX_SRC_DIR=%SRC_DIR:\=/%
 :: FFMPEG building requires pkgconfig
 set PKG_CONFIG_PATH=%UNIX_LIBRARY_PREFIX%/lib/pkgconfig
 
-cmake -LAH -G "Ninja"                                                               ^
+cmake -G "Ninja"                                                                    ^
     -DBUILD_SHARED_LIBS=ON                                                          ^
     -DCMAKE_CXX_STANDARD=17                                                         ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
