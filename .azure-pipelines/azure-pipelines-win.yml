@@ -8,43 +8,9 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_ffmpeg5numpy1.21python3.10.____cpython:
-        CONFIG: win_64_ffmpeg5numpy1.21python3.10.____cpython
+      win_64_cuda_compiler_versionNoneffmpeg5numpy1.21python3.9.____cpythonpython_implcpython:
+        CONFIG: win_64_cuda_compiler_versionNoneffmpeg5numpy1.21python3.9.____cpythonpython_implcpython
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5numpy1.21python3.8.____73_pypy:
-        CONFIG: win_64_ffmpeg5numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5numpy1.21python3.8.____cpython:
-        CONFIG: win_64_ffmpeg5numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5numpy1.21python3.9.____73_pypy:
-        CONFIG: win_64_ffmpeg5numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5numpy1.21python3.9.____cpython:
-        CONFIG: win_64_ffmpeg5numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5numpy1.23python3.11.____cpython:
-        CONFIG: win_64_ffmpeg5numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6numpy1.21python3.10.____cpython:
-        CONFIG: win_64_ffmpeg6numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6numpy1.21python3.8.____73_pypy:
-        CONFIG: win_64_ffmpeg6numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6numpy1.21python3.8.____cpython:
-        CONFIG: win_64_ffmpeg6numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6numpy1.21python3.9.____73_pypy:
-        CONFIG: win_64_ffmpeg6numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6numpy1.21python3.9.____cpython:
-        CONFIG: win_64_ffmpeg6numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6numpy1.23python3.11.____cpython:
-        CONFIG: win_64_ffmpeg6numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-    maxParallel: 9
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\

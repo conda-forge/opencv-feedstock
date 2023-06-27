@@ -31,6 +31,12 @@ set UNIX_SRC_DIR=%SRC_DIR:\=/%
 :REM FFMPEG building requires pkgconfig
 set PKG_CONFIG_PATH=%UNIX_LIBRARY_PREFIX%/lib/pkgconfig
 
+if "%cuda_compiler_version%"=="None" (
+    set "CMAKE_ARGS_CUDA=-DOPENCV_DNN_CUDA:BOOL=ON"
+) else (
+    set "CMAKE_ARGS_CUDA=-DOPENCV_DNN_CUDA:BOOL=OFF"
+)
+
 cmake -LAH -G "Ninja"                                                               ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
@@ -110,6 +116,7 @@ cmake -LAH -G "Ninja"                                                           
     -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
+    %CMAKE_ARGS_CUDA%                                                               ^
     ..
 if errorlevel 1 exit 1
 

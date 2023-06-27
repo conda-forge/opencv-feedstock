@@ -52,6 +52,12 @@ fi
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
+if [[ ! -z "${cuda_compiler_version+x}" && "${cuda_compiler_version}" != "None" ]]; then
+  CMAKE_ARGS="${CMAKE_ARGS} -DOPENCV_DNN_CUDA:BOOL=ON"
+else
+  CMAKE_ARGS="${CMAKE_ARGS} -DOPENCV_DNN_CUDA:BOOL=OFF"
+fi
+
 mkdir -p build
 cd build
 cmake ${CMAKE_ARGS} -LAH -G "Ninja"                                       \
