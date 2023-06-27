@@ -18,6 +18,9 @@ for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
 )
 set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 
+:: Workaround for building LAPACK headers with C++17
+:: see https://github.com/conda-forge/opencv-feedstock/pull/363#issuecomment-1604972688
+set "CXXFLAGS=%CXXFLAGS% -D_CRT_USE_C_COMPLEX_H"
 
 :: CMake/OpenCV like Unix-style paths for some reason.
 set UNIX_PREFIX=%PREFIX:\=/%
@@ -28,10 +31,11 @@ set UNIX_LIBRARY_LIB=%LIBRARY_LIB:\=/%
 set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
-:REM FFMPEG building requires pkgconfig
+:: FFMPEG building requires pkgconfig
 set PKG_CONFIG_PATH=%UNIX_LIBRARY_PREFIX%/lib/pkgconfig
 
 cmake -LAH -G "Ninja"                                                               ^
+    -DCMAKE_CXX_STANDARD=17                                                         ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
     -DCMAKE_PREFIX_PATH=%UNIX_LIBRARY_PREFIX%                                       ^
@@ -111,9 +115,7 @@ cmake -LAH -G "Ninja"                                                           
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
     ..
-if errorlevel 1 exit 1
+if %ERRORLEVEL% neq 0 (type CMakeError.log && exit 1)
 
 cmake --build . --target install --config Release
-if errorlevel 1 exit 1
-
-exit 0
+if %ERRORLEVEL% neq 0 exit 1

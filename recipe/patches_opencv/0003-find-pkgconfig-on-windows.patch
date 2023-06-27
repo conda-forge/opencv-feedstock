@@ -1,0 +1,21 @@
+From 3037bbc6df2bf273e68ea43fde066646b9d8d4ec Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Tue, 19 Jul 2022 00:22:45 -0400
+Subject: [PATCH 3/4] find pkgconfig on windows
+
+---
+ CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6a620c94af..ef9889c014 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -706,6 +706,7 @@ if(UNIX OR MINGW)
+     # - std::aligned_alloc() C++17 / C11
+   endif()
+ elseif(WIN32)
++  find_package(PkgConfig REQUIRED)
+   include(CheckIncludeFile)
+   include(CheckSymbolExists)
+ 
