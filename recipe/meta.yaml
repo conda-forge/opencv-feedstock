@@ -96,6 +96,7 @@ requirements:
     - hdf5
     - jasper
     - libcblas
+    - libiconv                       # [unix]
     - libjpeg-turbo
     - liblapack
     - liblapacke
