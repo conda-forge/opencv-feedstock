@@ -1,7 +1,7 @@
 From 7c738dee2b128137fafb9ce09b2502bd46bce937 Mon Sep 17 00:00:00 2001
 From: Mark Harfouche <mark.harfouche@gmail.com>
 Date: Tue, 19 Jul 2022 00:22:45 -0400
-Subject: [PATCH 2/4] delete lines that download opencv
+Subject: [PATCH 2/6] delete lines that download opencv
 
 ---
  modules/videoio/cmake/detect_ffmpeg.cmake | 10 ----------

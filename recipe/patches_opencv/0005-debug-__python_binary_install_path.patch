@@ -1,0 +1,29 @@
+From 1a8277ffb85be06efa50c5d983e91b69265a222a Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Mon, 26 Jun 2023 15:41:07 +1100
+Subject: [PATCH 5/6] debug __python_binary_install_path
+
+---
+ modules/python/common.cmake | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/modules/python/common.cmake b/modules/python/common.cmake
+index 65471c5a03..8f012c3395 100644
+--- a/modules/python/common.cmake
++++ b/modules/python/common.cmake
+@@ -182,6 +182,15 @@ else()
+   set(__python_binary_install_path "${OPENCV_PYTHON_INSTALL_PATH}/${__python_loader_subdir}${__python_binary_subdir}")
+ endif()
+ 
++# debug
++message(OPENCV_SKIP_PYTHON_LOADER="${OPENCV_SKIP_PYTHON_LOADER}")
++message(OPENCV_${PYTHON}_INSTALL_PATH="${OPENCV_${PYTHON}_INSTALL_PATH}")
++message(${PYTHON}_PACKAGES_PATH="${${PYTHON}_PACKAGES_PATH}")
++message(__python_binary_install_path="${__python_binary_install_path}")
++message(PYTHON="${PYTHON}")
++message(OPENCV_PYTHON_INSTALL_PATH="${OPENCV_PYTHON_INSTALL_PATH}")
++message(PYTHON_PACKAGES_PATH="${PYTHON_PACKAGES_PATH}")
++
+ install(TARGETS ${the_module}
+         ${PYTHON_INSTALL_CONFIGURATIONS}
+         RUNTIME DESTINATION "${__python_binary_install_path}" COMPONENT python

@@ -8,79 +8,12 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_ffmpeg5libprotobuf3.21numpy1.21python3.10.____cpython:
-        CONFIG: win_64_ffmpeg5libprotobuf3.21numpy1.21python3.10.____cpython
+      win_64_libprotobuf3.21:
+        CONFIG: win_64_libprotobuf3.21
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____73_pypy:
-        CONFIG: win_64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____73_pypy
+      win_64_libprotobuf4.23.2:
+        CONFIG: win_64_libprotobuf4.23.2
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____cpython:
-        CONFIG: win_64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____73_pypy:
-        CONFIG: win_64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____cpython:
-        CONFIG: win_64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf3.21numpy1.23python3.11.____cpython:
-        CONFIG: win_64_ffmpeg5libprotobuf3.21numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.10.____cpython:
-        CONFIG: win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____73_pypy:
-        CONFIG: win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____cpython:
-        CONFIG: win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____73_pypy:
-        CONFIG: win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____cpython:
-        CONFIG: win_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg5libprotobuf4.23.2numpy1.23python3.11.____cpython:
-        CONFIG: win_64_ffmpeg5libprotobuf4.23.2numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf3.21numpy1.21python3.10.____cpython:
-        CONFIG: win_64_ffmpeg6libprotobuf3.21numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____73_pypy:
-        CONFIG: win_64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____cpython:
-        CONFIG: win_64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____73_pypy:
-        CONFIG: win_64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____cpython:
-        CONFIG: win_64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf3.21numpy1.23python3.11.____cpython:
-        CONFIG: win_64_ffmpeg6libprotobuf3.21numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.10.____cpython:
-        CONFIG: win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____73_pypy:
-        CONFIG: win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____cpython:
-        CONFIG: win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____73_pypy:
-        CONFIG: win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____cpython:
-        CONFIG: win_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6libprotobuf4.23.2numpy1.23python3.11.____cpython:
-        CONFIG: win_64_ffmpeg6libprotobuf4.23.2numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-    maxParallel: 9
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\

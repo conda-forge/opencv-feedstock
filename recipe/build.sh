@@ -1,6 +1,9 @@
 #!/bin/bash
 set -ex
 
+mkdir -p build
+cd build
+
 # CMake FindPNG seems to look in libpng not libpng16
 # https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
 ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
@@ -30,22 +33,10 @@ fi
 
 export PKG_CONFIG_LIBDIR=$PREFIX/lib
 
-IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
-
-LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
-if [[ ${IS_PYPY} == "1" ]]; then
-    INC_PYTHON="$PREFIX/include/pypy${PY_VER}"
-else
-    INC_PYTHON="$PREFIX/include/python${PY_VER}"
-fi
-
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 
-mkdir -p build
-cd build
-
-cmake -LAH -G "Ninja"                                                     \
+cmake -G "Ninja"                                                          \
     ${CMAKE_ARGS}                                                         \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
@@ -101,11 +92,6 @@ cmake -LAH -G "Ninja"                                                     \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib/modules"               \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
-    -DPYTHON_EXECUTABLE=${PYTHON}                                         \
-    -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
-    -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
-    -DOPENCV_SKIP_PYTHON_LOADER=1                                         \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
     -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
     -DJPEG_INCLUDE_DIR=${PREFIX}/include                                  \
@@ -114,22 +100,9 @@ cmake -LAH -G "Ninja"                                                     \
     -DPROTOBUF_INCLUDE_DIR=${PREFIX}/include                              \
     -DPROTOBUF_LIBRARIES=${PREFIX}/lib                                    \
     -DOPENCV_ENABLE_PKG_CONFIG=1                                          \
-    -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                               \
-    -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                 \
-    -DBUILD_opencv_python3=1                                              \
-    -DPYTHON3_EXECUTABLE=${PYTHON}                                        \
-    -DPYTHON3_INCLUDE_DIR=${INC_PYTHON}                                   \
-    -DPYTHON3_NUMPY_INCLUDE_DIRS=$(python -c 'import numpy;print(numpy.get_include())')  \
-    -DPYTHON3_LIBRARY=${LIB_PYTHON}                                       \
-    -DPYTHON3_PACKAGES_PATH=${SP_DIR}                                     \
-    -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR}                               \
+    -DOPENCV_PYTHON_SKIP_DETECTION=ON                                     \
     -DBUILD_opencv_python2=0                                              \
-    -DPYTHON2_EXECUTABLE=                                                 \
-    -DPYTHON2_INCLUDE_DIR=                                                \
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=                                         \
-    -DPYTHON2_LIBRARY=                                                    \
-    -DPYTHON2_PACKAGES_PATH=                                              \
-    -DOPENCV_PYTHON2_INSTALL_PATH=                                        \
+    -DBUILD_opencv_python3=0                                              \
     ..
 
-ninja install -v -j${CPU_COUNT}
+cmake --build .
