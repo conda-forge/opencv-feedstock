@@ -8,295 +8,30 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.10.____cpython:
-        CONFIG: linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.10.____cpython
+      linux_64_libprotobuf3.21:
+        CONFIG: linux_64_libprotobuf3.21
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____73_pypy
+      linux_64_libprotobuf4.23.2:
+        CONFIG: linux_64_libprotobuf4.23.2
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____cpython:
-        CONFIG: linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____cpython
+      linux_aarch64_libprotobuf3.21:
+        CONFIG: linux_aarch64_libprotobuf3.21
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____73_pypy
+      linux_aarch64_libprotobuf4.23.2:
+        CONFIG: linux_aarch64_libprotobuf4.23.2
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____cpython:
-        CONFIG: linux_64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____cpython
+      linux_ppc64le_libprotobuf3.21:
+        CONFIG: linux_ppc64le_libprotobuf3.21
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf3.21numpy1.23python3.11.____cpython:
-        CONFIG: linux_64_ffmpeg5libprotobuf3.21numpy1.23python3.11.____cpython
+      linux_ppc64le_libprotobuf4.23.2:
+        CONFIG: linux_ppc64le_libprotobuf4.23.2
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.10.____cpython:
-        CONFIG: linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____cpython:
-        CONFIG: linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____cpython:
-        CONFIG: linux_64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg5libprotobuf4.23.2numpy1.23python3.11.____cpython:
-        CONFIG: linux_64_ffmpeg5libprotobuf4.23.2numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.10.____cpython:
-        CONFIG: linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____cpython:
-        CONFIG: linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____cpython:
-        CONFIG: linux_64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf3.21numpy1.23python3.11.____cpython:
-        CONFIG: linux_64_ffmpeg6libprotobuf3.21numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.10.____cpython:
-        CONFIG: linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____cpython:
-        CONFIG: linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____cpython:
-        CONFIG: linux_64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_ffmpeg6libprotobuf4.23.2numpy1.23python3.11.____cpython:
-        CONFIG: linux_64_ffmpeg6libprotobuf4.23.2numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.10.____cpython:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____cpython:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____cpython:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf3.21numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf3.21numpy1.23python3.11.____cpython:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf3.21numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.10.____cpython:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____cpython:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____cpython:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.23python3.11.____cpython:
-        CONFIG: linux_aarch64_ffmpeg5libprotobuf4.23.2numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.10.____cpython:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____cpython:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____cpython:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf3.21numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf3.21numpy1.23python3.11.____cpython:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf3.21numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.10.____cpython:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____cpython:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____cpython:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.23python3.11.____cpython:
-        CONFIG: linux_aarch64_ffmpeg6libprotobuf4.23.2numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.10.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.8.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.9.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.23python3.11.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf3.21numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.10.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.23python3.11.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg5libprotobuf4.23.2numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.10.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.8.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.9.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.23python3.11.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf3.21numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.10.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____73_pypy:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.8.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____73_pypy:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.21python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.23python3.11.____cpython:
-        CONFIG: linux_ppc64le_ffmpeg6libprotobuf4.23.2numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-    maxParallel: 26
   timeoutInMinutes: 360
 
   steps:
