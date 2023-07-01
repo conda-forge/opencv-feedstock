@@ -30,7 +30,7 @@ cmake -G "Ninja"                                                            ^
     -DBUILD_opencv_python2=OFF                                              ^
     -DBUILD_opencv_python3=ON                                               ^
     ..\modules\python
-if %ERRORLEVEL% neq 0 exit 1
+if %ERRORLEVEL% neq 0 exit (type CMakeError.log && exit 1)
 
 cmake --build .
 if %ERRORLEVEL% neq 0 exit 1
@@ -47,7 +47,7 @@ cmake -G "Ninja"                                                            ^
     -DPYTHON_NUMPY_INCLUDE_DIRS=%SP_DIR%\numpy\core\include                 ^
     -DPYTHON_PACKAGES_PATH=%SP_DIR%                                         ^
     ..\modules\python
-if %ERRORLEVEL% neq 0 exit 1
+if %ERRORLEVEL% neq 0 exit (type CMakeError.log && exit 1)
 
 cmake --build . --target install --config Release
 if %ERRORLEVEL% neq 0 exit 1

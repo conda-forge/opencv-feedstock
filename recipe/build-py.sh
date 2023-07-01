@@ -34,7 +34,7 @@ cmake -G "Ninja"                                                            \
     -DPYTHON_PACKAGES_PATH=${SP_DIR}                                        \
     -DBUILD_opencv_python2=OFF                                              \
     -DBUILD_opencv_python3=ON                                               \
-    ../modules/python
+    ../modules/python || (cat CMakeError.log && exit 1)
 
 cmake --build .
 
@@ -51,7 +51,7 @@ cmake -G "Ninja"                                                            \
     -DPYTHON_LIBRARY=${LIB_PYTHON}                                          \
     -DPYTHON_NUMPY_INCLUDE_DIRS=${SP_DIR}/numpy/core/include                \
     -DPYTHON_PACKAGES_PATH=${SP_DIR}                                        \
-    ../modules/python
+    ../modules/python || (cat CMakeError.log && exit 1)
 
 cmake --build . --target install --config Release
 
