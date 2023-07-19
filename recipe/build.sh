@@ -7,6 +7,7 @@ ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
 
 QT="5"
 V4L="1"
+OPENVINO="1"
 
 if [[ "${target_platform}" == linux-* ]]; then
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
@@ -20,6 +21,7 @@ if [[ "${target_platform}" == osx-* ]]; then
     V4L="0"
 elif [[ "${target_platform}" == linux-ppc64le ]]; then
     QT="0"
+    OPENVINO="0"
 fi
 
 
@@ -84,6 +86,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_OPENCLAMDFFT=0                                                 \
     -DWITH_OPENCLAMDBLAS=0                                                \
     -DWITH_OPENCL_D3D11_NV=0                                              \
+    -DWITH_OPENVINO=$OPENVINO                                             \
     -DWITH_1394=0                                                         \
     -DWITH_OPENNI=0                                                       \
     -DWITH_HDF5=1                                                         \

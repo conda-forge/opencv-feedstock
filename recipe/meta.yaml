@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.7.0" %}
+{% set version = "4.8.0" %}
 {% set major_version = version.split('.')[0] %}
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
@@ -31,16 +31,18 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: 8df0079cdbe179748a18d44731af62a245a45ebf5085223dc03133954c662973
+    sha256: cbf47ecc336d2bff36b0dcd7d6c179a9bb59e805136af6b9670ca944aef889bd
     patches:
       # backport https://github.com/opencv/opencv/pull/21611 (unmerged as of 06/2023)
       - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
+      # reverted https://github.com/opencv/opencv/pull/23394 since does not work for macOS 10.9 x86_64
+      - patches_opencv/0005-revert-cocoa-wheel-scroll.patch  # [osx and x86_64]
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 42df840cf9055e59d0e22c249cfb19f04743e1bdad113d31b1573d3934d62584
+    sha256: b4aef0f25a22edcd7305df830fa926ca304ea9db65de6ccd02f6cfa5f3357dbb
     folder: opencv_contrib
     patches:
       # Allow attempt to find HDF5 on cross-compile
@@ -50,7 +52,7 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
 
 build:
-  number: 6
+  number: 0
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
@@ -85,7 +87,7 @@ requirements:
   host:
     - python
     - numpy
-    - eigen
+    - eigen =3.4.0
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
     # binary
@@ -106,6 +108,7 @@ requirements:
     - libwebp
     - qt-main                        # [not osx and not ppc64le]
     - zlib
+    - openvino                       # [not ppc64le]
 
 test:
     requires:
@@ -254,6 +257,7 @@ outputs:
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
+        - pip check
         - pip list
         - test $(pip list | grep opencv-python | wc -l) -eq 1  # [unix]
       requires:
@@ -280,3 +284,4 @@ extra:
     - hajapy
     - ocefpaf
     - hmaarrfk
+    - ilya-lavrenov
