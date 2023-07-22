@@ -640,7 +640,6 @@ Feedstock Maintainers
 * [@h-vetinari](https://github.com/h-vetinari/)
 * [@hajapy](https://github.com/hajapy/)
 * [@hmaarrfk](https://github.com/hmaarrfk/)
-* [@ilya-lavrenov](https://github.com/ilya-lavrenov/)
 * [@jakirkham](https://github.com/jakirkham/)
 * [@msarahan](https://github.com/msarahan/)
 * [@ocefpaf](https://github.com/ocefpaf/)
