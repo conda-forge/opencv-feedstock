@@ -73,6 +73,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_OPENCLAMDFFT=0                                                           ^
     -DWITH_OPENCLAMDBLAS=0                                                          ^
     -DWITH_OPENCL_D3D11_NV=0                                                        ^
+    -DWITH_OPENVINO=1                                                               ^
     -DWITH_1394=0                                                                   ^
     -DWITH_OPENNI=0                                                                 ^
     -DWITH_HDF5=1                                                                   ^
