@@ -1,5 +1,5 @@
 {% set version = "4.6.0" %}
-{% set build_num = "4" %}
+{% set build_num = "5" %}
 
 {% if target_platform != "linux-aarch64" and target_platform != "linux-64"%}
 {%   set enable_testingui = true %}
@@ -57,8 +57,7 @@ requirements:
     - gstreamer 1.18.5         # [win]
     - gst-plugins-base 1.18.5  # [win]
     - harfbuzz 4.3.0           # [not win]
-    - hdf5 1.10.6              # [not (osx and arm64)]
-    - hdf5 1.12.1              # [osx and arm64]
+    - hdf5 1.12.1
     - jpeg 9e                  # [not win]
     - openjpeg 2.3.0           # [not (win or arm64)]
     - openblas-devel 0.3.20    # [x86_64 and not win]
@@ -85,8 +84,7 @@ requirements:
     - gst-plugins-base >=1.18.5,<1.19.0a # [win]
     - gstreamer >=1.18.5,<1.19.0a # [win]
     - harfbuzz >=4.3.0,<5.0a0             # [not win]
-    - hdf5 >=1.10.6,<1.10.7.0a0  # [not (osx and arm64)]
-    - hdf5 >=1.12.1,<1.12.2.0a0  # [osx and arm64]
+    - hdf5 >=1.12.1,<1.12.2.0a0
     - jpeg >=9e,<10a                 # [not win]
     - openjpeg >=2.3.0,<3.0a0             # [not (win or arm64)]
     - libopenblas >=0.3.20,<1.0a0          # [x86_64 and not win]
@@ -138,8 +136,7 @@ outputs:
         - gst-plugins-base 1.18.5 [win]
         - gstreamer 1.18.5      # [win]
         - harfbuzz 4.3.0        # [not win]
-        - hdf5 1.10.6  # [not (osx and arm64)]
-        - hdf5 1.12.1  # [osx and arm64]
+        - hdf5 1.12.1
         - jpeg 9e                 # [not win]
         - openjpeg 2.3.0             # [not (arm64 or win)]
         - openblas-devel 0.3.20  # [x86_64 and not win]
@@ -165,8 +162,7 @@ outputs:
         - gst-plugins-base >=1.18.5,<1.19.0a # [win]
         - gstreamer >=1.18.5,<1.19.0a # [win]
         - harfbuzz >=4.3.0,<5.0a0             # [not win]
-        - hdf5 >=1.10.6,<1.10.7.0a0  # [not (osx and arm64)]
-        - hdf5 >=1.12.1,<1.12.2.0a0  # [osx and arm64]
+        - hdf5 >=1.12.1,<1.12.2.0a0
         - jpeg >=9e,<10a                 # [not win]
         - openjpeg >=2.3.0,<3.0a0             # [not (arm64 or win)]
         - libopenblas >=0.3.20,<1.0a0          # [x86_64 and not win]
