@@ -19,7 +19,7 @@ freetype:
 glib:
 - '2'
 harfbuzz:
-- '7'
+- '8'
 hdf5:
 - 1.14.2
 jasper:
