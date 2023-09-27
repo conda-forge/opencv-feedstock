@@ -273,7 +273,6 @@ about:
 
 extra:
   recipe-maintainers:
-    - ilya-lavrenov
     - h-vetinari
     - xhochy
     - jakirkham
@@ -283,3 +282,4 @@ extra:
     - hajapy
     - ocefpaf
     - hmaarrfk
+    - ilya-lavrenov
