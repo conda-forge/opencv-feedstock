@@ -39,7 +39,7 @@ liblapacke:
 libpng:
 - '1.6'
 libprotobuf:
-- 4.23.4
+- 4.24.3
 libtiff:
 - '4.6'
 libwebp:
