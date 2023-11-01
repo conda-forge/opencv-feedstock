@@ -39,7 +39,7 @@ liblapacke:
 libpng:
 - '1.6'
 libprotobuf:
-- 4.24.3
+- 4.24.4
 libtiff:
 - '4.6'
 libwebp:
@@ -51,7 +51,7 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.8.* *_cpython
+- 3.9.* *_73_pypy
 qt_main:
 - '5.15'
 target_platform:
