@@ -1,0 +1,22 @@
+diff --git a/cmake/OpenCVFindProtobuf.cmake b/cmake/OpenCVFindProtobuf.cmake
+index 5b1e17529f..740ddcf771 100644
+--- a/cmake/OpenCVFindProtobuf.cmake
++++ b/cmake/OpenCVFindProtobuf.cmake
+@@ -35,7 +35,16 @@ else()
+ 
+   unset(Protobuf_VERSION CACHE)
+   find_package(Protobuf QUIET CONFIG)
+-  if(NOT Protobuf_FOUND)
++  if(Protobuf_FOUND)
++    # if protobuf-config.cmake is used, we need to explicitly
++    # support the case in which we are cross-compiling and we want
++    # to explicitly specify via CMake command line the protoc to use
++    if(Protobuf_PROTOC_EXECUTABLE)
++      set_target_properties(protobuf::protoc PROPERTIES
++        IMPORTED_LOCATION_RELEASE "${Protobuf_PROTOC_EXECUTABLE}"
++      )
++    endif()
++  else()
+     find_package(Protobuf QUIET)
+   endif()
+ 
