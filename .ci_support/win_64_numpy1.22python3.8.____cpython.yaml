@@ -19,7 +19,7 @@ jasper:
 libcblas:
 - 3.9 *netlib
 libjpeg_turbo:
-- 2.1.5
+- '3'
 liblapack:
 - 3.9 *netlib
 liblapacke:
@@ -27,7 +27,7 @@ liblapacke:
 libpng:
 - '1.6'
 libprotobuf:
-- 4.23.4
+- 4.24.4
 libtiff:
 - '4.6'
 libwebp:

@@ -49,7 +49,7 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
 
 build:
-  number: 0
+  number: 5
   string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
@@ -207,6 +207,8 @@ outputs:
         # opencv    for pypy36 and python3.6
         # similarly for pypy37 and python3.7
         - python
+        # Similarly for libprotobuf since we are building a few different versions now
+        - libprotobuf
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
@@ -229,6 +231,8 @@ outputs:
       host:
         - python
         - numpy
+        # Similarly for libprotobuf since we are building a few different versions now
+        - libprotobuf
       run:
         - python
         - {{ pin_compatible('numpy') }}

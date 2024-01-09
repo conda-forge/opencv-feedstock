@@ -135,4 +135,4 @@ cmake -LAH -G "Ninja"                                                     \
     -DOPENCV_PYTHON2_INSTALL_PATH=                                        \
     ..
 
-ninja install -v -j${CPU_COUNT}
+ninja install -j${CPU_COUNT}

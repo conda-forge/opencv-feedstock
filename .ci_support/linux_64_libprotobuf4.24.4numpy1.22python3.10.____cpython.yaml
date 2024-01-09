@@ -31,7 +31,7 @@ libcblas:
 libiconv:
 - '1'
 libjpeg_turbo:
-- 2.1.5
+- '3'
 liblapack:
 - 3.9 *netlib
 liblapacke:
@@ -39,7 +39,7 @@ liblapacke:
 libpng:
 - '1.6'
 libprotobuf:
-- 4.23.4
+- 4.24.4
 libtiff:
 - '4.6'
 libwebp:
@@ -51,7 +51,7 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.9.* *_73_pypy
+- 3.10.* *_cpython
 qt_main:
 - '5.15'
 target_platform:
