@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.8.1" %}
+{% set version = "4.9.0" %}
 {% set major_version = version.split('.')[0] %}
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
@@ -31,7 +31,7 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: 62f650467a60a38794d681ae7e66e3e8cfba38f445e0bf87867e2f2cdc8be9d5
+    sha256: ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c
     patches:
       # backport https://github.com/opencv/opencv/pull/21611 (unmerged as of 06/2023)
       - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
@@ -40,7 +40,7 @@ source:
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 0c082a0b29b3118f2a0a1856b403bb098643af7b994a0080f402a12159a99c6e
+    sha256: 8952c45a73b75676c522dd574229f563e43c271ae1d5bbbd26f8e2b6bc1a4dae
     folder: opencv_contrib
     patches:
       # Allow attempt to find HDF5 on cross-compile

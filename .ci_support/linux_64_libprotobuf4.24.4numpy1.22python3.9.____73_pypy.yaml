@@ -23,7 +23,7 @@ glib:
 harfbuzz:
 - '8'
 hdf5:
-- 1.14.2
+- 1.14.3
 jasper:
 - '4'
 libcblas:
