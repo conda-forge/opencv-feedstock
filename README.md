@@ -73,45 +73,45 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_libprotobuf4.24.4numpy1.22python3.10.____cpython</td>
+              <td>linux_64_libprotobuf4.25.1numpy1.22python3.10.____cpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.24.4numpy1.22python3.10.____cpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.25.1numpy1.22python3.10.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_libprotobuf4.24.4numpy1.22python3.8.____cpython</td>
+              <td>linux_64_libprotobuf4.25.1numpy1.22python3.8.____cpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.24.4numpy1.22python3.8.____cpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.25.1numpy1.22python3.8.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_libprotobuf4.24.4numpy1.22python3.9.____73_pypy</td>
+              <td>linux_64_libprotobuf4.25.1numpy1.22python3.9.____73_pypy</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.24.4numpy1.22python3.9.____73_pypy" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.25.1numpy1.22python3.9.____73_pypy" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_libprotobuf4.24.4numpy1.22python3.9.____cpython</td>
+              <td>linux_64_libprotobuf4.25.1numpy1.22python3.9.____cpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.24.4numpy1.22python3.9.____cpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.25.1numpy1.22python3.9.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_libprotobuf4.24.4numpy1.23python3.11.____cpython</td>
+              <td>linux_64_libprotobuf4.25.1numpy1.23python3.11.____cpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.24.4numpy1.23python3.11.____cpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.25.1numpy1.23python3.11.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_libprotobuf4.24.4numpy1.26python3.12.____cpython</td>
+              <td>linux_64_libprotobuf4.25.1numpy1.26python3.12.____cpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.24.4numpy1.26python3.12.____cpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_libprotobuf4.25.1numpy1.26python3.12.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>

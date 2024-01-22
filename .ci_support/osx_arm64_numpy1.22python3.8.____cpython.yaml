@@ -34,10 +34,12 @@ liblapack:
 - 3.9 *netlib
 liblapacke:
 - 3.9 *netlib
+libopenvino_dev:
+- 2023.2.0
 libpng:
 - '1.6'
 libprotobuf:
-- 4.24.4
+- 4.25.1
 libtiff:
 - '4.6'
 libwebp:
