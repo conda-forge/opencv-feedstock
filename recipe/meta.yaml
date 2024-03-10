@@ -104,6 +104,7 @@ requirements:
     - libprotobuf
     - libtiff
     - libwebp
+    - openexr
     - qt-main                        # [not osx and not ppc64le]
     - zlib
     - libopenvino-dev                # [not ppc64le]
