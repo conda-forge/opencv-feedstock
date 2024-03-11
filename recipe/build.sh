@@ -5,7 +5,6 @@ set -ex
 # https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
 ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
 
-QT="5"
 V4L="1"
 OPENVINO="1"
 
@@ -16,17 +15,24 @@ if [[ "${target_platform}" == linux-* ]]; then
     OPENMP="-DWITH_OPENMP=1"
 fi
 
-if [[ "${target_platform}" == osx-* ]]; then
+if [[ "$qt_version" == "5" ]]; then
+    QT="5"
+elif [[ "$qt_version" == "6" ]]; then
+    QT="6"
+else
     QT="0"
+fi
+
+if [[ "${target_platform}" == osx-* ]]; then
     V4L="0"
 elif [[ "${target_platform}" == linux-ppc64le ]]; then
-    QT="0"
     OPENVINO="0"
 fi
 
 
 if [[ "${target_platform}" != "${build_platform}" ]]; then
     CMAKE_ARGS="${CMAKE_ARGS} -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc"
+    CMAKE_ARGS="${CMAKE_ARGS} -DQT_HOST_PATH=${BUILD_PREFIX}"
 fi
 
 

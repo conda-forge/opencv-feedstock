@@ -24,6 +24,16 @@
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
+{% set build = 10 %}
+
+{% if qt_version == "5" %}
+{% set build = build + 200 %}
+{% endif %}
+
+{% if qt_version == "6" %}
+{% set build = build + 400 %}
+{% endif %}
+
 package:
   name: libopencv
   version: {{ version }}
@@ -35,6 +45,7 @@ source:
     patches:
       # backport https://github.com/opencv/opencv/pull/21611 (unmerged as of 06/2023)
       - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
+      - patches_opencv/0001-Also-install-metadata-for-opencv-python-headless.patch
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
@@ -50,14 +61,16 @@ source:
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
 
 build:
-  number: 9
-  string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  number: {{ build }}
+  string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
   ignore_run_exports_from:
     - python
+  # Skip for now. remove me later
+  skip: true  # [py!=310]
 
 requirements:
   build:
@@ -65,6 +78,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - libprotobuf                            # [build_platform != target_platform]
+    - qt6-main                               # [build_platform != target_platform and qt_version == 6]
     # pkg-config is required to find ffpmeg
     - pkg-config
     - cmake
@@ -91,8 +105,9 @@ requirements:
     # binary
     - ffmpeg {{ ffmpeg }}=lgpl_*
     - freetype
-    - glib                           # [unix]
+    # harfbuzz and glib are both needed for freetype support
     - harfbuzz
+    - glib
     - hdf5
     - jasper
     - libcblas
@@ -105,7 +120,8 @@ requirements:
     - libtiff
     - libwebp
     - openexr
-    - qt-main                        # [not osx and not ppc64le]
+    - qt-main                        # [qt_version == 5]
+    - qt6-main                       # [qt_version == 6]
     - zlib
     - libopenvino-dev                # [not ppc64le]
 
@@ -181,15 +197,16 @@ test:
         {{ opencv_libs.append("xobjdetect") or "" }}
         {{ opencv_libs.append("xphoto") or "" }}
         {{ opencv_libs.append("freetype") or "" }}
-        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}       # [osx]
-        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                 # [osx]
-        - OPENCV_FLAGS=`pkg-config --cflags opencv4`  # [unix]
-        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test   # [unix]
+        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}      # [osx]
+        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                # [osx]
+        - OPENCV_FLAGS=`pkg-config --cflags opencv4`                          # [unix]
+        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test        # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
         {% for each_opencv_lib in opencv_libs %}
         - echo Testing for presence of {{ each_opencv_lib }}
-        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}                  # [unix]
+        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}     # [unix]
         - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
+        - echo Found                   {{ each_opencv_lib }}
         {% endfor %}
         - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
         - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
@@ -202,7 +219,9 @@ outputs:
   - name: libopencv
   - name: opencv
     build:
-      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      # Skip for now. remove me later
+      skip: true  # [py!=310]
     requirements:
       host:
         # Explicitely add a python requirement so that the hash changes between
@@ -220,7 +239,9 @@ outputs:
 
   - name: py-opencv
     build:
-      string: py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      # Skip for now. remove me later
+      skip: true  # [py!=310]
+      string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       run_exports:
         # Should we even have this???
         # don't pin the python version so hard.
@@ -262,7 +283,8 @@ outputs:
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
         - pip check
         - pip list
-        - test $(pip list | grep opencv-python | wc -l) -eq 1  # [unix]
+        - test $(pip list | grep opencv-python | wc -l) -eq 2  # [unix]
+        - test $(pip list | grep opencv-python-headless | wc -l) -eq 1  # [unix]
       requires:
         - pip
 
