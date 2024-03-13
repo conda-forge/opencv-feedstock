@@ -35,7 +35,7 @@
 {% endif %}
 
 package:
-  name: opencv-split
+  name: libopencv
   version: {{ version }}
 
 source:
@@ -220,9 +220,9 @@ outputs:
         - echo "tested in other outputs"
 
   - name: py-opencv
+    script: build_py_opencv.sh   # [unix]
+    script: bld_py_opencv.bat    # [win]
     build:
-      script: build_py_opencv.sh   # [unix]
-      script: bld_py_opencv.bat    # [win]
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       run_exports:
         # Should we even have this???
