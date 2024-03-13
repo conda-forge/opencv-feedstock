@@ -67,8 +67,6 @@ build:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
-  ignore_run_exports_from:
-    - python
 
 requirements:
   build:
@@ -92,8 +90,6 @@ requirements:
     - {{ cdt('libxfixes') }}         # [linux]
     - {{ cdt('libxxf86vm') }}        # [linux]
   host:
-    - python
-    - numpy
     - eigen =3.4.0
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
