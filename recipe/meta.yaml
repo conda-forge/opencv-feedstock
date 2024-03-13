@@ -69,8 +69,6 @@ build:
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
   ignore_run_exports_from:
     - python
-  # Skip for now. remove me later
-  skip: true  # [py!=310]
 
 requirements:
   build:
@@ -229,8 +227,6 @@ outputs:
     build:
       script: build_py_opencv.py   # [unix]
       script: bld_py_opencv.bat    # [win]
-      # Skip for now. remove me later
-      skip: true  # [py!=310]
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       run_exports:
         # Should we even have this???
