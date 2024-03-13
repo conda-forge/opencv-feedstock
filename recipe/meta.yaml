@@ -103,8 +103,9 @@ requirements:
     # binary
     - ffmpeg {{ ffmpeg }}=lgpl_*
     - freetype
-    # harfbuzz and glib are both needed for freetype support
+    # harfbuzz, glib, gettext are both needed for freetype support
     - harfbuzz
+    - gettext
     - glib
     - hdf5
     - jasper
