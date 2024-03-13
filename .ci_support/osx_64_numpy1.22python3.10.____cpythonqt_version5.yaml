@@ -58,6 +58,14 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.10.* *_cpython
+qt:
+- '5.15'
+qt6_main:
+- '6.6'
+qt_main:
+- '5.15'
+qt_version:
+- '5'
 target_platform:
 - osx-64
 zip_keys:

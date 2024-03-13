@@ -8,23 +8,14 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_numpy1.22python3.10.____cpython:
-        CONFIG: win_64_numpy1.22python3.10.____cpython
+      win_64_numpy1.22python3.10.____cpythonqt_version5:
+        CONFIG: win_64_numpy1.22python3.10.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
-      win_64_numpy1.22python3.8.____cpython:
-        CONFIG: win_64_numpy1.22python3.8.____cpython
+      win_64_numpy1.22python3.10.____cpythonqt_version6:
+        CONFIG: win_64_numpy1.22python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      win_64_numpy1.22python3.9.____73_pypy:
-        CONFIG: win_64_numpy1.22python3.9.____73_pypy
-        UPLOAD_PACKAGES: 'True'
-      win_64_numpy1.22python3.9.____cpython:
-        CONFIG: win_64_numpy1.22python3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_numpy1.23python3.11.____cpython:
-        CONFIG: win_64_numpy1.23python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-      win_64_numpy1.26python3.12.____cpython:
-        CONFIG: win_64_numpy1.26python3.12.____cpython
+      win_64_numpy1.22python3.10.____cpythonqt_versionnone:
+        CONFIG: win_64_numpy1.22python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables:
