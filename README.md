@@ -1,5 +1,5 @@
-About libopencv-feedstock
-=========================
+About opencv-split-feedstock
+============================
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/opencv-feedstock/blob/main/LICENSE.txt)
 
@@ -159,10 +159,10 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-opencv-green.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-py--opencv-green.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) |
 
-Installing libopencv
-====================
+Installing opencv-split
+=======================
 
-Installing `libopencv` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `opencv-split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
@@ -248,17 +248,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating libopencv-feedstock
-============================
+Updating opencv-split-feedstock
+===============================
 
-If you would like to improve the libopencv recipe or build a new
+If you would like to improve the opencv-split recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/libopencv-feedstock are
+Note that all branches in the conda-forge/opencv-split-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
