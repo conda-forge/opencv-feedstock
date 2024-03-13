@@ -1,0 +1,87 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '10.13'
+MACOSX_SDK_VERSION:
+- '10.13'
+c_compiler:
+- clang
+c_compiler_version:
+- '16'
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- clangxx
+cxx_compiler_version:
+- '16'
+ffmpeg:
+- '6'
+freetype:
+- '2'
+glib:
+- '2'
+harfbuzz:
+- '8'
+hdf5:
+- 1.14.3
+jasper:
+- '4'
+libcblas:
+- 3.9 *netlib
+libiconv:
+- '1'
+libjpeg_turbo:
+- '3'
+liblapack:
+- 3.9 *netlib
+liblapacke:
+- 3.9 *netlib
+libopenvino_dev:
+- 2023.3.0
+libpng:
+- '1.6'
+libprotobuf:
+- 4.25.2
+libtiff:
+- '4.6'
+libwebp:
+- '1'
+macos_machine:
+- x86_64-apple-darwin13.4.0
+numpy:
+- '1.22'
+- '1.23'
+- '1.26'
+- '1.22'
+- '1.22'
+- '1.22'
+openexr:
+- '3.2'
+pin_run_as_build:
+  python:
+    min_pin: x.x
+    max_pin: x.x
+python:
+- 3.10.* *_cpython
+- 3.11.* *_cpython
+- 3.12.* *_cpython
+- 3.8.* *_cpython
+- 3.9.* *_73_pypy
+- 3.9.* *_cpython
+qt:
+- '5.15'
+qt6_main:
+- '6.6'
+qt_main:
+- '5.15'
+qt_version:
+- '5'
+target_platform:
+- osx-64
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
+- - python
+  - numpy
+zlib:
+- '1.2'
