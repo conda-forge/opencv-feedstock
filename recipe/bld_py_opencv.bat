@@ -20,6 +20,7 @@ for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
    set "PY_MAJOR=%%a"
    set "PY_MINOR=%%b"
 )
+set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 
 :: Workaround for building LAPACK headers with C++17
 :: see https://github.com/conda-forge/opencv-feedstock/pull/363#issuecomment-1604972688
@@ -91,10 +92,37 @@ cmake -LAH -G "Ninja"                                                           
     %WITH_QT%                                                                       ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
+    -DPYTHON_EXECUTABLE=""                                                          ^
+    -DPYTHON_INCLUDE_DIR=""                                                         ^
+    -DPYTHON_PACKAGES_PATH=""                                                       ^
+    -DPYTHON_LIBRARY=""                                                             ^
+    -DPYTHON_NUMPY_INCLUDE_DIRS=""                                                  ^
     -DBUILD_opencv_python2=0                                                        ^
+    -DPYTHON2_EXECUTABLE=""                                                         ^
+    -DPYTHON2_INCLUDE_DIR=""                                                        ^
+    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                                 ^
+    -DPYTHON2_LIBRARY=""                                                            ^
+    -DPYTHON2_PACKAGES_PATH=""                                                      ^
+    -DOPENCV_PYTHON2_INSTALL_PATH=""                                                ^
     -DBUILD_opencv_python3=0                                                        ^
+    -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
+    -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
+    -DPYTHON_PACKAGES_PATH=%UNIX_SP_DIR%                                            ^
+    -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
+    -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                    ^
+    -DBUILD_opencv_python3=1                                                        ^
+    -DOPENCV_SKIP_PYTHON_LOADER=1                                                   ^
+    -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
+    -DPYTHON3_INCLUDE_DIR=%UNIX_PREFIX%/include                                     ^
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                   ^
+    -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
+    -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
+    -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
+    -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
+    -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
     ..
 if %ERRORLEVEL% neq 0 (type CMakeError.log && exit 1)
 
 cmake --build . --target install --config Release
 if %ERRORLEVEL% neq 0 exit 1
+

@@ -35,7 +35,7 @@
 {% endif %}
 
 package:
-  name: libopencv
+  name: opencv-split
   version: {{ version }}
 
 source:
@@ -74,9 +74,6 @@ build:
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]
     - libprotobuf                            # [build_platform != target_platform]
     - qt6-main                               # [build_platform != target_platform and qt_version == 6]
     # pkg-config is required to find ffpmeg
@@ -125,120 +122,113 @@ requirements:
     - zlib
     - libopenvino-dev                # [not ppc64le]
 
-test:
-    requires:
-      - {{ compiler('c') }}
-      - {{ compiler('cxx') }}
-      - pkg-config                    # [not win]
-      # Test with the two currently supported lapack implementatons
-      # One test done on different versions of python on each platform
-      - liblapack * *openblas         # [py==36]
-      - liblapack * *mkl              # [py==37 and linux64]
-      - cmake
-      - ninja
-    files:
-      - CMakeLists.txt
-      - test.cpp
-    commands:
-        # Verify dynamic libraries on all systems
-        {% set win_ver_lib = version|replace(".", "") %}
-        # The bot doesn't support multiline jinja, so use
-        # single line jinja.
-        {% set opencv_libs = [] %}
-        {{ opencv_libs.append("alphamat") or "" }}
-        {{ opencv_libs.append("aruco") or "" }}
-        {{ opencv_libs.append("bgsegm") or "" }}
-        {{ opencv_libs.append("calib3d") or "" }}
-        {{ opencv_libs.append("ccalib") or "" }}
-        {{ opencv_libs.append("core") or "" }}
-        {{ opencv_libs.append("datasets") or "" }}
-        {{ opencv_libs.append("dnn_objdetect") or "" }}
-        {{ opencv_libs.append("dnn_superres") or "" }}
-        {{ opencv_libs.append("dnn") or "" }}
-        {{ opencv_libs.append("dpm") or "" }}
-        {{ opencv_libs.append("face") or "" }}
-        {{ opencv_libs.append("features2d") or "" }}
-        {{ opencv_libs.append("flann") or "" }}
-        {{ opencv_libs.append("fuzzy") or "" }}
-        {{ opencv_libs.append("gapi") or "" }}
-        {{ opencv_libs.append("hfs") or "" }}
-        {{ opencv_libs.append("highgui") or "" }}
-        {{ opencv_libs.append("img_hash") or "" }}
-        {{ opencv_libs.append("imgcodecs") or "" }}
-        {{ opencv_libs.append("imgproc") or "" }}
-        {{ opencv_libs.append("intensity_transform") or "" }}
-        {{ opencv_libs.append("line_descriptor") or "" }}
-        {{ opencv_libs.append("mcc") or "" }}
-        {{ opencv_libs.append("ml") or "" }}
-        {{ opencv_libs.append("objdetect") or "" }}
-        {{ opencv_libs.append("optflow") or "" }}
-        {{ opencv_libs.append("phase_unwrapping") or "" }}
-        {{ opencv_libs.append("photo") or "" }}
-        {{ opencv_libs.append("plot") or "" }}
-        {{ opencv_libs.append("quality") or "" }}
-        {{ opencv_libs.append("rapid") or "" }}
-        {{ opencv_libs.append("reg") or "" }}
-        {{ opencv_libs.append("rgbd") or "" }}
-        {{ opencv_libs.append("saliency") or "" }}
-        {{ opencv_libs.append("shape") or "" }}
-        {{ opencv_libs.append("stereo") or "" }}
-        {{ opencv_libs.append("stitching") or "" }}
-        {{ opencv_libs.append("structured_light") or "" }}
-        {{ opencv_libs.append("superres") or "" }}
-        {{ opencv_libs.append("surface_matching") or "" }}
-        {{ opencv_libs.append("text") or "" }}
-        {{ opencv_libs.append("tracking") or "" }}
-        {{ opencv_libs.append("video") or "" }}
-        {{ opencv_libs.append("videoio") or "" }}
-        {{ opencv_libs.append("videostab") or "" }}
-        {{ opencv_libs.append("wechat_qrcode") or "" }}
-        {{ opencv_libs.append("xfeatures2d") or "" }}
-        {{ opencv_libs.append("ximgproc") or "" }}
-        {{ opencv_libs.append("xobjdetect") or "" }}
-        {{ opencv_libs.append("xphoto") or "" }}
-        {{ opencv_libs.append("freetype") or "" }}
-        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}      # [osx]
-        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                # [osx]
-        - OPENCV_FLAGS=`pkg-config --cflags opencv4`                          # [unix]
-        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test        # [unix]
-        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
-        {% for each_opencv_lib in opencv_libs %}
-        - echo Testing for presence of {{ each_opencv_lib }}
-        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}     # [unix]
-        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
-        - echo Found                   {{ each_opencv_lib }}
-        {% endfor %}
-        - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
-        - mkdir -p cmake_build_test && pushd cmake_build_test
-        - cmake -G "Ninja" ..
-        - cmake --build . --config Release
-        - popd
 
 outputs:
   - name: libopencv
+    test:
+      requires:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - pkg-config                    # [not win]
+        # Test with the two currently supported lapack implementatons
+        # One test done on different versions of python on each platform
+        - liblapack * *openblas         # [py==36]
+        - liblapack * *mkl              # [py==37 and linux64]
+        - cmake
+        - ninja
+      files:
+        - CMakeLists.txt
+        - test.cpp
+      commands:
+          # Verify dynamic libraries on all systems
+          {% set win_ver_lib = version|replace(".", "") %}
+          # The bot doesn't support multiline jinja, so use
+          # single line jinja.
+          {% set opencv_libs = [] %}
+          {{ opencv_libs.append("alphamat") or "" }}
+          {{ opencv_libs.append("aruco") or "" }}
+          {{ opencv_libs.append("bgsegm") or "" }}
+          {{ opencv_libs.append("calib3d") or "" }}
+          {{ opencv_libs.append("ccalib") or "" }}
+          {{ opencv_libs.append("core") or "" }}
+          {{ opencv_libs.append("datasets") or "" }}
+          {{ opencv_libs.append("dnn_objdetect") or "" }}
+          {{ opencv_libs.append("dnn_superres") or "" }}
+          {{ opencv_libs.append("dnn") or "" }}
+          {{ opencv_libs.append("dpm") or "" }}
+          {{ opencv_libs.append("face") or "" }}
+          {{ opencv_libs.append("features2d") or "" }}
+          {{ opencv_libs.append("flann") or "" }}
+          {{ opencv_libs.append("fuzzy") or "" }}
+          {{ opencv_libs.append("gapi") or "" }}
+          {{ opencv_libs.append("hfs") or "" }}
+          {{ opencv_libs.append("highgui") or "" }}
+          {{ opencv_libs.append("img_hash") or "" }}
+          {{ opencv_libs.append("imgcodecs") or "" }}
+          {{ opencv_libs.append("imgproc") or "" }}
+          {{ opencv_libs.append("intensity_transform") or "" }}
+          {{ opencv_libs.append("line_descriptor") or "" }}
+          {{ opencv_libs.append("mcc") or "" }}
+          {{ opencv_libs.append("ml") or "" }}
+          {{ opencv_libs.append("objdetect") or "" }}
+          {{ opencv_libs.append("optflow") or "" }}
+          {{ opencv_libs.append("phase_unwrapping") or "" }}
+          {{ opencv_libs.append("photo") or "" }}
+          {{ opencv_libs.append("plot") or "" }}
+          {{ opencv_libs.append("quality") or "" }}
+          {{ opencv_libs.append("rapid") or "" }}
+          {{ opencv_libs.append("reg") or "" }}
+          {{ opencv_libs.append("rgbd") or "" }}
+          {{ opencv_libs.append("saliency") or "" }}
+          {{ opencv_libs.append("shape") or "" }}
+          {{ opencv_libs.append("stereo") or "" }}
+          {{ opencv_libs.append("stitching") or "" }}
+          {{ opencv_libs.append("structured_light") or "" }}
+          {{ opencv_libs.append("superres") or "" }}
+          {{ opencv_libs.append("surface_matching") or "" }}
+          {{ opencv_libs.append("text") or "" }}
+          {{ opencv_libs.append("tracking") or "" }}
+          {{ opencv_libs.append("video") or "" }}
+          {{ opencv_libs.append("videoio") or "" }}
+          {{ opencv_libs.append("videostab") or "" }}
+          {{ opencv_libs.append("wechat_qrcode") or "" }}
+          {{ opencv_libs.append("xfeatures2d") or "" }}
+          {{ opencv_libs.append("ximgproc") or "" }}
+          {{ opencv_libs.append("xobjdetect") or "" }}
+          {{ opencv_libs.append("xphoto") or "" }}
+          {{ opencv_libs.append("freetype") or "" }}
+          - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}      # [osx]
+          - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                # [osx]
+          - OPENCV_FLAGS=`pkg-config --cflags opencv4`                          # [unix]
+          - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test        # [unix]
+          - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
+          {% for each_opencv_lib in opencv_libs %}
+          - echo Testing for presence of {{ each_opencv_lib }}
+          - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}     # [unix]
+          - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
+          - echo Found                   {{ each_opencv_lib }}
+          {% endfor %}
+          - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
+          - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
+          - mkdir -p cmake_build_test && pushd cmake_build_test
+          - cmake -G "Ninja" ..
+          - cmake --build . --config Release
+          - popd
   - name: opencv
     build:
-      string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
-      # Skip for now. remove me later
-      skip: true  # [py!=310]
+      string: qt{{ qt_version }}_{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
     requirements:
-      host:
-        # Explicitely add a python requirement so that the hash changes between
-        # opencv    for pypy36 and python3.6
-        # similarly for pypy37 and python3.7
-        - python
-        # Similarly for libprotobuf since we are building a few different versions now
-        - libprotobuf
       run:
-        - {{ pin_subpackage('libopencv', exact=True) }}
-        - {{ pin_subpackage('py-opencv', exact=True) }}
+        - libopencv {{ version }}=*_{{ build }}
+        - py-opencv {{ version }}=*_{{ build }}
     test:
       commands:
         - echo "tested in other outputs"
 
   - name: py-opencv
     build:
+      script: build_py_opencv.py   # [unix]
+      script: bld_py_opencv.bat    # [win]
       # Skip for now. remove me later
       skip: true  # [py!=310]
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
@@ -249,17 +239,62 @@ outputs:
         # package
         - {{ pin_subpackage('py-opencv') }}
     requirements:
-      # There is no build script, but I just want it to think
-      # that it needs python and numpy at build time
+      build:
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - numpy                                  # [build_platform != target_platform]
+        - libprotobuf                            # [build_platform != target_platform]
+        - qt6-main                               # [build_platform != target_platform and qt_version == 6]
+        # pkg-config is required to find ffpmeg
+        - pkg-config
+        - cmake
+        - ninja
+        - libgomp                        # [linux]
+        # ICE when enabling this
+        # - llvm-openmp                    # [osx]
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - sysroot_linux-64 2.17  # [linux64]
+        - {{ cdt('mesa-libgl-devel') }}  # [linux]
+        - {{ cdt('mesa-libegl-devel') }}  # [linux]
+        - {{ cdt('mesa-dri-drivers') }}  # [linux]
+        - {{ cdt('libselinux') }}        # [linux]
+        - {{ cdt('libxdamage') }}        # [linux]
+        - {{ cdt('libxfixes') }}         # [linux]
+        - {{ cdt('libxxf86vm') }}        # [linux]
       host:
         - python
         - numpy
-        # Similarly for libprotobuf since we are building a few different versions now
+        - eigen =3.4.0
+        # Specify lgpl version of ffmpeg so that there are
+        # no quesitons about the license of the resulting opencv
+        # binary
+        - ffmpeg {{ ffmpeg }}=lgpl_*
+        - freetype
+        # harfbuzz and glib are both needed for freetype support
+        - harfbuzz
+        - glib
+        - hdf5
+        - jasper
+        - libcblas
+        - libiconv                       # [unix]
+        - libjpeg-turbo
+        - liblapack
+        - liblapacke
+        - libpng
         - libprotobuf
+        - libtiff
+        - libwebp
+        - openexr
+        - qt-main                        # [qt_version == 5]
+        - qt6-main                       # [qt_version == 6]
+        - zlib
+        - libopenvino-dev                # [not ppc64le]
+        - libopencv {{ version }}=*_{{ build }}
       run:
         - python
         - {{ pin_compatible('numpy') }}
-        - {{ pin_subpackage('libopencv', exact=True) }}
+        - libopencv {{ version }}=*_{{ build }}
     test:
       requires:
         # Test with the two currently supported lapack implementatons
