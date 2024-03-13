@@ -17,6 +17,51 @@ jobs:
       osx_64_numpy1.22python3.10.____cpythonqt_versionnone:
         CONFIG: osx_64_numpy1.22python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.8.____cpythonqt_version5:
+        CONFIG: osx_64_numpy1.22python3.8.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.8.____cpythonqt_version6:
+        CONFIG: osx_64_numpy1.22python3.8.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.8.____cpythonqt_versionnone:
+        CONFIG: osx_64_numpy1.22python3.8.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.9.____73_pypyqt_version5:
+        CONFIG: osx_64_numpy1.22python3.9.____73_pypyqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.9.____73_pypyqt_version6:
+        CONFIG: osx_64_numpy1.22python3.9.____73_pypyqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.9.____73_pypyqt_versionnone:
+        CONFIG: osx_64_numpy1.22python3.9.____73_pypyqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.9.____cpythonqt_version5:
+        CONFIG: osx_64_numpy1.22python3.9.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.9.____cpythonqt_version6:
+        CONFIG: osx_64_numpy1.22python3.9.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.22python3.9.____cpythonqt_versionnone:
+        CONFIG: osx_64_numpy1.22python3.9.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.23python3.11.____cpythonqt_version5:
+        CONFIG: osx_64_numpy1.23python3.11.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.23python3.11.____cpythonqt_version6:
+        CONFIG: osx_64_numpy1.23python3.11.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.23python3.11.____cpythonqt_versionnone:
+        CONFIG: osx_64_numpy1.23python3.11.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.26python3.12.____cpythonqt_version5:
+        CONFIG: osx_64_numpy1.26python3.12.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.26python3.12.____cpythonqt_version6:
+        CONFIG: osx_64_numpy1.26python3.12.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_64_numpy1.26python3.12.____cpythonqt_versionnone:
+        CONFIG: osx_64_numpy1.26python3.12.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
       osx_arm64_numpy1.22python3.10.____cpythonqt_version5:
         CONFIG: osx_arm64_numpy1.22python3.10.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
@@ -26,6 +71,43 @@ jobs:
       osx_arm64_numpy1.22python3.10.____cpythonqt_versionnone:
         CONFIG: osx_arm64_numpy1.22python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.22python3.8.____cpythonqt_version5:
+        CONFIG: osx_arm64_numpy1.22python3.8.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.22python3.8.____cpythonqt_version6:
+        CONFIG: osx_arm64_numpy1.22python3.8.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.22python3.8.____cpythonqt_versionnone:
+        CONFIG: osx_arm64_numpy1.22python3.8.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.22python3.9.____cpythonqt_version5:
+        CONFIG: osx_arm64_numpy1.22python3.9.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.22python3.9.____cpythonqt_version6:
+        CONFIG: osx_arm64_numpy1.22python3.9.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.22python3.9.____cpythonqt_versionnone:
+        CONFIG: osx_arm64_numpy1.22python3.9.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.23python3.11.____cpythonqt_version5:
+        CONFIG: osx_arm64_numpy1.23python3.11.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.23python3.11.____cpythonqt_version6:
+        CONFIG: osx_arm64_numpy1.23python3.11.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.23python3.11.____cpythonqt_versionnone:
+        CONFIG: osx_arm64_numpy1.23python3.11.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.26python3.12.____cpythonqt_version5:
+        CONFIG: osx_arm64_numpy1.26python3.12.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.26python3.12.____cpythonqt_version6:
+        CONFIG: osx_arm64_numpy1.26python3.12.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_numpy1.26python3.12.____cpythonqt_versionnone:
+        CONFIG: osx_arm64_numpy1.26python3.12.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+    maxParallel: 18
   timeoutInMinutes: 360
 
   steps:
