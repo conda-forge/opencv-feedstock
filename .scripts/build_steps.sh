@@ -48,7 +48,7 @@ source run_conda_forge_build_setup
 # "recipe/yum_requirements.txt" file. After updating that file,
 # run "conda smithy rerender" and this line will be updated
 # automatically.
-/usr/bin/sudo -n yum install -y mesa-libGL mesa-libEGL libglvnd-glx libglvnd-opengl
+/usr/bin/sudo -n yum install -y mesa-libGL mesa-libEGL libglvnd-egl libglvnd-glx libglvnd-opengl
 
 
 # make the build number clobber
