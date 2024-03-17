@@ -37,7 +37,7 @@ liblapack:
 liblapacke:
 - 3.9 *netlib
 libopenvino_dev:
-- 2023.3.0
+- 2024.0.0
 libpng:
 - '1.6'
 libprotobuf:
@@ -57,10 +57,6 @@ pin_run_as_build:
 python:
 - 3.11.* *_cpython
 qt:
-- '5.15'
-qt6_main:
-- '6.6'
-qt_main:
 - '5.15'
 qt_version:
 - none
