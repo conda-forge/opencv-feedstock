@@ -54,6 +54,10 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.11.* *_cpython
+qt:
+- '5.15'
+qt_version:
+- none
 target_platform:
 - linux-ppc64le
 zip_keys:

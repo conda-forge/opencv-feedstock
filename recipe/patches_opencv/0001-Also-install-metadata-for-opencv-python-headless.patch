@@ -1,0 +1,34 @@
+From bab68f46520a60ed4fa6b384fe36d7174183e983 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Mon, 11 Mar 2024 22:40:08 -0400
+Subject: [PATCH] Also install metadata for opencv-python-headless
+
+---
+ modules/python/common.cmake | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/modules/python/common.cmake b/modules/python/common.cmake
+index 88f4189206..f4c8ec7258 100644
+--- a/modules/python/common.cmake
++++ b/modules/python/common.cmake
+@@ -252,6 +252,17 @@ if (OPENCV_PYTHON_PIP_METADATA_INSTALL)
+     FILES "${CMAKE_CURRENT_BINARY_DIR}/METADATA" "${CMAKE_CURRENT_BINARY_DIR}/INSTALLER"
+     DESTINATION ${OPENCV_PYTHON_INSTALL_PATH}/opencv_python-${OPENCV_VERSION}.dist-info
+     COMPONENT python)
++
++  file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/ocvph.dist-info")
++  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ocvph.dist-info/METADATA "")
++  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/ocvph.dist-info/METADATA "Metadata-Version: 2.1\n")
++  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/ocvph.dist-info/METADATA "Name: opencv-python-headless\n")
++  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/ocvph.dist-info/METADATA "Version: ${OPENCV_VERSION}\n")
++  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ocvph.dist-info/INSTALLER "${OPENCV_PYTHON_PIP_METADATA_INSTALLER}\n")
++  install(
++    FILES "${CMAKE_CURRENT_BINARY_DIR}/ocvph.dist-info/METADATA" "${CMAKE_CURRENT_BINARY_DIR}/ocvph.dist-info/INSTALLER"
++    DESTINATION ${OPENCV_PYTHON_INSTALL_PATH}/opencv_python_headless-${OPENCV_VERSION}.dist-info
++    COMPONENT python)
+ endif()
+ 
+ unset(PYTHON_SRC_DIR)
+-- 
+2.43.2
+
