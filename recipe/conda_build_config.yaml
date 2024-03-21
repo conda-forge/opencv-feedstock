@@ -9,17 +9,6 @@ MACOSX_DEPLOYMENT_TARGET:      # [osx and qt_version == 6]
 MACOSX_SDK_VERSION:            # [osx and qt_version == 6]
   - '12.3'                     # [osx and qt_version == 6]
 
-# Save the size of our build matrix.
-# Build with older protobuf upon request
-# https://github.com/conda-forge/libprotobuf-feedstock/issues/198
-# https://github.com/conda-forge/tensorflow-feedstock/issues/378
-# hmaarrfk - 2024/03 - requested to have builds for linux64
-# 4.25.2 is the latest protobuf migration as of 2024/03/11
-# 4.24.4 is the version that tensorflow 2.15 was last built with
-libprotobuf:  # [linux64]
-- '4.25.2'    # [linux64]
-- '4.24.4'    # [linux64]
-
 # As of 2024/03 -- OSX basically never had qt builds. If somebody asks, we can build them
 # As of 2024/03 -- qt6 works better than qt5 on aarch64. So drop qt5.
 # As of 2024/03 -- No windows users have expressed concerns about the qt libraries. don't build None
