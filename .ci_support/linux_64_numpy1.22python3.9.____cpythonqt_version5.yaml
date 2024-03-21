@@ -41,7 +41,7 @@ libopenvino_dev:
 libpng:
 - '1.6'
 libprotobuf:
-- 4.25.2
+- 4.25.3
 libtiff:
 - '4.6'
 libwebp:
