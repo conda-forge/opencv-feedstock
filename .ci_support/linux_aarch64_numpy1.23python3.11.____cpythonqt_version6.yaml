@@ -65,7 +65,7 @@ qt:
 qt6_main:
 - '6.6'
 qt_version:
-- none
+- '6'
 target_platform:
 - linux-aarch64
 zip_keys:
