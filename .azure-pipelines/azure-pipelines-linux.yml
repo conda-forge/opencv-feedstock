@@ -8,12 +8,8 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_libprotobuf4.24.4numpy1.23python3.11.____cpythonqt_versionnone:
-        CONFIG: linux_64_libprotobuf4.24.4numpy1.23python3.11.____cpythonqt_versionnone
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_libprotobuf4.25.2numpy1.23python3.11.____cpythonqt_versionnone:
-        CONFIG: linux_64_libprotobuf4.25.2numpy1.23python3.11.____cpythonqt_versionnone
+      linux_64_numpy1.23python3.11.____cpythonqt_versionnone:
+        CONFIG: linux_64_numpy1.23python3.11.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
       linux_aarch64_numpy1.23python3.11.____cpythonqt_versionnone:
