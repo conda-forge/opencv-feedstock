@@ -37,7 +37,7 @@ liblapack:
 liblapacke:
 - 3.9 *netlib
 libopenvino_dev:
-- 2024.0.0
+- 2024.1.0
 libpng:
 - '1.6'
 libprotobuf:
