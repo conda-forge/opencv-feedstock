@@ -24,7 +24,7 @@
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 12 %}
+{% set build = 13 %}
 
 
 # Allow the qt version to be easily read from the build number 100's value.
@@ -91,8 +91,8 @@ requirements:
     # ICE when enabling this
     # - llvm-openmp                    # [osx]
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
-    - sysroot_linux-64 2.17  # [linux64]
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
     - {{ cdt('mesa-libegl-devel') }}  # [linux]
     - {{ cdt('mesa-dri-drivers') }}  # [linux]

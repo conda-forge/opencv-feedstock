@@ -1,10 +1,10 @@
 MACOSX_SDK_VERSION:            # [osx and x86_64 and qt_version!=6]
   - "10.13"                    # [osx and x86_64 and qt_version!=6]
-MACOSX_DEPLOYMENT_TARGET:      # [osx and x86_64 and qt_version!=6]
+c_stdlib_version:              # [osx and x86_64 and qt_version!=6]
   - "10.13"                    # [osx and x86_64 and qt_version!=6]
 
 # https://doc.qt.io/qt-6/macos.html
-MACOSX_DEPLOYMENT_TARGET:      # [osx and qt_version == 6]
+c_stdlib_version:              # [osx and qt_version == 6]
   - '11.0'                     # [osx and qt_version == 6]
 MACOSX_SDK_VERSION:            # [osx and qt_version == 6]
   - '12.3'                     # [osx and qt_version == 6]
@@ -16,3 +16,6 @@ qt_version:
   - none       # [not win]
   - 5          # [not (ppc64le or aarch64 or osx)]
   - 6          # [not (ppc64le            or osx)]
+
+c_stdlib_version:   # [linux]
+  - "2.17"          # [linux]
