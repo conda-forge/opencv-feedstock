@@ -66,8 +66,6 @@ python:
 - 3.12.* *_cpython
 qt:
 - '5.15'
-qt6_main:
-- '6.6'
 qt_version:
 - none
 target_platform:
