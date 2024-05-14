@@ -1,10 +1,10 @@
 MACOSX_SDK_VERSION:            # [osx and x86_64 and qt_version!=6]
   - "10.13"                    # [osx and x86_64 and qt_version!=6]
-MACOSX_DEPLOYMENT_TARGET:      # [osx and x86_64 and qt_version!=6]
+c_stdlib_version:              # [osx and x86_64 and qt_version!=6]
   - "10.13"                    # [osx and x86_64 and qt_version!=6]
 
 # https://doc.qt.io/qt-6/macos.html
-MACOSX_DEPLOYMENT_TARGET:      # [osx and qt_version == 6]
+c_stdlib_version:              # [osx and qt_version == 6]
   - '11.0'                     # [osx and qt_version == 6]
 MACOSX_SDK_VERSION:            # [osx and qt_version == 6]
   - '12.3'                     # [osx and qt_version == 6]
@@ -12,7 +12,12 @@ MACOSX_SDK_VERSION:            # [osx and qt_version == 6]
 # As of 2024/03 -- OSX basically never had qt builds. If somebody asks, we can build them
 # As of 2024/03 -- qt6 works better than qt5 on aarch64. So drop qt5.
 # As of 2024/03 -- No windows users have expressed concerns about the qt libraries. don't build None
+# As of 2024/05 -- We had trouble gettin the aarch64 builds to work well with Qt6 and import cv2 on the CIs.
+#                  We can re-consider adding Qt6 support for Aarch upon request.
 qt_version:
   - none       # [not win]
   - 5          # [not (ppc64le or aarch64 or osx)]
-  - 6          # [not (ppc64le            or osx)]
+  - 6          # [not (ppc64le or aarch64 or osx)]
+
+c_stdlib_version:   # [linux]
+  - "2.17"          # [linux]
