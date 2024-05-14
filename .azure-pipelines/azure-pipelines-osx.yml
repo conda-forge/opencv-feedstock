@@ -5,41 +5,74 @@
 jobs:
 - job: osx
   pool:
-    vmImage: macOS-11
+    vmImage: macOS-12
   strategy:
     matrix:
-      osx_64_numpy1.22python3.10.____cpython:
-        CONFIG: osx_64_numpy1.22python3.10.____cpython
+      osx_64_ffmpeg6numpy1.22python3.10.____cpython:
+        CONFIG: osx_64_ffmpeg6numpy1.22python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_64_numpy1.22python3.8.____cpython:
-        CONFIG: osx_64_numpy1.22python3.8.____cpython
+      osx_64_ffmpeg6numpy1.22python3.8.____cpython:
+        CONFIG: osx_64_ffmpeg6numpy1.22python3.8.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_64_numpy1.22python3.9.____73_pypy:
-        CONFIG: osx_64_numpy1.22python3.9.____73_pypy
+      osx_64_ffmpeg6numpy1.22python3.9.____73_pypy:
+        CONFIG: osx_64_ffmpeg6numpy1.22python3.9.____73_pypy
         UPLOAD_PACKAGES: 'True'
-      osx_64_numpy1.22python3.9.____cpython:
-        CONFIG: osx_64_numpy1.22python3.9.____cpython
+      osx_64_ffmpeg6numpy1.22python3.9.____cpython:
+        CONFIG: osx_64_ffmpeg6numpy1.22python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_64_numpy1.23python3.11.____cpython:
-        CONFIG: osx_64_numpy1.23python3.11.____cpython
+      osx_64_ffmpeg6numpy1.23python3.11.____cpython:
+        CONFIG: osx_64_ffmpeg6numpy1.23python3.11.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_64_numpy1.26python3.12.____cpython:
-        CONFIG: osx_64_numpy1.26python3.12.____cpython
+      osx_64_ffmpeg6numpy1.26python3.12.____cpython:
+        CONFIG: osx_64_ffmpeg6numpy1.26python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_numpy1.22python3.10.____cpython:
-        CONFIG: osx_arm64_numpy1.22python3.10.____cpython
+      osx_64_ffmpeg7numpy1.22python3.10.____cpython:
+        CONFIG: osx_64_ffmpeg7numpy1.22python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_numpy1.22python3.8.____cpython:
-        CONFIG: osx_arm64_numpy1.22python3.8.____cpython
+      osx_64_ffmpeg7numpy1.22python3.8.____cpython:
+        CONFIG: osx_64_ffmpeg7numpy1.22python3.8.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_numpy1.22python3.9.____cpython:
-        CONFIG: osx_arm64_numpy1.22python3.9.____cpython
+      osx_64_ffmpeg7numpy1.22python3.9.____73_pypy:
+        CONFIG: osx_64_ffmpeg7numpy1.22python3.9.____73_pypy
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_numpy1.23python3.11.____cpython:
-        CONFIG: osx_arm64_numpy1.23python3.11.____cpython
+      osx_64_ffmpeg7numpy1.22python3.9.____cpython:
+        CONFIG: osx_64_ffmpeg7numpy1.22python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_numpy1.26python3.12.____cpython:
-        CONFIG: osx_arm64_numpy1.26python3.12.____cpython
+      osx_64_ffmpeg7numpy1.23python3.11.____cpython:
+        CONFIG: osx_64_ffmpeg7numpy1.23python3.11.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_64_ffmpeg7numpy1.26python3.12.____cpython:
+        CONFIG: osx_64_ffmpeg7numpy1.26python3.12.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg6numpy1.22python3.10.____cpython:
+        CONFIG: osx_arm64_ffmpeg6numpy1.22python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg6numpy1.22python3.8.____cpython:
+        CONFIG: osx_arm64_ffmpeg6numpy1.22python3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg6numpy1.22python3.9.____cpython:
+        CONFIG: osx_arm64_ffmpeg6numpy1.22python3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg6numpy1.23python3.11.____cpython:
+        CONFIG: osx_arm64_ffmpeg6numpy1.23python3.11.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg6numpy1.26python3.12.____cpython:
+        CONFIG: osx_arm64_ffmpeg6numpy1.26python3.12.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg7numpy1.22python3.10.____cpython:
+        CONFIG: osx_arm64_ffmpeg7numpy1.22python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg7numpy1.22python3.8.____cpython:
+        CONFIG: osx_arm64_ffmpeg7numpy1.22python3.8.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg7numpy1.22python3.9.____cpython:
+        CONFIG: osx_arm64_ffmpeg7numpy1.22python3.9.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg7numpy1.23python3.11.____cpython:
+        CONFIG: osx_arm64_ffmpeg7numpy1.23python3.11.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_ffmpeg7numpy1.26python3.12.____cpython:
+        CONFIG: osx_arm64_ffmpeg7numpy1.26python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
     maxParallel: 9
   timeoutInMinutes: 360
