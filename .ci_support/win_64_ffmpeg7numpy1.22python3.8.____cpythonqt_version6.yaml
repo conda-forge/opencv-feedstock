@@ -3,7 +3,7 @@ c_compiler:
 c_stdlib:
 - vs
 channel_sources:
-- conda-forge
+- conda-forge/label/numpy_rc,conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -51,7 +51,7 @@ python:
 qt:
 - '5.15'
 qt6_main:
-- '6.6'
+- '6.7'
 qt_main:
 - '5.15'
 qt_version:
