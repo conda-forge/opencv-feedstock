@@ -24,7 +24,7 @@
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 15 %}
+{% set build = 16 %}
 
 
 # Allow the qt version to be easily read from the build number 100's value.
@@ -262,7 +262,6 @@ outputs:
         - libprotobuf
       run:
         - python
-        - {{ pin_compatible('numpy') }}
         - {{ pin_subpackage('libopencv', exact=True) }}
     test:
       requires:
