@@ -19,12 +19,12 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.9.0" %}
+{% set version = "4.10.0" %}
 {% set major_version = version.split('.')[0] %}
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 15 %}
+{% set build = 0 %}
 
 
 # Allow the qt version to be easily read from the build number 100's value.
@@ -42,7 +42,7 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c
+    sha256: b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9
     patches:
       # backport https://github.com/opencv/opencv/pull/21611 (unmerged as of 06/2023)
       - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
@@ -50,13 +50,9 @@ source:
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
-      # backport of https://github.com/opencv/opencv/pull/25199
-      - patches_opencv/0005-openvino-2022.1.0-and-newer.patch
-      # backport of https://github.com/opencv/opencv/pull/24878
-      - patches_opencv/0006-opencv-gapi-openvino.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 8952c45a73b75676c522dd574229f563e43c271ae1d5bbbd26f8e2b6bc1a4dae
+    sha256: 65597f8fb8dc2b876c1b45b928bbcc5f772ddbaf97539bf1b737623d0604cba1
     folder: opencv_contrib
     patches:
       # Allow attempt to find HDF5 on cross-compile
