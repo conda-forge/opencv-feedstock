@@ -8,8 +8,8 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_ffmpeg7numpy2.0python3.10.____cpythonqt_version6:
-        CONFIG: linux_64_ffmpeg7numpy2.0python3.10.____cpythonqt_version6
+      linux_64_ffmpeg7numpy2.0python3.12.____cpythonqt_version6:
+        CONFIG: linux_64_ffmpeg7numpy2.0python3.12.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
   timeoutInMinutes: 360
