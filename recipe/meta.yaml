@@ -67,6 +67,10 @@ source:
 
 build:
   number: {{ build }}
+  skip: true   # [py!=310]
+  skip: true   # [ffmpeg == 6]
+  skip: true   # [aarch64]
+  skip: true   # [ppc64le]
   string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}            # [qt_version == "none"]
   string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
   run_exports:
