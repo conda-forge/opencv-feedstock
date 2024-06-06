@@ -67,7 +67,7 @@ source:
 
 build:
   number: {{ build }}
-  skip: true   # [py!=310]
+  skip: true   # [py!=312]
   skip: true   # [ffmpeg == 6]
   skip: true   # [aarch64]
   skip: true   # [ppc64le]
