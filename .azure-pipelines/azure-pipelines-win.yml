@@ -8,9 +8,6 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_ffmpeg7numpy2.0python3.10.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg7numpy2.0python3.10.____cpythonqt_version5
-        UPLOAD_PACKAGES: 'True'
       win_64_ffmpeg7numpy2.0python3.10.____cpythonqt_version6:
         CONFIG: win_64_ffmpeg7numpy2.0python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
