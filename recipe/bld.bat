@@ -38,6 +38,9 @@ set UNIX_SRC_DIR=%SRC_DIR:\=/%
 :: FFMPEG building requires pkgconfig
 set PKG_CONFIG_PATH=%UNIX_LIBRARY_PREFIX%/lib/pkgconfig
 
+for /F "delims=" %%i in ('python -c "import numpy; print(numpy.get_include())"') do set NUMPY_INCLUDE=%%i
+set UNIX_NUMPY_INCLUDE=%NUMPY_INCLUDE:\=/%
+
 cmake -LAH -G "Ninja"                                                               ^
     -DCMAKE_CXX_STANDARD=17                                                         ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
@@ -109,12 +112,12 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
     -DPYTHON_PACKAGES_PATH=%UNIX_SP_DIR%                                            ^
     -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                    ^
+    -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                                ^
     -DBUILD_opencv_python3=1                                                        ^
     -DOPENCV_SKIP_PYTHON_LOADER=1                                                   ^
     -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
     -DPYTHON3_INCLUDE_DIR=%UNIX_PREFIX%/include                                     ^
-    -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_SP_DIR%/numpy/core/include                   ^
+    -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                               ^
     -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
     -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
     -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
