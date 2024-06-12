@@ -258,7 +258,6 @@ outputs:
         - libprotobuf
       run:
         - python
-        - {{ pin_compatible('numpy') }}
         - {{ pin_subpackage('libopencv', exact=True) }}
     test:
       requires:
