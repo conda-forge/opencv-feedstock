@@ -5,7 +5,7 @@ MACOSX_SDK_VERSION:
 c_compiler:
 - clang
 c_compiler_version:
-- '16'
+- '17'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -17,7 +17,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '16'
+- '17'
 ffmpeg:
 - '7'
 freetype:
@@ -41,13 +41,13 @@ liblapack:
 liblapacke:
 - 3.9 *netlib
 libopenvino_dev:
-- 2024.3.0
+- 2024.4.0
 libpng:
 - '1.6'
 libprotobuf:
 - 4.25.3
 libtiff:
-- '4.6'
+- '4.7'
 libwebp:
 - '1'
 macos_machine:
