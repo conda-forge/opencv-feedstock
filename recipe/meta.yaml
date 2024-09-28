@@ -24,7 +24,7 @@
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 4 %}
+{% set build = 5 %}
 
 
 # Allow the qt version to be easily read from the build number 100's value.
@@ -86,18 +86,12 @@ requirements:
     - libgomp                        # [linux]
     # ICE when enabling this
     # - llvm-openmp                    # [osx]
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
-    - {{ stdlib("c") }}
-    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
-    - {{ cdt('mesa-libgl-devel') }}  # [linux]
-    - {{ cdt('mesa-libegl-devel') }}  # [linux]
-    - {{ cdt('mesa-dri-drivers') }}  # [linux]
-    - {{ cdt('libselinux') }}        # [linux]
-    - {{ cdt('libxdamage') }}        # [linux]
-    - {{ cdt('libxfixes') }}         # [linux]
-    - {{ cdt('libxxf86vm') }}        # [linux]
   host:
+    - libgl-devel                        # [linux and (qt_version == 5 or qt_version == 6)]
+    - libegl-devel                       # [linux and (qt_version == 5 or qt_version == 6)]
     - python
     - numpy
     - eigen =3.4.0
@@ -200,7 +194,11 @@ test:
         {{ opencv_libs.append("xphoto") or "" }}
         {{ opencv_libs.append("freetype") or "" }}
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}      # [osx]
-        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                # [osx]
+        # hmaarrfk - 2024/10
+        # Need to specify a default value for CONDA_BUILD_SYSROOT
+        # otherwise the bot seems to fail to help us update
+        # https://github.com/conda-forge/opencv-feedstock/issues/280
+        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT if CONDA_BUILD_SYSROOT else '/does/not/exist' }}  # [osx]
         - OPENCV_FLAGS=`pkg-config --cflags opencv4`                          # [unix]
         - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test        # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
@@ -282,8 +280,8 @@ outputs:
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
         - pip check
         - pip list
-        - test $(pip list | grep opencv-python | wc -l) -eq 2  # [unix]
-        - test $(pip list | grep opencv-python-headless | wc -l) -eq 1  # [unix]
+        - test $(pip list | grep "opencv-python " | wc -l) -eq 1           # [unix]
+        - test $(pip list | grep "opencv-python-headless " | wc -l) -eq 1  # [unix]
       requires:
         - pip
 
