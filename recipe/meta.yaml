@@ -69,8 +69,6 @@ build:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
-  skip: true  # [py!=310]
-  skip: true  # [ffmpeg=="6"]
   ignore_run_exports_from:
     - python
 
@@ -196,7 +194,11 @@ test:
         {{ opencv_libs.append("xphoto") or "" }}
         {{ opencv_libs.append("freetype") or "" }}
         - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}      # [osx]
-        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}                # [osx]
+        # hmaarrfk - 2024/10
+        # Need to specify a default value for CONDA_BUILD_SYSROOT
+        # otherwise the bot seems to fail to help us update
+        # https://github.com/conda-forge/opencv-feedstock/issues/280
+        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT if CONDA_BUILD_SYSROOT else '/does/not/exist' }}  # [osx]
         - OPENCV_FLAGS=`pkg-config --cflags opencv4`                          # [unix]
         - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test        # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
