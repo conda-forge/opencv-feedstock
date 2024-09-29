@@ -198,7 +198,9 @@ test:
         # Need to specify a default value for CONDA_BUILD_SYSROOT
         # otherwise the bot seems to fail to help us update
         # https://github.com/conda-forge/opencv-feedstock/issues/280
-        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT if CONDA_BUILD_SYSROOT else '/does/not/exist' }}  # [osx]
+        {%- if CONDA_BUILD_SYSROOT is defined %}
+        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}  # [osx]
+        {%- endif %}
         - OPENCV_FLAGS=`pkg-config --cflags opencv4`                          # [unix]
         - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test        # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
