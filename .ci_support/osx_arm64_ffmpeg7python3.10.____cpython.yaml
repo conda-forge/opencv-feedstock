@@ -2,6 +2,8 @@ MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
 MACOSX_SDK_VERSION:
 - '11.0'
+ace:
+- 8.0.1
 c_compiler:
 - clang
 c_compiler_version:
@@ -27,7 +29,7 @@ glib:
 harfbuzz:
 - '9'
 hdf5:
-- 1.14.3
+- 1.14.4
 jasper:
 - '4'
 libcblas:
