@@ -1,3 +1,5 @@
+ace:
+- 8.0.1
 c_compiler:
 - gcc
 c_compiler_version:
@@ -27,7 +29,7 @@ glib:
 harfbuzz:
 - '9'
 hdf5:
-- 1.14.3
+- 1.14.4
 jasper:
 - '4'
 libcblas:
