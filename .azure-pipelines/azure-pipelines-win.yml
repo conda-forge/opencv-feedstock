@@ -8,55 +8,30 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_ffmpeg6python3.10.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg6python3.10.____cpythonqt_version5
+      win_64_python3.10.____cpythonqt_version5:
+        CONFIG: win_64_python3.10.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6python3.10.____cpythonqt_version6:
-        CONFIG: win_64_ffmpeg6python3.10.____cpythonqt_version6
+      win_64_python3.10.____cpythonqt_version6:
+        CONFIG: win_64_python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6python3.11.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg6python3.11.____cpythonqt_version5
+      win_64_python3.11.____cpythonqt_version5:
+        CONFIG: win_64_python3.11.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6python3.11.____cpythonqt_version6:
-        CONFIG: win_64_ffmpeg6python3.11.____cpythonqt_version6
+      win_64_python3.11.____cpythonqt_version6:
+        CONFIG: win_64_python3.11.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6python3.12.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg6python3.12.____cpythonqt_version5
+      win_64_python3.12.____cpythonqt_version5:
+        CONFIG: win_64_python3.12.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6python3.12.____cpythonqt_version6:
-        CONFIG: win_64_ffmpeg6python3.12.____cpythonqt_version6
+      win_64_python3.12.____cpythonqt_version6:
+        CONFIG: win_64_python3.12.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6python3.9.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg6python3.9.____cpythonqt_version5
+      win_64_python3.9.____cpythonqt_version5:
+        CONFIG: win_64_python3.9.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg6python3.9.____cpythonqt_version6:
-        CONFIG: win_64_ffmpeg6python3.9.____cpythonqt_version6
+      win_64_python3.9.____cpythonqt_version6:
+        CONFIG: win_64_python3.9.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg7python3.10.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg7python3.10.____cpythonqt_version5
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg7python3.10.____cpythonqt_version6:
-        CONFIG: win_64_ffmpeg7python3.10.____cpythonqt_version6
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg7python3.11.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg7python3.11.____cpythonqt_version5
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg7python3.11.____cpythonqt_version6:
-        CONFIG: win_64_ffmpeg7python3.11.____cpythonqt_version6
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg7python3.12.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg7python3.12.____cpythonqt_version5
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg7python3.12.____cpythonqt_version6:
-        CONFIG: win_64_ffmpeg7python3.12.____cpythonqt_version6
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg7python3.9.____cpythonqt_version5:
-        CONFIG: win_64_ffmpeg7python3.9.____cpythonqt_version5
-        UPLOAD_PACKAGES: 'True'
-      win_64_ffmpeg7python3.9.____cpythonqt_version6:
-        CONFIG: win_64_ffmpeg7python3.9.____cpythonqt_version6
-        UPLOAD_PACKAGES: 'True'
-    maxParallel: 11
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
