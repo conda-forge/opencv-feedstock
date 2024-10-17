@@ -115,7 +115,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DPYTHON_EXECUTABLE=${PYTHON}                                         \
     -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
     -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
-    -DOPENCV_SKIP_PYTHON_LOADER=1                                         \
+    -DOPENCV_SKIP_PYTHON_LOADER=0                                         \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
     -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
     -DJPEG_INCLUDE_DIR=${PREFIX}/include                                  \

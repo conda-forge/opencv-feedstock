@@ -114,7 +114,7 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
     -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                                ^
     -DBUILD_opencv_python3=1                                                        ^
-    -DOPENCV_SKIP_PYTHON_LOADER=1                                                   ^
+    -DOPENCV_SKIP_PYTHON_LOADER=0                                                   ^
     -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
     -DPYTHON3_INCLUDE_DIR=%UNIX_PREFIX%/include                                     ^
     -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                               ^
