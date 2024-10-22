@@ -1,5 +1,7 @@
 BUILD:
 - aarch64-conda_cos7-linux-gnu
+ace:
+- 8.0.1
 c_compiler:
 - gcc
 c_compiler_version:
@@ -49,7 +51,7 @@ libopenvino_dev:
 libpng:
 - '1.6'
 libprotobuf:
-- 5.27.5
+- 5.28.2
 libtiff:
 - '4.7'
 libwebp:

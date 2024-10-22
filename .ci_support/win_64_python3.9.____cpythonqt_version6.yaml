@@ -1,3 +1,5 @@
+ace:
+- 8.0.1
 c_compiler:
 - vs2019
 c_stdlib:
@@ -33,7 +35,7 @@ libopenvino_dev:
 libpng:
 - '1.6'
 libprotobuf:
-- 5.27.5
+- 5.28.2
 libtiff:
 - '4.7'
 libwebp:
