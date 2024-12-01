@@ -8,30 +8,79 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_python3.10.____cpythonqt_version5:
-        CONFIG: win_64_python3.10.____cpythonqt_version5
+      win_64_hdf51.14.3python3.10.____cpythonqt_version5:
+        CONFIG: win_64_hdf51.14.3python3.10.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
-      win_64_python3.10.____cpythonqt_version6:
-        CONFIG: win_64_python3.10.____cpythonqt_version6
+      win_64_hdf51.14.3python3.10.____cpythonqt_version6:
+        CONFIG: win_64_hdf51.14.3python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      win_64_python3.11.____cpythonqt_version5:
-        CONFIG: win_64_python3.11.____cpythonqt_version5
+      win_64_hdf51.14.3python3.10.____cpythonqt_versionnone:
+        CONFIG: win_64_hdf51.14.3python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
-      win_64_python3.11.____cpythonqt_version6:
-        CONFIG: win_64_python3.11.____cpythonqt_version6
+      win_64_hdf51.14.3python3.11.____cpythonqt_version5:
+        CONFIG: win_64_hdf51.14.3python3.11.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
-      win_64_python3.12.____cpythonqt_version5:
-        CONFIG: win_64_python3.12.____cpythonqt_version5
+      win_64_hdf51.14.3python3.11.____cpythonqt_version6:
+        CONFIG: win_64_hdf51.14.3python3.11.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      win_64_python3.12.____cpythonqt_version6:
-        CONFIG: win_64_python3.12.____cpythonqt_version6
+      win_64_hdf51.14.3python3.11.____cpythonqt_versionnone:
+        CONFIG: win_64_hdf51.14.3python3.11.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
-      win_64_python3.9.____cpythonqt_version5:
-        CONFIG: win_64_python3.9.____cpythonqt_version5
+      win_64_hdf51.14.3python3.12.____cpythonqt_version5:
+        CONFIG: win_64_hdf51.14.3python3.12.____cpythonqt_version5
         UPLOAD_PACKAGES: 'True'
-      win_64_python3.9.____cpythonqt_version6:
-        CONFIG: win_64_python3.9.____cpythonqt_version6
+      win_64_hdf51.14.3python3.12.____cpythonqt_version6:
+        CONFIG: win_64_hdf51.14.3python3.12.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.3python3.12.____cpythonqt_versionnone:
+        CONFIG: win_64_hdf51.14.3python3.12.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.3python3.9.____cpythonqt_version5:
+        CONFIG: win_64_hdf51.14.3python3.9.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.3python3.9.____cpythonqt_version6:
+        CONFIG: win_64_hdf51.14.3python3.9.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.3python3.9.____cpythonqt_versionnone:
+        CONFIG: win_64_hdf51.14.3python3.9.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.10.____cpythonqt_version5:
+        CONFIG: win_64_hdf51.14.4python3.10.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.10.____cpythonqt_version6:
+        CONFIG: win_64_hdf51.14.4python3.10.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.10.____cpythonqt_versionnone:
+        CONFIG: win_64_hdf51.14.4python3.10.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.11.____cpythonqt_version5:
+        CONFIG: win_64_hdf51.14.4python3.11.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.11.____cpythonqt_version6:
+        CONFIG: win_64_hdf51.14.4python3.11.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.11.____cpythonqt_versionnone:
+        CONFIG: win_64_hdf51.14.4python3.11.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.12.____cpythonqt_version5:
+        CONFIG: win_64_hdf51.14.4python3.12.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.12.____cpythonqt_version6:
+        CONFIG: win_64_hdf51.14.4python3.12.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.12.____cpythonqt_versionnone:
+        CONFIG: win_64_hdf51.14.4python3.12.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.9.____cpythonqt_version5:
+        CONFIG: win_64_hdf51.14.4python3.9.____cpythonqt_version5
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.9.____cpythonqt_version6:
+        CONFIG: win_64_hdf51.14.4python3.9.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      win_64_hdf51.14.4python3.9.____cpythonqt_versionnone:
+        CONFIG: win_64_hdf51.14.4python3.9.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+    maxParallel: 15
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
@@ -45,6 +94,7 @@ jobs:
       displayName: Run Windows build
       env:
         MINIFORGE_HOME: $(MINIFORGE_HOME)
+        CONDA_BLD_PATH: $(CONDA_BLD_PATH)
         PYTHONUNBUFFERED: 1
         CONFIG: $(CONFIG)
         CI: azure
