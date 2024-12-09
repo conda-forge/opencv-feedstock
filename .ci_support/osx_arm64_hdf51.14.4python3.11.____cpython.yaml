@@ -3,7 +3,7 @@ MACOSX_DEPLOYMENT_TARGET:
 MACOSX_SDK_VERSION:
 - '11.0'
 ace:
-- 8.0.1
+- 8.0.2
 c_compiler:
 - clang
 c_compiler_version:
