@@ -14,6 +14,8 @@ expat:
 - '2'
 ffmpeg:
 - '7'
+flann:
+- 1.9.2
 freetype:
 - '2'
 glib:
@@ -35,7 +37,7 @@ liblapacke:
 libopencv:
 - 4.10.0
 libopenvino_dev:
-- 2024.5.0
+- 2024.6.0
 libpng:
 - '1.6'
 libprotobuf:

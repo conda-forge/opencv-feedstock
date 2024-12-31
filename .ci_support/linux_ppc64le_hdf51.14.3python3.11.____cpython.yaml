@@ -24,6 +24,8 @@ expat:
 - '2'
 ffmpeg:
 - '7'
+flann:
+- 1.9.2
 freetype:
 - '2'
 glib:
