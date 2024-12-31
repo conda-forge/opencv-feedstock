@@ -218,8 +218,8 @@ outputs:
       requires:
         # Test with the two currently supported lapack implementatons
         # One test done on different versions of python on each platform
-        - liblapack * *openblas         # [py==39]
-        - liblapack * *mkl              # [py==310 and linux64]
+        - liblapack * *openblas         # [py==311]
+        - liblapack * *mkl              # [py==312 and linux64]
         - pip
       imports:
         - cv2
