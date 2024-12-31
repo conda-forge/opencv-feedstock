@@ -24,12 +24,14 @@ expat:
 - '2'
 ffmpeg:
 - '7'
+flann:
+- 1.9.2
 freetype:
 - '2'
 glib:
 - '2'
 harfbuzz:
-- '9'
+- '10'
 hdf5:
 - 1.14.3
 jasper:
@@ -47,11 +49,11 @@ liblapacke:
 libopencv:
 - 4.10.0
 libopenvino_dev:
-- 2024.5.0
+- 2024.6.0
 libpng:
 - '1.6'
 libprotobuf:
-- 5.28.2
+- 5.28.3
 libtiff:
 - '4.7'
 libwebp:
@@ -69,7 +71,7 @@ python:
 qt:
 - '5.15'
 qt6_main:
-- '6.7'
+- '6.8'
 qt_main:
 - '5.15'
 qt_version:
