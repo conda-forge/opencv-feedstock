@@ -10,5 +10,4 @@ MACOSX_SDK_VERSION:            # [osx and qt_version == 6]
 #                  We can re-consider adding Qt6 support for Aarch upon request.
 qt_version:
   - none
-  - 5          # [not (ppc64le or aarch64 or osx)]
   - 6          # [not (ppc64le or aarch64 or osx)]
