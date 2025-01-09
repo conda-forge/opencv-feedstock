@@ -57,6 +57,7 @@ cmake -LAH -G "Ninja"                                                           
     -DLAPACK_LAPACKE_H=lapacke.h                                                    ^
     -DLAPACK_CBLAS_H=cblas.h                                                        ^
     -DLAPACK_LIBRARIES=%UNIX_LIBRARY_LIB%/lapack.lib;%UNIX_LIBRARY_LIB%/cblas.lib   ^
+    -DWITH_AVIF=1                                                                   ^
     -DWITH_EIGEN=1                                                                  ^
     -DENABLE_CONFIG_VERIFICATION=ON                                                 ^
     -DENABLE_PRECOMPILED_HEADERS=OFF                                                ^
