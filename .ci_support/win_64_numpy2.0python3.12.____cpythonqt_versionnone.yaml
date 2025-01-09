@@ -26,6 +26,8 @@ hdf5:
 - 1.14.3
 jasper:
 - '4'
+libavif:
+- '1'
 libcblas:
 - 3.9 *netlib
 libjpeg_turbo:
