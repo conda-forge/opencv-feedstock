@@ -72,8 +72,6 @@ qt:
 - '5.15'
 qt6_main:
 - '6.8'
-qt_main:
-- '5.15'
 qt_version:
 - none
 target_platform:
