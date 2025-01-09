@@ -106,6 +106,7 @@ requirements:
     - glib
     - hdf5
     - jasper
+    - libavif
     - libcblas
     - libiconv                       # [unix]
     - libjpeg-turbo
