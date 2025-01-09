@@ -70,6 +70,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DLAPACK_CBLAS_H=cblas.h                                              \
     -DLAPACK_LIBRARIES=lapack\;cblas                                      \
     -DCMAKE_CXX_STANDARD=17                                               \
+    -DWITH_AVIF=1                                                         \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
