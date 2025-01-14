@@ -63,6 +63,7 @@ source:
 
 build:
   number: {{ build }}
+  skip: true  # [py!=312]
   string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
   string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
   run_exports:
@@ -94,7 +95,7 @@ requirements:
     - libegl-devel                       # [linux and (qt_version == 5 or qt_version == 6)]
     - python
     - numpy
-    - eigen =3.4.0
+    - eigen
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
     # binary
@@ -130,8 +131,8 @@ test:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - pkg-config                      # [not win]
-      # Test with the two currently supported lapack implementatons
-      # One test done on different versions of python on each platform
+    # Test with the two currently supported lapack implementatons
+    # One test done on different versions of python on each platform
     - liblapack * *openblas           # [py==36]
     - liblapack * *mkl                # [py==37 and linux64]
     - cmake
@@ -140,28 +141,28 @@ test:
     - CMakeLists.txt
     - test.cpp
   commands:
-        # Verify dynamic libraries on all systems
-        {% set win_ver_lib = version|replace(".", "") %}
-        # The bot doesn't support multiline jinja, so use
-        # single line jinja.
-        {% set opencv_libs = ["alphamat", "aruco", "bgsegm", "calib3d", "ccalib", "core", "datasets", "dnn", "dnn_objdetect", "dnn_superres", "dpm", "face", "features2d", "flann", "freetype", "fuzzy", "gapi", "hfs", "highgui", "img_hash", "imgcodecs", "imgproc", "intensity_transform", "line_descriptor", "mcc", "ml", "objdetect", "optflow", "phase_unwrapping", "photo", "plot", "quality", "rapid", "reg", "rgbd", "saliency", "shape", "stereo", "stitching", "structured_light", "superres", "surface_matching", "text", "tracking", "video", "videoio", "videostab", "wechat_qrcode", "xfeatures2d", "ximgproc", "xobjdetect", "xphoto"] %}
+    # Verify dynamic libraries on all systems
+    {% set win_ver_lib = version|replace(".", "") %}
+    # The bot doesn't support multiline jinja, so use
+    # single line jinja.
+    {% set opencv_libs = ["alphamat", "aruco", "bgsegm", "calib3d", "ccalib", "core", "datasets", "dnn", "dnn_objdetect", "dnn_superres", "dpm", "face", "features2d", "flann", "freetype", "fuzzy", "gapi", "hfs", "highgui", "img_hash", "imgcodecs", "imgproc", "intensity_transform", "line_descriptor", "mcc", "ml", "objdetect", "optflow", "phase_unwrapping", "photo", "plot", "quality", "rapid", "reg", "rgbd", "saliency", "shape", "stereo", "stitching", "structured_light", "superres", "surface_matching", "text", "tracking", "video", "videoio", "videostab", "wechat_qrcode", "xfeatures2d", "ximgproc", "xobjdetect", "xphoto"] %}
     - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}          # [osx]
-        # hmaarrfk - 2024/10
-        # Need to specify a default value for CONDA_BUILD_SYSROOT
-        # otherwise the bot seems to fail to help us update
-        # https://github.com/conda-forge/opencv-feedstock/issues/280
-        {% if CONDA_BUILD_SYSROOT is defined %}
+    # hmaarrfk - 2024/10
+    # Need to specify a default value for CONDA_BUILD_SYSROOT
+    # otherwise the bot seems to fail to help us update
+    # https://github.com/conda-forge/opencv-feedstock/issues/280
+    {% if CONDA_BUILD_SYSROOT is defined %}
     - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}      # [osx]
-        {% endif %}
+    {% endif %}
     - OPENCV_FLAGS="`pkg-config --cflags opencv4`"                            # [unix]
     - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test            # [unix]
     - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                    # [unix]
-        {% for each_opencv_lib in opencv_libs %}
+    {% for each_opencv_lib in opencv_libs %}
     - echo Testing for presence of {{ each_opencv_lib }}
     - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}         # [unix]
     - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1      # [win]
     - echo Found                   {{ each_opencv_lib }}
-        {% endfor %}
+    {% endfor %}
     - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}      # [unix]
     - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}              # [unix]
     - mkdir -p cmake_build_test && pushd cmake_build_test
