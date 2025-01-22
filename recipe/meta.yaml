@@ -50,6 +50,8 @@ source:
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
+      # https://github.com/opencv/opencv/pull/26786
+      - patches_opencv/0005-fix_pcc64le_build_with_newer_gcc.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 2dfc5957201de2aa785064711125af6abb2e80a64e2dc246aca4119b19687041
