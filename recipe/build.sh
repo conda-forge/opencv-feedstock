@@ -53,6 +53,12 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 mkdir -p build
 cd build
 
+# Features that are disabled
+# WITH_OBSENSOR
+# Orbbec seems to be tricky requiring lots of firmware and software to run on OSX
+# https://github.com/opencv/opencv/pull/24877
+# The comment also looks scary on linux, I'll let some1 who needs it test
+
 cmake -LAH -G "Ninja"                                                     \
     ${CMAKE_ARGS}                                                         \
     -DCMAKE_BUILD_TYPE="Release"                                          \
@@ -109,6 +115,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_GTK=0                                                          \
     -DWITH_QT=$QT                                                         \
     -DWITH_GPHOTO2=0                                                      \
+    -DWITH_OBSENSOR=0                                                     \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib/modules"               \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
