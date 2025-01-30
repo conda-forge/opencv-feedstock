@@ -93,6 +93,8 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_JASPER=1                                                       \
     -DWITH_OPENJPEG=0                                                     \
     -DBUILD_JPEG=0                                                        \
+    -DBUILD_WEBP=0                                                        \
+    -DWITH_WEBP=1                                                         \
     -DWITH_V4L=$V4L                                                       \
     -DWITH_CUDA=0                                                         \
     -DWITH_CUBLAS=0                                                       \
