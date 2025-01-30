@@ -63,7 +63,7 @@ libwebp:
 macos_machine:
 - arm64-apple-darwin20.0.0
 numpy:
-- '2.0'
+- '2'
 openexr:
 - '3.3'
 pin_run_as_build:
@@ -71,7 +71,7 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.12.* *_cpython
+- 3.13.* *_cp313
 qt:
 - '5.15'
 qt_version:

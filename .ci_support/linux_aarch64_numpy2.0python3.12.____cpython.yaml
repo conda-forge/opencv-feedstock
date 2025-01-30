@@ -39,15 +39,15 @@ jasper:
 libavif:
 - '1'
 libcblas:
-- 3.9 *netlib
+- 3.9.* *netlib
 libiconv:
 - '1'
 libjpeg_turbo:
 - '3'
 liblapack:
-- 3.9 *netlib
+- 3.9.* *netlib
 liblapacke:
-- 3.9 *netlib
+- 3.9.* *netlib
 libopencv:
 - 4.10.0
 libopenvino_dev:

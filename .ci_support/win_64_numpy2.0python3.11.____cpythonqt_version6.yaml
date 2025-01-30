@@ -1,25 +1,15 @@
-MACOSX_DEPLOYMENT_TARGET:
-- '11.0'
-MACOSX_SDK_VERSION:
-- '11.0'
 ace:
 - 8.0.2
 c_compiler:
-- clang
-c_compiler_version:
-- '18'
+- vs2019
 c_stdlib:
-- macosx_deployment_target
-c_stdlib_version:
-- '11.0'
+- vs
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- clangxx
-cxx_compiler_version:
-- '18'
+- vs2019
 expat:
 - '2'
 ffmpeg:
@@ -40,8 +30,6 @@ libavif:
 - '1'
 libcblas:
 - 3.9.* *netlib
-libiconv:
-- '1'
 libjpeg_turbo:
 - '3'
 liblapack:
@@ -60,8 +48,6 @@ libtiff:
 - '4.7'
 libwebp:
 - '1'
-macos_machine:
-- arm64-apple-darwin20.0.0
 numpy:
 - '2.0'
 openexr:
@@ -71,16 +57,16 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.12.* *_cpython
+- 3.11.* *_cpython
 qt:
 - '5.15'
+qt6_main:
+- '6.8'
 qt_version:
-- none
+- '6'
 target_platform:
-- osx-arm64
+- win-64
 zip_keys:
-- - c_compiler_version
-  - cxx_compiler_version
 - - python
   - numpy
 zlib:
