@@ -1,10 +1,6 @@
 #!/bin/bash
 set -ex
 
-# CMake FindPNG seems to look in libpng not libpng16
-# https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
-ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
-
 V4L="1"
 OPENVINO="1"
 
