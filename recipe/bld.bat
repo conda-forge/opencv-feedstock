@@ -1,14 +1,6 @@
 @echo ON
 setlocal enabledelayedexpansion
 
-
-if "%PY3K%" == "0" (
-    echo "Copying stdint.h for windows"
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\calib3d\include\stdint.h
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\videoio\include\stdint.h
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\highgui\include\stdint.h
-)
-
 mkdir build
 cd build
 
