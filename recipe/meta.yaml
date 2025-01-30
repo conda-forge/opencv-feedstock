@@ -57,6 +57,8 @@ source:
       # https://github.com/opencv/opencv/issues/26747
       # https://github.com/opencv/opencv/pull/26762
       - patches_opencv/26762-libavif-windows.patch
+      # https://github.com/opencv/opencv/pull/26857
+      - patches_opencv/26857-fix_webp_detection.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 2dfc5957201de2aa785064711125af6abb2e80a64e2dc246aca4119b19687041
