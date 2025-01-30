@@ -70,7 +70,6 @@ source:
 
 build:
   number: {{ build }}
-  skip: true  # [py!=312]
   string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
   string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
   run_exports:
