@@ -61,9 +61,6 @@ qt_version:
 target_platform:
 - win-64
 zip_keys:
-- - libprotobuf
-  - libopenvino_dev
-  - harfbuzz
 - - python
   - numpy
 zlib:

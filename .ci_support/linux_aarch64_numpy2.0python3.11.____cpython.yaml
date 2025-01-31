@@ -73,9 +73,6 @@ target_platform:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - libprotobuf
-  - libopenvino_dev
-  - harfbuzz
 - - python
   - numpy
 zlib:
