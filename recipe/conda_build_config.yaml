@@ -11,4 +11,30 @@ MACOSX_SDK_VERSION:            # [osx and qt_version == 6]
 # As of openCV 4.11 we dropped Qt5
 qt_version:
   - none
-  - 6          # [not (ppc64le or aarch64 or osx)]
+  - 6          # [win or linux64]
+
+# hmaarrfk - Jan 31, 2025
+# Tensorflow is behind the protobuf migration
+# tensorflow + opencv is a common combination
+# Since we have tensorflow for linux64 and osx on conda-forge
+# lets build out both of these versions for end users to alleviate
+# accidentally downgrading their packages
+# https://github.com/conda-forge/opencv-feedstock/issues/450
+# Gotta keep libopenvino in sync too
+# The first and last version to have 5.27.5 was libopenvino 2024.4.0
+# https://github.com/conda-forge/openvino-feedstock/pull/107
+# https://github.com/conda-forge/openvino-feedstock/pull/108
+# Gotta also keep harbuzz in sync too
+libprotobuf:
+  - 5.27.5     # [osx or linux64]
+  - 5.28.3
+libopenvino_dev:
+  - 2024.4.0   # [osx or linux64]
+  - 2024.6.0
+harfbuzz:
+  - 9          # [osx or linux64]
+  - 10
+zip_keys:
+- - libprotobuf
+  - libopenvino_dev
+  - harfbuzz
