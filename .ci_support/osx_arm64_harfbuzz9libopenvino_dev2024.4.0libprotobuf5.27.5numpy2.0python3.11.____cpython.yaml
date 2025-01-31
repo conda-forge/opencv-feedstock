@@ -2,8 +2,6 @@ MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
 MACOSX_SDK_VERSION:
 - '11.0'
-ace:
-- 8.0.2
 c_compiler:
 - clang
 c_compiler_version:
@@ -24,14 +22,12 @@ expat:
 - '2'
 ffmpeg:
 - '7'
-flann:
-- 1.9.2
 freetype:
 - '2'
 glib:
 - '2'
 harfbuzz:
-- '10'
+- '9'
 hdf5:
 - 1.14.3
 jasper:
@@ -48,14 +44,12 @@ liblapack:
 - 3.9.* *netlib
 liblapacke:
 - 3.9.* *netlib
-libopencv:
-- 4.10.0
 libopenvino_dev:
-- 2024.6.0
+- 2024.4.0
 libpng:
 - '1.6'
 libprotobuf:
-- 5.28.3
+- 5.27.5
 libtiff:
 - '4.7'
 libwebp:
@@ -71,7 +65,7 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.12.* *_cpython
+- 3.11.* *_cpython
 qt:
 - '5.15'
 qt_version:
@@ -81,6 +75,9 @@ target_platform:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+- - libprotobuf
+  - libopenvino_dev
+  - harfbuzz
 - - python
   - numpy
 zlib:

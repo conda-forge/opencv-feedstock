@@ -1,5 +1,3 @@
-ace:
-- 8.0.2
 c_compiler:
 - gcc
 c_compiler_version:
@@ -24,8 +22,6 @@ expat:
 - '2'
 ffmpeg:
 - '7'
-flann:
-- 1.9.2
 freetype:
 - '2'
 glib:
@@ -48,8 +44,6 @@ liblapack:
 - 3.9.* *netlib
 liblapacke:
 - 3.9.* *netlib
-libopencv:
-- 4.10.0
 libpng:
 - '1.6'
 libprotobuf:
@@ -77,6 +71,8 @@ target_platform:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+- - libprotobuf
+  - harfbuzz
 - - python
   - numpy
 zlib:

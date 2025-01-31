@@ -38,6 +38,7 @@ jobs:
       win_64_numpy2python3.13.____cp313qt_versionnone:
         CONFIG: win_64_numpy2python3.13.____cp313qt_versionnone
         UPLOAD_PACKAGES: 'True'
+    maxParallel: 8
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\

@@ -1,9 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.13'
+- '11.0'
 MACOSX_SDK_VERSION:
-- '10.13'
-ace:
-- 8.0.2
+- '11.0'
 c_compiler:
 - clang
 c_compiler_version:
@@ -11,7 +9,7 @@ c_compiler_version:
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '10.13'
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -24,8 +22,6 @@ expat:
 - '2'
 ffmpeg:
 - '7'
-flann:
-- 1.9.2
 freetype:
 - '2'
 glib:
@@ -48,8 +44,6 @@ liblapack:
 - 3.9.* *netlib
 liblapacke:
 - 3.9.* *netlib
-libopencv:
-- 4.10.0
 libopenvino_dev:
 - 2024.6.0
 libpng:
@@ -61,9 +55,9 @@ libtiff:
 libwebp:
 - '1'
 macos_machine:
-- x86_64-apple-darwin13.4.0
+- arm64-apple-darwin20.0.0
 numpy:
-- '2'
+- '2.0'
 openexr:
 - '3.3'
 pin_run_as_build:
@@ -71,16 +65,19 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.13.* *_cp313
+- 3.10.* *_cpython
 qt:
 - '5.15'
 qt_version:
 - none
 target_platform:
-- osx-64
+- osx-arm64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+- - libprotobuf
+  - libopenvino_dev
+  - harfbuzz
 - - python
   - numpy
 zlib:

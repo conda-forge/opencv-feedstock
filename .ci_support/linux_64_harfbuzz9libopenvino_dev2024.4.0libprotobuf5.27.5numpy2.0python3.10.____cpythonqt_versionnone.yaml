@@ -27,7 +27,7 @@ freetype:
 glib:
 - '2'
 harfbuzz:
-- '10'
+- '9'
 hdf5:
 - 1.14.3
 jasper:
@@ -44,10 +44,12 @@ liblapack:
 - 3.9.* *netlib
 liblapacke:
 - 3.9.* *netlib
+libopenvino_dev:
+- 2024.4.0
 libpng:
 - '1.6'
 libprotobuf:
-- 5.28.3
+- 5.27.5
 libtiff:
 - '4.7'
 libwebp:
@@ -61,17 +63,20 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.12.* *_cpython
+- 3.10.* *_cpython
 qt:
 - '5.15'
+qt6_main:
+- '6.8'
 qt_version:
 - none
 target_platform:
-- linux-ppc64le
+- linux-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
 - - libprotobuf
+  - libopenvino_dev
   - harfbuzz
 - - python
   - numpy
