@@ -25,16 +25,16 @@ qt_version:
 # https://github.com/conda-forge/openvino-feedstock/pull/107
 # https://github.com/conda-forge/openvino-feedstock/pull/108
 # Gotta also keep harbuzz in sync too
-libprotobuf:
-  - 5.27.5     # [osx or linux64]
-  - 5.28.3
-libopenvino_dev:
-  - 2024.4.0   # [osx or linux64]
-  - 2024.6.0
-harfbuzz:
-  - 9          # [osx or linux64]
-  - 10
-zip_keys:
-- - libprotobuf
-  - libopenvino_dev
-  - harfbuzz
+libprotobuf:          # [osx or linux64]
+  - 5.27.5            # [osx or linux64]
+  - 5.28.3            # [osx or linux64]
+libopenvino_dev:      # [osx or linux64]
+  - 2024.4.0          # [osx or linux64]
+  - 2024.6.0          # [osx or linux64]
+harfbuzz:             # [osx or linux64]
+  - 9                 # [osx or linux64]
+  - 10                # [osx or linux64]
+zip_keys:             # [osx or linux64]
+- - libprotobuf       # [osx or linux64]
+  - libopenvino_dev   # [osx or linux64]
+  - harfbuzz          # [osx or linux64]
