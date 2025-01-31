@@ -1,10 +1,6 @@
 #!/bin/bash
 set -ex
 
-# CMake FindPNG seems to look in libpng not libpng16
-# https://gitlab.kitware.com/cmake/cmake/blob/master/Modules/FindPNG.cmake#L55
-ln -s $PREFIX/include/libpng16 $PREFIX/include/libpng
-
 V4L="1"
 OPENVINO="1"
 
@@ -53,6 +49,12 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 mkdir -p build
 cd build
 
+# Features that are disabled
+# WITH_OBSENSOR
+# Orbbec seems to be tricky requiring lots of firmware and software to run on OSX
+# https://github.com/opencv/opencv/pull/24877
+# The comment also looks scary on linux, I'll let some1 who needs it test
+
 cmake -LAH -G "Ninja"                                                     \
     ${CMAKE_ARGS}                                                         \
     -DCMAKE_BUILD_TYPE="Release"                                          \
@@ -70,6 +72,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DLAPACK_CBLAS_H=cblas.h                                              \
     -DLAPACK_LIBRARIES=lapack\;cblas                                      \
     -DCMAKE_CXX_STANDARD=17                                               \
+    -DWITH_AVIF=1                                                         \
     -DWITH_EIGEN=1                                                        \
     -DBUILD_TESTS=0                                                       \
     -DBUILD_DOCS=0                                                        \
@@ -86,6 +89,8 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_JASPER=1                                                       \
     -DWITH_OPENJPEG=0                                                     \
     -DBUILD_JPEG=0                                                        \
+    -DBUILD_WEBP=0                                                        \
+    -DWITH_WEBP=1                                                         \
     -DWITH_V4L=$V4L                                                       \
     -DWITH_CUDA=0                                                         \
     -DWITH_CUBLAS=0                                                       \
@@ -108,6 +113,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_GTK=0                                                          \
     -DWITH_QT=$QT                                                         \
     -DWITH_GPHOTO2=0                                                      \
+    -DWITH_OBSENSOR=0                                                     \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib/modules"               \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \

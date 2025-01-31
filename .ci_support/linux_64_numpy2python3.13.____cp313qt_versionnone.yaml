@@ -1,0 +1,87 @@
+ace:
+- 8.0.2
+c_compiler:
+- gcc
+c_compiler_version:
+- '13'
+c_stdlib:
+- sysroot
+c_stdlib_version:
+- '2.17'
+cdt_name:
+- conda
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- gxx
+cxx_compiler_version:
+- '13'
+docker_image:
+- quay.io/condaforge/linux-anvil-x86_64:cos7
+expat:
+- '2'
+ffmpeg:
+- '7'
+flann:
+- 1.9.2
+freetype:
+- '2'
+glib:
+- '2'
+harfbuzz:
+- '10'
+hdf5:
+- 1.14.3
+jasper:
+- '4'
+libavif:
+- '1'
+libcblas:
+- 3.9.* *netlib
+libiconv:
+- '1'
+libjpeg_turbo:
+- '3'
+liblapack:
+- 3.9.* *netlib
+liblapacke:
+- 3.9.* *netlib
+libopencv:
+- 4.10.0
+libopenvino_dev:
+- 2024.6.0
+libpng:
+- '1.6'
+libprotobuf:
+- 5.28.3
+libtiff:
+- '4.7'
+libwebp:
+- '1'
+numpy:
+- '2'
+openexr:
+- '3.3'
+pin_run_as_build:
+  python:
+    min_pin: x.x
+    max_pin: x.x
+python:
+- 3.13.* *_cp313
+qt:
+- '5.15'
+qt6_main:
+- '6.8'
+qt_version:
+- none
+target_platform:
+- linux-64
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
+- - python
+  - numpy
+zlib:
+- '1'

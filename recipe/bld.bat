@@ -1,14 +1,6 @@
 @echo ON
 setlocal enabledelayedexpansion
 
-
-if "%PY3K%" == "0" (
-    echo "Copying stdint.h for windows"
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\calib3d\include\stdint.h
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\videoio\include\stdint.h
-    copy "%LIBRARY_INC%\stdint.h" %SRC_DIR%\modules\highgui\include\stdint.h
-)
-
 mkdir build
 cd build
 
@@ -57,6 +49,7 @@ cmake -LAH -G "Ninja"                                                           
     -DLAPACK_LAPACKE_H=lapacke.h                                                    ^
     -DLAPACK_CBLAS_H=cblas.h                                                        ^
     -DLAPACK_LIBRARIES=%UNIX_LIBRARY_LIB%/lapack.lib;%UNIX_LIBRARY_LIB%/cblas.lib   ^
+    -DWITH_AVIF=1                                                                   ^
     -DWITH_EIGEN=1                                                                  ^
     -DENABLE_CONFIG_VERIFICATION=ON                                                 ^
     -DENABLE_PRECOMPILED_HEADERS=OFF                                                ^
@@ -76,6 +69,8 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_JASPER=1                                                                 ^
     -DWITH_OPENJPEG=0                                                               ^
     -DBUILD_JPEG=0                                                                  ^
+    -DBUILD_WEBP=0                                                                  ^
+    -DWITH_WEBP=1                                                                   ^
     -DWITH_CUDA=0                                                                   ^
     -DWITH_OPENCL=0                                                                 ^
     -DWITH_OPENCLAMDFFT=0                                                           ^

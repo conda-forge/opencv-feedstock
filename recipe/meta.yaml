@@ -19,12 +19,12 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.10.0" %}
+{% set version = "4.11.0" %}
 {% set major_version = version.split('.')[0] %}
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 15 %}
+{% set build = 0 %}
 
 
 # Allow the qt version to be easily read from the build number 100's value.
@@ -42,7 +42,7 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9
+    sha256: 9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f
     patches:
       # backport https://github.com/opencv/opencv/pull/21611 (unmerged as of 06/2023)
       - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
@@ -50,9 +50,18 @@ source:
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
+      # https://github.com/opencv/opencv/pull/26786
+      - patches_opencv/0005-fix_pcc64le_build_with_newer_gcc.patch
+      # https://github.com/opencv/opencv/pull/26750
+      - patches_opencv/0006-fix-vsx-ppc64le.patch
+      # https://github.com/opencv/opencv/issues/26747
+      # https://github.com/opencv/opencv/pull/26762
+      - patches_opencv/26762-libavif-windows.patch
+      # https://github.com/opencv/opencv/pull/26857
+      - patches_opencv/26857-fix_webp_detection.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 65597f8fb8dc2b876c1b45b928bbcc5f772ddbaf97539bf1b737623d0604cba1
+    sha256: 2dfc5957201de2aa785064711125af6abb2e80a64e2dc246aca4119b19687041
     folder: opencv_contrib
     patches:
       # Allow attempt to find HDF5 on cross-compile
@@ -63,7 +72,7 @@ source:
 
 build:
   number: {{ build }}
-  string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}            # [qt_version == "none"]
+  string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
   string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
@@ -94,7 +103,7 @@ requirements:
     - libegl-devel                       # [linux and (qt_version == 5 or qt_version == 6)]
     - python
     - numpy
-    - eigen =3.4.0
+    - eigen
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
     # binary
@@ -106,6 +115,7 @@ requirements:
     - glib
     - hdf5
     - jasper
+    - libavif
     - libcblas
     - libiconv                       # [unix]
     - libjpeg-turbo
@@ -125,54 +135,54 @@ requirements:
     - expat
 
 test:
-    requires:
-      - {{ compiler('c') }}
-      - {{ compiler('cxx') }}
-      - pkg-config                    # [not win]
-      # Test with the two currently supported lapack implementatons
-      # One test done on different versions of python on each platform
-      - liblapack * *openblas         # [py==36]
-      - liblapack * *mkl              # [py==37 and linux64]
-      - cmake
-      - ninja
-    files:
-      - CMakeLists.txt
-      - test.cpp
-    commands:
-        # Verify dynamic libraries on all systems
-        {% set win_ver_lib = version|replace(".", "") %}
-        # The bot doesn't support multiline jinja, so use
-        # single line jinja.
-        {% set opencv_libs = ["alphamat", "aruco", "bgsegm", "calib3d", "ccalib", "core", "datasets", "dnn", "dnn_objdetect", "dnn_superres", "dpm", "face", "features2d", "flann", "freetype", "fuzzy", "gapi", "hfs", "highgui", "img_hash", "imgcodecs", "imgproc", "intensity_transform", "line_descriptor", "mcc", "ml", "objdetect", "optflow", "phase_unwrapping", "photo", "plot", "quality", "rapid", "reg", "rgbd", "saliency", "shape", "stereo", "stitching", "structured_light", "superres", "surface_matching", "text", "tracking", "video", "videoio", "videostab", "wechat_qrcode", "xfeatures2d", "ximgproc", "xobjdetect", "xphoto"] %}
-        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}      # [osx]
-        # hmaarrfk - 2024/10
-        # Need to specify a default value for CONDA_BUILD_SYSROOT
-        # otherwise the bot seems to fail to help us update
-        # https://github.com/conda-forge/opencv-feedstock/issues/280
-        {% if CONDA_BUILD_SYSROOT is defined %}
-        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}  # [osx]
-        {% endif %}
-        - OPENCV_FLAGS="`pkg-config --cflags opencv4`"                        # [unix]
-        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test        # [unix]
-        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                # [unix]
-        {% for each_opencv_lib in opencv_libs %}
-        - echo Testing for presence of {{ each_opencv_lib }}
-        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}     # [unix]
-        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1  # [win]
-        - echo Found                   {{ each_opencv_lib }}
-        {% endfor %}
-        - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}          # [unix]
-        - mkdir -p cmake_build_test && pushd cmake_build_test
-        - cmake -G "Ninja" ..
-        - cmake --build . --config Release
-        - popd
+  requires:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - pkg-config                      # [not win]
+    # Test with the two currently supported lapack implementatons
+    # One test done on different versions of python on each platform
+    - liblapack * *openblas           # [py==36]
+    - liblapack * *mkl                # [py==37 and linux64]
+    - cmake
+    - ninja
+  files:
+    - CMakeLists.txt
+    - test.cpp
+  commands:
+    # Verify dynamic libraries on all systems
+    {% set win_ver_lib = version|replace(".", "") %}
+    # The bot doesn't support multiline jinja, so use
+    # single line jinja.
+    {% set opencv_libs = ["alphamat", "aruco", "bgsegm", "calib3d", "ccalib", "core", "datasets", "dnn", "dnn_objdetect", "dnn_superres", "dpm", "face", "features2d", "flann", "freetype", "fuzzy", "gapi", "hfs", "highgui", "img_hash", "imgcodecs", "imgproc", "intensity_transform", "line_descriptor", "mcc", "ml", "objdetect", "optflow", "phase_unwrapping", "photo", "plot", "quality", "rapid", "reg", "rgbd", "saliency", "shape", "stereo", "stitching", "structured_light", "superres", "surface_matching", "text", "tracking", "video", "videoio", "videostab", "wechat_qrcode", "xfeatures2d", "ximgproc", "xobjdetect", "xphoto"] %}
+    - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}          # [osx]
+    # hmaarrfk - 2024/10
+    # Need to specify a default value for CONDA_BUILD_SYSROOT
+    # otherwise the bot seems to fail to help us update
+    # https://github.com/conda-forge/opencv-feedstock/issues/280
+    {% if CONDA_BUILD_SYSROOT is defined %}
+    - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}      # [osx]
+    {% endif %}
+    - OPENCV_FLAGS="`pkg-config --cflags opencv4`"                            # [unix]
+    - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test            # [unix]
+    - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                    # [unix]
+    {% for each_opencv_lib in opencv_libs %}
+    - echo Testing for presence of {{ each_opencv_lib }}
+    - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}         # [unix]
+    - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1      # [win]
+    - echo Found                   {{ each_opencv_lib }}
+    {% endfor %}
+    - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}      # [unix]
+    - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}              # [unix]
+    - mkdir -p cmake_build_test && pushd cmake_build_test
+    - cmake -G "Ninja" ..
+    - cmake --build . --config Release
+    - popd
 
 outputs:
   - name: libopencv
   - name: opencv
     build:
-      string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}            # [qt_version == "none"]
+      string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
     requirements:
       host:
@@ -193,7 +203,7 @@ outputs:
 
   - name: py-opencv
     build:
-      string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}            # [qt_version == "none"]
+      string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
       run_exports:
         # Should we even have this???
