@@ -11,6 +11,12 @@ if [[ "${target_platform}" == linux-* ]]; then
     OPENMP="-DWITH_OPENMP=1"
 fi
 
+if [[ "${target_platform}" == osx-* ]]; then
+    # https://conda-forge.org/docs/maintainer/knowledge_base/#newer-c-features-with-old-sdk
+    # Address: error: 'path' is unavailable: introduced in macOS 10.15
+    export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
+fi
+
 if [[ "$qt_version" == "5" ]]; then
     QT="5"
 elif [[ "$qt_version" == "6" ]]; then
