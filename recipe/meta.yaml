@@ -24,7 +24,7 @@
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 2 %}
+{% set build = 3 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
 {% if qt_version == "5" %}

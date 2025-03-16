@@ -1,5 +1,5 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.13'
+- '10.14'
 MACOSX_SDK_VERSION:
 - '10.15'
 ace:
@@ -11,7 +11,7 @@ c_compiler_version:
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '10.13'
+- '10.14'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -49,13 +49,13 @@ liblapack:
 liblapacke:
 - 3.9.* *netlib
 libopencv:
-- 4.10.0
+- 4.11.0
 libopenvino_dev:
 - 2025.0.0
 libpng:
 - '1.6'
 libprotobuf:
-- 5.28.3
+- 5.29.3
 libtiff:
 - '4.7'
 libwebp:
