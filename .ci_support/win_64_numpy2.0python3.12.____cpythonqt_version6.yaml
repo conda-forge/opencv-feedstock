@@ -21,9 +21,9 @@ freetype:
 glib:
 - '2'
 harfbuzz:
-- '11'
+- 11.0.1
 hdf5:
-- 1.14.3
+- 1.14.6
 jasper:
 - '4'
 libavif:
@@ -61,7 +61,7 @@ python:
 qt:
 - '5.15'
 qt6_main:
-- '6.8'
+- '6.9'
 qt_version:
 - '6'
 target_platform:
