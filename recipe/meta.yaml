@@ -27,9 +27,6 @@
 {% set build = 5 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
-{% if qt_version == "5" %}
-{% set build = build + 500 %}
-{% endif %}
 {% if qt_version == "6" %}
 {% set build = build + 600 %}
 {% endif %}
@@ -127,7 +124,6 @@ requirements:
     - libtiff
     - libwebp
     - openexr
-    - qt-main                        # [qt_version == 5]
     - qt6-main                       # [qt_version == 6]
     - zlib
     - libopenvino-dev                # [not ppc64le]
@@ -193,8 +189,6 @@ outputs:
         - python
         # Similarly for libprotobuf since we are building a few different versions now
         - libprotobuf
-        # Need the hash to change for different versions of HDF5
-        - hdf5
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
@@ -220,8 +214,6 @@ outputs:
         - numpy
         # Similarly for libprotobuf since we are building a few different versions now
         - libprotobuf
-        # Need the hash to change for different versions of HDF5
-        - hdf5
       run:
         - python
         - {{ pin_subpackage('libopencv', exact=True) }}
