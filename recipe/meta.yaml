@@ -27,9 +27,7 @@
 {% set build = 7 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
-{% if qt_version == "5" %}
-{% set build = build + 500 %}
-{% endif %}
+# This used to be more important when we supported both qt5 and qt6
 {% if qt_version == "6" %}
 {% set build = build + 600 %}
 {% endif %}
