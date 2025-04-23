@@ -159,6 +159,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DPYTHON2_LIBRARY=                                                    \
     -DPYTHON2_PACKAGES_PATH=                                              \
     -DOPENCV_PYTHON2_INSTALL_PATH=                                        \
+    -DPYTHON3_LIMITED_API:BOOL=ON                                         \
     ..
 
 ninja install -j${CPU_COUNT}

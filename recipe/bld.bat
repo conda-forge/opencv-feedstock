@@ -124,6 +124,7 @@ cmake -LAH -G "Ninja"                                                           
     -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
+    -DPYTHON3_LIMITED_API:BOOL=ON                                                   ^
     ..
 if %ERRORLEVEL% neq 0 (type CMakeError.log && exit 1)
 
