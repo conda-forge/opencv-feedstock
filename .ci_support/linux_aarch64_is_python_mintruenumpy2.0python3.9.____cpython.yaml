@@ -34,6 +34,10 @@ harfbuzz:
 - 11.0.1
 hdf5:
 - 1.14.6
+is_abi3:
+- 'true'
+is_python_min:
+- 'true'
 jasper:
 - '4'
 libavif:
@@ -61,7 +65,7 @@ libtiff:
 libwebp:
 - '1'
 numpy:
-- '2'
+- '2.0'
 openexr:
 - '3.3'
 pin_run_as_build:
@@ -69,7 +73,9 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.13.* *_cp313
+- 3.9.* *_cpython
+python_min:
+- '3.9'
 qt:
 - '5.15'
 qt_version:
@@ -81,5 +87,6 @@ zip_keys:
   - cxx_compiler_version
 - - python
   - numpy
+  - is_python_min
 zlib:
 - '1'
