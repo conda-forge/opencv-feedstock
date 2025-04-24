@@ -253,8 +253,8 @@ outputs:
         - pip list
         - test $(pip list | grep "opencv-python " | wc -l) -eq 1           # [unix]
         - test $(pip list | grep "opencv-python-headless " | wc -l) -eq 1  # [unix]
-        - abi3audit $SP_DIR/cv2.abi3.so -s -v --assume-minimum-abi3 {{ python_min }}   # [unix and is_abi3]
-        - abi3audit %SP_DIR%/cv2.pyd -s -v --assume-minimum-abi3 {{ python_min }}      # [win and is_abi3]
+        - abi3audit $SP_DIR/cv2/python-3/cv2.abi3.so -s -v --assume-minimum-abi3 {{ python_min }}   # [unix and is_abi3]
+        - abi3audit %SP_DIR%\cv2\python-3\cv2.pyd -s -v --assume-minimum-abi3 {{ python_min }}      # [win and is_abi3]
 
 
 about:
