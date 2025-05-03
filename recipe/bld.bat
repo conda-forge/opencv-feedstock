@@ -6,6 +6,10 @@ cd build
 
 if "%qt_version%"=="5" set WITH_QT="-DWITH_QT=5"
 if "%qt_version%"=="6" set WITH_QT="-DWITH_QT=6"
+:REM hmaarrfk -- 2025/05
+:REM Qt 6.9 seems to be injecting bad flags into the build process
+:REM https://github.com/conda-forge/qt-main-feedstock/issues/332
+if "%qt_version%"=="6" python -c "import os; p = os.path.join(os.environ['LIBRARY_PREFIX'], 'lib', 'cmake', 'Qt6Test', 'Qt6TestTargets.cmake'); lines = open(p).readlines(); open(p, 'w').writelines(l for l in lines if 'INTERFACE_COMPILE_DEFINITIONS' not in l)"
 if "%qt_version%"=="none" set WITH_QT="-DWITH_QT=0"
 
 for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (

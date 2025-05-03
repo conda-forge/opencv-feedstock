@@ -21,6 +21,11 @@ if [[ "$qt_version" == "5" ]]; then
     QT="5"
 elif [[ "$qt_version" == "6" ]]; then
     QT="6"
+    # hmaarrfk - 2025/05
+    # Qt 6.9 seems to inject the wrong flags here. They don't seem necessary
+    # https://github.com/conda-forge/qt-main-feedstock/issues/332
+    sed -i.bak '/INTERFACE_COMPILE_DEFINITIONS/d' "${PREFIX}/lib/cmake/Qt6Test/Qt6TestTargets.cmake"
+    rm "${PREFIX}/lib/cmake/Qt6Test/Qt6TestTargets.cmake.bak"
 else
     QT="0"
 fi
