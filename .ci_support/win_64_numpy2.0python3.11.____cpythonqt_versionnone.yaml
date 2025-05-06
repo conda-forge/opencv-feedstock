@@ -1,7 +1,7 @@
 ace:
 - 8.0.2
 c_compiler:
-- vs2019
+- vs2022
 c_stdlib:
 - vs
 channel_sources:
@@ -9,7 +9,7 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2019
+- vs2022
 expat:
 - '2'
 ffmpeg:
@@ -61,7 +61,7 @@ python:
 qt:
 - '5.15'
 qt6_main:
-- '6.8'
+- '6.9'
 qt_version:
 - none
 target_platform:

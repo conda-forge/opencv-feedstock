@@ -14,7 +14,9 @@ qt_version:
   - none
   - 6          # [not (ppc64le or aarch64 or osx)]
 
-# Pin to 6.8 since qt 6.9 seems to be causing build problems
-# https://github.com/conda-forge/opencv-feedstock/pull/463
-qt6_main:
-  - 6.8
+# Must use for Qt 6.9 https://bugreports.qt.io/browse/QTBUG-135452
+# https://github.com/conda-forge/opencv-feedstock/pull/465#issuecomment-2854148414
+c_compiler:    # [win]
+- vs2022       # [win]
+cxx_compiler:  # [win]
+- vs2022       # [win]
