@@ -13,3 +13,10 @@ MACOSX_SDK_VERSION:            # [osx and ((qt_version == 6) or x86_64)]
 qt_version:
   - none
   - 6          # [not (ppc64le or aarch64 or osx)]
+
+# Must use for Qt 6.9 https://bugreports.qt.io/browse/QTBUG-135452
+# https://github.com/conda-forge/opencv-feedstock/pull/465#issuecomment-2854148414
+c_compiler:    # [win and qt_version == 6]
+- vs2022       # [win and qt_version == 6]
+cxx_compiler:  # [win and qt_version == 6]
+- vs2022       # [win and qt_version == 6]
