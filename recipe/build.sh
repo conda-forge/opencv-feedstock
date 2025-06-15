@@ -1,9 +1,6 @@
 #!/bin/bash
 set -ex
 
-V4L="1"
-OPENVINO="1"
-
 if [[ "${target_platform}" == linux-* ]]; then
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
     # with GCC opencv/issues/8097
@@ -32,10 +29,15 @@ fi
 
 if [[ "${target_platform}" == osx-* ]]; then
     V4L="0"
-elif [[ "${target_platform}" == linux-ppc64le ]]; then
-    OPENVINO="0"
+else
+    V4L="1"
 fi
 
+if [[ "${target_platform}" == linux-ppc64le ]]; then
+    OPENVINO="0"
+else
+    OPENVINO="1"
+fi
 
 if [[ "${target_platform}" != "${build_platform}" ]]; then
     CMAKE_ARGS="${CMAKE_ARGS} -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc"
@@ -43,19 +45,12 @@ if [[ "${target_platform}" != "${build_platform}" ]]; then
 fi
 
 
-export PKG_CONFIG_LIBDIR=$PREFIX/lib
-
-IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
-
-LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
-if [[ ${IS_PYPY} == "1" ]]; then
-    INC_PYTHON="$PREFIX/include/pypy${PY_VER}"
-else
-    INC_PYTHON="$PREFIX/include/python${PY_VER}"
-fi
-
 # FFMPEG building requires pkgconfig
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=$PREFIX/lib
+
+LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
+INC_PYTHON="$PREFIX/include/python${PY_VER}"
 
 mkdir -p build
 cd build
@@ -152,13 +147,6 @@ cmake -LAH -G "Ninja"                                                     \
     -DPYTHON3_LIBRARY=${LIB_PYTHON}                                       \
     -DPYTHON3_PACKAGES_PATH=${SP_DIR}                                     \
     -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR}                               \
-    -DBUILD_opencv_python2=0                                              \
-    -DPYTHON2_EXECUTABLE=                                                 \
-    -DPYTHON2_INCLUDE_DIR=                                                \
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=                                         \
-    -DPYTHON2_LIBRARY=                                                    \
-    -DPYTHON2_PACKAGES_PATH=                                              \
-    -DOPENCV_PYTHON2_INSTALL_PATH=                                        \
     -DPYTHON3_LIMITED_API:BOOL=ON                                         \
     ..
 

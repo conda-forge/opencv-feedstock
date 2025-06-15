@@ -33,7 +33,7 @@
 {% endif %}
 
 package:
-  name: libopencv
+  name: libopencv-split
   version: {{ version }}
 
 source:
@@ -64,14 +64,6 @@ build:
   number: {{ build }}
   python_version_independent: true   # [is_abi3]
   skip: True                         # [is_abi3 and not is_python_min]
-  string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
-  string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
-  run_exports:
-    # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
-    # Things seem to change every patch versions, mostly the dnn module
-    - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
-  ignore_run_exports_from:
-    - python
 
 requirements:
   build:
@@ -91,24 +83,22 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - libgl-devel                        # [linux and (qt_version == 5 or qt_version == 6)]
-    - libegl-devel                       # [linux and (qt_version == 5 or qt_version == 6)]
     - python
     - numpy
+    - libgl-devel                    # [linux and (qt_version == 5 or qt_version == 6)]
+    - libegl-devel                   # [linux and (qt_version == 5 or qt_version == 6)]
     - eigen
-    # Specify lgpl version of ffmpeg so that there are
-    # no quesitons about the license of the resulting opencv
-    # binary
-    - ffmpeg {{ ffmpeg }} lgpl_*
+    # ffmpeg -- lgpl variant for licensing flexibility
+    - ffmpeg
+    - ffmpeg *=lgpl_*
     - freetype
     # harfbuzz, glib, gettext are both needed for freetype support
     - harfbuzz
     - gettext
     - glib
+    # hdf5 -- using nompi gives downstream packages most flexibility
     - hdf5
-    # Ensure that we build with nompi variant
-    # it provides downstream packages with the most flexibility
-    - hdf5 * nompi*
+    - hdf5 =*=nompi*
     - jasper
     - libavif
     - libcblas
@@ -117,6 +107,7 @@ requirements:
     - liblapack
     - liblapacke
     - libpng
+    - libabseil
     - libprotobuf
     - libtiff
     - libwebp
@@ -129,68 +120,135 @@ requirements:
     - qt6-main                       # [qt_version == 6]
     - zlib
     - libopenvino-dev                # [not ppc64le]
-    # Why do I need expat here??? At the very least it helps find FFMPEG
-    # And start the compilation on windows
+    # expat -- needed to find ffmpeg on unix
+    # expat -- needed to start compilation on windows
     - expat
-
-test:
-  requires:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - pkg-config                      # [not win]
-    # Test with the two currently supported lapack implementatons
-    # One test done on different versions of python on each platform
-    - liblapack * *openblas           # [py==36]
-    - liblapack * *mkl                # [py==37 and linux64]
-    - cmake
-    - ninja
-  files:
-    - CMakeLists.txt
-    - test.cpp
-  commands:
-    # Verify dynamic libraries on all systems
-    {% set win_ver_lib = version|replace(".", "") %}
-    # The bot doesn't support multiline jinja, so use
-    # single line jinja.
-    {% set opencv_libs = ["alphamat", "aruco", "bgsegm", "calib3d", "ccalib", "core", "datasets", "dnn", "dnn_objdetect", "dnn_superres", "dpm", "face", "features2d", "flann", "freetype", "fuzzy", "gapi", "hfs", "highgui", "img_hash", "imgcodecs", "imgproc", "intensity_transform", "line_descriptor", "mcc", "ml", "objdetect", "optflow", "phase_unwrapping", "photo", "plot", "quality", "rapid", "reg", "rgbd", "saliency", "shape", "stereo", "stitching", "structured_light", "superres", "surface_matching", "text", "tracking", "video", "videoio", "videostab", "wechat_qrcode", "xfeatures2d", "ximgproc", "xobjdetect", "xphoto"] %}
-    - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}          # [osx]
-    # hmaarrfk - 2024/10
-    # Need to specify a default value for CONDA_BUILD_SYSROOT
-    # otherwise the bot seems to fail to help us update
-    # https://github.com/conda-forge/opencv-feedstock/issues/280
-    {% if CONDA_BUILD_SYSROOT is defined %}
-    - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}      # [osx]
-    {% endif %}
-    - OPENCV_FLAGS="`pkg-config --cflags opencv4`"                            # [unix]
-    - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test            # [unix]
-    - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                    # [unix]
-    {% for each_opencv_lib in opencv_libs %}
-    - echo Testing for presence of {{ each_opencv_lib }}
-    - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}         # [unix]
-    - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1      # [win]
-    - echo Found                   {{ each_opencv_lib }}
-    {% endfor %}
-    - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}      # [unix]
-    - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}              # [unix]
-    - mkdir -p cmake_build_test && pushd cmake_build_test
-    - cmake -G "Ninja" ..
-    - cmake --build . --config Release
-    - popd
 
 outputs:
   - name: libopencv
+    build:
+      python_version_independent: true   # [is_abi3]
+      skip: True                         # [is_abi3 and not is_python_min]
+      string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
+      string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
+      run_exports:
+        # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
+        # Things seem to change every patch versions, mostly the dnn module
+        - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
+      ignore_run_exports_from:
+        - python
+        - numpy
+    files:
+      include:
+        - share
+        - include
+        - lib
+      exclude:
+        - lib/**/site-packages
+    requirements:
+      build:
+        - libprotobuf                            # [build_platform != target_platform]
+        - qt6-main                               # [build_platform != target_platform and qt_version == 6]
+        # pkg-config is required to find ffpmeg
+        - pkg-config
+        - cmake
+        - ninja
+        - libgomp                        # [linux]
+        # ICE when enabling this
+        # - llvm-openmp                    # [osx]
+        - {{ stdlib('c') }}
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - python
+        - numpy
+        - libgl-devel                    # [linux and (qt_version == 5 or qt_version == 6)]
+        - libegl-devel                   # [linux and (qt_version == 5 or qt_version == 6)]
+        - eigen
+        # ffmpeg -- lgpl variant for licensing flexibility
+        - ffmpeg
+        - ffmpeg *=lgpl_*
+        - freetype
+        # harfbuzz, glib, gettext are both needed for freetype support
+        - harfbuzz
+        - gettext
+        - glib
+        # hdf5 -- using nompi gives downstream packages most flexibility
+        - hdf5
+        - hdf5 =*=nompi*
+        - jasper
+        - libavif
+        - libcblas
+        - libiconv                       # [unix]
+        - libjpeg-turbo
+        - liblapack
+        - liblapacke
+        - libpng
+        - libabseil
+        - libprotobuf
+        - libtiff
+        - libwebp
+        - openexr
+        - qt6-main                       # [qt_version == 6]
+        - zlib
+        - libopenvino-dev                # [not ppc64le]
+        # expat -- needed to find ffmpeg on unix
+        # expat -- needed to start compilation on windows
+        - expat
+    test:
+      requires:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - pkg-config                      # [not win]
+        # Test with the two currently supported lapack implementatons
+        # One test done on different versions of python on each platform
+        - liblapack * *openblas           # [py==36]
+        - liblapack * *mkl                # [py==37 and linux64]
+        - cmake
+        - ninja
+      files:
+        - CMakeLists.txt
+        - test.cpp
+      commands:
+        # Verify dynamic libraries on all systems
+        {% set win_ver_lib = version|replace(".", "") %}
+        # The bot doesn't support multiline jinja, so use
+        # single line jinja.
+        {% set opencv_libs = ["alphamat", "aruco", "bgsegm", "calib3d", "ccalib", "core", "datasets", "dnn", "dnn_objdetect", "dnn_superres", "dpm", "face", "features2d", "flann", "freetype", "fuzzy", "gapi", "hfs", "highgui", "img_hash", "imgcodecs", "imgproc", "intensity_transform", "line_descriptor", "mcc", "ml", "objdetect", "optflow", "phase_unwrapping", "photo", "plot", "quality", "rapid", "reg", "rgbd", "saliency", "shape", "stereo", "stitching", "structured_light", "superres", "surface_matching", "text", "tracking", "video", "videoio", "videostab", "wechat_qrcode", "xfeatures2d", "ximgproc", "xobjdetect", "xphoto"] %}
+        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}          # [osx]
+        # hmaarrfk - 2024/10
+        # Need to specify a default value for CONDA_BUILD_SYSROOT
+        # otherwise the bot seems to fail to help us update
+        # https://github.com/conda-forge/opencv-feedstock/issues/280
+        {% if CONDA_BUILD_SYSROOT is defined %}
+        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}      # [osx]
+        {% endif %}
+        - OPENCV_FLAGS="`pkg-config --cflags opencv4`"                            # [unix]
+        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test            # [unix]
+        - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                    # [unix]
+        {% for each_opencv_lib in opencv_libs %}
+        - echo Testing for presence of {{ each_opencv_lib }}
+        - test -f $PREFIX/lib/libopencv_{{ each_opencv_lib }}${SHLIB_EXT}         # [unix]
+        - if not exist %PREFIX%\\Library\\bin\\opencv_{{ each_opencv_lib }}{{ win_ver_lib }}.dll exit 1      # [win]
+        - echo Found                   {{ each_opencv_lib }}
+        {% endfor %}
+        - test -f $PREFIX/lib/libopencv_bioinspired${SHLIB_EXT}      # [unix]
+        - test -f $PREFIX/lib/libopencv_hdf${SHLIB_EXT}              # [unix]
+        - mkdir -p cmake_build_test && pushd cmake_build_test
+        - cmake -G "Ninja" ..
+        - cmake --build . --config Release
+        - popd
   - name: opencv
     build:
       string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
+    files:
+      include:
+        - lib/**/site-packages
     requirements:
       host:
-        # Explicitely add a python requirement so that the hash changes between
-        # opencv    for pypy36 and python3.6
-        # similarly for pypy37 and python3.7
         - python
-        # Similarly for libprotobuf since we are building a few different versions now
-        - libprotobuf
+        - numpy
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
@@ -215,8 +273,6 @@ outputs:
         - python-abi3                    # [is_abi3]
         - python
         - numpy
-        # Similarly for libprotobuf since we are building a few different versions now
-        - libprotobuf
       run:
         - python
         - {{ pin_subpackage('libopencv', exact=True) }}
