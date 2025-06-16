@@ -1,7 +1,7 @@
 # This recipe creates 3 packages
 # libopencv, py-opencv, opencv
 #
-# libopencv actually contains all the files, including the site-packages
+# libopencv actually contains all the files that aren't in the site-packages dir
 # file needed to run opencv with python.
 #     opencv-dnn seems to change on every patch version, therefore, we pin
 #     to the patch version x.x.x
@@ -11,14 +11,7 @@
 #
 # opencv is a backward compatible package, with no pinnings
 #
-# This approach is different than the one in defaults. Default's package
-# seperates well the files generated with python dependencies, from those
-# generated without. Unfortunately, this isn't entirely supported by
-# upstream. Their hacks are quite elaborate, making it seem difficult to
-# maintain as opencv has been changing their build system recently.
-#
-# By putting all the generated files in 1 package, this makes the build process
-# much easier, at the expense of a few MBs in the 'lib' package.
+# To build this, we use python ABI3 compatibility and limit to python 3.9
 {% set version = "4.12.0" %}
 {% set major_version = version.split('.')[0] %}
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
