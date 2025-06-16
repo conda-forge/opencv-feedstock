@@ -136,7 +136,7 @@ outputs:
         - include
         - lib
       exclude:
-        - lib/**/site-packages
+        - lib/python3.9/site-packages
     requirements:
       build:
         - libprotobuf                            # [build_platform != target_platform]
@@ -261,7 +261,7 @@ outputs:
         - {{ pin_subpackage('py-opencv') }}
     files:
       include:
-        - lib/**/site-packages
+        - lib/python3.9/site-packages
     requirements:
       # There is no build script, but I just want it to think
       # that it needs python and numpy at build time
