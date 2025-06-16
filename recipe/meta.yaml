@@ -243,9 +243,6 @@ outputs:
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
       python_version_independent: true   # [is_abi3]
       skip: True                         # [is_abi3 and not is_python_min]
-    files:
-      include:
-        - lib/**/site-packages
     requirements:
       host:
         - python
@@ -269,6 +266,9 @@ outputs:
         # Actually, I have found pretty good compatibility in the python
         # package
         - {{ pin_subpackage('py-opencv') }}
+    files:
+      include:
+        - lib/**/site-packages
     requirements:
       # There is no build script, but I just want it to think
       # that it needs python and numpy at build time
