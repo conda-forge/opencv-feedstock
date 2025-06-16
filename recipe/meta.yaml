@@ -223,7 +223,7 @@ outputs:
         - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}      # [osx]
         {% endif %}
         - OPENCV_FLAGS="`pkg-config --cflags opencv4`"                            # [unix]
-        - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test            # [unix]
+        - $CXX -std=c++11 test.cpp ${OPENCV_FLAGS} -o test                        # [unix]
         - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                    # [unix]
         {% for each_opencv_lib in opencv_libs %}
         - echo Testing for presence of {{ each_opencv_lib }}
