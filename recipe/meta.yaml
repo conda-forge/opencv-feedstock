@@ -242,6 +242,8 @@ outputs:
     build:
       string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
+      python_version_independent: true   # [is_abi3]
+      skip: True                         # [is_abi3 and not is_python_min]
     files:
       include:
         - lib/**/site-packages
@@ -260,6 +262,8 @@ outputs:
     build:
       string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
       string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
+      python_version_independent: true   # [is_abi3]
+      skip: True                         # [is_abi3 and not is_python_min]
       run_exports:
         # Should we even have this???
         # don't pin the python version so hard.
