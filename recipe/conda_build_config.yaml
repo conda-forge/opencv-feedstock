@@ -5,14 +5,9 @@ MACOSX_SDK_VERSION:            # [osx and ((qt_version == 6) or x86_64)]
   - '10.15'                    # [osx and x86_64 and qt_version != 6]
   - '12.3'                     # [osx and qt_version == 6]
 
-# As of 2024/03 -- OSX basically never had qt builds. If somebody asks, we can build them
-# As of 2024/03 -- qt6 works better than qt5 on aarch64. So drop qt5.
-# As of 2024/05 -- We had trouble gettin the aarch64 builds to work well with Qt6 and import cv2 on the CIs.
-#                  We can re-consider adding Qt6 support for Aarch upon request.
-# As of openCV 4.11 we dropped Qt5
 qt_version:
   - none
-  - 6          # [not (ppc64le or aarch64 or osx)]
+  - 6          # [not ppc64le]
 
 # Must use for Qt 6.9 https://bugreports.qt.io/browse/QTBUG-135452
 # https://github.com/conda-forge/opencv-feedstock/pull/465#issuecomment-2854148414
