@@ -24,7 +24,7 @@
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 7 %}
+{% set build = 8 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
 # This used to be more important when we supported both qt5 and qt6
@@ -106,7 +106,7 @@ requirements:
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
     # binary
-    - ffmpeg {{ ffmpeg }}=lgpl_*
+    - ffmpeg {{ ffmpeg }} lgpl_*
     - freetype
     # harfbuzz, glib, gettext are both needed for freetype support
     - harfbuzz
@@ -115,7 +115,7 @@ requirements:
     - hdf5
     # Ensure that we build with nompi variant
     # it provides downstream packages with the most flexibility
-    - hdf5 =*=nompi*
+    - hdf5 * nompi*
     - jasper
     - libavif
     - libcblas
