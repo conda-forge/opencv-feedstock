@@ -1,25 +1,25 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '11.0'
+MACOSX_SDK_VERSION:
+- '12.3'
 ace:
 - 8.0.2
 c_compiler:
-- gcc
+- clang
 c_compiler_version:
-- '13'
+- '18'
 c_stdlib:
-- sysroot
+- macosx_deployment_target
 c_stdlib_version:
-- '2.17'
-cdt_name:
-- conda
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
+- clangxx
 cxx_compiler_version:
-- '13'
-docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma9
+- '18'
 expat:
 - '2'
 ffmpeg:
@@ -60,6 +60,8 @@ libtiff:
 - '4.7'
 libwebp:
 - '1'
+macos_machine:
+- x86_64-apple-darwin13.4.0
 numpy:
 - '2'
 openexr:
@@ -72,10 +74,12 @@ python:
 - 3.9.* *_cpython
 qt:
 - '5.15'
+qt6_main:
+- '6.9'
 qt_version:
-- none
+- '6'
 target_platform:
-- linux-aarch64
+- osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

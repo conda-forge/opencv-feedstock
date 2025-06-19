@@ -1,7 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.14'
+- '11.0'
 MACOSX_SDK_VERSION:
-- '10.15'
+- '12.3'
 ace:
 - 8.0.2
 c_compiler:
@@ -11,7 +11,7 @@ c_compiler_version:
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '10.14'
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -74,8 +74,10 @@ python:
 - 3.13.* *_cp313
 qt:
 - '5.15'
+qt6_main:
+- '6.9'
 qt_version:
-- none
+- '6'
 target_platform:
 - osx-64
 zip_keys:
