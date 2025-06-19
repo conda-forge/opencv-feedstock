@@ -1,9 +1,8 @@
 # https://doc.qt.io/qt-6/macos.html
-c_stdlib_version:              # [osx and qt_version == 6]
-  - '11.0'                     # [osx and qt_version == 6]
-MACOSX_SDK_VERSION:            # [osx and ((qt_version == 6) or x86_64)]
-  - '10.15'                    # [osx and x86_64 and qt_version != 6]
-  - '12.3'                     # [osx and qt_version == 6]
+c_stdlib_version:              # [osx and x86_64]
+  - '11.0'                     # [osx and x86_64]
+MACOSX_SDK_VERSION:            # [osx and x86_64]
+  - '12.3'                     # [osx and x86_64]
 
 qt_version:
   - none
