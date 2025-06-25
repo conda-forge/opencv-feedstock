@@ -71,9 +71,11 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.13.* *_cp313
+- 3.11.* *_cpython
 qt:
 - '5.15'
+qt6_main:
+- '6.9'
 qt_version:
 - none
 target_platform:

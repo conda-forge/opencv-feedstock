@@ -1,7 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
 MACOSX_SDK_VERSION:
-- '11.0'
+- '12.3'
 ace:
 - 8.0.2
 c_compiler:
@@ -61,7 +61,7 @@ libtiff:
 libwebp:
 - '1'
 macos_machine:
-- arm64-apple-darwin20.0.0
+- x86_64-apple-darwin13.4.0
 numpy:
 - '2'
 openexr:
@@ -71,13 +71,15 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.11.* *_cpython
+- 3.9.* *_cpython
 qt:
 - '5.15'
+qt6_main:
+- '6.9'
 qt_version:
 - none
 target_platform:
-- osx-arm64
+- osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

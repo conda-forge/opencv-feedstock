@@ -48,24 +48,44 @@ jobs:
         CONFIG: linux_64_python3.9.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_python3.10.____cpython:
-        CONFIG: linux_aarch64_python3.10.____cpython
+      linux_aarch64_python3.10.____cpythonqt_version6:
+        CONFIG: linux_aarch64_python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_python3.11.____cpython:
-        CONFIG: linux_aarch64_python3.11.____cpython
+      linux_aarch64_python3.10.____cpythonqt_versionnone:
+        CONFIG: linux_aarch64_python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_python3.12.____cpython:
-        CONFIG: linux_aarch64_python3.12.____cpython
+      linux_aarch64_python3.11.____cpythonqt_version6:
+        CONFIG: linux_aarch64_python3.11.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_python3.13.____cp313:
-        CONFIG: linux_aarch64_python3.13.____cp313
+      linux_aarch64_python3.11.____cpythonqt_versionnone:
+        CONFIG: linux_aarch64_python3.11.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_python3.9.____cpython:
-        CONFIG: linux_aarch64_python3.9.____cpython
+      linux_aarch64_python3.12.____cpythonqt_version6:
+        CONFIG: linux_aarch64_python3.12.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+      linux_aarch64_python3.12.____cpythonqt_versionnone:
+        CONFIG: linux_aarch64_python3.12.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+      linux_aarch64_python3.13.____cp313qt_version6:
+        CONFIG: linux_aarch64_python3.13.____cp313qt_version6
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+      linux_aarch64_python3.13.____cp313qt_versionnone:
+        CONFIG: linux_aarch64_python3.13.____cp313qt_versionnone
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+      linux_aarch64_python3.9.____cpythonqt_version6:
+        CONFIG: linux_aarch64_python3.9.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+      linux_aarch64_python3.9.____cpythonqt_versionnone:
+        CONFIG: linux_aarch64_python3.9.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
       linux_ppc64le_python3.10.____cpython:
@@ -88,6 +108,7 @@ jobs:
         CONFIG: linux_ppc64le_python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+    maxParallel: 23
   timeoutInMinutes: 360
   variables: {}
 
