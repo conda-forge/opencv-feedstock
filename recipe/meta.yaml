@@ -47,15 +47,6 @@ source:
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
-      # https://github.com/opencv/opencv/pull/26786
-      - patches_opencv/0005-fix_pcc64le_build_with_newer_gcc.patch
-      # https://github.com/opencv/opencv/pull/26750
-      - patches_opencv/0006-fix-vsx-ppc64le.patch
-      # https://github.com/opencv/opencv/issues/26747
-      # https://github.com/opencv/opencv/pull/26762
-      - patches_opencv/26762-libavif-windows.patch
-      # https://github.com/opencv/opencv/pull/26857
-      - patches_opencv/26857-fix_webp_detection.patch
       # https://github.com/conda-forge/cmake-feedstock/issues/238
       - patches_opencv/cmake_35.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
