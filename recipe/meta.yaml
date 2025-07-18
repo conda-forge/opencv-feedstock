@@ -236,6 +236,7 @@ outputs:
         - pip list
         - test $(pip list | grep "opencv-python " | wc -l) -eq 1           # [unix]
         - test $(pip list | grep "opencv-python-headless " | wc -l) -eq 1  # [unix]
+        - test $(grep "{{ SP_DIR }}" {{ SP_DIR }}/cv2/config-{{ PY_VER_MAJOR }}.{{ PY_VER_MINOR }}.py" | wc -l) -eq 1  # [unix]
 
 about:
   home: https://opencv.org/
