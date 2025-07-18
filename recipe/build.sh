@@ -150,6 +150,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DPYTHON3_LIBRARY=${LIB_PYTHON}                                       \
     -DPYTHON3_PACKAGES_PATH=${SP_DIR}                                     \
     -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR}                               \
+    -DCMAKE_PYTHON_EXTENSION_PATH=${SP_DIR}                               \
     -DBUILD_opencv_python2=0                                              \
     -DPYTHON2_EXECUTABLE=                                                 \
     -DPYTHON2_INCLUDE_DIR=                                                \
