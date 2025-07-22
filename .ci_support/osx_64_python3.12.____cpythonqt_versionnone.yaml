@@ -7,7 +7,7 @@ ace:
 c_compiler:
 - clang
 c_compiler_version:
-- '18'
+- '19'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -19,7 +19,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '18'
+- '19'
 expat:
 - '2'
 ffmpeg:
@@ -55,7 +55,7 @@ libopenvino_dev:
 libpng:
 - '1.6'
 libprotobuf:
-- 5.29.3
+- 6.31.1
 libtiff:
 - '4.7'
 libwebp:
