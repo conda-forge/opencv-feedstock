@@ -39,11 +39,11 @@ liblapacke:
 libopencv:
 - 4.11.0
 libopenvino_dev:
-- 2025.0.0
+- 2025.2.0
 libpng:
 - '1.6'
 libprotobuf:
-- 5.29.3
+- 6.31.1
 libtiff:
 - '4.7'
 libwebp:
