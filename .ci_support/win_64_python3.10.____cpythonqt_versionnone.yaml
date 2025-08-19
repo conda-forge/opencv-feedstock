@@ -22,6 +22,8 @@ glib:
 - '2'
 hdf5:
 - 1.14.6
+imath:
+- 3.2.1
 jasper:
 - '4'
 libavif:
