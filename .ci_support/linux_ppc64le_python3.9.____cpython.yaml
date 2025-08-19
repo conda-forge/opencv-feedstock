@@ -30,8 +30,6 @@ freetype:
 - '2'
 glib:
 - '2'
-harfbuzz:
-- 11.0.1
 hdf5:
 - 1.14.6
 jasper:
@@ -49,7 +47,7 @@ liblapack:
 liblapacke:
 - 3.9.* *netlib
 libopencv:
-- 4.11.0
+- 4.12.0
 libpng:
 - '1.6'
 libprotobuf:
