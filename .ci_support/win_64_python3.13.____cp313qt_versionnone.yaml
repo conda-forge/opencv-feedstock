@@ -20,10 +20,10 @@ freetype:
 - '2'
 glib:
 - '2'
-harfbuzz:
-- 11.0.1
 hdf5:
 - 1.14.6
+imath:
+- 3.2.1
 jasper:
 - '4'
 libavif:
@@ -37,7 +37,7 @@ liblapack:
 liblapacke:
 - 3.9.* *netlib
 libopencv:
-- 4.11.0
+- 4.12.0
 libopenvino_dev:
 - 2025.2.0
 libpng:
