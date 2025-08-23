@@ -69,6 +69,8 @@ cmake -LAH -G "Ninja"                                                           
     -DPROTOBUF_UPDATE_FILES=1                                                       ^
     -DBUILD_OPENEXR=0                                                               ^
     -DWITH_OPENEXR=1                                                                ^
+    -DBUILD_JPEGXL=0                                                                ^
+    -DWITH_JPEGXL=1                                                                 ^
     -DBUILD_JASPER=0                                                                ^
     -DWITH_JASPER=1                                                                 ^
     -DWITH_OPENJPEG=0                                                               ^
