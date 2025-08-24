@@ -47,6 +47,8 @@ source:
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
+      # https://github.com/opencv/opencv/pull/27691
+      - patches_opencv/27691-ffmpeg-8.0-support.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 4197722b4c5ed42b476d42e29beb29a52b6b25c34ec7b4d589c3ae5145fee98e
