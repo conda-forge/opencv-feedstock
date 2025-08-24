@@ -23,7 +23,7 @@ docker_image:
 expat:
 - '2'
 ffmpeg:
-- '7'
+- '8'
 flann:
 - 1.9.2
 freetype:
