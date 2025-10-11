@@ -8,11 +8,17 @@ jobs:
     vmImage: macOS-15
   strategy:
     matrix:
-      osx_64_is_python_mintruenumpy2.0python3.9.____cpython:
-        CONFIG: osx_64_is_python_mintruenumpy2.0python3.9.____cpython
+      osx_64_is_python_mintruepython3.10.____cpythonqt_version6:
+        CONFIG: osx_64_is_python_mintruepython3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_is_python_mintruenumpy2.0python3.9.____cpython:
-        CONFIG: osx_arm64_is_python_mintruenumpy2.0python3.9.____cpython
+      osx_64_is_python_mintruepython3.10.____cpythonqt_versionnone:
+        CONFIG: osx_64_is_python_mintruepython3.10.____cpythonqt_versionnone
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_is_python_mintruepython3.10.____cpythonqt_version6:
+        CONFIG: osx_arm64_is_python_mintruepython3.10.____cpythonqt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_is_python_mintruepython3.10.____cpythonqt_versionnone:
+        CONFIG: osx_arm64_is_python_mintruepython3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables: {}
