@@ -1,5 +1,5 @@
-About libopencv-feedstock
-=========================
+About libopencv-split-feedstock
+===============================
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/opencv-feedstock/blob/main/LICENSE.txt)
 
@@ -31,311 +31,80 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_python3.10.____cpythonqt_version6</td>
+              <td>linux_64_is_python_mintruepython3.10.____cpythonqt_version6</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python3.10.____cpythonqt_version6" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_python_mintruepython3.10.____cpythonqt_version6" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_python3.10.____cpythonqt_versionnone</td>
+              <td>linux_64_is_python_mintruepython3.10.____cpythonqt_versionnone</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python3.10.____cpythonqt_versionnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_python_mintruepython3.10.____cpythonqt_versionnone" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_python3.11.____cpythonqt_version6</td>
+              <td>linux_aarch64_is_python_mintruepython3.10.____cpythonqt_version6</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python3.11.____cpythonqt_version6" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_is_python_mintruepython3.10.____cpythonqt_version6" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_python3.11.____cpythonqt_versionnone</td>
+              <td>linux_aarch64_is_python_mintruepython3.10.____cpythonqt_versionnone</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python3.11.____cpythonqt_versionnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_is_python_mintruepython3.10.____cpythonqt_versionnone" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_python3.12.____cpythonqt_version6</td>
+              <td>linux_ppc64le_is_python_mintruepython3.10.____cpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python3.12.____cpythonqt_version6" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_is_python_mintruepython3.10.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_python3.12.____cpythonqt_versionnone</td>
+              <td>osx_64_is_python_mintruepython3.10.____cpythonqt_version6</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python3.12.____cpythonqt_versionnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_python_mintruepython3.10.____cpythonqt_version6" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_python3.13.____cp313qt_version6</td>
+              <td>osx_64_is_python_mintruepython3.10.____cpythonqt_versionnone</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python3.13.____cp313qt_version6" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_python_mintruepython3.10.____cpythonqt_versionnone" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_python3.13.____cp313qt_versionnone</td>
+              <td>osx_arm64_is_python_mintruepython3.10.____cpythonqt_version6</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_python3.13.____cp313qt_versionnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_is_python_mintruepython3.10.____cpythonqt_version6" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64_python3.10.____cpythonqt_version6</td>
+              <td>osx_arm64_is_python_mintruepython3.10.____cpythonqt_versionnone</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.10.____cpythonqt_version6" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_is_python_mintruepython3.10.____cpythonqt_versionnone" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64_python3.10.____cpythonqt_versionnone</td>
+              <td>win_64_is_python_mintruepython3.10.____cpythonqt_version6</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.10.____cpythonqt_versionnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_is_python_mintruepython3.10.____cpythonqt_version6" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64_python3.11.____cpythonqt_version6</td>
+              <td>win_64_is_python_mintruepython3.10.____cpythonqt_versionnone</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.11.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64_python3.11.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.11.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64_python3.12.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.12.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64_python3.12.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.12.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64_python3.13.____cp313qt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.13.____cp313qt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64_python3.13.____cp313qt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_python3.13.____cp313qt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.10.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.10.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.11.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.11.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.12.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.12.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_python3.13.____cp313</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_python3.13.____cp313" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_python3.10.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.10.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_python3.10.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.10.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_python3.11.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.11.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_python3.11.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.11.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_python3.12.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.12.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_python3.12.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.12.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_python3.13.____cp313qt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.13.____cp313qt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_python3.13.____cp313qt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.13.____cp313qt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.10.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.10.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.10.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.10.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.11.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.11.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.11.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.11.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.12.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.12.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.12.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.12.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.13.____cp313qt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.13.____cp313qt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.13.____cp313qt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.13.____cp313qt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.10.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_python3.10.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.10.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_python3.10.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.11.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_python3.11.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.11.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_python3.11.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.12.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_python3.12.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.12.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_python3.12.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.13.____cp313qt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_python3.13.____cp313qt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_python3.13.____cp313qt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_python3.13.____cp313qt_versionnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=win&configuration=win%20win_64_is_python_mintruepython3.10.____cpythonqt_versionnone" alt="variant">
                 </a>
               </td>
             </tr>
@@ -351,55 +120,54 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-libopencv-green.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-opencv-green.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-py--opencv-green.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) |
 
-Installing libopencv
-====================
+Installing libopencv-split
+==========================
 
-Installing `libopencv` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `libopencv-split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libopencv, opencv, py-opencv` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `opencv, py-opencv` can be installed with `conda`:
 
 ```
-conda install libopencv opencv py-opencv
-```
-
-or with `mamba`:
-
-```
-mamba install libopencv opencv py-opencv
-```
-
-It is possible to list all of the versions of `libopencv` available on your platform with `conda`:
-
-```
-conda search libopencv --channel conda-forge
+conda install opencv py-opencv
 ```
 
 or with `mamba`:
 
 ```
-mamba search libopencv --channel conda-forge
+mamba install opencv py-opencv
+```
+
+It is possible to list all of the versions of `opencv` available on your platform with `conda`:
+
+```
+conda search opencv --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search opencv --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libopencv --channel conda-forge
+mamba repoquery search opencv --channel conda-forge
 
-# List packages depending on `libopencv`:
-mamba repoquery whoneeds libopencv --channel conda-forge
+# List packages depending on `opencv`:
+mamba repoquery whoneeds opencv --channel conda-forge
 
-# List dependencies of `libopencv`:
-mamba repoquery depends libopencv --channel conda-forge
+# List dependencies of `opencv`:
+mamba repoquery depends opencv --channel conda-forge
 ```
 
 
@@ -444,17 +212,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating libopencv-feedstock
-============================
+Updating libopencv-split-feedstock
+==================================
 
-If you would like to improve the libopencv recipe or build a new
+If you would like to improve the libopencv-split recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/libopencv-feedstock are
+Note that all branches in the conda-forge/libopencv-split-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks, and branches in the main repository should only be used to
 build distinct package versions.

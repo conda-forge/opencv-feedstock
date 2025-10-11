@@ -1,29 +1,27 @@
-ace:
-- 8.0.5
+MACOSX_DEPLOYMENT_TARGET:
+- '11.0'
+MACOSX_SDK_VERSION:
+- '15.5'
 c_compiler:
-- gcc
+- clang
 c_compiler_version:
-- '14'
+- '19'
 c_stdlib:
-- sysroot
+- macosx_deployment_target
 c_stdlib_version:
-- '2.17'
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- gxx
+- clangxx
 cxx_compiler_version:
-- '14'
-docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma9
+- '19'
 expat:
 - '2'
 ffmpeg:
 - '8'
-flann:
-- 1.9.2
 freetype:
 - '2'
 glib:
@@ -32,8 +30,14 @@ hdf5:
 - 1.14.6
 imath:
 - 3.2.2
+is_abi3:
+- true
+is_python_min:
+- true
 jasper:
 - '4'
+libabseil:
+- '20250512'
 libavif:
 - '1'
 libcblas:
@@ -58,6 +62,8 @@ libtiff:
 - '4.7'
 libwebp:
 - '1'
+macos_machine:
+- x86_64-apple-darwin13.4.0
 numpy:
 - '2'
 openexr:
@@ -67,17 +73,19 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.12.* *_cpython
+- 3.10.* *_cpython
+python_min:
+- '3.10'
 qt:
 - '5.15'
-qt6_main:
-- '6.9'
 qt_version:
-- '6'
+- none
 target_platform:
-- linux-aarch64
+- osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+- - python
+  - is_python_min
 zlib:
 - '1'

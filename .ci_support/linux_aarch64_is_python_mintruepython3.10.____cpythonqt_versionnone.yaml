@@ -1,5 +1,3 @@
-ace:
-- 8.0.5
 c_compiler:
 - gcc
 c_compiler_version:
@@ -22,8 +20,6 @@ expat:
 - '2'
 ffmpeg:
 - '8'
-flann:
-- 1.9.2
 freetype:
 - '2'
 glib:
@@ -32,8 +28,14 @@ hdf5:
 - 1.14.6
 imath:
 - 3.2.2
+is_abi3:
+- true
+is_python_min:
+- true
 jasper:
 - '4'
+libabseil:
+- '20250512'
 libavif:
 - '1'
 libcblas:
@@ -68,16 +70,18 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.10.* *_cpython
+python_min:
+- '3.10'
 qt:
 - '5.15'
-qt6_main:
-- '6.9'
 qt_version:
 - none
 target_platform:
-- linux-64
+- linux-aarch64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+- - python
+  - is_python_min
 zlib:
 - '1'
