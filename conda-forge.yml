@@ -1,4 +1,3 @@
-# Workaround for https://github.com/conda-forge/opencv-feedstock/issues/493
 azure:
   settings_osx:
     pool:
