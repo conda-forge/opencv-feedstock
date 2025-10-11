@@ -19,7 +19,7 @@
 #
 # By putting all the generated files in 1 package, this makes the build process
 # much easier, at the expense of a few MBs in the 'lib' package.
-{% set version = "4.11.0" %}
+{% set version = "4.12.0" %}
 {% set major_version = version.split('.')[0] %}
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
@@ -27,9 +27,7 @@
 {% set build = 8 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
-{% if qt_version == "5" %}
-{% set build = build + 500 %}
-{% endif %}
+# This used to be more important when we supported both qt5 and qt6
 {% if qt_version == "6" %}
 {% set build = build + 600 %}
 {% endif %}
@@ -41,7 +39,7 @@ package:
 source:
   - url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
     fn: opencv-{{ version }}.tar.gz
-    sha256: 9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f
+    sha256: 44c106d5bb47efec04e531fd93008b3fcd1d27138985c5baf4eafac0e1ec9e9d
     patches:
       # backport https://github.com/opencv/opencv/pull/21611 (unmerged as of 06/2023)
       - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
@@ -49,20 +47,11 @@ source:
       - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
-      # https://github.com/opencv/opencv/pull/26786
-      - patches_opencv/0005-fix_pcc64le_build_with_newer_gcc.patch
-      # https://github.com/opencv/opencv/pull/26750
-      - patches_opencv/0006-fix-vsx-ppc64le.patch
-      # https://github.com/opencv/opencv/issues/26747
-      # https://github.com/opencv/opencv/pull/26762
-      - patches_opencv/26762-libavif-windows.patch
-      # https://github.com/opencv/opencv/pull/26857
-      - patches_opencv/26857-fix_webp_detection.patch
-      # https://github.com/conda-forge/cmake-feedstock/issues/238
-      - patches_opencv/cmake_35.patch
+      # https://github.com/opencv/opencv/pull/27691
+      - patches_opencv/27691-ffmpeg-8.0-support.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
-    sha256: 2dfc5957201de2aa785064711125af6abb2e80a64e2dc246aca4119b19687041
+    sha256: 4197722b4c5ed42b476d42e29beb29a52b6b25c34ec7b4d589c3ae5145fee98e
     folder: opencv_contrib
     patches:
       # Allow attempt to find HDF5 on cross-compile
@@ -110,7 +99,7 @@ requirements:
     # Specify lgpl version of ffmpeg so that there are
     # no quesitons about the license of the resulting opencv
     # binary
-    - ffmpeg {{ ffmpeg }}=lgpl_*
+    - ffmpeg {{ ffmpeg }} lgpl_*
     - freetype
     # harfbuzz, glib, gettext are both needed for freetype support
     - harfbuzz
@@ -119,7 +108,7 @@ requirements:
     - hdf5
     # Ensure that we build with nompi variant
     # it provides downstream packages with the most flexibility
-    - hdf5 =*=nompi*
+    - hdf5 * nompi*
     - jasper
     - libavif
     - libcblas
@@ -132,6 +121,11 @@ requirements:
     - libtiff
     - libwebp
     - openexr
+    - libjxl
+    # While imath doesn't trigger overlinking warnings
+    # It does seem to be linked to opencv - libopencv_imgcodecs
+    # https://github.com/conda-forge/opencv-feedstock/issues/486
+    - imath
     - qt6-main                       # [qt_version == 6]
     - zlib
     - libopenvino-dev                # [not ppc64le]
