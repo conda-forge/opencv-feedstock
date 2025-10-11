@@ -24,7 +24,7 @@
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 7 %}
+{% set build = 8 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
 # This used to be more important when we supported both qt5 and qt6
@@ -62,6 +62,8 @@ source:
 
 build:
   number: {{ build }}
+  python_version_independent: true   # [is_abi3]
+  skip: True                         # [is_abi3 and not is_python_min]
   string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
   string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
   run_exports:
@@ -210,6 +212,7 @@ outputs:
       # There is no build script, but I just want it to think
       # that it needs python and numpy at build time
       host:
+        - python-abi3                    # [is_abi3]
         - python
         - numpy
         # Similarly for libprotobuf since we are building a few different versions now
@@ -224,6 +227,7 @@ outputs:
         - liblapack * *openblas         # [py==311]
         - liblapack * *mkl              # [py==312 and linux64]
         - pip
+        - abi3audit                      # [is_abi3]
       imports:
         - cv2
         - cv2.xfeatures2d
@@ -243,6 +247,9 @@ outputs:
         - pip list
         - test $(pip list | grep "opencv-python " | wc -l) -eq 1           # [unix]
         - test $(pip list | grep "opencv-python-headless " | wc -l) -eq 1  # [unix]
+        - abi3audit $SP_DIR/cv2/python-3/cv2.abi3.so -s -v --assume-minimum-abi3 {{ python_min }}   # [unix and is_abi3]
+        - abi3audit %SP_DIR%\cv2\python-3\cv2.pyd -s -v --assume-minimum-abi3 {{ python_min }}      # [win and is_abi3]
+
 
 about:
   home: https://opencv.org/
