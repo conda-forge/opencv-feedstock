@@ -95,7 +95,7 @@ requirements:
     - numpy
     - eigen
     # Specify lgpl version of ffmpeg so that there are
-    # no quesitons about the license of the resulting opencv
+    # no questions about the license of the resulting opencv
     # binary
     - ffmpeg {{ ffmpeg }} lgpl_*
     - freetype
