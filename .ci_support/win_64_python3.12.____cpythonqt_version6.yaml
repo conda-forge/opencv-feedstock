@@ -1,5 +1,3 @@
-ace:
-- 8.0.5
 c_compiler:
 - vs2022
 c_stdlib:
@@ -17,8 +15,6 @@ ffmpeg:
 flann:
 - 1.9.2
 freetype:
-- '2'
-glib:
 - '2'
 hdf5:
 - 1.14.6
