@@ -2,8 +2,6 @@ MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
 MACOSX_SDK_VERSION:
 - '15.5'
-ace:
-- 8.0.5
 c_compiler:
 - clang
 c_compiler_version:
@@ -27,8 +25,6 @@ ffmpeg:
 flann:
 - 1.9.2
 freetype:
-- '2'
-glib:
 - '2'
 hdf5:
 - 1.14.6

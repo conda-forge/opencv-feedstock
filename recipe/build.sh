@@ -116,6 +116,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_OPENNI=0                                                       \
     -DWITH_HDF5=1                                                         \
     -DWITH_FFMPEG=1                                                       \
+    -DWITH_FREETYPE=1                                                     \
     -DWITH_TENGINE=0                                                      \
     -DWITH_GSTREAMER=0                                                    \
     -DWITH_MATLAB=0                                                       \

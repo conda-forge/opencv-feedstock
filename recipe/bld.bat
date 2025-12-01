@@ -37,6 +37,12 @@ set PKG_CONFIG_PATH=%UNIX_LIBRARY_PREFIX%/lib/pkgconfig
 for /F "delims=" %%i in ('python -c "import numpy; print(numpy.get_include())"') do set NUMPY_INCLUDE=%%i
 set UNIX_NUMPY_INCLUDE=%NUMPY_INCLUDE:\=/%
 
+:: Remove the hard dependencies on glib-2 from harfbuzz
+:: https://github.com/conda-forge/harfbuzz-feedstock/pull/146
+set "pc=%LIBRARY_PREFIX%\lib\pkgconfig\harfbuzz.pc"
+findstr /R /V "^Requires\.private" "%pc%" | findstr /R /V "^Libs\.private" > harfbuzz.pc
+move /Y harfbuzz.pc "%pc%"
+
 cmake -LAH -G "Ninja"                                                               ^
     -DCMAKE_CXX_STANDARD=17                                                         ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
@@ -88,6 +94,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_HDF5=1                                                                   ^
     -DOPENCV_ENABLE_PKG_CONFIG=1                                                    ^
     -DWITH_FFMPEG=1                                                                 ^
+    -DWITH_FREETYPE=1                                                               ^
     -DWITH_TENGINE=0                                                                ^
     -DWITH_GSTREAMER=0                                                              ^
     -DWITH_TESSERACT=0                                                              ^
