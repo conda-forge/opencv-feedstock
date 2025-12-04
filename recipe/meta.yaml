@@ -70,6 +70,7 @@ build:
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
   ignore_run_exports_from:
     - python
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
 
 requirements:
   build:
