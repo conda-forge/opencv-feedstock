@@ -35,7 +35,7 @@ liblapacke:
 libopencv:
 - 4.12.0
 libopenvino_dev:
-- 2025.3.0
+- 2025.4.1
 libpng:
 - '1.6'
 libprotobuf:
