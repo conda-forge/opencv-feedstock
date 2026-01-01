@@ -44,11 +44,10 @@ source:
       # backport https://github.com/opencv/opencv/pull/21611 (unmerged as of 06/2023)
       - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
       - patches_opencv/0001-Also-install-metadata-for-opencv-python-headless.patch
-      - patches_opencv/0002-delete-lines-that-download-opencv.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
-      # https://github.com/opencv/opencv/pull/27691
-      - patches_opencv/27691-ffmpeg-8.0-support.patch
+      # https://github.com/opencv/opencv/pull/28345
+      - patches_opencv/28345-fix-vsx-utils-syntax-error.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 1e0077a4fd2960a7d2f4c9e49d6ba7bb891cac2d1be36d7e8e47aa97a9d1039b

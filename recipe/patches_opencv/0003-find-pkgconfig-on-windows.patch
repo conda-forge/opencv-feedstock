@@ -11,11 +11,10 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 6a620c94af..ef9889c014 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -706,6 +706,7 @@ if(UNIX OR MINGW)
-     # - std::aligned_alloc() C++17 / C11
-   endif()
+@@ -765,6 +765,7 @@ if(UNIX OR MINGW)
+   CHECK_SYMBOL_EXISTS(getauxval sys/auxv.h HAVE_GETAUXVAL)
+   CHECK_SYMBOL_EXISTS(elf_aux_info sys/auxv.h HAVE_ELF_AUX_INFO)
  elseif(WIN32)
 +  find_package(PkgConfig REQUIRED)
    include(CheckIncludeFile)
    include(CheckSymbolExists)
- 
