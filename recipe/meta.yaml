@@ -75,6 +75,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
+    - python-abi3                    # [is_abi3]
     - python
     - numpy
     - libgl-devel                    # [linux and (qt_version == 5 or qt_version == 6)]
@@ -116,7 +117,8 @@ requirements:
 outputs:
   - name: libopencv
     build:
-      skip: True                         # [is_abi3 and not py==39]
+      python_version_independent: true   # [is_abi3]
+      skip: True                         # [is_abi3 and not is_python_min]
       string: headless_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
       string: qt{{ qt_version }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
       run_exports:
@@ -148,7 +150,8 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
       host:
-        - python  3.10
+        - python-abi3                    # [is_abi3]
+        - python
         - numpy
         - libgl-devel                    # [linux and (qt_version == 5 or qt_version == 6)]
         - libegl-devel                   # [linux and (qt_version == 5 or qt_version == 6)]
@@ -234,6 +237,7 @@ outputs:
       skip: True                         # [is_abi3 and not is_python_min]
     requirements:
       host:
+        - python-abi3                    # [is_abi3]
         - python
         - numpy
       run:
