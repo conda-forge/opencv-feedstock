@@ -1,13 +1,23 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '11.0'
+MACOSX_SDK_VERSION:
+- '15.5'
 c_compiler:
-- vs2022
+- clang
+c_compiler_version:
+- '19'
 c_stdlib:
-- vs
+- macosx_deployment_target
+c_stdlib_version:
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2022
+- clangxx
+cxx_compiler_version:
+- '19'
 expat:
 - '2'
 ffmpeg:
@@ -16,16 +26,26 @@ flann:
 - 1.9.2
 freetype:
 - '2'
+glib:
+- '2'
 hdf5:
 - 1.14.6
 imath:
 - 3.2.2
+is_abi3:
+- true
+is_python_min:
+- true
 jasper:
 - '4'
+libabseil:
+- '20250512'
 libavif:
 - '1'
 libcblas:
 - 3.9.* *netlib
+libiconv:
+- '1'
 libjpeg_turbo:
 - '3'
 liblapack:
@@ -44,6 +64,8 @@ libtiff:
 - '4.7'
 libwebp:
 - '1'
+macos_machine:
+- arm64-apple-darwin20.0.0
 numpy:
 - '2'
 openexr:
@@ -53,7 +75,9 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.12.* *_cpython
+- 3.10.* *_cpython
+python_min:
+- '3.10'
 qt:
 - '5.15'
 qt6_main:
@@ -61,6 +85,11 @@ qt6_main:
 qt_version:
 - none
 target_platform:
-- win-64
+- osx-arm64
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
+- - python
+  - is_python_min
 zlib:
 - '1'

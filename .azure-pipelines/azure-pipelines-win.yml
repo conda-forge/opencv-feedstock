@@ -8,29 +8,11 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_python3.10.____cpythonqt_version6:
-        CONFIG: win_64_python3.10.____cpythonqt_version6
+      win_64_is_python_mintruepython3.10.____cpythonqt_version6:
+        CONFIG: win_64_is_python_mintruepython3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
-      win_64_python3.10.____cpythonqt_versionnone:
-        CONFIG: win_64_python3.10.____cpythonqt_versionnone
-        UPLOAD_PACKAGES: 'True'
-      win_64_python3.11.____cpythonqt_version6:
-        CONFIG: win_64_python3.11.____cpythonqt_version6
-        UPLOAD_PACKAGES: 'True'
-      win_64_python3.11.____cpythonqt_versionnone:
-        CONFIG: win_64_python3.11.____cpythonqt_versionnone
-        UPLOAD_PACKAGES: 'True'
-      win_64_python3.12.____cpythonqt_version6:
-        CONFIG: win_64_python3.12.____cpythonqt_version6
-        UPLOAD_PACKAGES: 'True'
-      win_64_python3.12.____cpythonqt_versionnone:
-        CONFIG: win_64_python3.12.____cpythonqt_versionnone
-        UPLOAD_PACKAGES: 'True'
-      win_64_python3.13.____cp313qt_version6:
-        CONFIG: win_64_python3.13.____cp313qt_version6
-        UPLOAD_PACKAGES: 'True'
-      win_64_python3.13.____cp313qt_versionnone:
-        CONFIG: win_64_python3.13.____cp313qt_versionnone
+      win_64_is_python_mintruepython3.10.____cpythonqt_versionnone:
+        CONFIG: win_64_is_python_mintruepython3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables:

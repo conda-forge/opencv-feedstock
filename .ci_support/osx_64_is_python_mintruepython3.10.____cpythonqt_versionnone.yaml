@@ -26,12 +26,20 @@ flann:
 - 1.9.2
 freetype:
 - '2'
+glib:
+- '2'
 hdf5:
 - 1.14.6
 imath:
 - 3.2.2
+is_abi3:
+- true
+is_python_min:
+- true
 jasper:
 - '4'
+libabseil:
+- '20250512'
 libavif:
 - '1'
 libcblas:
@@ -67,17 +75,21 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.11.* *_cpython
+- 3.10.* *_cpython
+python_min:
+- '3.10'
 qt:
 - '5.15'
 qt6_main:
 - '6.10'
 qt_version:
-- '6'
+- none
 target_platform:
 - osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+- - python
+  - is_python_min
 zlib:
 - '1'
