@@ -123,6 +123,7 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                                ^
     -DBUILD_opencv_python3=1                                                        ^
     -DOPENCV_SKIP_PYTHON_LOADER=0                                                   ^
+    -DOPENCV_FFMPEG_SKIP_DOWNLOAD=1                                                 ^
     -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
     -DPYTHON3_INCLUDE_DIR=%UNIX_PREFIX%/include                                     ^
     -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                               ^

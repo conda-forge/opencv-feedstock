@@ -32,6 +32,10 @@ fi
 
 if [[ "${target_platform}" == osx-* ]]; then
     V4L="0"
+    # hmaarrfk - 2026/01/01
+    # SVE2 (Scalable Vector Extension 2) is not supported on macOS/Darwin, even on Apple Silicon.
+    # Disable it to prevent compiler crashes when kleidicv tries to compile SVE2-specific code.
+    CMAKE_ARGS="${CMAKE_ARGS} -DKLEIDICV_ENABLE_SVE2=OFF"
 elif [[ "${target_platform}" == linux-ppc64le ]]; then
     OPENVINO="0"
 fi
@@ -136,6 +140,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
     -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
     -DOPENCV_SKIP_PYTHON_LOADER=0                                         \
+    -DOPENCV_FFMPEG_SKIP_DOWNLOAD=1                                       \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
     -DZLIB_LIBRARY_RELEASE=${PREFIX}/lib/libz${SHLIB_EXT}                 \
     -DJPEG_INCLUDE_DIR=${PREFIX}/include                                  \
