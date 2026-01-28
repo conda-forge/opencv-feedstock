@@ -108,13 +108,6 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON_PACKAGES_PATH=""                                                       ^
     -DPYTHON_LIBRARY=""                                                             ^
     -DPYTHON_NUMPY_INCLUDE_DIRS=""                                                  ^
-    -DBUILD_opencv_python2=0                                                        ^
-    -DPYTHON2_EXECUTABLE=""                                                         ^
-    -DPYTHON2_INCLUDE_DIR=""                                                        ^
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                                 ^
-    -DPYTHON2_LIBRARY=""                                                            ^
-    -DPYTHON2_PACKAGES_PATH=""                                                      ^
-    -DOPENCV_PYTHON2_INSTALL_PATH=""                                                ^
     -DBUILD_opencv_python3=0                                                        ^
     -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
     -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
@@ -132,6 +125,7 @@ cmake -LAH -G "Ninja"                                                           
     -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
+    -DPYTHON3_LIMITED_API:BOOL=ON                                                   ^
     ..
 if %ERRORLEVEL% neq 0 (type CMakeError.log && exit 1)
 
