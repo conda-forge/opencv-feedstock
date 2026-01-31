@@ -32,6 +32,12 @@ jobs:
       osx_64_python3.13.____cp313qt_versionnone:
         CONFIG: osx_64_python3.13.____cp313qt_versionnone
         UPLOAD_PACKAGES: 'True'
+      osx_64_python3.14.____cp314qt_version6:
+        CONFIG: osx_64_python3.14.____cp314qt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_64_python3.14.____cp314qt_versionnone:
+        CONFIG: osx_64_python3.14.____cp314qt_versionnone
+        UPLOAD_PACKAGES: 'True'
       osx_arm64_python3.10.____cpythonqt_version6:
         CONFIG: osx_arm64_python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
@@ -56,6 +62,13 @@ jobs:
       osx_arm64_python3.13.____cp313qt_versionnone:
         CONFIG: osx_arm64_python3.13.____cp313qt_versionnone
         UPLOAD_PACKAGES: 'True'
+      osx_arm64_python3.14.____cp314qt_version6:
+        CONFIG: osx_arm64_python3.14.____cp314qt_version6
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_python3.14.____cp314qt_versionnone:
+        CONFIG: osx_arm64_python3.14.____cp314qt_versionnone
+        UPLOAD_PACKAGES: 'True'
+    maxParallel: 18
   timeoutInMinutes: 360
   variables: {}
 

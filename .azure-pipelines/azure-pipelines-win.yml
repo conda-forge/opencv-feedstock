@@ -32,6 +32,13 @@ jobs:
       win_64_python3.13.____cp313qt_versionnone:
         CONFIG: win_64_python3.13.____cp313qt_versionnone
         UPLOAD_PACKAGES: 'True'
+      win_64_python3.14.____cp314qt_version6:
+        CONFIG: win_64_python3.14.____cp314qt_version6
+        UPLOAD_PACKAGES: 'True'
+      win_64_python3.14.____cp314qt_versionnone:
+        CONFIG: win_64_python3.14.____cp314qt_versionnone
+        UPLOAD_PACKAGES: 'True'
+    maxParallel: 9
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
