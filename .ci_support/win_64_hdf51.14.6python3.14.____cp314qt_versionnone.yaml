@@ -20,8 +20,6 @@ hdf5:
 - 1.14.6
 imath:
 - 3.2.2
-jasper:
-- '4'
 libavif:
 - '1'
 libcblas:
@@ -48,6 +46,8 @@ numpy:
 - '2'
 openexr:
 - '3.4'
+openjpeg:
+- '2'
 pin_run_as_build:
   python:
     min_pin: x.x
