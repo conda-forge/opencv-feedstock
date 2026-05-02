@@ -24,7 +24,7 @@
 {% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
 {% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 7 %}
+{% set build = 8 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
 # This used to be more important when we supported both qt5 and qt6
@@ -106,7 +106,7 @@ requirements:
     # Ensure that we build with nompi variant
     # it provides downstream packages with the most flexibility
     - hdf5 * nompi*
-    - jasper
+    - openjpeg
     - libavif
     - libcblas
     - libiconv                       # [unix]
@@ -240,6 +240,7 @@ outputs:
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"
+        - python -c "import cv2, re; assert re.search(r'JPEG 2000:\s+OpenJPEG', cv2.getBuildInformation()), cv2.getBuildInformation()"
         - pip check
         - pip list
         - test $(pip list | grep "opencv-python " | wc -l) -eq 1           # [unix]

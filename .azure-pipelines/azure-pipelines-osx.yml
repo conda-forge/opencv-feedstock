@@ -12,162 +12,202 @@ jobs:
         CONFIG: osx_64_hdf51.14.6python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.10.____cpythonqt_versionnone:
         CONFIG: osx_64_hdf51.14.6python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.11.____cpythonqt_version6:
         CONFIG: osx_64_hdf51.14.6python3.11.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.11.____cpythonqt_versionnone:
         CONFIG: osx_64_hdf51.14.6python3.11.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.12.____cpythonqt_version6:
         CONFIG: osx_64_hdf51.14.6python3.12.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.12.____cpythonqt_versionnone:
         CONFIG: osx_64_hdf51.14.6python3.12.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.13.____cp313qt_version6:
         CONFIG: osx_64_hdf51.14.6python3.13.____cp313qt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.13.____cp313qt_versionnone:
         CONFIG: osx_64_hdf51.14.6python3.13.____cp313qt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.14.____cp314qt_version6:
         CONFIG: osx_64_hdf51.14.6python3.14.____cp314qt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf51.14.6python3.14.____cp314qt_versionnone:
         CONFIG: osx_64_hdf51.14.6python3.14.____cp314qt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.10.____cpythonqt_version6:
         CONFIG: osx_64_hdf52python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.10.____cpythonqt_versionnone:
         CONFIG: osx_64_hdf52python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.11.____cpythonqt_version6:
         CONFIG: osx_64_hdf52python3.11.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.11.____cpythonqt_versionnone:
         CONFIG: osx_64_hdf52python3.11.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.12.____cpythonqt_version6:
         CONFIG: osx_64_hdf52python3.12.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.12.____cpythonqt_versionnone:
         CONFIG: osx_64_hdf52python3.12.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.13.____cp313qt_version6:
         CONFIG: osx_64_hdf52python3.13.____cp313qt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.13.____cp313qt_versionnone:
         CONFIG: osx_64_hdf52python3.13.____cp313qt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.14.____cp314qt_version6:
         CONFIG: osx_64_hdf52python3.14.____cp314qt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_hdf52python3.14.____cp314qt_versionnone:
         CONFIG: osx_64_hdf52python3.14.____cp314qt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.10.____cpythonqt_version6:
         CONFIG: osx_arm64_hdf51.14.6python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.10.____cpythonqt_versionnone:
         CONFIG: osx_arm64_hdf51.14.6python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.11.____cpythonqt_version6:
         CONFIG: osx_arm64_hdf51.14.6python3.11.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.11.____cpythonqt_versionnone:
         CONFIG: osx_arm64_hdf51.14.6python3.11.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.12.____cpythonqt_version6:
         CONFIG: osx_arm64_hdf51.14.6python3.12.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.12.____cpythonqt_versionnone:
         CONFIG: osx_arm64_hdf51.14.6python3.12.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.13.____cp313qt_version6:
         CONFIG: osx_arm64_hdf51.14.6python3.13.____cp313qt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.13.____cp313qt_versionnone:
         CONFIG: osx_arm64_hdf51.14.6python3.13.____cp313qt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.14.____cp314qt_version6:
         CONFIG: osx_arm64_hdf51.14.6python3.14.____cp314qt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf51.14.6python3.14.____cp314qt_versionnone:
         CONFIG: osx_arm64_hdf51.14.6python3.14.____cp314qt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.10.____cpythonqt_version6:
         CONFIG: osx_arm64_hdf52python3.10.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.10.____cpythonqt_versionnone:
         CONFIG: osx_arm64_hdf52python3.10.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.11.____cpythonqt_version6:
         CONFIG: osx_arm64_hdf52python3.11.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.11.____cpythonqt_versionnone:
         CONFIG: osx_arm64_hdf52python3.11.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.12.____cpythonqt_version6:
         CONFIG: osx_arm64_hdf52python3.12.____cpythonqt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.12.____cpythonqt_versionnone:
         CONFIG: osx_arm64_hdf52python3.12.____cpythonqt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.13.____cp313qt_version6:
         CONFIG: osx_arm64_hdf52python3.13.____cp313qt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.13.____cp313qt_versionnone:
         CONFIG: osx_arm64_hdf52python3.13.____cp313qt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.14.____cp314qt_version6:
         CONFIG: osx_arm64_hdf52python3.14.____cp314qt_version6
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_hdf52python3.14.____cp314qt_versionnone:
         CONFIG: osx_arm64_hdf52python3.14.____cp314qt_versionnone
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
     maxParallel: 33
   timeoutInMinutes: 360
   variables: {}

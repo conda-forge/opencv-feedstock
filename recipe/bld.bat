@@ -77,9 +77,9 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_OPENEXR=1                                                                ^
     -DBUILD_JPEGXL=0                                                                ^
     -DWITH_JPEGXL=1                                                                 ^
-    -DBUILD_JASPER=0                                                                ^
-    -DWITH_JASPER=1                                                                 ^
-    -DWITH_OPENJPEG=0                                                               ^
+    -DWITH_JASPER=0                                                                 ^
+    -DBUILD_OPENJPEG=0                                                              ^
+    -DWITH_OPENJPEG=1                                                               ^
     -DBUILD_JPEG=0                                                                  ^
     -DBUILD_WEBP=0                                                                  ^
     -DWITH_WEBP=1                                                                   ^
