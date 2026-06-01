@@ -108,7 +108,6 @@ Current release info
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libopencv-green.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-opencv-green.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-opencv--qt6-green.svg)](https://anaconda.org/conda-forge/opencv-qt6) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv-qt6.svg)](https://anaconda.org/conda-forge/opencv-qt6) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv-qt6.svg)](https://anaconda.org/conda-forge/opencv-qt6) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv-qt6.svg)](https://anaconda.org/conda-forge/opencv-qt6) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-py--opencv-green.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) |
 
 Installing libopencv
@@ -121,16 +120,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libopencv, opencv, opencv-qt6, py-opencv` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libopencv, opencv, py-opencv` can be installed with `conda`:
 
 ```
-conda install libopencv opencv opencv-qt6 py-opencv
+conda install libopencv opencv py-opencv
 ```
 
 or with `mamba`:
 
 ```
-mamba install libopencv opencv opencv-qt6 py-opencv
+mamba install libopencv opencv py-opencv
 ```
 
 It is possible to list all of the versions of `libopencv` available on your platform with `conda`:
