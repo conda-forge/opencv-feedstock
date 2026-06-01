@@ -1,0 +1,261 @@
+diff --git a/modules/highgui/src/window_QT.cpp b/modules/highgui/src/window_QT.cpp
+index d327ad6..6d4c9ec 100644
+--- a/modules/highgui/src/window_QT.cpp
++++ b/modules/highgui/src/window_QT.cpp
+@@ -3422,4 +3422,256 @@ void OpenGlViewPort::setSize(QSize size_)
+ 
+ #endif //HAVE_QT_OPENGL
+ 
++
++//==============================================================================
++// cv::highgui_backend::UIBackend implementation for Qt.
++//
++// This lets the Qt window backend be built as a dynamically loaded highgui
++// plugin (opencv_highgui_qt) instead of being statically linked into the
++// highgui module. With OPENCV_HIGHGUI_WITHOUT_BUILTIN_BACKEND + ENABLE_PLUGINS,
++// window.cpp routes imshow/namedWindow/waitKey/... through the loaded UIBackend,
++// so libopencv_highgui itself carries no Qt dependency and Qt is only required
++// when this plugin (and the Qt libraries) are present at runtime.
++//
++// The backend simply delegates to the legacy CV_IMPL Qt entry points defined
++// above; it is modeled on the GTK backend wrapper in window_gtk.cpp.
++//==============================================================================
++
++#include <map>
++#include "backend.hpp"
++
++namespace cv { namespace impl {
++
++using namespace cv::highgui_backend;
++
++class QtTrackbar;
++
++class QtWindow
++        : public UIWindow
++        , public std::enable_shared_from_this<QtWindow>
++{
++protected:
++    const std::string name_;
++    std::map<std::string, std::shared_ptr<QtTrackbar> > trackbars_;
++public:
++    QtWindow(const std::string& name) : name_(name) {}
++    ~QtWindow() CV_OVERRIDE {}
++
++    const std::string& getID() const CV_OVERRIDE { return name_; }
++
++    bool isActive() const CV_OVERRIDE { return cvGetWindowHandle(name_.c_str()) != NULL; }
++
++    void destroy() CV_OVERRIDE { cvDestroyWindow(name_.c_str()); }
++
++    void imshow(InputArray image) CV_OVERRIDE
++    {
++        Mat img = image.getMat();
++        CvMat c_img = cvMat(img);
++        cvShowImage(name_.c_str(), &c_img);
++    }
++
++    double getProperty(int prop) const CV_OVERRIDE
++    {
++        switch (prop)
++        {
++        case cv::WND_PROP_FULLSCREEN:   return cvGetModeWindow_QT(name_.c_str());
++        case cv::WND_PROP_AUTOSIZE:     return cvGetPropWindow_QT(name_.c_str());
++        case cv::WND_PROP_ASPECT_RATIO: return cvGetRatioWindow_QT(name_.c_str());
++#ifdef HAVE_QT_OPENGL
++        case cv::WND_PROP_OPENGL:       return cvGetOpenGlProp_QT(name_.c_str());
++#endif
++        default: break;
++        }
++        return std::numeric_limits<double>::quiet_NaN();
++    }
++
++    bool setProperty(int prop, double value) CV_OVERRIDE
++    {
++        switch (prop)
++        {
++        case cv::WND_PROP_FULLSCREEN:
++            if ((int)value != cv::WINDOW_NORMAL && (int)value != cv::WINDOW_FULLSCREEN)
++                break;
++            cvSetModeWindow_QT(name_.c_str(), value);
++            return true;
++        case cv::WND_PROP_AUTOSIZE:
++            cvSetPropWindow_QT(name_.c_str(), value);
++            return true;
++        case cv::WND_PROP_ASPECT_RATIO:
++            cvSetRatioWindow_QT(name_.c_str(), value);
++            return true;
++        default: break;
++        }
++        return false;
++    }
++
++    void resize(int width, int height) CV_OVERRIDE { cvResizeWindow(name_.c_str(), width, height); }
++
++    void move(int x, int y) CV_OVERRIDE { cvMoveWindow(name_.c_str(), x, y); }
++
++    Rect getImageRect() const CV_OVERRIDE
++    {
++        CvRect r = cvGetWindowRect_QT(name_.c_str());
++        return Rect(r.x, r.y, r.width, r.height);
++    }
++
++    void setTitle(const std::string& title) CV_OVERRIDE
++    {
++        setWindowTitle_QT(name_, title);
++    }
++
++    void setMouseCallback(MouseCallback onMouse, void* userdata) CV_OVERRIDE
++    {
++        cvSetMouseCallback(name_.c_str(), onMouse, userdata);
++    }
++
++    std::shared_ptr<UITrackbar> createTrackbar(
++        const std::string& name,
++        int count,
++        TrackbarCallback onChange,
++        void* userdata
++    ) CV_OVERRIDE;
++
++    std::shared_ptr<UITrackbar> findTrackbar(const std::string& name) CV_OVERRIDE
++    {
++        cv::AutoLock lock(getWindowMutex());
++        auto i = trackbars_.find(name);
++        if (i != trackbars_.end())
++            return std::static_pointer_cast<UITrackbar>(i->second);
++        return std::shared_ptr<UITrackbar>();
++    }
++};  // QtWindow
++
++
++class QtTrackbar : public UITrackbar
++{
++protected:
++    std::string name_;     // trackbar name
++    std::string id_;       // logging id
++    std::string window_;   // parent window name
++    int minval_;
++    int maxval_;
++public:
++    QtTrackbar(const std::string& name, const std::string& window, int count)
++        : name_(name), window_(window), minval_(0), maxval_(count)
++    {
++        id_ = std::string("<") + name + ">@" + window;
++    }
++
++    const std::string& getID() const CV_OVERRIDE { return id_; }
++
++    bool isActive() const CV_OVERRIDE { return cvGetWindowHandle(window_.c_str()) != NULL; }
++
++    void destroy() CV_OVERRIDE { /* removed together with the parent window */ }
++
++    int getPos() const CV_OVERRIDE { return cvGetTrackbarPos(name_.c_str(), window_.c_str()); }
++
++    void setPos(int pos) CV_OVERRIDE { cvSetTrackbarPos(name_.c_str(), window_.c_str(), pos); }
++
++    cv::Range getRange() const CV_OVERRIDE { return cv::Range(minval_, maxval_); }
++
++    void setRange(const cv::Range& range) CV_OVERRIDE
++    {
++        CV_CheckLE(range.start, range.end, "Invalid trackbar range");
++        cvSetTrackbarMin(name_.c_str(), window_.c_str(), range.start);
++        cvSetTrackbarMax(name_.c_str(), window_.c_str(), range.end);
++        minval_ = range.start;
++        maxval_ = range.end;
++    }
++};  // QtTrackbar
++
++
++std::shared_ptr<UITrackbar> QtWindow::createTrackbar(
++    const std::string& name,
++    int count,
++    TrackbarCallback onChange,
++    void* userdata
++)
++{
++    cvCreateTrackbar2(name.c_str(), name_.c_str(), NULL, count,
++                      (CvTrackbarCallback2)onChange, userdata);
++    auto ui_trackbar = std::make_shared<QtTrackbar>(name, name_, count);
++    {
++        cv::AutoLock lock(getWindowMutex());
++        trackbars_.emplace(name, ui_trackbar);
++    }
++    return std::static_pointer_cast<UITrackbar>(ui_trackbar);
++}
++
++
++class QtBackendUI : public UIBackend
++{
++public:
++    QtBackendUI() {}
++    ~QtBackendUI() CV_OVERRIDE { destroyAllWindows(); }
++
++    void destroyAllWindows() CV_OVERRIDE { cvDestroyAllWindows(); }
++
++    std::shared_ptr<UIWindow> createWindow(const std::string& winname, int flags) CV_OVERRIDE
++    {
++        cvNamedWindow(winname.c_str(), flags);
++        return std::make_shared<QtWindow>(winname);
++    }
++
++    int waitKeyEx(int delay) CV_OVERRIDE { return cvWaitKey(delay); }
++
++    int pollKey() CV_OVERRIDE { return cvWaitKey(1); }
++
++    const std::string getName() const CV_OVERRIDE { return "QT" CVAUX_STR(QT_VERSION_MAJOR); }
++};  // QtBackendUI
++
++
++static std::shared_ptr<QtBackendUI>& getInstance()
++{
++    static std::shared_ptr<QtBackendUI> g_instance = std::make_shared<QtBackendUI>();
++    return g_instance;
++}
++
++}} // namespace cv::impl
++
++
++#ifdef BUILD_PLUGIN
++
++#define ABI_VERSION 0
++#define API_VERSION 0
++#include "plugin_api.hpp"
++
++static
++CvResult cv_getInstance(CV_OUT CvPluginUIBackend* handle) CV_NOEXCEPT
++{
++    try
++    {
++        if (!handle)
++            return CV_ERROR_FAIL;
++        *handle = cv::impl::getInstance().get();
++        return CV_ERROR_OK;
++    }
++    catch (...)
++    {
++        return CV_ERROR_FAIL;
++    }
++}
++
++static const OpenCV_UI_Plugin_API plugin_api =
++{
++    {
++        sizeof(OpenCV_UI_Plugin_API), ABI_VERSION, API_VERSION,
++        CV_VERSION_MAJOR, CV_VERSION_MINOR, CV_VERSION_REVISION, CV_VERSION_STATUS,
++        "QT" CVAUX_STR(QT_VERSION_MAJOR) " OpenCV UI plugin"
++    },
++    {
++        /*  1*/cv_getInstance
++    }
++};
++
++const OpenCV_UI_Plugin_API* CV_API_CALL opencv_ui_plugin_init_v0(
++        int requested_abi_version, int requested_api_version, void* /*reserved=NULL*/) CV_NOEXCEPT
++{
++    if (requested_abi_version == ABI_VERSION && requested_api_version <= API_VERSION)
++        return &plugin_api;
++    return NULL;
++}
++
++#endif  // BUILD_PLUGIN
++
+ #endif // HAVE_QT

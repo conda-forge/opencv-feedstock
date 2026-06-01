@@ -4,13 +4,15 @@ setlocal enabledelayedexpansion
 mkdir build
 cd build
 
-if "%qt_version%"=="5" set WITH_QT="-DWITH_QT=5"
-if "%qt_version%"=="6" set WITH_QT="-DWITH_QT=6"
+:REM Always compile against Qt6 and ship the Qt window backend as a dynamically
+:REM loaded highgui plugin (opencv_highgui_qt). A single build then works with or
+:REM without qt6 at runtime. See patches 0005/0006 and build.sh for details.
+set WITH_QT="-DWITH_QT=6"
+set HIGHGUI_PLUGINS=-DHIGHGUI_ENABLE_PLUGINS=ON -DHIGHGUI_PLUGIN_LIST=qt6
 :REM hmaarrfk -- 2025/05
 :REM Qt 6.9 seems to be injecting bad flags into the build process
 :REM https://github.com/conda-forge/qt-main-feedstock/issues/332
-if "%qt_version%"=="6" python -c "import os; p = os.path.join(os.environ['LIBRARY_PREFIX'], 'lib', 'cmake', 'Qt6Test', 'Qt6TestTargets.cmake'); lines = open(p).readlines(); open(p, 'w').writelines(l for l in lines if 'INTERFACE_COMPILE_DEFINITIONS' not in l)"
-if "%qt_version%"=="none" set WITH_QT="-DWITH_QT=0"
+python -c "import os; p = os.path.join(os.environ['LIBRARY_PREFIX'], 'lib', 'cmake', 'Qt6Test', 'Qt6TestTargets.cmake'); lines = open(p).readlines(); open(p, 'w').writelines(l for l in lines if 'INTERFACE_COMPILE_DEFINITIONS' not in l)"
 
 for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
    set "PY_MAJOR=%%a"
@@ -107,6 +109,8 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_VTK=0                                                                    ^
     -DWITH_WIN32UI=0                                                                ^
     %WITH_QT%                                                                       ^
+    %HIGHGUI_PLUGINS%                                                               ^
+    -DBUILD_opencv_cvv=0                                                            ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DPYTHON_EXECUTABLE=""                                                          ^

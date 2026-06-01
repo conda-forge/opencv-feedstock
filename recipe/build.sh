@@ -17,17 +17,31 @@ if [[ "${target_platform}" == osx-* ]]; then
     export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
-if [[ "$qt_version" == "5" ]]; then
-    QT="5"
-elif [[ "$qt_version" == "6" ]]; then
+# Compile against Qt6 and build the Qt window backend as a dynamically loaded
+# highgui plugin (opencv_highgui_qt) instead of linking it into the highgui
+# module (see patches 0005/0006). HIGHGUI_PLUGIN_LIST=qt6 builds the plugin and
+# keeps libopencv Qt-free; HIGHGUI_ENABLE_PLUGINS makes highgui load UI backends
+# at runtime. A single build then works headless (no qt6 installed) or with GUI
+# (when the opencv-qt6 plugin package and qt6 are present).
+#
+# Qt6 is not available on ppc64le, so there we fall back to a plain headless
+# build (no Qt, no plugin) -- equivalent to the old qt_version=none variant.
+#
+# The opencv_contrib 'cvv' visual-debug module links Qt directly (it is not a
+# highgui backend and has no python API), which would pull Qt back into
+# libopencv. Disable it (-DBUILD_opencv_cvv=0 below) so libopencv stays Qt-free;
+# it was never present in the old headless variant anyway.
+if [[ "${target_platform}" == linux-ppc64le ]]; then
+    QT="0"
+    HIGHGUI_PLUGINS=""
+else
     QT="6"
+    HIGHGUI_PLUGINS="-DHIGHGUI_ENABLE_PLUGINS=ON -DHIGHGUI_PLUGIN_LIST=qt6"
     # hmaarrfk - 2025/05
     # Qt 6.9 seems to inject the wrong flags here. They don't seem necessary
     # https://github.com/conda-forge/qt-main-feedstock/issues/332
     sed -i.bak '/INTERFACE_COMPILE_DEFINITIONS/d' "${PREFIX}/lib/cmake/Qt6Test/Qt6TestTargets.cmake"
     rm "${PREFIX}/lib/cmake/Qt6Test/Qt6TestTargets.cmake.bak"
-else
-    QT="0"
 fi
 
 if [[ "${target_platform}" == osx-* ]]; then
@@ -144,6 +158,8 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_VTK=0                                                          \
     -DWITH_GTK=0                                                          \
     -DWITH_QT=$QT                                                         \
+    ${HIGHGUI_PLUGINS}                                                    \
+    -DBUILD_opencv_cvv=0                                                  \
     -DWITH_GPHOTO2=0                                                      \
     -DWITH_OBSENSOR=0                                                     \
     -DINSTALL_C_EXAMPLES=0                                                \

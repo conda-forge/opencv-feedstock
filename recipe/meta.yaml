@@ -1,33 +1,35 @@
-# This recipe compiles opencv once (on python_min) and splits the result into
-# three packages: libopencv, py-opencv and opencv.
+# This recipe compiles opencv once (on python_min, against Qt6) and splits the
+# result into four packages: libopencv, py-opencv, opencv-qt6 and opencv.
 #
 # libopencv holds the native C++ libraries, headers, cmake/pkg-config files and
-# the opencv_* command line tools. It contains no python and is shared by every
-# python version. opencv-dnn changes on most patch versions, so libopencv pins
-# itself to the patch version x.x.x via run_exports.
+# the opencv_* command line tools. It contains no python and no Qt, and is
+# shared by every python version and by both the headless and GUI use cases.
+# opencv-dnn changes on most patch versions, so libopencv pins itself to the
+# patch version x.x.x via run_exports.
 #
 # py-opencv holds the cv2 python bindings. They are compiled against CPython's
 # stable ABI (abi3) using OpenCV's PYTHON3_LIMITED_API support, so a *single*
-# build per dependency configuration (qt_version x hdf5) is produced on
-# python_min and then works on every later python -- instead of one build per
-# python minor version. conda-forge drives this through the is_abi3 /
-# is_python_min / python_min variant variables and the python-abi3 host
-# dependency (which supplies the `cpython >={{ python_min }}` lower bound). The
-# bindings must be split out of libopencv because a python_version_independent
-# (noarch/abi3) package may not contain native executables such as opencv_*.
+# build per hdf5 configuration is produced on python_min and then works on every
+# later python -- instead of one build per python minor version. conda-forge
+# drives this through the is_abi3 / is_python_min / python_min variant variables
+# and the python-abi3 host dependency (which supplies the `cpython
+# >={{ python_min }}` lower bound). The bindings must be split out of libopencv
+# because a python_version_independent (noarch/abi3) package may not contain
+# native executables such as opencv_*.
+#
+# opencv-qt6 holds the Qt6 highgui backend, built as a dynamically loaded plugin
+# (opencv_highgui_qt, see patches 0005/0006). It is the only package that
+# depends on Qt. Installing it enables cv2 GUI windows; without it opencv runs
+# headless. This replaces the old qt_version build-matrix axis: one build now
+# serves both, because the Qt dependency is loaded at runtime rather than linked.
 #
 # opencv is a backward compatible metapackage that depends on the exact
-# libopencv and py-opencv builds, with no pinnings of its own.
+# libopencv, py-opencv and opencv-qt6 builds (so `conda install opencv` keeps
+# imshow working); install py-opencv for a headless stack.
 {% set version = "4.13.0" %}
 {% set major_version = version.split('.')[0] %}
 
-{% set build = 10 %}
-
-# Allow the qt version to be easily read from the build number 100's value.
-# This used to be more important when we supported both qt5 and qt6
-{% if qt_version == "6" %}
-{% set build = build + 600 %}
-{% endif %}
+{% set build = 11 %}
 
 package:
   name: libopencv
@@ -47,6 +49,12 @@ source:
       - patches_opencv/28345-fix-vsx-utils-syntax-error.patch
       # https://github.com/opencv/opencv/pull/28592
       - patches_opencv/28592-Fix-OpenVINO-2026.patch
+      # Make the Qt highgui backend a dynamically loaded plugin so that a single
+      # build (compiled WITH_QT=6) works with or without Qt present at runtime.
+      # Adds a cv::highgui_backend::UIBackend implementation for Qt ...
+      - patches_opencv/0005-highgui-qt-add-UIBackend-plugin.patch
+      # ... and the CMake + registry wiring to build/load it as opencv_highgui_qt.
+      - patches_opencv/0006-highgui-build-qt-as-plugin.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 1e0077a4fd2960a7d2f4c9e49d6ba7bb891cac2d1be36d7e8e47aa97a9d1039b
@@ -68,8 +76,7 @@ build:
   # works on every later python. is_abi3/is_python_min/python_min come from the
   # conda-forge global pinning.
   skip: true                                                                      # [is_abi3 and not is_python_min]
-  string: headless_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                             # [qt_version == "none"]
-  string: qt{{ qt_version }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                   # [qt_version != "none"]
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
@@ -79,6 +86,10 @@ build:
     # libopencv package must not gain a python/numpy run dependency from them.
     - python
     - numpy
+    # qt6-main is needed to build the opencv_highgui_qt plugin, but the plugin
+    # (not libopencv) is what links Qt. libopencv must stay Qt-free so it can be
+    # used headless; the qt dependency is attached to the opencv-qt6 output.
+    - qt6-main
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
 
 requirements:
@@ -87,7 +98,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - libprotobuf                            # [build_platform != target_platform]
-    - qt6-main                               # [build_platform != target_platform and qt_version == 6]
+    - qt6-main                               # [build_platform != target_platform and not ppc64le]
     # pkg-config is required to find ffpmeg
     - pkg-config
     - cmake
@@ -99,8 +110,8 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - libgl-devel                        # [linux and (qt_version == 5 or qt_version == 6)]
-    - libegl-devel                       # [linux and (qt_version == 5 or qt_version == 6)]
+    - libgl-devel                        # [linux and not ppc64le]
+    - libegl-devel                       # [linux and not ppc64le]
     # python and numpy are only here to build the cv2 bindings; their run
     # exports are ignored above so libopencv stays a pure C++ package. The abi3
     # run-export (cpython >={{ python_min }}) is attached to py-opencv instead.
@@ -134,7 +145,10 @@ requirements:
     # It does seem to be linked to opencv - libopencv_imgcodecs
     # https://github.com/conda-forge/opencv-feedstock/issues/486
     - imath
-    - qt6-main                       # [qt_version == 6]
+    # qt6-main is needed at build time to compile the opencv_highgui_qt plugin.
+    # Its run-export is ignored above so libopencv itself stays Qt-free.
+    # (ppc64le has no qt6, so it builds headless with no plugin.)
+    - qt6-main                       # [not ppc64le]
     - zlib
     - libopenvino-dev                # [not ppc64le]
     # Why do I need expat here??? At the very least it helps find FFMPEG
@@ -190,9 +204,10 @@ outputs:
   - name: libopencv
     # libopencv carries the native C++ libraries, headers, cmake/pkgconfig
     # files and the opencv_* CLI tools. Everything the build installed EXCEPT
-    # the cv2 python bindings, which go to the python_version_independent
-    # py-opencv output. A noarch/abi3 package may not contain the opencv_*
-    # binaries, which is why the split is required.
+    # the cv2 python bindings (-> py-opencv) and the Qt highgui plugin
+    # (-> opencv-qt6). It is Qt-free, so it can be used fully headless. A
+    # noarch/abi3 package may not contain the opencv_* binaries, which is why
+    # the python bindings are split out.
     files:
       include:
         - '**'
@@ -200,21 +215,69 @@ outputs:
         - lib/python{{ python_min }}/site-packages/cv2                                      # [unix]
         - lib/python{{ python_min }}/site-packages/opencv_python-{{ version }}.dist-info             # [unix]
         - lib/python{{ python_min }}/site-packages/opencv_python_headless-{{ version }}.dist-info    # [unix]
+        - lib/libopencv_highgui_qt*                                  # [unix]
         - Lib/site-packages/cv2                                      # [win]
         - Lib/site-packages/opencv_python-{{ version }}.dist-info             # [win]
         - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info    # [win]
+        - Library/bin/opencv_highgui_qt*                             # [win]
   - name: opencv
     build:
       python_version_independent: true                                            # [is_abi3]
-      string: headless_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                         # [qt_version == "none"]
-      string: qt{{ qt_version }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}               # [qt_version != "none"]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
     requirements:
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
+        # opencv is the batteries-included metapackage: it pulls the Qt GUI
+        # plugin AND qt6-main so `conda install opencv` keeps imshow working,
+        # matching the previous qt6 build (opencv-qt6 itself only run_constrains
+        # qt6, so the qt6 dependency is declared here). Install py-opencv instead
+        # for a headless stack. (ppc64le has no qt6 plugin -> headless there.)
+        - {{ pin_subpackage('opencv-qt6', exact=True) }}            # [not ppc64le]
+        - qt6-main                                                  # [not ppc64le]
     test:
       commands:
         - echo "tested in other outputs"
+
+  - name: opencv-qt6
+    # The Qt6 highgui backend, built as a dynamically loaded plugin
+    # (opencv_highgui_qt) rather than linked into libopencv. It enables cv2 GUI
+    # windows -- imshow / namedWindow / waitKey / trackbars -- and is the single
+    # piece that uses Qt. The plugin is loaded on demand: if Qt is absent the
+    # load fails silently and GUI calls report no UI backend.
+    build:
+      # ppc64le has no qt6, so the plugin is not built there.
+      skip: true                                                   # [ppc64le]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      # The plugin links Qt but does NOT hard-require it: qt6-main is expressed
+      # as a run_constraint (below) instead of a run dependency, so opencv-qt6
+      # can coexist in a headless env without dragging in Qt, yet stays version
+      # compatible whenever Qt is present. That intentional "overlinking" of Qt
+      # is therefore allowed for this output.
+      error_overlinking: false
+      ignore_run_exports_from:
+        - python
+        - numpy
+        - qt6-main
+    files:
+      include:
+        - lib/libopencv_highgui_qt*                                 # [unix]
+        - Library/bin/opencv_highgui_qt*                            # [win]
+    requirements:
+      host:
+        - qt6-main
+        - {{ pin_subpackage('libopencv', exact=True) }}
+      run:
+        - {{ pin_subpackage('libopencv', exact=True) }}
+      run_constrained:
+        # Keep opencv and Qt in sync without forcing Qt to be installed: if
+        # qt6-main is present it must be ABI-compatible with what the plugin was
+        # built against.
+        - {{ pin_compatible('qt6-main', max_pin='x.x') }}
+    test:
+      commands:
+        - test -n "$(ls $PREFIX/lib/libopencv_highgui_qt* 2>/dev/null)"          # [unix]
+        - if not exist %PREFIX%\\Library\\bin\\opencv_highgui_qt*.dll exit 1     # [win]
 
   - name: py-opencv
     # py-opencv holds the cv2 stable-ABI (abi3) python bindings produced by the
@@ -223,8 +286,7 @@ outputs:
     # `cpython >={{ python_min }}` lower bound (and excludes free-threading).
     build:
       python_version_independent: true                                            # [is_abi3]
-      string: headless_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                         # [qt_version == "none"]
-      string: qt{{ qt_version }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}               # [qt_version != "none"]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       # Do not byte-compile the cv2 .py files at build time. As a
       # python_version_independent (noarch) package the .pyc are regenerated for
       # the target interpreter at install time anyway, and compiling them here
