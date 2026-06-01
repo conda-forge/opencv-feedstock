@@ -62,6 +62,11 @@ source:
     patches:
       # Allow attempt to find HDF5 on cross-compile
       - patches_opencv_contrib/cmake_hdf5_xpile.patch
+      # Split the cvv debug-visualization module like highgui: a Qt-free
+      # opencv_cvv forwarder (kept in libopencv) that dynamically loads an
+      # opencv_cvv_qt plugin (shipped in opencv-qt6). Keeps libopencv Qt-free
+      # while restoring cvv feature parity when qt is present.
+      - patches_opencv_contrib/0002-cvv-dynamic-qt-plugin.patch
   - fn: test.avi
     url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
@@ -216,10 +221,12 @@ outputs:
         - lib/python{{ python_min }}/site-packages/opencv_python-{{ version }}.dist-info             # [unix]
         - lib/python{{ python_min }}/site-packages/opencv_python_headless-{{ version }}.dist-info    # [unix]
         - lib/libopencv_highgui_qt*                                  # [unix]
+        - lib/libopencv_cvv_qt*                                      # [unix]
         - Lib/site-packages/cv2                                      # [win]
         - Lib/site-packages/opencv_python-{{ version }}.dist-info             # [win]
         - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info    # [win]
         - Library/bin/opencv_highgui_qt*                             # [win]
+        - Library/bin/opencv_cvv_qt*                                 # [win]
   - name: opencv
     build:
       python_version_independent: true                                            # [is_abi3]
@@ -262,7 +269,9 @@ outputs:
     files:
       include:
         - lib/libopencv_highgui_qt*                                 # [unix]
+        - lib/libopencv_cvv_qt*                                     # [unix]
         - Library/bin/opencv_highgui_qt*                            # [win]
+        - Library/bin/opencv_cvv_qt*                                # [win]
     requirements:
       host:
         - qt6-main

@@ -110,7 +110,6 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_WIN32UI=0                                                                ^
     %WITH_QT%                                                                       ^
     %HIGHGUI_PLUGINS%                                                               ^
-    -DBUILD_opencv_cvv=0                                                            ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DPYTHON_EXECUTABLE=""                                                          ^
