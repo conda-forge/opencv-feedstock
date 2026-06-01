@@ -51,6 +51,20 @@ export PKG_CONFIG_LIBDIR=$PREFIX/lib
 
 IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
 
+# Build the cv2 module against CPython's stable ABI (abi3) so that a single
+# build is compatible with every later python. The recipe only builds on
+# python_min (build: skip on non-min), so the running python defines the
+# minimum limited-API version, e.g. 3.10 -> 0x030a0000.
+PY_LIMITED_API_VERSION=$(${PYTHON} -c "import sys; print('0x%02X%02X0000' % sys.version_info[:2])")
+
+# Install the cv2 loader with paths RELATIVE to the package (LOADER_DIR) rather
+# than the absolute build-time site-packages. The abi3 module is built once on
+# python_min but installed into other pythons (python3.11, 3.12, ...); an
+# absolute path would hard-code "lib/python3.10/..." into config-3.py and break
+# the loader on every other python. A relative OPENCV_PYTHON*_INSTALL_PATH makes
+# OpenCV emit os.path.join(LOADER_DIR, ...) paths, which relocate correctly.
+SP_DIR_RELATIVE=$(${PYTHON} -c "import os; print(os.path.relpath('${SP_DIR}', '${PREFIX}'))")
+
 LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
 if [[ ${IS_PYPY} == "1" ]]; then
     INC_PYTHON="$PREFIX/include/pypy${PY_VER}"
@@ -152,12 +166,15 @@ cmake -LAH -G "Ninja"                                                     \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                               \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                 \
     -DBUILD_opencv_python3=1                                              \
+    -DPYTHON3_LIMITED_API=ON                                              \
+    -DPYTHON3_LIMITED_API_VERSION=${PY_LIMITED_API_VERSION}               \
     -DPYTHON3_EXECUTABLE=${PYTHON}                                        \
     -DPYTHON3_INCLUDE_DIR=${INC_PYTHON}                                   \
     -DPYTHON3_NUMPY_INCLUDE_DIRS=$(python -c 'import numpy;print(numpy.get_include())')  \
     -DPYTHON3_LIBRARY=${LIB_PYTHON}                                       \
     -DPYTHON3_PACKAGES_PATH=${SP_DIR}                                     \
-    -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR}                               \
+    -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR_RELATIVE}                      \
+    -DOPENCV_PYTHON_INSTALL_PATH=${SP_DIR_RELATIVE}                       \
     -DBUILD_opencv_python2=0                                              \
     -DPYTHON2_EXECUTABLE=                                                 \
     -DPYTHON2_INCLUDE_DIR=                                                \
