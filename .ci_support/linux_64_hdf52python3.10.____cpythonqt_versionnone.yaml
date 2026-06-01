@@ -43,11 +43,11 @@ liblapacke:
 libopencv:
 - 4.13.0
 libopenvino_dev:
-- 2025.4.1
+- 2026.1.0
 libpng:
 - '1.6'
 libprotobuf:
-- 6.31.1
+- 6.33.5
 libtiff:
 - '4.7'
 libwebp:
@@ -75,7 +75,5 @@ target_platform:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - libprotobuf
-  - libopenvino_dev
 zlib:
 - '1'

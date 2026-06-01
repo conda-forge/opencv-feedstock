@@ -26,7 +26,7 @@ chmod +x "${micromamba_exe}"
 echo "Creating environment"
 "${micromamba_exe}" create --yes --root-prefix "${MAMBA_ROOT_PREFIX}" --prefix "${MINIFORGE_HOME}" \
   --channel conda-forge \
-  pip python=3.12 conda-build conda-forge-ci-setup=4 "conda-build>=24.1"
+  pip python=3.12 conda-build conda-forge-ci-setup=4 "conda-build>=26.3"
 echo "Moving pkgs cache from ${MAMBA_ROOT_PREFIX} to ${MINIFORGE_HOME}"
 mv "${MAMBA_ROOT_PREFIX}/pkgs" "${MINIFORGE_HOME}"
 echo "Cleaning up micromamba"
@@ -73,7 +73,7 @@ if [[ "${OSX_SDK_DIR:-}" == "" ]]; then
     /usr/bin/sudo chown "${USER}" "${OSX_SDK_DIR}"
   fi
 else
-  if tmpf=$(mktemp -p "$OSX_SDK_DIR" tmp.XXXXXXXX 2>/dev/null); then
+  if tmpf=$(mktemp "$OSX_SDK_DIR"/tmp.XXXXXXXX 2>/dev/null); then
       rm -f "$tmpf"
       echo "OSX_SDK_DIR is writeable without sudo, continuing"
   else

@@ -25,7 +25,7 @@ flann:
 freetype:
 - '2'
 hdf5:
-- '2'
+- 1.14.6
 imath:
 - 3.2.2
 libavif:
@@ -43,7 +43,7 @@ liblapacke:
 libopencv:
 - 4.13.0
 libopenvino_dev:
-- 2026.0.0
+- 2026.1.0
 libpng:
 - '1.6'
 libprotobuf:
@@ -75,7 +75,5 @@ target_platform:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - libprotobuf
-  - libopenvino_dev
 zlib:
 - '1'
