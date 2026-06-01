@@ -22,7 +22,7 @@ fi
 # module (see patches 0005/0006). HIGHGUI_PLUGIN_LIST=qt6 builds the plugin and
 # keeps libopencv Qt-free; HIGHGUI_ENABLE_PLUGINS makes highgui load UI backends
 # at runtime. A single build then works headless (no qt6 installed) or with GUI
-# (when the opencv-qt6 plugin package and qt6 are present).
+# (when py-opencv's Qt plugins and qt6 are present).
 #
 # Qt6 is not available on ppc64le, so there we fall back to a plain headless
 # build (no Qt, no plugin) -- equivalent to the old qt_version=none variant.
@@ -30,7 +30,7 @@ fi
 # The opencv_contrib 'cvv' visual-debug module also uses Qt. Patch
 # patches_opencv_contrib/0002 splits it the same way: a Qt-free opencv_cvv
 # forwarder library (kept in libopencv on every platform) that dlopen's an
-# opencv_cvv_qt plugin (shipped in opencv-qt6). So cvv is re-enabled here -- it
+# opencv_cvv_qt plugin (shipped in py-opencv). So cvv is re-enabled here -- it
 # stays out of libopencv's Qt dependency yet works whenever the qt plugin is
 # present.
 if [[ "${target_platform}" == linux-ppc64le ]]; then

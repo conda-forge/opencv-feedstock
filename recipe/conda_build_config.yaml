@@ -3,5 +3,5 @@ MACOSX_SDK_VERSION:  # [osx]
   - 15.5             # [osx]
 
 # Qt is no longer a build-matrix axis: opencv is always compiled against Qt6 and
-# the Qt window backend ships as a dynamically loaded plugin (opencv-qt6), so a
+# the Qt window backend ships as dynamically loaded plugins inside py-opencv, so a
 # single build serves both the headless and the GUI use cases.
