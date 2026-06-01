@@ -68,10 +68,8 @@ python:
 - 3.10.* *_cpython
 python_min:
 - '3.10'
-qt:
-- '5.15'
-qt_version:
-- none
+qt6_main:
+- '6.11'
 target_platform:
 - linux-ppc64le
 zip_keys:

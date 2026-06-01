@@ -74,12 +74,8 @@ python:
 - 3.10.* *_cpython
 python_min:
 - '3.10'
-qt:
-- '5.15'
 qt6_main:
 - '6.11'
-qt_version:
-- '6'
 target_platform:
 - osx-arm64
 zip_keys:

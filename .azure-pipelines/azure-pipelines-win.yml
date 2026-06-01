@@ -8,26 +8,14 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_hdf51.14.6is_python_mintruepython3.10.____cpythonqt_version6:
-        CONFIG: win_64_hdf51.14.6is_python_mintruepython3.10.____cpythonqt_version6
+      win_64_hdf51.14.6is_python_mintruepython3.10.____cpython:
+        CONFIG: win_64_hdf51.14.6is_python_mintruepython3.10.____cpython
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: D:\\bld\\
         store_build_artifacts: false
         tools_install_dir: D:\Miniforge
-      win_64_hdf51.14.6is_python_mintruepython3.10.____cpythonqt_versionnone:
-        CONFIG: win_64_hdf51.14.6is_python_mintruepython3.10.____cpythonqt_versionnone
-        UPLOAD_PACKAGES: 'True'
-        build_workspace_dir: D:\\bld\\
-        store_build_artifacts: false
-        tools_install_dir: D:\Miniforge
-      win_64_hdf52is_python_mintruepython3.10.____cpythonqt_version6:
-        CONFIG: win_64_hdf52is_python_mintruepython3.10.____cpythonqt_version6
-        UPLOAD_PACKAGES: 'True'
-        build_workspace_dir: D:\\bld\\
-        store_build_artifacts: false
-        tools_install_dir: D:\Miniforge
-      win_64_hdf52is_python_mintruepython3.10.____cpythonqt_versionnone:
-        CONFIG: win_64_hdf52is_python_mintruepython3.10.____cpythonqt_versionnone
+      win_64_hdf52is_python_mintruepython3.10.____cpython:
+        CONFIG: win_64_hdf52is_python_mintruepython3.10.____cpython
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: D:\\bld\\
         store_build_artifacts: false
