@@ -25,7 +25,7 @@ flann:
 freetype:
 - '2'
 hdf5:
-- 1.14.6
+- '2'
 imath:
 - 3.2.2
 libavif:
@@ -43,11 +43,11 @@ liblapacke:
 libopencv:
 - 4.13.0
 libopenvino_dev:
-- 2026.1.0
+- 2026.0.0
 libpng:
 - '1.6'
 libprotobuf:
-- 6.31.1
+- 6.33.5
 libtiff:
 - '4.7'
 libwebp:
@@ -63,19 +63,17 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.14.* *_cp314
+- 3.11.* *_cpython
 qt:
 - '5.15'
 qt6_main:
 - '6.11'
 qt_version:
-- '6'
+- none
 target_platform:
 - linux-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - libprotobuf
-  - libopenvino_dev
 zlib:
 - '1'

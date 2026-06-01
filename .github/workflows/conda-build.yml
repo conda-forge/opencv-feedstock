@@ -22,7 +22,7 @@ jobs:
       max-parallel: 50
       matrix:
         include:
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.10.____cpythonqt_version6
+          - CONFIG: linux_64_hdf51.14.6python3.10.____cpythonqt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -31,7 +31,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.10.____cpythonqt_versionnone
+          - CONFIG: linux_64_hdf51.14.6python3.10.____cpythonqt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -40,7 +40,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.11.____cpythonqt_version6
+          - CONFIG: linux_64_hdf51.14.6python3.11.____cpythonqt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -49,7 +49,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.11.____cpythonqt_versionnone
+          - CONFIG: linux_64_hdf51.14.6python3.11.____cpythonqt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -58,7 +58,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.12.____cpythonqt_version6
+          - CONFIG: linux_64_hdf51.14.6python3.12.____cpythonqt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -67,7 +67,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.12.____cpythonqt_versionnone
+          - CONFIG: linux_64_hdf51.14.6python3.12.____cpythonqt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -76,7 +76,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.13.____cp313qt_version6
+          - CONFIG: linux_64_hdf51.14.6python3.13.____cp313qt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -85,7 +85,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.13.____cp313qt_versionnone
+          - CONFIG: linux_64_hdf51.14.6python3.13.____cp313qt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -94,7 +94,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.14.____cp314qt_version6
+          - CONFIG: linux_64_hdf51.14.6python3.14.____cp314qt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -103,7 +103,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2025.4.1libprotobuf6.31.1python3.14.____cp314qt_versionnone
+          - CONFIG: linux_64_hdf51.14.6python3.14.____cp314qt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -112,7 +112,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.10.____cpythonqt_version6
+          - CONFIG: linux_64_hdf52python3.10.____cpythonqt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -121,7 +121,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.10.____cpythonqt_versionnone
+          - CONFIG: linux_64_hdf52python3.10.____cpythonqt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -130,7 +130,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.11.____cpythonqt_version6
+          - CONFIG: linux_64_hdf52python3.11.____cpythonqt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -139,7 +139,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.11.____cpythonqt_versionnone
+          - CONFIG: linux_64_hdf52python3.11.____cpythonqt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -148,7 +148,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.12.____cpythonqt_version6
+          - CONFIG: linux_64_hdf52python3.12.____cpythonqt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -157,7 +157,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.12.____cpythonqt_versionnone
+          - CONFIG: linux_64_hdf52python3.12.____cpythonqt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -166,7 +166,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.13.____cp313qt_version6
+          - CONFIG: linux_64_hdf52python3.13.____cp313qt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -175,7 +175,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.13.____cp313qt_versionnone
+          - CONFIG: linux_64_hdf52python3.13.____cp313qt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -184,7 +184,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.14.____cp314qt_version6
+          - CONFIG: linux_64_hdf52python3.14.____cp314qt_version6
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -193,187 +193,7 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_64_hdf51.14.6libopenvino_dev2026.0.0libprotobuf6.33.5python3.14.____cp314qt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.10.____cpythonqt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.10.____cpythonqt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.11.____cpythonqt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.11.____cpythonqt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.12.____cpythonqt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.12.____cpythonqt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.13.____cp313qt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.13.____cp313qt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.14.____cp314qt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2025.4.1libprotobuf6.31.1python3.14.____cp314qt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.10.____cpythonqt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.10.____cpythonqt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.11.____cpythonqt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.11.____cpythonqt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.12.____cpythonqt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.12.____cpythonqt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.13.____cp313qt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.13.____cp313qt_versionnone
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.14.____cp314qt_version6
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_hdf52libopenvino_dev2026.0.0libprotobuf6.33.5python3.14.____cp314qt_versionnone
+          - CONFIG: linux_64_hdf52python3.14.____cp314qt_versionnone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
