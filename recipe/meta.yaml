@@ -225,6 +225,13 @@ outputs:
       python_version_independent: true                                            # [is_abi3]
       string: headless_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                         # [qt_version == "none"]
       string: qt{{ qt_version }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}               # [qt_version != "none"]
+      # Do not byte-compile the cv2 .py files at build time. As a
+      # python_version_independent (noarch) package the .pyc are regenerated for
+      # the target interpreter at install time anyway, and compiling them here
+      # would run the host python -- which is impossible when cross-compiling
+      # (e.g. osx-64 -> osx-arm64): "Bad CPU type in executable".
+      skip_compile_pyc:
+        - "*.py"
       run_exports:
         # don't pin the python version so hard.
         # Good compatibility has been found in the python package
