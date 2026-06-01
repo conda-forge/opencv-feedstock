@@ -1,0 +1,458 @@
+diff --git a/modules/cvv/CMakeLists.txt b/modules/cvv/CMakeLists.txt
+index 645e7b3..52e31dc 100644
+--- a/modules/cvv/CMakeLists.txt
++++ b/modules/cvv/CMakeLists.txt
+@@ -1,29 +1,86 @@
+-if(NOT HAVE_QT OR NOT HAVE_CXX11 OR QT_VERSION_MAJOR LESS 5)
+-  ocv_module_disable(cvv)
+-  return()
+-endif()
+-
+ set(the_description "Debug visualization framework")
++
++# cvv is split into two pieces so that opencv stays usable without Qt:
++#
++#  * opencv_cvv      - a lightweight, Qt-free forwarder library. It is always
++#                      built (so the cvv headers and the OpenCV cmake target are
++#                      always available) and it exposes the four public cvv
++#                      entry points. On first use it dlopen's the plugin below
++#                      and forwards to it; without the plugin the calls no-op.
++#  * opencv_cvv_qt   - the real Qt debug-visualization implementation, built as
++#                      a dynamically loaded plugin (only when Qt is available).
++#
++# This mirrors the highgui Qt plugin: libopencv carries no Qt dependency, while
++# the Qt code ships in a separate package that is loaded on demand.
++
+ ocv_add_module(cvv opencv_core opencv_imgproc opencv_features2d WRAP python)
+ ocv_warnings_disable(CMAKE_CXX_FLAGS -Wshadow -Wmissing-declarations)
+ 
+-# Qt
+-set(CVV_QT_MODULES Core Gui Widgets)
+-if(QT_VERSION_MAJOR EQUAL 6)
+-  list(APPEND CVV_QT_MODULES Core5Compat)
++# ----------------------------------------------------------------------------
++# Forwarder library (opencv_cvv) - no Qt
++# ----------------------------------------------------------------------------
++ocv_glob_module_sources()
++# Override the globbed sources: the forwarder compiles only the dlopen shims.
++set(OPENCV_MODULE_${the_module}_SOURCES "${CMAKE_CURRENT_LIST_DIR}/src/cvv_forward.cpp")
++ocv_module_include_directories()
++ocv_create_module()
++if(NOT WIN32)
++  ocv_target_link_libraries(${the_module} LINK_PRIVATE ${CMAKE_DL_LIBS})
+ endif()
+ 
+-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS ${CVV_QT_MODULES})
++# ----------------------------------------------------------------------------
++# Qt debug-visualization plugin (opencv_cvv_qt)
++# ----------------------------------------------------------------------------
++if(HAVE_QT AND NOT (QT_VERSION_MAJOR LESS 5))
++  set(CVV_QT_MODULES Core Gui Widgets)
++  if(QT_VERSION_MAJOR EQUAL 6)
++    list(APPEND CVV_QT_MODULES Core5Compat)
++  endif()
++  find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS ${CVV_QT_MODULES})
+ 
+-set(CMAKE_AUTOMOC ON)
+-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+-foreach(module ${CVV_QT_MODULES})
+-  list(APPEND CVV_LIBRARIES ${Qt${QT_VERSION_MAJOR}${module}_LIBRARIES})
+-endforeach()
++  # All cvv sources EXCEPT the forwarder, plus the plugin entry point. The
++  # headers must be part of the target as well so that AUTOMOC processes the
++  # Q_OBJECT classes that are declared in headers (otherwise their moc symbols,
++  # e.g. staticMetaObject/qt_metacall, are undefined at link time).
++  file(GLOB_RECURSE __cvv_qt_srcs "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
++  list(REMOVE_ITEM __cvv_qt_srcs "${CMAKE_CURRENT_LIST_DIR}/src/cvv_forward.cpp")
++  file(GLOB_RECURSE __cvv_qt_hdrs "${CMAKE_CURRENT_LIST_DIR}/src/*.hpp")
+ 
+-ocv_glob_module_sources()
+-ocv_module_include_directories()
+-ocv_create_module(${CVV_LIBRARIES})
+-ocv_add_accuracy_tests()
+-ocv_add_perf_tests()
+-ocv_add_samples()
++  add_library(opencv_cvv_qt MODULE ${__cvv_qt_srcs} ${__cvv_qt_hdrs})
++  set_target_properties(opencv_cvv_qt PROPERTIES
++    AUTOMOC ON
++    INCLUDE_CURRENT_DIR ON
++    CXX_STANDARD 17
++    CXX_STANDARD_REQUIRED ON
++    CXX_VISIBILITY_PRESET hidden
++    DEBUG_POSTFIX "${OPENCV_DEBUG_POSTFIX}"
++    OUTPUT_NAME "opencv_cvv_qt")
++  target_compile_definitions(opencv_cvv_qt PRIVATE CVV_BUILD_PLUGIN)
++  target_include_directories(opencv_cvv_qt PRIVATE
++    "${CMAKE_CURRENT_LIST_DIR}/src"
++    "${CMAKE_CURRENT_LIST_DIR}/include"
++    "${CMAKE_CURRENT_BINARY_DIR}")
++
++  foreach(__qtmod ${CVV_QT_MODULES})
++    target_link_libraries(opencv_cvv_qt PRIVATE Qt${QT_VERSION_MAJOR}::${__qtmod})
++  endforeach()
++  # Link the cvv module dependencies and add their public include dirs. flann is
++  # a transitive dependency of features2d (features2d.hpp includes
++  # opencv2/flann/miniflann.hpp), so its include dir is needed too.
++  foreach(__dep opencv_core opencv_imgproc opencv_features2d opencv_flann)
++    if(TARGET ${__dep})
++      ocv_target_link_libraries(opencv_cvv_qt LINK_PRIVATE ${__dep})
++      ocv_target_include_directories(opencv_cvv_qt "${OPENCV_MODULE_${__dep}_LOCATION}/include")
++    endif()
++  endforeach()
++
++  if(WIN32)
++    set_target_properties(opencv_cvv_qt PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH})
++    install(TARGETS opencv_cvv_qt OPTIONAL LIBRARY DESTINATION ${OPENCV_BIN_INSTALL_PATH} COMPONENT plugins)
++  else()
++    install(TARGETS opencv_cvv_qt OPTIONAL LIBRARY DESTINATION ${OPENCV_LIB_INSTALL_PATH} COMPONENT plugins)
++  endif()
++endif()
++
++# The accuracy/perf tests and samples exercise the Qt internals directly, which
++# now live in the plugin rather than in the module; skip wiring them here.
+diff --git a/modules/cvv/include/opencv2/cvv/debug_mode.hpp b/modules/cvv/include/opencv2/cvv/debug_mode.hpp
+index e23da4d..4005a24 100644
+--- a/modules/cvv/include/opencv2/cvv/debug_mode.hpp
++++ b/modules/cvv/include/opencv2/cvv/debug_mode.hpp
+@@ -7,6 +7,19 @@
+ #define CVVISUAL_THREAD_LOCAL
+ #endif
+ 
++#include <opencv2/core/cvdef.h>
++
++// The cvv public entry points (impl::showImage / debugDMatch / debugFilter /
++// finalShow) are exported from the lightweight, Qt-free opencv_cvv forwarder
++// library. In the opencv_cvv_qt plugin (built with CVV_BUILD_PLUGIN) the real
++// Qt implementations must stay hidden so they do not collide with the
++// forwarders when the plugin is dlopen'd.
++#ifdef CVV_BUILD_PLUGIN
++#  define CVV_EXPORTS
++#else
++#  define CVV_EXPORTS CV_EXPORTS
++#endif
++
+ namespace cvv
+ {
+ 
+diff --git a/modules/cvv/include/opencv2/cvv/dmatch.hpp b/modules/cvv/include/opencv2/cvv/dmatch.hpp
+index d152cb4..27bc1b5 100644
+--- a/modules/cvv/include/opencv2/cvv/dmatch.hpp
++++ b/modules/cvv/include/opencv2/cvv/dmatch.hpp
+@@ -21,7 +21,7 @@ namespace cvv
+ 
+ namespace impl
+ {
+-CV_EXPORTS void debugDMatch(cv::InputArray img1, std::vector<cv::KeyPoint> keypoints1,
++CVV_EXPORTS void debugDMatch(cv::InputArray img1, std::vector<cv::KeyPoint> keypoints1,
+                  cv::InputArray img2, std::vector<cv::KeyPoint> keypoints2,
+                  std::vector<cv::DMatch> matches, const CallMetaData &data,
+                  const char *description, const char *view,
+diff --git a/modules/cvv/include/opencv2/cvv/filter.hpp b/modules/cvv/include/opencv2/cvv/filter.hpp
+index 824df24..0875e72 100644
+--- a/modules/cvv/include/opencv2/cvv/filter.hpp
++++ b/modules/cvv/include/opencv2/cvv/filter.hpp
+@@ -21,7 +21,7 @@ namespace cvv
+ namespace impl
+ {
+ // implementation outside API
+-CV_EXPORTS void debugFilter(cv::InputArray original, cv::InputArray result,
++CVV_EXPORTS void debugFilter(cv::InputArray original, cv::InputArray result,
+                  const CallMetaData &data, const char *description,
+                  const char *view);
+ } // namespace impl
+diff --git a/modules/cvv/include/opencv2/cvv/final_show.hpp b/modules/cvv/include/opencv2/cvv/final_show.hpp
+index 60a096c..b219a1d 100644
+--- a/modules/cvv/include/opencv2/cvv/final_show.hpp
++++ b/modules/cvv/include/opencv2/cvv/final_show.hpp
+@@ -12,7 +12,7 @@ namespace cvv
+ 
+ namespace impl
+ {
+-CV_EXPORTS void finalShow();
++CVV_EXPORTS void finalShow();
+ }
+ 
+ /** @brief Passes the control to the debug-window for a last time.
+diff --git a/modules/cvv/include/opencv2/cvv/show_image.hpp b/modules/cvv/include/opencv2/cvv/show_image.hpp
+index 417dfb2..9905f9b 100644
+--- a/modules/cvv/include/opencv2/cvv/show_image.hpp
++++ b/modules/cvv/include/opencv2/cvv/show_image.hpp
+@@ -21,7 +21,7 @@ namespace cvv
+ namespace impl
+ {
+ // implementation outside API
+-CV_EXPORTS void showImage(cv::InputArray img, const CallMetaData &data,
++CVV_EXPORTS void showImage(cv::InputArray img, const CallMetaData &data,
+                const char *description, const char *view);
+ } // namespace impl
+ 
+diff --git a/modules/cvv/src/cvv_forward.cpp b/modules/cvv/src/cvv_forward.cpp
+new file mode 100644
+index 0000000..5de6a43
+--- /dev/null
++++ b/modules/cvv/src/cvv_forward.cpp
+@@ -0,0 +1,169 @@
++// This file is part of OpenCV project.
++// It is subject to the license terms in the LICENSE file found in the top-level
++// directory of this distribution and at http://opencv.org/license.html.
++
++// Qt-free forwarder implementations of the cvv public entry points. These are
++// the symbols exported by the lightweight opencv_cvv module (which is part of
++// the Qt-free libopencv). The real Qt debug-visualization GUI lives in the
++// opencv_cvv_qt plugin; it is loaded on first use. When the plugin (or Qt) is
++// not available the cvv calls become no-ops, so opencv stays usable headless.
++
++#include "opencv2/cvv/show_image.hpp"
++#include "opencv2/cvv/dmatch.hpp"
++#include "opencv2/cvv/filter.hpp"
++#include "opencv2/cvv/final_show.hpp"
++#include "opencv2/core/utils/logger.hpp"
++
++#include "cvv_plugin_api.hpp"
++
++#include <string>
++#include <utility>
++#include <vector>
++
++#if defined(_WIN32)
++#include <windows.h>
++#else
++#include <dlfcn.h>
++#endif
++
++namespace cvv { namespace impl {
++
++namespace {
++
++// A marker whose address lives in this (opencv_cvv) library, used to locate the
++// library on disk so the plugin can be found next to it regardless of the
++// runtime library search path.
++void cvvForwardMarker() {}
++
++std::string ownDirectory()
++{
++#if defined(_WIN32)
++    HMODULE self = NULL;
++    if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
++                           GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
++                           reinterpret_cast<LPCSTR>(&cvvForwardMarker), &self) && self)
++    {
++        char path[1024] = {0};
++        if (GetModuleFileNameA(self, path, sizeof(path)))
++        {
++            std::string p(path);
++            const size_t pos = p.find_last_of("\\/");
++            if (pos != std::string::npos)
++                return p.substr(0, pos);
++        }
++    }
++#else
++    Dl_info info;
++    if (dladdr(reinterpret_cast<void*>(&cvvForwardMarker), &info) && info.dli_fname)
++    {
++        std::string p(info.dli_fname);
++        const size_t pos = p.find_last_of('/');
++        if (pos != std::string::npos)
++            return p.substr(0, pos);
++    }
++#endif
++    return std::string();
++}
++
++const CvvPluginAPI* loadCvvPlugin()
++{
++    // Loaded once, cached for the lifetime of the process.
++    static const CvvPluginAPI* const g_api = []() -> const CvvPluginAPI*
++    {
++        const std::string dir = ownDirectory();
++        const std::string sep =
++#if defined(_WIN32)
++            "\\";
++#else
++            "/";
++#endif
++        static const char* const leaf_names[] = {
++#if defined(_WIN32)
++            "opencv_cvv_qt.dll",
++#elif defined(__APPLE__)
++            // OpenCV builds plugins as loadable modules, which are .so on macOS.
++            "libopencv_cvv_qt.so", "libopencv_cvv_qt.dylib",
++#else
++            "libopencv_cvv_qt.so",
++#endif
++        };
++
++        std::vector<std::string> candidates;
++        for (const char* leaf : leaf_names)
++        {
++            if (!dir.empty())
++                candidates.push_back(dir + sep + leaf);  // next to opencv_cvv (robust)
++            candidates.push_back(leaf);                  // fall back to the loader search path
++        }
++
++        typedef const CvvPluginAPI* (CV_API_CALL *init_fn_t)(int);
++        for (const std::string& name : candidates)
++        {
++#if defined(_WIN32)
++            HMODULE handle = LoadLibraryA(name.c_str());
++            if (!handle)
++                continue;
++            init_fn_t init = reinterpret_cast<init_fn_t>(
++                    reinterpret_cast<void*>(GetProcAddress(handle, "opencv_cvv_plugin_init_v0")));
++#else
++            void* handle = dlopen(name.c_str(), RTLD_NOW | RTLD_GLOBAL);
++            if (!handle)
++                continue;
++            init_fn_t init = reinterpret_cast<init_fn_t>(
++                    dlsym(handle, "opencv_cvv_plugin_init_v0"));
++#endif
++            if (init)
++            {
++                const CvvPluginAPI* api = init(0);
++                if (api)
++                {
++                    CV_LOG_INFO(NULL, "cvv: loaded Qt debug-visualization plugin '" << name << "'");
++                    return api;
++                }
++            }
++        }
++        CV_LOG_WARNING(NULL, "cvv: the Qt debug-visualization plugin (opencv_cvv_qt) is not "
++                             "available; cvv calls are no-ops. Install the py-opencv package "
++                             "(and qt6) to enable the cvv debug GUI.");
++        return nullptr;
++    }();
++    return g_api;
++}
++
++}  // namespace
++
++void showImage(cv::InputArray img, const CallMetaData& data,
++               const char* description, const char* view)
++{
++    const CvvPluginAPI* api = loadCvvPlugin();
++    if (api && api->showImage)
++        api->showImage(img, data, description, view);
++}
++
++void debugDMatch(cv::InputArray img1, std::vector<cv::KeyPoint> keypoints1,
++                 cv::InputArray img2, std::vector<cv::KeyPoint> keypoints2,
++                 std::vector<cv::DMatch> matches, const CallMetaData& data,
++                 const char* description, const char* view, bool useTrainDescriptor)
++{
++    const CvvPluginAPI* api = loadCvvPlugin();
++    if (api && api->debugDMatch)
++        api->debugDMatch(img1, std::move(keypoints1), img2, std::move(keypoints2),
++                         std::move(matches), data, description, view, useTrainDescriptor);
++}
++
++void debugFilter(cv::InputArray original, cv::InputArray result,
++                 const CallMetaData& data, const char* description, const char* view)
++{
++    const CvvPluginAPI* api = loadCvvPlugin();
++    if (api && api->debugFilter)
++        api->debugFilter(original, result, data, description, view);
++}
++
++void finalShow()
++{
++    const CvvPluginAPI* api = loadCvvPlugin();
++    if (api && api->finalShow)
++        api->finalShow();
++}
++
++}} // namespace cvv::impl
+diff --git a/modules/cvv/src/cvv_plugin_api.hpp b/modules/cvv/src/cvv_plugin_api.hpp
+new file mode 100644
+index 0000000..9a5b0d1
+--- /dev/null
++++ b/modules/cvv/src/cvv_plugin_api.hpp
+@@ -0,0 +1,54 @@
++// This file is part of OpenCV project.
++// It is subject to the license terms in the LICENSE file found in the top-level
++// directory of this distribution and at http://opencv.org/license.html.
++
++#ifndef OPENCV_CVV_PLUGIN_API_HPP
++#define OPENCV_CVV_PLUGIN_API_HPP
++
++// Internal ABI shared between the Qt-free forwarder library (opencv_cvv) and the
++// Qt debug-visualization plugin (opencv_cvv_qt). The plugin exposes the four
++// Qt-backed cvv entry points through this small table; the forwarder dlopen's
++// the plugin and forwards to it. Both libraries are produced by the same OpenCV
++// build, so passing C++ types across the boundary is ABI-safe.
++
++#include <vector>
++
++#include "opencv2/core.hpp"
++#include "opencv2/core/llapi/llapi.h"
++#include "opencv2/features2d.hpp"
++#include "opencv2/cvv/call_meta_data.hpp"
++
++namespace cvv { namespace impl {
++
++struct CvvPluginAPI
++{
++    int api_version;  // == 0
++
++    void (*showImage)(cv::InputArray img, const CallMetaData& data,
++                      const char* description, const char* view);
++
++    void (*debugDMatch)(cv::InputArray img1, std::vector<cv::KeyPoint> keypoints1,
++                        cv::InputArray img2, std::vector<cv::KeyPoint> keypoints2,
++                        std::vector<cv::DMatch> matches, const CallMetaData& data,
++                        const char* description, const char* view,
++                        bool useTrainDescriptor);
++
++    void (*debugFilter)(cv::InputArray original, cv::InputArray result,
++                        const CallMetaData& data, const char* description,
++                        const char* view);
++
++    void (*finalShow)();
++};
++
++}} // namespace cvv::impl
++
++extern "C" {
++
++// Implemented by the opencv_cvv_qt plugin. Returns NULL if the requested API
++// version is not supported.
++CV_PLUGIN_EXPORTS const cvv::impl::CvvPluginAPI* opencv_cvv_plugin_init_v0(
++        int requested_api_version) CV_NOEXCEPT;
++
++}  // extern "C"
++
++#endif  // OPENCV_CVV_PLUGIN_API_HPP
+diff --git a/modules/cvv/src/cvv_plugin_init.cpp b/modules/cvv/src/cvv_plugin_init.cpp
+new file mode 100644
+index 0000000..02159ad
+--- /dev/null
++++ b/modules/cvv/src/cvv_plugin_init.cpp
+@@ -0,0 +1,29 @@
++// This file is part of OpenCV project.
++// It is subject to the license terms in the LICENSE file found in the top-level
++// directory of this distribution and at http://opencv.org/license.html.
++
++// Entry point of the opencv_cvv_qt plugin. It hands the Qt-free opencv_cvv
++// forwarder library a table of the real (Qt-backed) cvv implementations defined
++// in this plugin. Built with CVV_BUILD_PLUGIN, so the cvv::impl::* symbols are
++// hidden here and do not collide with the forwarders of the same name.
++
++#include "opencv2/cvv/show_image.hpp"
++#include "opencv2/cvv/dmatch.hpp"
++#include "opencv2/cvv/filter.hpp"
++#include "opencv2/cvv/final_show.hpp"
++
++#include "cvv_plugin_api.hpp"
++
++extern "C" CV_PLUGIN_EXPORTS const cvv::impl::CvvPluginAPI* opencv_cvv_plugin_init_v0(
++        int /*requested_api_version*/) CV_NOEXCEPT
++{
++    static const cvv::impl::CvvPluginAPI api =
++    {
++        /* api_version */ 0,
++        cvv::impl::showImage,
++        cvv::impl::debugDMatch,
++        cvv::impl::debugFilter,
++        cvv::impl::finalShow,
++    };
++    return &api;
++}

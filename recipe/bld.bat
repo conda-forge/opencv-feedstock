@@ -4,19 +4,27 @@ setlocal enabledelayedexpansion
 mkdir build
 cd build
 
-if "%qt_version%"=="5" set WITH_QT="-DWITH_QT=5"
-if "%qt_version%"=="6" set WITH_QT="-DWITH_QT=6"
+:REM Always compile against Qt6 and ship the Qt window backend as a dynamically
+:REM loaded highgui plugin (opencv_highgui_qt). A single build then works with or
+:REM without qt6 at runtime. See patches 0005/0006 and build.sh for details.
+set WITH_QT="-DWITH_QT=6"
+set HIGHGUI_PLUGINS=-DHIGHGUI_ENABLE_PLUGINS=ON -DHIGHGUI_PLUGIN_LIST=qt6
 :REM hmaarrfk -- 2025/05
 :REM Qt 6.9 seems to be injecting bad flags into the build process
 :REM https://github.com/conda-forge/qt-main-feedstock/issues/332
-if "%qt_version%"=="6" python -c "import os; p = os.path.join(os.environ['LIBRARY_PREFIX'], 'lib', 'cmake', 'Qt6Test', 'Qt6TestTargets.cmake'); lines = open(p).readlines(); open(p, 'w').writelines(l for l in lines if 'INTERFACE_COMPILE_DEFINITIONS' not in l)"
-if "%qt_version%"=="none" set WITH_QT="-DWITH_QT=0"
+python -c "import os; p = os.path.join(os.environ['LIBRARY_PREFIX'], 'lib', 'cmake', 'Qt6Test', 'Qt6TestTargets.cmake'); lines = open(p).readlines(); open(p, 'w').writelines(l for l in lines if 'INTERFACE_COMPILE_DEFINITIONS' not in l)"
 
 for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
    set "PY_MAJOR=%%a"
    set "PY_MINOR=%%b"
 )
 set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
+
+:: Build the cv2 module against CPython's stable ABI (abi3) so a single build
+:: works on every later python. Only python_min is built, so the running
+:: python defines the minimum limited-API version (e.g. 3.10 -> 0x030a0000).
+:: OpenCV rewrites pythonXY.lib -> python3.lib for the limited-API link.
+for /F "delims=" %%i in ('python -c "import sys;print('0x{:02X}{:02X}0000'.format(*sys.version_info[:2]))"') do set PY_LIMITED_API_VERSION=%%i
 
 :: Workaround for building LAPACK headers with C++17
 :: see https://github.com/conda-forge/opencv-feedstock/pull/363#issuecomment-1604972688
@@ -101,6 +109,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_VTK=0                                                                    ^
     -DWITH_WIN32UI=0                                                                ^
     %WITH_QT%                                                                       ^
+    %HIGHGUI_PLUGINS%                                                               ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DPYTHON_EXECUTABLE=""                                                          ^
@@ -122,6 +131,8 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
     -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                                ^
     -DBUILD_opencv_python3=1                                                        ^
+    -DPYTHON3_LIMITED_API=ON                                                        ^
+    -DPYTHON3_LIMITED_API_VERSION=%PY_LIMITED_API_VERSION%                          ^
     -DOPENCV_SKIP_PYTHON_LOADER=0                                                   ^
     -DOPENCV_FFMPEG_SKIP_DOWNLOAD=1                                                 ^
     -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
