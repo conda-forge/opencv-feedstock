@@ -11,7 +11,7 @@ Summary: Computer vision and machine learning software library.
 
 Development: https://github.com/opencv/opencv
 
-Documentation: https://docs.opencv.org/4.x/
+Documentation: https://docs.opencv.org/5.x/
 
 Current build status
 ====================
