@@ -1,3 +1,6 @@
+bot:
+  abi_migration_branches:
+    - 4.x
 build_platform:
   linux_aarch64: linux_64
   linux_ppc64le: linux_64

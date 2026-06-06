@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Sat, 6 Jun 2026 00:00:00 -0400
+Subject: [PATCH] vsx: add v_fma overload for v_int32x4
+
+The VSX HAL defines `v_muladd(v_int32x4, v_int32x4, v_int32x4)` as a
+manual `v_add(v_mul(a, b), c)` fallback, but it never defines the
+matching `v_fma` overload — `OPENCV_HAL_IMPL_VSX_MULADD` is only
+instantiated for `v_float32x4` / `v_float64x2`. Every other backend
+(NEON, SSE, AVX2, MSA, LSX, RVV, WASM, …) ships an integer `v_fma`.
+
+OpenCV 5.0's new imgproc warp kernels rely on the integer overload:
+
+    #define CV_WARP_VECTOR_GET_ADDR_C1() \
+        v_int32 addr_0 = v_fma(v_srcstep, src_iy0, src_ix0), \
+                addr_1 = v_fma(v_srcstep, src_iy1, src_ix1);
+
+so on ppc64le the build of modules/imgproc/src/imgwarp.cpp fails with
+"no matching function for call to v_fma(v_int32, v_int32, v_int32)".
+
+Add the missing overload mirroring the existing v_muladd one.
+---
+ modules/core/include/opencv2/core/hal/intrin_vsx.hpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/modules/core/include/opencv2/core/hal/intrin_vsx.hpp b/modules/core/include/opencv2/core/hal/intrin_vsx.hpp
+index 0a0915a..b3acd68 100644
+--- a/modules/core/include/opencv2/core/hal/intrin_vsx.hpp
++++ b/modules/core/include/opencv2/core/hal/intrin_vsx.hpp
+@@ -1057,6 +1057,9 @@ inline _Tpvec v_muladd(const _Tpvec& a, const _Tpvec& b, const _Tpvec& c)   \
+ OPENCV_HAL_IMPL_VSX_MULADD(v_float32x4)
+ OPENCV_HAL_IMPL_VSX_MULADD(v_float64x2)
+ 
++inline v_int32x4 v_fma(const v_int32x4& a, const v_int32x4& b, const v_int32x4& c)
++{ return v_add(v_mul(a,  b), c); }
++
+ inline v_int32x4 v_muladd(const v_int32x4& a, const v_int32x4& b, const v_int32x4& c)
+ { return v_add(v_mul(a,  b), c); }
+ 

@@ -43,10 +43,21 @@ source:
       - patches_opencv/0001-Also-install-metadata-for-opencv-python-headless.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
-      # https://github.com/opencv/opencv/pull/28345
-      - patches_opencv/28345-fix-vsx-utils-syntax-error.patch
-      # https://github.com/opencv/opencv/pull/28592
-      - patches_opencv/28592-Fix-OpenVINO-2026.patch
+      # PR #28678 removed opencv-caffe.proto upstream but left caffe_io.{cpp,hpp}
+      # behind because tensorflow/tf_io.cpp still uses helpers declared there.
+      # build.sh / bld.bat restore opencv-caffe.proto from recipe/ before cmake;
+      # this patch puts it back in the PROTOBUF_UPDATE_FILES glob.
+      - patches_opencv/0005-restore-caffe-proto-in-glob.patch
+      # OpenCV 5.0 bundles a subset of MLAS but the upstream halfgemm.cpp and
+      # halfgemm_kernel_neon.cpp were not imported; MlasHGemmSupported (called
+      # on every target) and MlasHGemmDispatchNeon (used on aarch64) are
+      # declared but not defined, breaking the libopencv_dnn link.
+      - patches_opencv/0006-mlas-stub-MlasHGemmSupported.patch
+      # The new imgproc warp kernels in 5.0 call v_fma() on v_int32 vectors,
+      # but the VSX HAL only defines v_fma for floats. Add the missing
+      # integer overload (mirroring the existing v_muladd one) so ppc64le
+      # can compile modules/imgproc/src/imgwarp.cpp.
+      - patches_opencv/0007-vsx-add-v_fma-for-v_int32x4.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: c58f6344170c39abf187c56f3843b59cab1fd3e89cf19ba2ce25dc061659b27f
@@ -57,6 +68,25 @@ source:
   - fn: test.avi
     url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
+  # OpenCV 5.0's bundled MLAS imports the .cpp / .S files under
+  # 3rdparty/mlas/lib/power/ but not the three headers they include. Pull
+  # them from the same upstream onnxruntime commit (62f742f1aa) that
+  # OpenCV vendored, so build.sh can drop them into place before cmake.
+  # See `3rdparty/mlas/README.md` in the OpenCV tarball for the pin.
+  {% set ort_mlas_commit = "62f742f1aa0c3102745ed35e3d869eaee845b9ac" %}
+  {% set ort_mlas_raw = "https://raw.githubusercontent.com/microsoft/onnxruntime/" ~ ort_mlas_commit ~ "/onnxruntime/core/mlas/lib/power" %}
+  - fn: SgemmKernelpower.h
+    url: {{ ort_mlas_raw }}/SgemmKernelpower.h
+    sha256: 78cfd0db9a6cb48e00f101bbe4359cc5c679cd9b167ad050ed3c3882aabc73a5
+    folder: mlas_power_headers
+  - fn: FgemmKernelpower.h
+    url: {{ ort_mlas_raw }}/FgemmKernelpower.h
+    sha256: db12b360e2b3079294e2ad58b2b9dcc83483c4dec6b92c2931a7b6a7d4e2068d
+    folder: mlas_power_headers
+  - fn: asmmacro.h
+    url: {{ ort_mlas_raw }}/asmmacro.h
+    sha256: de8effd06029567f165e42e288c4644460e06b0efebd64016d8adb753e80c189
+    folder: mlas_power_headers
 
 build:
   number: {{ build }}
@@ -161,7 +191,9 @@ test:
     {% set win_ver_lib = version|replace(".", "") %}
     # The bot doesn't support multiline jinja, so use
     # single line jinja.
-    {% set opencv_libs = ["alphamat", "aruco", "bgsegm", "calib3d", "ccalib", "core", "datasets", "dnn", "dnn_objdetect", "dnn_superres", "dpm", "face", "features2d", "flann", "freetype", "fuzzy", "gapi", "hfs", "highgui", "img_hash", "imgcodecs", "imgproc", "intensity_transform", "line_descriptor", "mcc", "ml", "objdetect", "optflow", "phase_unwrapping", "photo", "plot", "quality", "rapid", "reg", "rgbd", "saliency", "shape", "stereo", "stitching", "structured_light", "superres", "surface_matching", "text", "tracking", "video", "videoio", "videostab", "wechat_qrcode", "xfeatures2d", "ximgproc", "xobjdetect", "xphoto"] %}
+    # In OpenCV 5.0 calib3d -> calib, features2d -> features; aruco was merged
+    # into objdetect and mcc was removed. geometry/ptcloud/signal/xstereo are new.
+    {% set opencv_libs = ["alphamat", "bgsegm", "calib", "ccalib", "core", "datasets", "dnn", "dnn_objdetect", "dnn_superres", "dpm", "face", "features", "flann", "freetype", "fuzzy", "gapi", "geometry", "hfs", "highgui", "img_hash", "imgcodecs", "imgproc", "intensity_transform", "line_descriptor", "ml", "objdetect", "optflow", "phase_unwrapping", "photo", "plot", "ptcloud", "quality", "rapid", "reg", "rgbd", "saliency", "shape", "signal", "stereo", "stitching", "structured_light", "superres", "surface_matching", "text", "tracking", "video", "videoio", "videostab", "wechat_qrcode", "xfeatures2d", "ximgproc", "xobjdetect", "xphoto", "xstereo"] %}
     - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}          # [osx]
     # hmaarrfk - 2024/10
     # Need to specify a default value for CONDA_BUILD_SYSROOT
@@ -170,7 +202,7 @@ test:
     {% if CONDA_BUILD_SYSROOT is defined %}
     - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}      # [osx]
     {% endif %}
-    - OPENCV_FLAGS="`pkg-config --cflags opencv4`"                            # [unix]
+    - OPENCV_FLAGS="`pkg-config --cflags opencv{{ major_version }}`"          # [unix]
     - $CXX -std=c++11 $RECIPE_DIR/test.cpp ${OPENCV_FLAGS} -o test            # [unix]
     - if [[ $(./test) != $PKG_VERSION ]]; then exit 1 ; fi                    # [unix]
     {% for each_opencv_lib in opencv_libs %}

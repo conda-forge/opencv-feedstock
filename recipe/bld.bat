@@ -1,6 +1,21 @@
 @echo ON
 setlocal enabledelayedexpansion
 
+:: Restore the upstream-removed caffe protobuf source so that
+:: modules/dnn/src/caffe/caffe_io.{cpp,hpp} (still shipped) can compile when
+:: PROTOBUF_UPDATE_FILES regenerates the .pb.{cc,h}. See PR #28678 and the
+:: patches_opencv/0005-restore-caffe-proto-in-glob.patch.
+copy /Y "%RECIPE_DIR%\opencv-caffe.proto" modules\dnn\src\caffe\opencv-caffe.proto
+if %ERRORLEVEL% neq 0 exit 1
+
+:: OpenCV 5.0 imported SgemmKernelPower.cpp / SgemmKernelPOWER10.cpp /
+:: SgemmKernelPackA.S from Microsoft's MLAS but forgot the three headers
+:: they #include. They are fetched as separate `source:` entries (see
+:: meta.yaml). Drop them into place. Harmless on Windows since these
+:: translation units only compile on POWER.
+copy /Y "%SRC_DIR%\mlas_power_headers\*.h" 3rdparty\mlas\lib\power\
+if %ERRORLEVEL% neq 0 exit 1
+
 mkdir build
 cd build
 

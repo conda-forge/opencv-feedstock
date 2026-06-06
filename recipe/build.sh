@@ -47,6 +47,19 @@ if [[ "${target_platform}" != "${build_platform}" ]]; then
 fi
 
 
+# Restore the upstream-removed caffe protobuf source so that
+# modules/dnn/src/caffe/caffe_io.{cpp,hpp} (still shipped) can compile when
+# PROTOBUF_UPDATE_FILES regenerates the .pb.{cc,h}. See PR #28678 and the
+# patches_opencv/0005-restore-caffe-proto-in-glob.patch.
+cp "${RECIPE_DIR}/opencv-caffe.proto" modules/dnn/src/caffe/opencv-caffe.proto
+
+# OpenCV 5.0 imported SgemmKernelPower.cpp / SgemmKernelPOWER10.cpp /
+# SgemmKernelPackA.S from Microsoft's MLAS but forgot the three headers
+# they #include. They are fetched as separate `source:` entries (see
+# meta.yaml) from the same upstream onnxruntime commit OpenCV vendored;
+# drop them into place before cmake. Harmless on non-POWER targets.
+cp "${SRC_DIR}/mlas_power_headers/"*.h 3rdparty/mlas/lib/power/
+
 export PKG_CONFIG_LIBDIR=$PREFIX/lib
 
 IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
