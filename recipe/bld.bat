@@ -109,24 +109,6 @@ cmake -LAH -G "Ninja"                                                           
     %WITH_QT%                                                                       ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
-    -DPYTHON_EXECUTABLE=""                                                          ^
-    -DPYTHON_INCLUDE_DIR=""                                                         ^
-    -DPYTHON_PACKAGES_PATH=""                                                       ^
-    -DPYTHON_LIBRARY=""                                                             ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=""                                                  ^
-    -DBUILD_opencv_python2=0                                                        ^
-    -DPYTHON2_EXECUTABLE=""                                                         ^
-    -DPYTHON2_INCLUDE_DIR=""                                                        ^
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                                 ^
-    -DPYTHON2_LIBRARY=""                                                            ^
-    -DPYTHON2_PACKAGES_PATH=""                                                      ^
-    -DOPENCV_PYTHON2_INSTALL_PATH=""                                                ^
-    -DBUILD_opencv_python3=0                                                        ^
-    -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
-    -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
-    -DPYTHON_PACKAGES_PATH=%UNIX_SP_DIR%                                            ^
-    -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                                ^
     -DBUILD_opencv_python3=1                                                        ^
     -DPYTHON3_LIMITED_API=ON                                                        ^
     -DPYTHON3_LIMITED_API_VERSION=%PY_LIMITED_API_VERSION%                          ^
@@ -137,7 +119,6 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                               ^
     -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
     -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
-    -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
     ..

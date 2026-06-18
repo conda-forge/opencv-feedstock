@@ -47,6 +47,14 @@ source:
       - patches_opencv/28345-fix-vsx-utils-syntax-error.patch
       # https://github.com/opencv/opencv/pull/28592
       - patches_opencv/28592-Fix-OpenVINO-2026.patch
+      # Make OpenCV's cv2 python loader (config.py / config-3.py) relocatable on
+      # its own: when the install path is absolute but under CMAKE_INSTALL_PREFIX,
+      # OpenCV now rewrites it relative to the prefix so the loader uses
+      # LOADER_DIR-relative paths. This lets the recipe simply pass the absolute
+      # SP_DIR (via PYTHON3_PACKAGES_PATH) without hand-computing a relative
+      # OPENCV_PYTHON3_INSTALL_PATH, and keeps the single abi3 build working after
+      # relocation and across every python. See build.sh.
+      - patches_opencv/0008-make-python-loader-relocatable.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 1e0077a4fd2960a7d2f4c9e49d6ba7bb891cac2d1be36d7e8e47aa97a9d1039b

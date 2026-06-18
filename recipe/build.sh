@@ -57,14 +57,6 @@ IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementatio
 # minimum limited-API version, e.g. 3.10 -> 0x030a0000.
 PY_LIMITED_API_VERSION=$(${PYTHON} -c "import sys; print('0x%02X%02X0000' % sys.version_info[:2])")
 
-# Install the cv2 loader with paths RELATIVE to the package (LOADER_DIR) rather
-# than the absolute build-time site-packages. The abi3 module is built once on
-# python_min but installed into other pythons (python3.11, 3.12, ...); an
-# absolute path would hard-code "lib/python3.10/..." into config-3.py and break
-# the loader on every other python. A relative OPENCV_PYTHON*_INSTALL_PATH makes
-# OpenCV emit os.path.join(LOADER_DIR, ...) paths, which relocate correctly.
-SP_DIR_RELATIVE=$(${PYTHON} -c "import os; print(os.path.relpath('${SP_DIR}', '${PREFIX}'))")
-
 LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
 if [[ ${IS_PYPY} == "1" ]]; then
     INC_PYTHON="$PREFIX/include/pypy${PY_VER}"
@@ -149,10 +141,6 @@ cmake -LAH -G "Ninja"                                                     \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib/modules"               \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
-    -DPYTHON_EXECUTABLE=${PYTHON}                                         \
-    -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
-    -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
     -DOPENCV_SKIP_PYTHON_LOADER=0                                         \
     -DOPENCV_FFMPEG_SKIP_DOWNLOAD=1                                       \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
@@ -173,15 +161,6 @@ cmake -LAH -G "Ninja"                                                     \
     -DPYTHON3_NUMPY_INCLUDE_DIRS=$(python -c 'import numpy;print(numpy.get_include())')  \
     -DPYTHON3_LIBRARY=${LIB_PYTHON}                                       \
     -DPYTHON3_PACKAGES_PATH=${SP_DIR}                                     \
-    -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR_RELATIVE}                      \
-    -DOPENCV_PYTHON_INSTALL_PATH=${SP_DIR_RELATIVE}                       \
-    -DBUILD_opencv_python2=0                                              \
-    -DPYTHON2_EXECUTABLE=                                                 \
-    -DPYTHON2_INCLUDE_DIR=                                                \
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=                                         \
-    -DPYTHON2_LIBRARY=                                                    \
-    -DPYTHON2_PACKAGES_PATH=                                              \
-    -DOPENCV_PYTHON2_INSTALL_PATH=                                        \
     ..
 
 ninja install -j${CPU_COUNT}
