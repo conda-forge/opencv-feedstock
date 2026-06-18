@@ -205,12 +205,24 @@ outputs:
       include:
         - '**'
       exclude:
-        - lib/python{{ python_min }}/site-packages/cv2                                      # [unix]
-        - lib/python{{ python_min }}/site-packages/opencv_python-{{ version }}.dist-info             # [unix]
-        - lib/python{{ python_min }}/site-packages/opencv_python_headless-{{ version }}.dist-info    # [unix]
-        - Lib/site-packages/cv2                                      # [win]
-        - Lib/site-packages/opencv_python-{{ version }}.dist-info             # [win]
-        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info    # [win]
+        # The cv2 bindings go to the python_version_independent py-opencv output.
+        # Match the build python's site-packages with a glob ("lib/python*")
+        # rather than hard-coding python_min: cv2 is installed wherever the build
+        # interpreter's site-packages is. The /* + /**/* pair expands each glob to
+        # the directory's top-level and nested contents, matching the multi-output
+        # trilinos-feedstock recipe (recipe/meta.yaml, the pytrilinos output).
+        - lib/python*/site-packages/cv2/*                                        # [unix]
+        - lib/python*/site-packages/cv2/**/*                                      # [unix]
+        - lib/python*/site-packages/opencv_python-{{ version }}.dist-info/*                # [unix]
+        - lib/python*/site-packages/opencv_python-{{ version }}.dist-info/**/*             # [unix]
+        - lib/python*/site-packages/opencv_python_headless-{{ version }}.dist-info/*       # [unix]
+        - lib/python*/site-packages/opencv_python_headless-{{ version }}.dist-info/**/*    # [unix]
+        - Lib/site-packages/cv2/*                                        # [win]
+        - Lib/site-packages/cv2/**/*                                      # [win]
+        - Lib/site-packages/opencv_python-{{ version }}.dist-info/*                # [win]
+        - Lib/site-packages/opencv_python-{{ version }}.dist-info/**/*             # [win]
+        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info/*       # [win]
+        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info/**/*    # [win]
   - name: opencv
     build:
       python_version_independent: true                                            # [is_abi3]
@@ -245,13 +257,27 @@ outputs:
         # Good compatibility has been found in the python package
         - {{ pin_subpackage('py-opencv') }}
     files:
+      # Match the build python's site-packages with a glob ("lib/python*")
+      # rather than hard-coding python_min. The /* + /**/* pair expands each glob
+      # to the directory's top-level and nested contents (a bare ".../cv2" glob
+      # would match only the directory entry, which conda-build then drops); this
+      # mirrors the multi-output trilinos-feedstock recipe (the pytrilinos
+      # output). conda-build records these under a bare "site-packages/" for the
+      # python_version_independent package and relinks them into the active
+      # interpreter at install time.
       include:
-        - lib/python{{ python_min }}/site-packages/cv2                                      # [unix]
-        - lib/python{{ python_min }}/site-packages/opencv_python-{{ version }}.dist-info             # [unix]
-        - lib/python{{ python_min }}/site-packages/opencv_python_headless-{{ version }}.dist-info    # [unix]
-        - Lib/site-packages/cv2                                      # [win]
-        - Lib/site-packages/opencv_python-{{ version }}.dist-info             # [win]
-        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info    # [win]
+        - lib/python*/site-packages/cv2/*                                        # [unix]
+        - lib/python*/site-packages/cv2/**/*                                      # [unix]
+        - lib/python*/site-packages/opencv_python-{{ version }}.dist-info/*                # [unix]
+        - lib/python*/site-packages/opencv_python-{{ version }}.dist-info/**/*             # [unix]
+        - lib/python*/site-packages/opencv_python_headless-{{ version }}.dist-info/*       # [unix]
+        - lib/python*/site-packages/opencv_python_headless-{{ version }}.dist-info/**/*    # [unix]
+        - Lib/site-packages/cv2/*                                        # [win]
+        - Lib/site-packages/cv2/**/*                                      # [win]
+        - Lib/site-packages/opencv_python-{{ version }}.dist-info/*                # [win]
+        - Lib/site-packages/opencv_python-{{ version }}.dist-info/**/*             # [win]
+        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info/*       # [win]
+        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info/**/*    # [win]
     requirements:
       host:
         - python
