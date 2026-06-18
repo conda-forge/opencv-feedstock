@@ -1,0 +1,70 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Tue, 17 Jun 2026 00:00:00 -0400
+Subject: [PATCH] python: make the generated cv2 loader relocatable
+
+OpenCV ships a small python loader (cv2/__init__.py + cv2/config.py +
+cv2/config-3.py) that locates the compiled extension (cv2/python-3/
+cv2.abi3.so) and the native OpenCV shared libraries at import time.
+
+The paths written into config.py / config-3.py are LOADER_DIR-relative
+only when OPENCV_PYTHON_INSTALL_PATH is a *relative* path. When it is
+absolute -- which is the default for essentially every packaging system,
+since OPENCV_PYTHON_INSTALL_PATH falls back to the absolute
+PYTHON3_PACKAGES_PATH -- modules/python/python_loader.cmake and
+modules/python/common.cmake instead bake the build-time absolute
+CMAKE_INSTALL_PREFIX into the loader. That absolute path:
+
+  * does not survive relocation of the install tree, and
+  * for stable ABI (PYTHON3_LIMITED_API / abi3) builds hard-codes the
+    build interpreter's "lib/pythonX.Y/site-packages" into the loader, so
+    the single build that is meant to run on every later python points at
+    a site-packages directory that does not exist in those environments.
+
+Downstream packagers work around this by passing a hand-computed relative
+OPENCV_PYTHON3_INSTALL_PATH. Make OpenCV do the right thing itself: if the
+resolved install path is absolute but lives inside CMAKE_INSTALL_PREFIX,
+rewrite it relative to the prefix before the loader is generated, so the
+loader uses os.path.join(LOADER_DIR, ...) paths. The relative offset is a
+function of the install *depth*, which is identical for every python
+version, so a single abi3 build relocates correctly across pythons.
+
+Install paths that fall outside CMAKE_INSTALL_PREFIX (e.g. a fixed system
+site-packages, or layouts where site-packages and the libraries live under
+separate prefixes) are left untouched, preserving the previous behaviour.
+---
+ modules/python/common.cmake | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/modules/python/common.cmake b/modules/python/common.cmake
+index e9375af..aaded46 100644
+--- a/modules/python/common.cmake
++++ b/modules/python/common.cmake
+@@ -165,6 +165,25 @@ if(NOT " ${PYTHON}" STREQUAL " PYTHON"
+     set(OPENCV_PYTHON_INSTALL_PATH "${${PYTHON}_PACKAGES_PATH}")
+   endif()
+ endif()
++# conda-forge: make the generated cv2 python loader relocatable.
++# OpenCV writes cv2/config.py and cv2/config-3.py with paths that locate the
++# compiled extension and the native OpenCV libraries relative to the install
++# prefix. When OPENCV_PYTHON_INSTALL_PATH is absolute, those paths are baked as
++# the build-time absolute prefix; the loader then breaks once the package is
++# relocated, and -- for stable ABI (abi3) builds -- once the single build is
++# installed into a different python than the one it was built with. If the
++# install path lives inside CMAKE_INSTALL_PREFIX, rewrite it relative to the
++# prefix so the loader emits os.path.join(LOADER_DIR, ...) paths instead. Install
++# paths outside the prefix (e.g. a system site-packages) are left untouched.
++if(DEFINED OPENCV_PYTHON_INSTALL_PATH AND IS_ABSOLUTE "${OPENCV_PYTHON_INSTALL_PATH}")
++  file(RELATIVE_PATH __ocv_python_install_path_rel
++       "${CMAKE_INSTALL_PREFIX}" "${OPENCV_PYTHON_INSTALL_PATH}")
++  if(NOT __ocv_python_install_path_rel STREQUAL ""
++      AND NOT __ocv_python_install_path_rel MATCHES "^\\.\\.")
++    set(OPENCV_PYTHON_INSTALL_PATH "${__ocv_python_install_path_rel}")
++  endif()
++  unset(__ocv_python_install_path_rel)
++endif()
+
+ if(NOT OPENCV_SKIP_PYTHON_LOADER AND DEFINED OPENCV_PYTHON_INSTALL_PATH)
+   include("${CMAKE_CURRENT_LIST_DIR}/python_loader.cmake")
+--
+2.43.0
