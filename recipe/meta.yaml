@@ -328,6 +328,12 @@ outputs:
         - liblapack * *mkl              # [linux64]
         - pip
         - abi3audit                     # [is_abi3]
+        # Test with BOTH python_min and some version above python_min
+        # We can't do that with v0 recipes easily
+        # But it should be dooable with v1 recipes
+        # https://github.com/conda-forge/conda-smithy/pull/2580
+        - python 3.13                   # [qt_version != "none"]
+        - python {{ python_min }}       # [qt_version == "none"]
       imports:
         - cv2
         - cv2.xfeatures2d
