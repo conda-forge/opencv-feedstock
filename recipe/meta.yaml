@@ -1,30 +1,27 @@
-# This recipe creates 3 packages
-# libopencv, py-opencv, opencv
+# This recipe compiles opencv once (on python_min) and splits the result into
+# three packages: libopencv, py-opencv and opencv.
 #
-# libopencv actually contains all the files, including the site-packages
-# file needed to run opencv with python.
-#     opencv-dnn seems to change on every patch version, therefore, we pin
-#     to the patch version x.x.x
+# libopencv holds the native C++ libraries, headers, cmake/pkg-config files and
+# the opencv_* command line tools. It contains no python and is shared by every
+# python version. opencv-dnn changes on most patch versions, so libopencv pins
+# itself to the patch version x.x.x via run_exports.
 #
-# py-opencv is a meta package that constrains the python dependencies
-#     This one is pinned to the minor version. x.x
+# py-opencv holds the cv2 python bindings. They are compiled against CPython's
+# stable ABI (abi3) using OpenCV's PYTHON3_LIMITED_API support, so a *single*
+# build per dependency configuration (qt_version x hdf5) is produced on
+# python_min and then works on every later python -- instead of one build per
+# python minor version. conda-forge drives this through the is_abi3 /
+# is_python_min / python_min variant variables and the python-abi3 host
+# dependency (which supplies the `cpython >={{ python_min }}` lower bound). The
+# bindings must be split out of libopencv because a python_version_independent
+# (noarch/abi3) package may not contain native executables such as opencv_*.
 #
-# opencv is a backward compatible package, with no pinnings
-#
-# This approach is different than the one in defaults. Default's package
-# seperates well the files generated with python dependencies, from those
-# generated without. Unfortunately, this isn't entirely supported by
-# upstream. Their hacks are quite elaborate, making it seem difficult to
-# maintain as opencv has been changing their build system recently.
-#
-# By putting all the generated files in 1 package, this makes the build process
-# much easier, at the expense of a few MBs in the 'lib' package.
+# opencv is a backward compatible metapackage that depends on the exact
+# libopencv and py-opencv builds, with no pinnings of its own.
 {% set version = "4.13.0" %}
 {% set major_version = version.split('.')[0] %}
-{% set PY_VER_MAJOR = PY_VER.split('.')[0] %}
-{% set PY_VER_MINOR = PY_VER.split('.')[1] %}
 
-{% set build = 10 %}
+{% set build = 11 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
 # This used to be more important when we supported both qt5 and qt6
@@ -50,6 +47,14 @@ source:
       - patches_opencv/28345-fix-vsx-utils-syntax-error.patch
       # https://github.com/opencv/opencv/pull/28592
       - patches_opencv/28592-Fix-OpenVINO-2026.patch
+      # Make OpenCV's cv2 python loader (config.py / config-3.py) relocatable on
+      # its own: when the install path is absolute but under CMAKE_INSTALL_PREFIX,
+      # OpenCV now rewrites it relative to the prefix so the loader uses
+      # LOADER_DIR-relative paths. This lets the recipe simply pass the absolute
+      # SP_DIR (via PYTHON3_PACKAGES_PATH) without hand-computing a relative
+      # OPENCV_PYTHON3_INSTALL_PATH, and keeps the single abi3 build working after
+      # relocation and across every python. See build.sh.
+      - patches_opencv/0008-make-python-loader-relocatable.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 1e0077a4fd2960a7d2f4c9e49d6ba7bb891cac2d1be36d7e8e47aa97a9d1039b
@@ -63,14 +68,25 @@ source:
 
 build:
   number: {{ build }}
-  string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
-  string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
+  # The whole project is compiled once on python_min (skip on any other
+  # python). libopencv keeps the native C++ libraries and CLI tools, while the
+  # cv2 python bindings are split into the python_version_independent py-opencv
+  # output below. The bindings are built against CPython's stable ABI (abi3) via
+  # -DPYTHON3_LIMITED_API=ON (see build.sh/bld.bat), so the single cv2.abi3.so
+  # works on every later python. is_abi3/is_python_min/python_min come from the
+  # conda-forge global pinning.
+  skip: true                                                                      # [is_abi3 and not is_python_min]
+  string: headless_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                             # [qt_version == "none"]
+  string: qt{{ qt_version }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                   # [qt_version != "none"]
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=opencv
     # Things seem to change every patch versions, mostly the dnn module
     - {{ pin_subpackage('libopencv', max_pin='x.x.x') }}
   ignore_run_exports_from:
+    # python and numpy are only needed to *build* the cv2 bindings; the C++
+    # libopencv package must not gain a python/numpy run dependency from them.
     - python
+    - numpy
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
 
 requirements:
@@ -93,6 +109,9 @@ requirements:
   host:
     - libgl-devel                        # [linux and (qt_version == 5 or qt_version == 6)]
     - libegl-devel                       # [linux and (qt_version == 5 or qt_version == 6)]
+    # python and numpy are only here to build the cv2 bindings; their run
+    # exports are ignored above so libopencv stays a pure C++ package. The abi3
+    # run-export (cpython >={{ python_min }}) is attached to py-opencv instead.
     - python
     - numpy
     - eigen
@@ -135,10 +154,11 @@ test:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - pkg-config                      # [not win]
-    # Test with the two currently supported lapack implementatons
-    # One test done on different versions of python on each platform
-    - liblapack * *openblas           # [py==36]
-    - liblapack * *mkl                # [py==37 and linux64]
+    # Test with the two currently supported lapack implementatons.
+    # Only a single (python_min) build now happens, so split the backends
+    # across platforms instead of across python versions.
+    - liblapack * *openblas           # [not linux64]
+    - liblapack * *mkl                # [linux64]
     - cmake
     - ninja
   files:
@@ -176,19 +196,39 @@ test:
 
 outputs:
   - name: libopencv
+    # libopencv carries the native C++ libraries, headers, cmake/pkgconfig
+    # files and the opencv_* CLI tools. Everything the build installed EXCEPT
+    # the cv2 python bindings, which go to the python_version_independent
+    # py-opencv output. A noarch/abi3 package may not contain the opencv_*
+    # binaries, which is why the split is required.
+    files:
+      include:
+        - '**'
+      exclude:
+        # The cv2 bindings go to the python_version_independent py-opencv output.
+        # Match the build python's site-packages with a glob ("lib/python*")
+        # rather than hard-coding python_min: cv2 is installed wherever the build
+        # interpreter's site-packages is. The /* + /**/* pair expands each glob to
+        # the directory's top-level and nested contents, matching the multi-output
+        # trilinos-feedstock recipe (recipe/meta.yaml, the pytrilinos output).
+        - lib/python*/site-packages/cv2/*                                        # [unix]
+        - lib/python*/site-packages/cv2/**/*                                      # [unix]
+        - lib/python*/site-packages/opencv_python-{{ version }}.dist-info/*                # [unix]
+        - lib/python*/site-packages/opencv_python-{{ version }}.dist-info/**/*             # [unix]
+        - lib/python*/site-packages/opencv_python_headless-{{ version }}.dist-info/*       # [unix]
+        - lib/python*/site-packages/opencv_python_headless-{{ version }}.dist-info/**/*    # [unix]
+        - Lib/site-packages/cv2/*                                        # [win]
+        - Lib/site-packages/cv2/**/*                                      # [win]
+        - Lib/site-packages/opencv_python-{{ version }}.dist-info/*                # [win]
+        - Lib/site-packages/opencv_python-{{ version }}.dist-info/**/*             # [win]
+        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info/*       # [win]
+        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info/**/*    # [win]
   - name: opencv
     build:
-      string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
-      string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
+      python_version_independent: true                                            # [is_abi3]
+      string: headless_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                         # [qt_version == "none"]
+      string: qt{{ qt_version }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}               # [qt_version != "none"]
     requirements:
-      host:
-        # Explicitely add a python requirement so that the hash changes between
-        # opencv    for pypy36 and python3.6
-        # similarly for pypy37 and python3.7
-        - python
-        # Similarly for libprotobuf since we are building a few different versions now
-        - libprotobuf
-        - hdf5
       run:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
@@ -197,34 +237,71 @@ outputs:
         - echo "tested in other outputs"
 
   - name: py-opencv
+    # py-opencv holds the cv2 stable-ABI (abi3) python bindings produced by the
+    # single python_min build. python_version_independent makes the one build
+    # installable on every later python; python-abi3 supplies the
+    # `cpython >={{ python_min }}` lower bound (and excludes free-threading).
     build:
-      string: headless_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version == "none"]
-      string: qt{{ qt_version }}_py{{ PY_VER_MAJOR }}{{ PY_VER_MINOR }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [qt_version != "none"]
+      python_version_independent: true                                            # [is_abi3]
+      string: headless_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                         # [qt_version == "none"]
+      string: qt{{ qt_version }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}               # [qt_version != "none"]
+      # Do not byte-compile the cv2 .py files at build time. As a
+      # python_version_independent (noarch) package the .pyc are regenerated for
+      # the target interpreter at install time anyway, and compiling them here
+      # would run the host python -- which is impossible when cross-compiling
+      # (e.g. osx-64 -> osx-arm64): "Bad CPU type in executable".
+      skip_compile_pyc:
+        - "*.py"
       run_exports:
-        # Should we even have this???
         # don't pin the python version so hard.
-        # Actually, I have found pretty good compatibility in the python
-        # package
+        # Good compatibility has been found in the python package
         - {{ pin_subpackage('py-opencv') }}
+    files:
+      # Match the build python's site-packages with a glob ("lib/python*")
+      # rather than hard-coding python_min. The /* + /**/* pair expands each glob
+      # to the directory's top-level and nested contents (a bare ".../cv2" glob
+      # would match only the directory entry, which conda-build then drops); this
+      # mirrors the multi-output trilinos-feedstock recipe (the pytrilinos
+      # output). conda-build records these under a bare "site-packages/" for the
+      # python_version_independent package and relinks them into the active
+      # interpreter at install time.
+      include:
+        - lib/python*/site-packages/cv2/*                                        # [unix]
+        - lib/python*/site-packages/cv2/**/*                                      # [unix]
+        - lib/python*/site-packages/opencv_python-{{ version }}.dist-info/*                # [unix]
+        - lib/python*/site-packages/opencv_python-{{ version }}.dist-info/**/*             # [unix]
+        - lib/python*/site-packages/opencv_python_headless-{{ version }}.dist-info/*       # [unix]
+        - lib/python*/site-packages/opencv_python_headless-{{ version }}.dist-info/**/*    # [unix]
+        - Lib/site-packages/cv2/*                                        # [win]
+        - Lib/site-packages/cv2/**/*                                      # [win]
+        - Lib/site-packages/opencv_python-{{ version }}.dist-info/*                # [win]
+        - Lib/site-packages/opencv_python-{{ version }}.dist-info/**/*             # [win]
+        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info/*       # [win]
+        - Lib/site-packages/opencv_python_headless-{{ version }}.dist-info/**/*    # [win]
     requirements:
-      # There is no build script, but I just want it to think
-      # that it needs python and numpy at build time
       host:
         - python
         - numpy
-        # Similarly for libprotobuf since we are building a few different versions now
-        - libprotobuf
-        - hdf5
+        - python-abi3                        # [is_abi3]
       run:
-        - python
+        - python >={{ python_min }}
+        - numpy
         - {{ pin_subpackage('libopencv', exact=True) }}
     test:
       requires:
-        # Test with the two currently supported lapack implementatons
-        # One test done on different versions of python on each platform
-        - liblapack * *openblas         # [py==311]
-        - liblapack * *mkl              # [py==312 and linux64]
+        # Test with the two currently supported lapack implementatons.
+        # Only a single (python_min) build now happens, so split the backends
+        # across platforms instead of across python versions.
+        - liblapack * *openblas         # [not linux64]
+        - liblapack * *mkl              # [linux64]
         - pip
+        - abi3audit                     # [is_abi3]
+        # Test with BOTH python_min and some version above python_min
+        # We can't do that with v0 recipes easily
+        # But it should be dooable with v1 recipes
+        # https://github.com/conda-forge/conda-smithy/pull/2580
+        - python 3.13                   # [qt_version != "none"]
+        - python {{ python_min }}       # [qt_version == "none"]
       imports:
         - cv2
         - cv2.xfeatures2d
@@ -236,6 +313,10 @@ outputs:
       source_files:
         - test.avi
       commands:
+        # Confirm cv2 was built against the stable ABI and only uses symbols
+        # available from python_min onwards.
+        - abi3audit $SP_DIR/cv2/python-3/cv2.abi3.so -s -v --assume-minimum-abi3 {{ python_min }}   # [unix and is_abi3]
+        - abi3audit %SP_DIR%\\cv2\\python-3\\cv2.pyd -s -v --assume-minimum-abi3 {{ python_min }}    # [win and is_abi3]
         - python run_py_test.py
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
