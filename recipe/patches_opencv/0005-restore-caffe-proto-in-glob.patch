@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Sat, 6 Jun 2026 00:00:00 -0400
+Subject: [PATCH] dnn: re-add caffe to the PROTOBUF_UPDATE_FILES glob
+
+PR #28678 removed the public caffe importer but `caffe_io.{cpp,hpp}`
+were intentionally kept, because `tensorflow/tf_io.cpp` still uses the
+`ReadProtoFromText/Binary{File,Buffer}` helpers declared there. Those
+helpers pull in `opencv-caffe.pb.h`, but the matching `.proto` source
+was removed in the same PR. The shipped pre-generated files in
+`modules/dnn/misc/caffe/` were produced with an older protoc and no
+longer compile against the current protobuf headers.
+
+Re-introduce the caffe `.proto` source via build.sh / bld.bat (copied
+from `${RECIPE_DIR}/opencv-caffe.proto`) and add it back to the
+`PROTOBUF_UPDATE_FILES=ON` glob so it is regenerated alongside
+tensorflow/onnx.
+
+This drops the now-stale `else()` branch path for caffe; PROTOBUF_UPDATE_FILES
+is always on for this feedstock.
+---
+ modules/dnn/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/dnn/CMakeLists.txt b/modules/dnn/CMakeLists.txt
+index a765483..f895b96 100644
+--- a/modules/dnn/CMakeLists.txt
++++ b/modules/dnn/CMakeLists.txt
+@@ -393,7 +393,7 @@ if(HAVE_PROTOBUF)
+   ocv_target_compile_definitions(${the_module} PRIVATE "HAVE_PROTOBUF=1")
+
+   if(PROTOBUF_UPDATE_FILES)
+-    file(GLOB proto_files "${CMAKE_CURRENT_LIST_DIR}/src/tensorflow/*.proto" "${CMAKE_CURRENT_LIST_DIR}/src/onnx/opencv-onnx.proto")
++    file(GLOB proto_files "${CMAKE_CURRENT_LIST_DIR}/src/tensorflow/*.proto" "${CMAKE_CURRENT_LIST_DIR}/src/caffe/opencv-caffe.proto" "${CMAKE_CURRENT_LIST_DIR}/src/onnx/opencv-onnx.proto")
+     if(CMAKE_VERSION VERSION_LESS "3.13.0")
+       set(PROTOBUF_GENERATE_CPP_APPEND_PATH ON) # required for tensorflow
+       protobuf_generate_cpp(fw_srcs fw_hdrs ${proto_files})

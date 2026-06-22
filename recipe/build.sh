@@ -47,9 +47,28 @@ if [[ "${target_platform}" != "${build_platform}" ]]; then
 fi
 
 
+# Restore the upstream-removed caffe protobuf source so that
+# modules/dnn/src/caffe/caffe_io.{cpp,hpp} (still shipped) can compile when
+# PROTOBUF_UPDATE_FILES regenerates the .pb.{cc,h}. See PR #28678 and the
+# patches_opencv/0005-restore-caffe-proto-in-glob.patch.
+cp "${RECIPE_DIR}/opencv-caffe.proto" modules/dnn/src/caffe/opencv-caffe.proto
+
+# OpenCV 5.0 imported SgemmKernelPower.cpp / SgemmKernelPOWER10.cpp /
+# SgemmKernelPackA.S from Microsoft's MLAS but forgot the three headers
+# they #include. They are fetched as separate `source:` entries (see
+# meta.yaml) from the same upstream onnxruntime commit OpenCV vendored;
+# drop them into place before cmake. Harmless on non-POWER targets.
+cp "${SRC_DIR}/mlas_power_headers/"*.h 3rdparty/mlas/lib/power/
+
 export PKG_CONFIG_LIBDIR=$PREFIX/lib
 
 IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
+
+# Build the cv2 module against CPython's stable ABI (abi3) so that a single
+# build is compatible with every later python. The recipe only builds on
+# python_min (build: skip on non-min), so the running python defines the
+# minimum limited-API version, e.g. 3.10 -> 0x030a0000.
+PY_LIMITED_API_VERSION=$(${PYTHON} -c "import sys; print('0x%02X%02X0000' % sys.version_info[:2])")
 
 LIB_PYTHON="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}"
 if [[ ${IS_PYPY} == "1" ]]; then
@@ -135,10 +154,6 @@ cmake -LAH -G "Ninja"                                                     \
     -DINSTALL_C_EXAMPLES=0                                                \
     -DOPENCV_EXTRA_MODULES_PATH="../opencv_contrib/modules"               \
     -DCMAKE_SKIP_RPATH:bool=ON                                            \
-    -DPYTHON_PACKAGES_PATH=${SP_DIR}                                      \
-    -DPYTHON_EXECUTABLE=${PYTHON}                                         \
-    -DPYTHON_INCLUDE_DIR=${INC_PYTHON}                                    \
-    -DPYTHON_LIBRARY=${LIB_PYTHON}                                        \
     -DOPENCV_SKIP_PYTHON_LOADER=0                                         \
     -DOPENCV_FFMPEG_SKIP_DOWNLOAD=1                                       \
     -DZLIB_INCLUDE_DIR=${PREFIX}/include                                  \
@@ -152,19 +167,13 @@ cmake -LAH -G "Ninja"                                                     \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                               \
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                 \
     -DBUILD_opencv_python3=1                                              \
+    -DPYTHON3_LIMITED_API=ON                                              \
+    -DPYTHON3_LIMITED_API_VERSION=${PY_LIMITED_API_VERSION}               \
     -DPYTHON3_EXECUTABLE=${PYTHON}                                        \
     -DPYTHON3_INCLUDE_DIR=${INC_PYTHON}                                   \
     -DPYTHON3_NUMPY_INCLUDE_DIRS=$(python -c 'import numpy;print(numpy.get_include())')  \
     -DPYTHON3_LIBRARY=${LIB_PYTHON}                                       \
     -DPYTHON3_PACKAGES_PATH=${SP_DIR}                                     \
-    -DOPENCV_PYTHON3_INSTALL_PATH=${SP_DIR}                               \
-    -DBUILD_opencv_python2=0                                              \
-    -DPYTHON2_EXECUTABLE=                                                 \
-    -DPYTHON2_INCLUDE_DIR=                                                \
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=                                         \
-    -DPYTHON2_LIBRARY=                                                    \
-    -DPYTHON2_PACKAGES_PATH=                                              \
-    -DOPENCV_PYTHON2_INSTALL_PATH=                                        \
     ..
 
 ninja install -j${CPU_COUNT}

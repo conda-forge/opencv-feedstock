@@ -1,6 +1,14 @@
 @echo ON
 setlocal enabledelayedexpansion
 
+:: Restore the upstream-removed caffe protobuf source so that
+:: modules/dnn/src/caffe/caffe_io.{cpp,hpp} (still shipped) can compile when
+:: PROTOBUF_UPDATE_FILES regenerates the .pb.{cc,h}. See PR #28678 and the
+:: patches_opencv/0005-restore-caffe-proto-in-glob.patch.
+copy /Y "%RECIPE_DIR%\opencv-caffe.proto" modules\dnn\src\caffe\opencv-caffe.proto
+if %ERRORLEVEL% neq 0 exit 1
+
+
 mkdir build
 cd build
 
@@ -17,6 +25,12 @@ for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
    set "PY_MINOR=%%b"
 )
 set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
+
+:: Build the cv2 module against CPython's stable ABI (abi3) so a single build
+:: works on every later python. Only python_min is built, so the running
+:: python defines the minimum limited-API version (e.g. 3.10 -> 0x030a0000).
+:: OpenCV rewrites pythonXY.lib -> python3.lib for the limited-API link.
+for /F "delims=" %%i in ('python -c "import sys;print('0x{:02X}{:02X}0000'.format(*sys.version_info[:2]))"') do set PY_LIMITED_API_VERSION=%%i
 
 :: Workaround for building LAPACK headers with C++17
 :: see https://github.com/conda-forge/opencv-feedstock/pull/363#issuecomment-1604972688
@@ -103,25 +117,9 @@ cmake -LAH -G "Ninja"                                                           
     %WITH_QT%                                                                       ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
-    -DPYTHON_EXECUTABLE=""                                                          ^
-    -DPYTHON_INCLUDE_DIR=""                                                         ^
-    -DPYTHON_PACKAGES_PATH=""                                                       ^
-    -DPYTHON_LIBRARY=""                                                             ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=""                                                  ^
-    -DBUILD_opencv_python2=0                                                        ^
-    -DPYTHON2_EXECUTABLE=""                                                         ^
-    -DPYTHON2_INCLUDE_DIR=""                                                        ^
-    -DPYTHON2_NUMPY_INCLUDE_DIRS=""                                                 ^
-    -DPYTHON2_LIBRARY=""                                                            ^
-    -DPYTHON2_PACKAGES_PATH=""                                                      ^
-    -DOPENCV_PYTHON2_INSTALL_PATH=""                                                ^
-    -DBUILD_opencv_python3=0                                                        ^
-    -DPYTHON_EXECUTABLE=%UNIX_PREFIX%/python                                        ^
-    -DPYTHON_INCLUDE_DIR=%UNIX_PREFIX%/include                                      ^
-    -DPYTHON_PACKAGES_PATH=%UNIX_SP_DIR%                                            ^
-    -DPYTHON_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                    ^
-    -DPYTHON_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                                ^
     -DBUILD_opencv_python3=1                                                        ^
+    -DPYTHON3_LIMITED_API=ON                                                        ^
+    -DPYTHON3_LIMITED_API_VERSION=%PY_LIMITED_API_VERSION%                          ^
     -DOPENCV_SKIP_PYTHON_LOADER=0                                                   ^
     -DOPENCV_FFMPEG_SKIP_DOWNLOAD=1                                                 ^
     -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
@@ -129,7 +127,6 @@ cmake -LAH -G "Ninja"                                                           
     -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                               ^
     -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
     -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
-    -DOPENCV_PYTHON3_INSTALL_PATH=%UNIX_SP_DIR%                                     ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALL=ON                                         ^
     -DOPENCV_PYTHON_PIP_METADATA_INSTALLER:STRING="conda"                           ^
     ..

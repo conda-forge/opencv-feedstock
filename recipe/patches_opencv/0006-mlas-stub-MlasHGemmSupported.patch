@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Sat, 6 Jun 2026 00:00:00 -0400
+Subject: [PATCH] mlas: stub the missing FP16 GQA symbols
+
+OpenCV 5.0 bundles a subset of Microsoft's MLAS but the upstream
+`halfgemm.cpp` / `halfgemm_kernel_neon.cpp` were not imported. The
+function `MlasHGemmSupported` is forward-declared in `inc/mlas.h` and
+called from the `MlasGQASupported<MLAS_FP16>` specialization in
+`lib/compute.cpp`; the dispatch object `MlasHGemmDispatchNeon` is
+declared `extern` in `lib/mlasi.h` and used in `lib/platform.cpp`
+inside the `MLAS_TARGET_ARM64` block. Neither has a matching
+definition, so linking `libopencv_dnn.so` fails:
+
+  undefined reference to `MlasHGemmSupported(CBLAS_TRANSPOSE, CBLAS_TRANSPOSE)'  # all targets
+  undefined reference to `MlasHGemmDispatchNeon'                                 # aarch64
+
+Provide a stub `MlasHGemmSupported` that returns false (which cleanly
+disables the optional FP16 GQA fast path; the dispatcher already falls
+back to scalar), and comment out the `HGemmDispatch` assignment in
+`platform.cpp` since the stub means the field is never consulted
+anyway.
+---
+ 3rdparty/mlas/lib/compute.cpp  | 12 ++++++++++++
+ 3rdparty/mlas/lib/platform.cpp |  7 ++++++-
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/3rdparty/mlas/lib/compute.cpp b/3rdparty/mlas/lib/compute.cpp
+index a677ee5..22e3816 100644
+--- a/3rdparty/mlas/lib/compute.cpp
++++ b/3rdparty/mlas/lib/compute.cpp
+@@ -1123,6 +1123,18 @@ MlasComputeSoftmax<MLAS_FP16>(
+     MLAS_THREADPOOL* ThreadPool
+ );
+ 
++// Stub for MlasHGemmSupported: the upstream MLAS halfgemm.cpp / halfgemm
++// kernels were not imported into OpenCV's bundled mlas, so the symbol
++// referenced by MlasGQASupported<MLAS_FP16> below would be undefined at
++// link time on every target. Returning false here cleanly disables the
++// optional FP16 GQA fast path; the dispatcher already falls back to scalar.
++bool
++MLASCALL
++MlasHGemmSupported(CBLAS_TRANSPOSE /*TransA*/, CBLAS_TRANSPOSE /*TransB*/)
++{
++    return false;
++}
++
+ template <>
+ bool
+ MLASCALL
+diff --git a/3rdparty/mlas/lib/platform.cpp b/3rdparty/mlas/lib/platform.cpp
+index 52b5ac2..b4672bc 100644
+--- a/3rdparty/mlas/lib/platform.cpp
++++ b/3rdparty/mlas/lib/platform.cpp
+@@ -780,7 +780,12 @@ Return Value:
+     this->ConvSymU8S8Dispatch = &MlasConvSymU8DispatchNeon;
+     this->ConvSymS8S8Dispatch = &MlasConvSymS8DispatchNeon;
+     this->RopeDispatch = &MlasRopeDispatchNeon;
+-    this->HGemmDispatch = &MlasHGemmDispatchNeon;
++    // MlasHGemmDispatchNeon is declared extern in mlasi.h but the
++    // upstream halfgemm_kernel_neon.cpp that defines it was not
++    // imported, so referencing it would undef-ref on aarch64.
++    // Leaving HGemmDispatch as nullptr is consistent with the
++    // MlasHGemmSupported() stub in compute.cpp returning false.
++    // this->HGemmDispatch = &MlasHGemmDispatchNeon;
+     this->SoftmaxDispatch = &MlasSoftmaxDispatchNeon;
+     this->EltwiseDispatch = &MlasEltwiseDispatchNeon;
+ 
