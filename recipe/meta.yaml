@@ -182,7 +182,11 @@ requirements:
     - imath
     - qt6-main                       # [qt_version == 6]
     - zlib
-    - libopenvino-dev                # [not ppc64le]
+    # hmaarrfk - 2026/09/24
+    # libopenvino 2026.4.0 has no osx-64 build (openvino-feedstock's osx-64
+    # job hit Azure's 6h limit), so osx-64 is built without OpenVINO for now.
+    # Re-enable once it is published; keep in sync with build.sh.
+    - libopenvino-dev                # [not ppc64le and not (osx and x86_64)]
     # Why do I need expat here??? At the very least it helps find FFMPEG
     # And start the compilation on windows
     - expat
