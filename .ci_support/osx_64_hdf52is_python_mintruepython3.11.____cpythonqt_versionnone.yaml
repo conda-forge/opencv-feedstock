@@ -5,7 +5,7 @@ MACOSX_SDK_VERSION:
 c_compiler:
 - clang
 c_compiler_version:
-- '19'
+- '21'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -17,7 +17,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '19'
+- '21'
 expat:
 - '2'
 ffmpeg:
@@ -27,7 +27,7 @@ flann:
 freetype:
 - '2'
 hdf5:
-- 1.14.6
+- '2'
 imath:
 - 3.2.2
 is_abi3:
@@ -49,9 +49,7 @@ liblapack:
 liblapacke:
 - 3.9.* *netlib
 libopencv:
-- 4.13.0
-libopenvino_dev:
-- 2026.3.0
+- 5.0.0
 libpng:
 - '1.6'
 libprotobuf:
@@ -61,7 +59,7 @@ libtiff:
 libwebp:
 - '1'
 macos_machine:
-- arm64-apple-darwin20.0.0
+- x86_64-apple-darwin13.4.0
 numpy:
 - '2'
 openexr:
@@ -73,9 +71,9 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.10.* *_cpython
+- 3.11.* *_cpython
 python_min:
-- '3.10'
+- '3.11'
 qt:
 - '5.15'
 qt6_main:
@@ -83,7 +81,7 @@ qt6_main:
 qt_version:
 - none
 target_platform:
-- osx-arm64
+- osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

@@ -1,7 +1,7 @@
 c_compiler:
 - gcc
 c_compiler_version:
-- '14'
+- '15'
 c_stdlib:
 - sysroot
 c_stdlib_version:
@@ -13,7 +13,7 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '14'
+- '15'
 docker_image:
 - quay.io/condaforge/linux-anvil-x86_64:alma10
 expat:
@@ -47,9 +47,9 @@ liblapack:
 liblapacke:
 - 3.9.* *netlib
 libopencv:
-- 4.13.0
+- 5.0.0
 libopenvino_dev:
-- 2026.3.0
+- 2026.4.0
 libpng:
 - '1.6'
 libprotobuf:
@@ -69,15 +69,15 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.10.* *_cpython
+- 3.11.* *_cpython
 python_min:
-- '3.10'
+- '3.11'
 qt:
 - '5.15'
 qt6_main:
 - '6'
 qt_version:
-- none
+- '6'
 target_platform:
 - linux-64
 zip_keys:
