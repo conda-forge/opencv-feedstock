@@ -40,6 +40,12 @@ elif [[ "${target_platform}" == linux-ppc64le ]]; then
     OPENVINO="0"
 fi
 
+if [[ "${target_platform}" == osx-64 ]]; then
+    # hmaarrfk - 2026/09/24
+    # libopenvino 2026.4.0 is not available on osx-64; see meta.yaml.
+    OPENVINO="0"
+fi
+
 
 if [[ "${target_platform}" != "${build_platform}" ]]; then
     CMAKE_ARGS="${CMAKE_ARGS} -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc"
