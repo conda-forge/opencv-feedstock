@@ -1,0 +1,62 @@
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Subject: [PATCH] python: fix building the bindings with Py_LIMITED_API >= 3.11
+
+From Py_LIMITED_API 0x030b0000 on, CPython stops defining several object
+helpers as casting macros and provides only static inline functions
+taking PyObject* (see Include/object.h). Two spots in OpenCV relied on
+the old macros:
+
+1. pycompat.hpp: CPython no longer defines PyType_CheckExact as a macro,
+   so OpenCV's `#ifndef PyType_CheckExact` fallback is used. That fallback
+   names its parameter `obj` but expands `Py_TYPE(op)`:
+
+     cv2.cpp:306:10: error: use of undeclared identifier 'op'
+
+2. cv2_convert.cpp: NumPy's PyArray_GETCONTIGUOUS passes its
+   PyArrayObject* argument straight to Py_INCREF, which now only accepts
+   PyObject*:
+
+     cv2_convert.cpp:236:42: error: cannot convert 'PyArrayObject*' to
+     'PyObject*'
+
+   Expand the macro with an explicit cast; behaviour is unchanged.
+
+conda-forge builds the cv2 bindings with -DPYTHON3_LIMITED_API=ON on
+python_min, which moved from 3.10 to 3.11. Not yet fixed upstream on
+opencv 4.x or 5.x as of 2026-09.
+---
+ modules/python/src2/cv2_convert.cpp | 7 ++++++-
+ modules/python/src2/pycompat.hpp    | 2 +-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/modules/python/src2/cv2_convert.cpp b/modules/python/src2/cv2_convert.cpp
+index 01d48a3..7ef9797 100644
+--- a/modules/python/src2/cv2_convert.cpp
++++ b/modules/python/src2/cv2_convert.cpp
+@@ -225,7 +225,12 @@ bool pyopencv_to(PyObject* o, Mat& m, const ArgInfo& info)
+             oarr = (PyArrayObject*) o;
+         }
+         else {
+-            oarr = PyArray_GETCONTIGUOUS(oarr);
++            // Expanded PyArray_GETCONTIGUOUS: with Py_LIMITED_API >= 3.11,
++            // Py_INCREF no longer casts its argument to PyObject*.
++            if (PyArray_ISCONTIGUOUS(oarr))
++                Py_INCREF((PyObject*) oarr);
++            else
++                oarr = (PyArrayObject*) PyArray_Copy(oarr);
+             o = (PyObject*) oarr;
+         }
+ 
+diff --git a/modules/python/src2/pycompat.hpp b/modules/python/src2/pycompat.hpp
+index c936f5e..5a641a1 100644
+--- a/modules/python/src2/pycompat.hpp
++++ b/modules/python/src2/pycompat.hpp
+@@ -64,7 +64,7 @@
+ #endif // PY_MAJOR >=3
+ 
+ #ifndef PyType_CheckExact
+-#define PyType_CheckExact(obj) (Py_TYPE(op) == &PyType_Type)
++#define PyType_CheckExact(obj) (Py_TYPE(obj) == &PyType_Type)
+ #endif // !PyType_CheckExact
+ 
+ static inline bool getUnicodeString(PyObject * obj, std::string &str)
