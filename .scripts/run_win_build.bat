@@ -31,7 +31,7 @@ if !errorlevel! neq 0 exit /b !errorlevel!
 echo Creating environment
 call "%MICROMAMBA_EXE%" create --yes --root-prefix "%MAMBA_ROOT_PREFIX%" --prefix "%MINIFORGE_HOME%" ^
     --channel conda-forge ^
-    pip python=3.12 conda-build conda-forge-ci-setup=4 "conda-build>=26.3"
+    pip python=3.14 conda-build conda-forge-ci-setup=4 "conda-build>=26.3"
 if !errorlevel! neq 0 exit /b !errorlevel!
 echo Removing %MAMBA_ROOT_PREFIX%
 del /S /Q "%MAMBA_ROOT_PREFIX%" >nul
@@ -42,7 +42,8 @@ call :start_group "Configuring conda"
 
 :: Activate the base conda environment
 echo Activating environment
-call "%MINIFORGE_HOME%\Scripts\activate.bat"
+set "CONDA_EXE=%MINIFORGE_HOME%\Scripts\conda.exe"
+call "%MINIFORGE_HOME%\condabin\conda.bat" activate "%MINIFORGE_HOME%"
 :: Configure the solver
 set "CONDA_SOLVER=libmamba"
 if !errorlevel! neq 0 exit /b !errorlevel!
