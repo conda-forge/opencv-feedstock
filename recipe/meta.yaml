@@ -21,7 +21,7 @@
 {% set version = "4.13.0" %}
 {% set major_version = version.split('.')[0] %}
 
-{% set build = 16 %}
+{% set build = 17 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
 # This used to be more important when we supported both qt5 and qt6
@@ -59,6 +59,10 @@ source:
       - patches_opencv/29533-videoio-support-FFmpeg-after-AVCodec-pix_fmts-removal.patch
       # https://github.com/opencv/opencv/pull/29662
       - patches_opencv/29662-videoio-ffmpeg-use-avcodec_get_supported_config-for-framerates.patch
+      # Fix building the abi3 bindings with Py_LIMITED_API >= 3.11 (python_min
+      # 3.11): PyType_CheckExact fallback-macro typo and PyArray_GETCONTIGUOUS
+      # passing PyArrayObject* to Py_INCREF. Not fixed upstream in 4.x as of 2026-09.
+      - patches_opencv/0009-fix-python-limited-api-3.11-build.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 1e0077a4fd2960a7d2f4c9e49d6ba7bb891cac2d1be36d7e8e47aa97a9d1039b
@@ -148,7 +152,11 @@ requirements:
     - imath
     - qt6-main                       # [qt_version == 6]
     - zlib
-    - libopenvino-dev                # [not ppc64le]
+    # hmaarrfk - 2026/09/24
+    # libopenvino 2026.4.0 has no osx-64 build (openvino-feedstock's osx-64
+    # job hit Azure's 6h limit), so osx-64 is built without OpenVINO for now.
+    # Re-enable once it is published; keep in sync with build.sh.
+    - libopenvino-dev                # [not ppc64le and not (osx and x86_64)]
     # Why do I need expat here??? At the very least it helps find FFMPEG
     # And start the compilation on windows
     - expat
