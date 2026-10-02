@@ -29,7 +29,7 @@ freetype:
 hdf5:
 - '2'
 imath:
-- 3.2.2
+- 3.2.3
 is_abi3:
 - true
 is_python_min:
