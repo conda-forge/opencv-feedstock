@@ -85,5 +85,6 @@ zip_keys:
   - cxx_compiler_version
 - - python
   - is_python_min
+  - channel_sources
 zlib:
 - '1'

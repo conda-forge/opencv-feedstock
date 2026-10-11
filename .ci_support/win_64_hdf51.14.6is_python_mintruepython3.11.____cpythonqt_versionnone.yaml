@@ -73,5 +73,6 @@ target_platform:
 zip_keys:
 - - python
   - is_python_min
+  - channel_sources
 zlib:
 - '1'
