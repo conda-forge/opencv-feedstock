@@ -4,6 +4,20 @@ set -ex
 V4L="1"
 OPENVINO="1"
 OPENGL="0"
+CUDA="0"
+CUDA_ARGS=()
+
+if [[ "${cuda_compiler_version}" != "None" ]]; then
+    CUDA="1"
+    # Explicit targets let GPU-less CI build Turing and newer GPUs; keep PTX for forward compatibility.
+    CUDA_ARGS=(
+        -DENABLE_CUDA_FIRST_CLASS_LANGUAGE=ON
+        "-DCMAKE_CUDA_COMPILER=${BUILD_PREFIX}/bin/nvcc"
+        "-DCMAKE_CUDA_HOST_COMPILER=${CXX}"
+        -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared
+        '-DCMAKE_CUDA_ARCHITECTURES=75-real;80-real;86-real;89-real;90-real;100-real;120-real;120-virtual'
+    )
+fi
 
 if [[ "${target_platform}" == linux-* ]]; then
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
@@ -101,6 +115,7 @@ cd build
 
 cmake -LAH -G "Ninja"                                                     \
     ${CMAKE_ARGS}                                                         \
+    "${CUDA_ARGS[@]}"                                                     \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
@@ -140,8 +155,14 @@ cmake -LAH -G "Ninja"                                                     \
     -DBUILD_WEBP=0                                                        \
     -DWITH_WEBP=1                                                         \
     -DWITH_V4L=$V4L                                                       \
-    -DWITH_CUDA=0                                                         \
-    -DWITH_CUBLAS=0                                                       \
+    -DWITH_CUDA=$CUDA                                                     \
+    -DWITH_CUBLAS=$CUDA                                                   \
+    -DWITH_CUFFT=$CUDA                                                    \
+    -DWITH_CUDNN=$CUDA                                                    \
+    -DOPENCV_DNN_CUDA=$CUDA                                               \
+    -DBUILD_opencv_cudacodec=OFF                                          \
+    -DWITH_NVCUVID=OFF                                                    \
+    -DWITH_NVCUVENC=OFF                                                   \
     -DWITH_OPENCL=1                                                       \
     -DWITH_OPENCLAMDFFT=0                                                 \
     -DWITH_OPENCLAMDBLAS=0                                                \

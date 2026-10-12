@@ -4,7 +4,8 @@ context:
   version: "5.0.0"
   major_version: ${{ (version | split('.'))[0] }}
   build_revision: 10
-  build_variant: ${{ 'headless' if qt_version == 'none' else 'qt' ~ qt_version }}
+  with_cuda: ${{ cuda_compiler_version != 'None' }}
+  build_variant: ${{ ('headless' if qt_version == 'none' else 'qt' ~ qt_version) ~ ('_cuda' ~ (cuda_compiler_version | version_to_buildstring) if with_cuda else '') }}
   ort_mlas_commit: 62f742f1aa0c3102745ed35e3d869eaee845b9ac
   ort_mlas_raw: https://raw.githubusercontent.com/microsoft/onnxruntime/${{ ort_mlas_commit }}/onnxruntime/core/mlas/lib/power
 
@@ -51,7 +52,10 @@ source:
 build:
   number: ${{ build_revision + (600 if qt_version == '6' else 0) }}
   string: ${{ build_variant }}_h${{ hash }}_${{ build_number }}
-  skip: is_abi3 and not is_python_min
+  skip:
+    - is_abi3 and not is_python_min
+    # shortcut: validate CUDA 12.9 on Linux x86-64/headless before expanding the GPU matrix.
+    - with_cuda and (cuda_compiler_version != '12.9' or target_platform != 'linux-64' or qt_version != 'none')
 
 outputs:
   # Compile once against python_min, then separate native libraries, abi3
@@ -63,6 +67,7 @@ outputs:
         file: ${{ 'build.bat' if win else 'build.sh' }}
         env:
           qt_version: ${{ qt_version }}
+          cuda_compiler_version: ${{ cuda_compiler_version }}
     requirements:
       build:
         - if: build_platform != target_platform
@@ -79,11 +84,22 @@ outputs:
         - ${{ stdlib('c') }}
         - ${{ compiler('c') }}
         - ${{ compiler('cxx') }}
+        - if: with_cuda
+          then: ${{ compiler('cuda') }}
       host:
         - if: linux and qt_version == '6'
           then:
             - libgl-devel
             - libegl-devel
+        - if: with_cuda
+          then:
+            - cuda-version ==${{ cuda_compiler_version }}
+            - cuda-cudart-dev
+            - cuda-driver-dev
+            - libcublas-dev
+            - libcufft-dev
+            - libnpp-dev
+            - libcudnn-dev >=9,<10
         - python
         - numpy
         - eigen
@@ -131,6 +147,9 @@ outputs:
       name: libopencv
     inherit: opencv-build
     build:
+      variant:
+        # CUDA is opt-in, even on machines with a suitable NVIDIA driver.
+        down_prioritize_variant: ${{ 1 if with_cuda else 0 }}
       files:
         include:
           - '**'
@@ -138,8 +157,13 @@ outputs:
           - '**/site-packages/**'
           - '**/*opencv_videoio_gstreamer*'
     requirements:
+      run:
+        - if: with_cuda
+          then: __cuda >=${{ cuda_compiler_version }}
       run_exports:
-        - ${{ pin_subpackage('libopencv', upper_bound='x.x.x') }}
+        - if: with_cuda
+          then: ${{ pin_subpackage('libopencv', upper_bound='x.x.x', build=build_variant ~ '_*') }}
+          else: ${{ pin_subpackage('libopencv', upper_bound='x.x.x') }}
       ignore_run_exports:
         from_package:
           - gstreamer
@@ -152,7 +176,7 @@ outputs:
               - '**/site-packages/**'
               - '**/*opencv_videoio_gstreamer*'
       - script:
-          - python test_libraries.py ${{ version }}
+          - python test_libraries.py ${{ version }} ${{ cuda_compiler_version }}
           - if: unix
             then:
               - pkg-config --cflags --libs opencv${{ major_version }}
@@ -200,7 +224,9 @@ outputs:
         - numpy
         - ${{ pin_subpackage('libopencv', exact=True) }}
       run_exports:
-        - ${{ pin_subpackage('py-opencv') }}
+        - if: with_cuda
+          then: ${{ pin_subpackage('py-opencv', build=build_variant ~ '_*') }}
+          else: ${{ pin_subpackage('py-opencv') }}
     tests:
       - python:
           imports:
@@ -213,6 +239,7 @@ outputs:
       - script:
           - python run_py_test.py
           - python test_features.py
+          - python test_cuda.py ${{ cuda_compiler_version }}
           - python -c "import cv2; assert cv2.__version__ == '${{ version }}'"
           - if: unix
             then: abi3audit $SP_DIR/cv2/python-3/cv2.abi3.so -s -v --assume-minimum-abi3 ${{ python_min }}
@@ -231,6 +258,7 @@ outputs:
           recipe:
             - run_py_test.py
             - test_features.py
+            - test_cuda.py
             - color_palette_alpha.png
             - test_1_c1.jpg
           source:

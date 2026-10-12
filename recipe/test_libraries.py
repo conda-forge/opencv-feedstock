@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import sys
 
-version = sys.argv[1]
+version, cuda_version = sys.argv[1:]
 prefix = Path(sys.prefix)
 modules = """
 alphamat bgsegm calib ccalib core datasets dnn dnn_objdetect dnn_superres dpm
@@ -15,6 +15,11 @@ wechat_qrcode xfeatures2d ximgproc xobjdetect xphoto xstereo
 """.split()
 if sys.platform != "win32":
     modules += ["bioinspired", "hdf"]
+if cuda_version != "None":
+    modules += """
+    cudev cudaarithm cudabgsegm cudafeatures2d cudafilters cudaimgproc
+    cudalegacy cudaobjdetect cudaoptflow cudastereo cudawarping
+    """.split()
 
 for module in modules:
     if sys.platform == "win32":
@@ -27,3 +32,8 @@ for module in modules:
 record, = (prefix / "conda-meta").glob("libopencv-*.json")
 dependencies = {spec.split()[0] for spec in json.loads(record.read_text())["depends"]}
 assert not dependencies.intersection({"python", "python_abi", "cpython", "numpy", "gstreamer", "gst-plugins-base"}), dependencies
+cuda_dependencies = {"__cuda", "cuda-cudart", "libcublas", "libcufft", "libnpp", "libcudnn"}
+if cuda_version != "None":
+    assert cuda_dependencies <= dependencies, dependencies
+else:
+    assert not cuda_dependencies.intersection(dependencies), dependencies
