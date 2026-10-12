@@ -35,8 +35,7 @@ class TestFeatures(unittest.TestCase):
         np.testing.assert_array_equal(blob.get(), cv2.dnn.blobFromImage(image))
 
     def test_ocr(self):
-        prefix = Path(sys.prefix) / ("Library" if sys.platform == "win32" else "")
-        tessdata = prefix / "share/tessdata"
+        tessdata = Path(sys.prefix) / "share/tessdata"
         self.assertTrue((tessdata / "eng.traineddata").is_file(), tessdata)
         ocr = cv2.text.OCRTesseract_create(str(tessdata), "eng", "", 3, 6)
         image = np.full((160, 600, 3), 255, dtype=np.uint8)
