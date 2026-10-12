@@ -189,6 +189,11 @@ outputs:
             - python
             - ${{ compiler('c') }}
             - ${{ compiler('cxx') }}
+            # The exported CUDA CMake config requires the matching toolkit.
+            - if: with_cuda
+              then:
+                - ${{ compiler('cuda') }}
+                - ${{ stdlib('c') }}
             - if: not win
               then: pkg-config
             - if: linux64

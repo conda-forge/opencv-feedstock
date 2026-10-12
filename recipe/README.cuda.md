@@ -24,8 +24,9 @@ libopencv exactly. CUDA run exports retain the build flavor so downstream
 CUDA consumers cannot silently resolve to CPU libraries. CUDA variants are
 down-prioritized, and require the `__cuda` virtual package, so ordinary installs
 prefer CPU builds. The CUDA runtime libraries are dependencies; a system CUDA
-toolkit is not required. Installing CUDA dependencies beside a CPU build does
-not enable GPU support.
+toolkit is not required for runtime use. C++ consumers using `find_package(OpenCV)`
+need the matching CUDA toolkit; the native consumer test installs it separately.
+Installing CUDA dependencies beside a CPU build does not enable GPU support.
 
 ## Validation
 
