@@ -91,6 +91,8 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 mkdir -p build
 cd build
 
+# G-API links GStreamer directly; only videoio's plugin may depend on it.
+# VTK remains disabled because vtk-base brings Python and Qt into native/headless builds.
 # Features that are disabled
 # WITH_OBSENSOR
 # Orbbec seems to be tricky requiring lots of firmware and software to run on OSX
@@ -154,6 +156,7 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_GSTREAMER=1                                                    \
     -DVIDEOIO_ENABLE_PLUGINS=ON                                           \
     -DVIDEOIO_PLUGIN_LIST=gstreamer                                       \
+    -DOPENCV_GAPI_GSTREAMER=OFF                                           \
     -DWITH_MATLAB=0                                                       \
     -DWITH_TESSERACT=1                                                    \
     -DWITH_VA=0                                                           \

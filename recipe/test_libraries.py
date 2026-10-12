@@ -26,4 +26,4 @@ for module in modules:
 
 record, = (prefix / "conda-meta").glob("libopencv-*.json")
 dependencies = {spec.split()[0] for spec in json.loads(record.read_text())["depends"]}
-assert not dependencies.intersection({"python", "numpy", "gstreamer", "gst-plugins-base"}), dependencies
+assert not dependencies.intersection({"python", "python_abi", "cpython", "numpy", "gstreamer", "gst-plugins-base"}), dependencies

@@ -59,6 +59,7 @@ set "pc=%LIBRARY_PREFIX%\lib\pkgconfig\harfbuzz.pc"
 findstr /R /V "^Requires\.private" "%pc%" | findstr /R /V "^Libs\.private" > harfbuzz.pc
 move /Y harfbuzz.pc "%pc%"
 
+:: G-API must not hard-link GStreamer; only videoio's optional plugin may do so.
 cmake -LAH -G "Ninja"                                                               ^
     -DCMAKE_CXX_STANDARD=17                                                         ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
@@ -118,6 +119,7 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_GSTREAMER=1                                                              ^
     -DVIDEOIO_ENABLE_PLUGINS=ON                                                     ^
     -DVIDEOIO_PLUGIN_LIST=gstreamer                                                 ^
+    -DOPENCV_GAPI_GSTREAMER=OFF                                                     ^
     -DWITH_TESSERACT=1                                                              ^
     -DWITH_VTK=0                                                                    ^
     -DWITH_WIN32UI=0                                                                ^
