@@ -37,6 +37,15 @@ description = "List contents of all packages found in rattler-build build direct
 [feature.build.tasks.build]
 cmd = "rattler-build build --recipe recipe"
 description = "Build opencv-feedstock directly (without setup scripts), no particular variant specified"
+[feature.build.tasks."build-linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."debug-linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."inspect-linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "List contents of opencv-feedstock packages built for variant linux_64_cuda_compiler_version12.9is_python_mintrueqt_version6"
 [feature.build.tasks."build-linux_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"]
 cmd = "rattler-build build --recipe recipe -m .ci_support/linux_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone.yaml"
 description = "Build opencv-feedstock with variant linux_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone directly (without setup scripts)"
@@ -46,6 +55,24 @@ description = "Build opencv-feedstock with variant linux_64_cuda_compiler_versio
 [feature.build.tasks."inspect-linux_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"]
 cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone.yaml"
 description = "List contents of opencv-feedstock packages built for variant linux_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"
+[feature.build.tasks."build-linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."debug-linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."inspect-linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "List contents of opencv-feedstock packages built for variant linux_64_cuda_compiler_version13.4is_python_mintrueqt_version6"
+[feature.build.tasks."build-linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."debug-linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."inspect-linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "List contents of opencv-feedstock packages built for variant linux_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"
 [feature.build.tasks."build-linux_64_cuda_compiler_versionNoneis_python_mintrueqt_version6"]
 cmd = "rattler-build build --recipe recipe -m .ci_support/linux_64_cuda_compiler_versionNoneis_python_mintrueqt_version6.yaml"
 description = "Build opencv-feedstock with variant linux_64_cuda_compiler_versionNoneis_python_mintrueqt_version6 directly (without setup scripts)"
@@ -64,6 +91,42 @@ description = "Build opencv-feedstock with variant linux_64_cuda_compiler_versio
 [feature.build.tasks."inspect-linux_64_cuda_compiler_versionNoneis_python_mintrueqt_versionnone"]
 cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_cuda_compiler_versionNoneis_python_mintrueqt_versionnone.yaml"
 description = "List contents of opencv-feedstock packages built for variant linux_64_cuda_compiler_versionNoneis_python_mintrueqt_versionnone"
+[feature.build.tasks."build-linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."debug-linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."inspect-linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "List contents of opencv-feedstock packages built for variant linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_version6"
+[feature.build.tasks."build-linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."debug-linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."inspect-linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone.yaml"
+description = "List contents of opencv-feedstock packages built for variant linux_aarch64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"
+[feature.build.tasks."build-linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."debug-linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."inspect-linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "List contents of opencv-feedstock packages built for variant linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_version6"
+[feature.build.tasks."build-linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."debug-linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."inspect-linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "List contents of opencv-feedstock packages built for variant linux_aarch64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"
 [feature.build.tasks."build-linux_aarch64_cuda_compiler_versionNoneis_python_mintrueqt_version6"]
 cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_cuda_compiler_versionNoneis_python_mintrueqt_version6.yaml"
 description = "Build opencv-feedstock with variant linux_aarch64_cuda_compiler_versionNoneis_python_mintrueqt_version6 directly (without setup scripts)"
@@ -127,6 +190,42 @@ description = "Build opencv-feedstock with variant osx_arm64_is_python_mintrueqt
 [feature.build.tasks."inspect-osx_arm64_is_python_mintrueqt_versionnone"]
 cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_arm64_is_python_mintrueqt_versionnone.yaml"
 description = "List contents of opencv-feedstock packages built for variant osx_arm64_is_python_mintrueqt_versionnone"
+[feature.build.tasks."build-win_64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant win_64_cuda_compiler_version12.9is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."debug-win_64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/win_64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant win_64_cuda_compiler_version12.9is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."inspect-win_64_cuda_compiler_version12.9is_python_mintrueqt_version6"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_cuda_compiler_version12.9is_python_mintrueqt_version6.yaml"
+description = "List contents of opencv-feedstock packages built for variant win_64_cuda_compiler_version12.9is_python_mintrueqt_version6"
+[feature.build.tasks."build-win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."debug-win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."inspect-win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone.yaml"
+description = "List contents of opencv-feedstock packages built for variant win_64_cuda_compiler_version12.9is_python_mintrueqt_versionnone"
+[feature.build.tasks."build-win_64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant win_64_cuda_compiler_version13.4is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."debug-win_64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/win_64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "Build opencv-feedstock with variant win_64_cuda_compiler_version13.4is_python_mintrueqt_version6 directly (without setup scripts)"
+[feature.build.tasks."inspect-win_64_cuda_compiler_version13.4is_python_mintrueqt_version6"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_cuda_compiler_version13.4is_python_mintrueqt_version6.yaml"
+description = "List contents of opencv-feedstock packages built for variant win_64_cuda_compiler_version13.4is_python_mintrueqt_version6"
+[feature.build.tasks."build-win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."debug-win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "rattler-build debug setup --recipe recipe -m .ci_support/win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "Build opencv-feedstock with variant win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone directly (without setup scripts)"
+[feature.build.tasks."inspect-win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone.yaml"
+description = "List contents of opencv-feedstock packages built for variant win_64_cuda_compiler_version13.4is_python_mintrueqt_versionnone"
 [feature.build.tasks."build-win_64_cuda_compiler_versionNoneis_python_mintrueqt_version6"]
 cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_cuda_compiler_versionNoneis_python_mintrueqt_version6.yaml"
 description = "Build opencv-feedstock with variant win_64_cuda_compiler_versionNoneis_python_mintrueqt_version6 directly (without setup scripts)"
