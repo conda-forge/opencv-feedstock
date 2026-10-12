@@ -1,5 +1,6 @@
 """Check CUDA packaging without a GPU; use --require-gpu for device validation."""
 import argparse
+import re
 import unittest
 
 import cv2
@@ -26,9 +27,8 @@ class TestCUDA(unittest.TestCase):
     def test_build(self):
         info = cv2.getBuildInformation()
         if with_cuda:
-            self.assertRegex(info, r"NVIDIA CUDA:\s+YES", info)
-            self.assertIn(args.cuda_version, info)
-            self.assertRegex(info, r"cuDNN:\s+YES", info)
+            self.assertRegex(info, rf"NVIDIA CUDA:\s+YES \(ver {re.escape(args.cuda_version)}[.,)]", info)
+            self.assertRegex(info, r"cuDNN:\s+YES \(ver 9\.", info)
             for name in ("add", "resize", "cvtColor", "createGaussianFilter",
                          "createBackgroundSubtractorMOG2"):
                 self.assertTrue(hasattr(cv2.cuda, name), name)

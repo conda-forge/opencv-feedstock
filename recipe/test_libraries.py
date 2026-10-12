@@ -32,7 +32,7 @@ for module in modules:
 record, = (prefix / "conda-meta").glob("libopencv-*.json")
 dependencies = {spec.split()[0] for spec in json.loads(record.read_text())["depends"]}
 assert not dependencies.intersection({"python", "python_abi", "cpython", "numpy", "gstreamer", "gst-plugins-base"}), dependencies
-cuda_dependencies = {"__cuda", "cuda-cudart", "libcublas", "libcufft", "libnpp", "libcudnn"}
+cuda_dependencies = {"__cuda", "cuda-version", "cuda-cudart", "libcublas", "libcufft", "libnpp", "libcudnn"}
 if cuda_version != "None":
     assert cuda_dependencies <= dependencies, dependencies
 else:
