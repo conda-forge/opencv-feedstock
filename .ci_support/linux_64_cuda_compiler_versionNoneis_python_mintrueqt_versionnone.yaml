@@ -10,12 +10,16 @@ channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
+cuda_compiler:
+- cuda-nvcc
+cuda_compiler_version:
+- None
 cxx_compiler:
 - gxx
 cxx_compiler_version:
 - '15'
 docker_image:
-- quay.io/condaforge/linux-anvil-aarch64:alma10
+- quay.io/condaforge/linux-anvil-x86_64:alma10
 expat:
 - '2'
 ffmpeg:
@@ -78,12 +82,14 @@ qt6_main:
 qt_version:
 - none
 target_platform:
-- linux-aarch64
+- linux-64
 tbb_devel:
 - '2023'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+  - c_stdlib_version
+  - cuda_compiler_version
 - - python
   - is_python_min
 zlib:
