@@ -3,12 +3,26 @@ set -ex
 
 V4L="1"
 OPENVINO="1"
+OPENGL="0"
+CUDA="0"
+CUDA_ARGS=()
+
+if [[ "${cuda_compiler_version}" != "None" ]]; then
+    CUDA="1"
+    # Use the architecture/PTX policy shipped by conda-forge's CUDA compiler.
+    CUDA_ARGS=(
+        -DENABLE_CUDA_FIRST_CLASS_LANGUAGE=ON
+        "-DCMAKE_CUDA_COMPILER=${BUILD_PREFIX}/bin/nvcc"
+        "-DCMAKE_CUDA_HOST_COMPILER=${CXX}"
+        -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared
+        "-DCMAKE_CUDA_ARCHITECTURES=${CUDAARCHS:?CUDA compiler activation must set CUDAARCHS}"
+    )
+fi
 
 if [[ "${target_platform}" == linux-* ]]; then
     # Looks like there's a bug in Opencv 3.2.0 for building with FFMPEG
     # with GCC opencv/issues/8097
     export CXXFLAGS="$CXXFLAGS -D__STDC_CONSTANT_MACROS"
-    OPENMP="-DWITH_OPENMP=1"
 fi
 
 if [[ "${target_platform}" == osx-* ]]; then
@@ -19,8 +33,10 @@ fi
 
 if [[ "$qt_version" == "5" ]]; then
     QT="5"
+    OPENGL="1"
 elif [[ "$qt_version" == "6" ]]; then
     QT="6"
+    OPENGL="1"
     # hmaarrfk - 2025/05
     # Qt 6.9 seems to inject the wrong flags here. They don't seem necessary
     # https://github.com/conda-forge/qt-main-feedstock/issues/332
@@ -42,7 +58,7 @@ fi
 
 if [[ "${target_platform}" == osx-64 ]]; then
     # hmaarrfk - 2026/09/24
-    # libopenvino 2026.4.0 is not available on osx-64; see meta.yaml.
+    # libopenvino 2026.4.0 is not available on osx-64; see recipe.yaml.
     OPENVINO="0"
 fi
 
@@ -89,6 +105,8 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig
 mkdir -p build
 cd build
 
+# G-API links GStreamer directly; only videoio's plugin may depend on it.
+# VTK remains disabled because vtk-base brings Python and Qt into native/headless builds.
 # Features that are disabled
 # WITH_OBSENSOR
 # Orbbec seems to be tricky requiring lots of firmware and software to run on OSX
@@ -97,6 +115,7 @@ cd build
 
 cmake -LAH -G "Ninja"                                                     \
     ${CMAKE_ARGS}                                                         \
+    "${CUDA_ARGS[@]}"                                                     \
     -DCMAKE_BUILD_TYPE="Release"                                          \
     -DCMAKE_PREFIX_PATH=${PREFIX}                                         \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}                                      \
@@ -106,7 +125,9 @@ cmake -LAH -G "Ninja"                                                     \
     -DOPENCV_GENERATE_PKGCONFIG=ON                                        \
     -DENABLE_CONFIG_VERIFICATION=ON                                       \
     -DENABLE_PRECOMPILED_HEADERS=OFF                                      \
-    $OPENMP                                                               \
+    -DWITH_OPENMP=0                                                      \
+    -DWITH_TBB=1                                                         \
+    -DBUILD_TBB=0                                                        \
     -DWITH_LAPACK=1                                                       \
     -DLAPACK_LAPACKE_H=lapacke.h                                          \
     -DLAPACK_CBLAS_H=cblas.h                                              \
@@ -134,9 +155,15 @@ cmake -LAH -G "Ninja"                                                     \
     -DBUILD_WEBP=0                                                        \
     -DWITH_WEBP=1                                                         \
     -DWITH_V4L=$V4L                                                       \
-    -DWITH_CUDA=0                                                         \
-    -DWITH_CUBLAS=0                                                       \
-    -DWITH_OPENCL=0                                                       \
+    -DWITH_CUDA=$CUDA                                                     \
+    -DWITH_CUBLAS=$CUDA                                                   \
+    -DWITH_CUFFT=$CUDA                                                    \
+    -DWITH_CUDNN=$CUDA                                                    \
+    -DOPENCV_DNN_CUDA=$CUDA                                               \
+    -DBUILD_opencv_cudacodec=OFF                                          \
+    -DWITH_NVCUVID=OFF                                                    \
+    -DWITH_NVCUVENC=OFF                                                   \
+    -DWITH_OPENCL=1                                                       \
     -DWITH_OPENCLAMDFFT=0                                                 \
     -DWITH_OPENCLAMDBLAS=0                                                \
     -DWITH_OPENCL_D3D11_NV=0                                              \
@@ -147,14 +174,18 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_FFMPEG=1                                                       \
     -DWITH_FREETYPE=1                                                     \
     -DWITH_TENGINE=0                                                      \
-    -DWITH_GSTREAMER=0                                                    \
+    -DWITH_GSTREAMER=1                                                    \
+    -DVIDEOIO_ENABLE_PLUGINS=ON                                           \
+    -DVIDEOIO_PLUGIN_LIST=gstreamer                                       \
+    -DOPENCV_GAPI_GSTREAMER=OFF                                           \
     -DWITH_MATLAB=0                                                       \
-    -DWITH_TESSERACT=0                                                    \
+    -DWITH_TESSERACT=1                                                    \
     -DWITH_VA=0                                                           \
     -DWITH_VA_INTEL=0                                                     \
     -DWITH_VTK=0                                                          \
     -DWITH_GTK=0                                                          \
     -DWITH_QT=$QT                                                         \
+    -DWITH_OPENGL=$OPENGL                                                 \
     -DWITH_GPHOTO2=0                                                      \
     -DWITH_OBSENSOR=0                                                     \
     -DINSTALL_C_EXAMPLES=0                                                \

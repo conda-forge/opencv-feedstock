@@ -1,13 +1,30 @@
-About libopencv-feedstock
-=========================
+About opencv-feedstock
+======================
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/opencv-feedstock/blob/main/LICENSE.txt)
+
+
+About opencv
+------------
 
 Home: https://opencv.org/
 
 Package license: Apache-2.0
 
 Summary: Computer vision and machine learning software library.
+
+Development: https://github.com/opencv/opencv
+
+Documentation: https://docs.opencv.org/5.x/
+
+About opencv-gstreamer
+----------------------
+
+Home: https://opencv.org/
+
+Package license: Apache-2.0
+
+Summary: Optional GStreamer video I/O backend for OpenCV
 
 Development: https://github.com/opencv/opencv
 
@@ -38,73 +55,38 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_ppc64le_hdf51.14.6is_python_mintruepython3.11.____cpython</td>
+              <td>linux_ppc64le_is_python_mintrue</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_hdf51.14.6is_python_mintruepython3.11.____cpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_is_python_mintrue" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_ppc64le_hdf52is_python_mintruepython3.11.____cpython</td>
+              <td>osx_64_is_python_mintrueqt_version6</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_hdf52is_python_mintruepython3.11.____cpython" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_python_mintrueqt_version6" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_hdf51.14.6is_python_mintruepython3.11.____cpythonqt_version6</td>
+              <td>osx_64_is_python_mintrueqt_versionnone</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_hdf51.14.6is_python_mintruepython3.11.____cpythonqt_version6" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_python_mintrueqt_versionnone" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_hdf51.14.6is_python_mintruepython3.11.____cpythonqt_versionnone</td>
+              <td>osx_arm64_is_python_mintrueqt_version6</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_hdf51.14.6is_python_mintruepython3.11.____cpythonqt_versionnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_is_python_mintrueqt_version6" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_hdf52is_python_mintruepython3.11.____cpythonqt_version6</td>
+              <td>osx_arm64_is_python_mintrueqt_versionnone</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_hdf52is_python_mintruepython3.11.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_hdf52is_python_mintruepython3.11.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_hdf52is_python_mintruepython3.11.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_hdf51.14.6is_python_mintruepython3.11.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_hdf51.14.6is_python_mintruepython3.11.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_hdf51.14.6is_python_mintruepython3.11.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_hdf51.14.6is_python_mintruepython3.11.____cpythonqt_versionnone" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_hdf52is_python_mintruepython3.11.____cpythonqt_version6</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_hdf52is_python_mintruepython3.11.____cpythonqt_version6" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_hdf52is_python_mintruepython3.11.____cpythonqt_versionnone</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4567&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_hdf52is_python_mintruepython3.11.____cpythonqt_versionnone" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/opencv-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_is_python_mintrueqt_versionnone" alt="variant">
                 </a>
               </td>
             </tr>
@@ -122,12 +104,13 @@ Current release info
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libopencv-green.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libopencv.svg)](https://anaconda.org/conda-forge/libopencv) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-opencv-green.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv.svg)](https://anaconda.org/conda-forge/opencv) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-opencv--gstreamer-green.svg)](https://anaconda.org/conda-forge/opencv-gstreamer) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/opencv-gstreamer.svg)](https://anaconda.org/conda-forge/opencv-gstreamer) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/opencv-gstreamer.svg)](https://anaconda.org/conda-forge/opencv-gstreamer) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/opencv-gstreamer.svg)](https://anaconda.org/conda-forge/opencv-gstreamer) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-py--opencv-green.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/py-opencv.svg)](https://anaconda.org/conda-forge/py-opencv) |
 
-Installing libopencv
-====================
+Installing opencv
+=================
 
-Installing `libopencv` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `opencv` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
@@ -141,7 +124,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install libopencv opencv py-opencv
+conda install libopencv opencv opencv-gstreamer py-opencv
 ```
 
 </details>
@@ -150,7 +133,7 @@ conda install libopencv opencv py-opencv
 <summary>With mamba</summary>
 
 ```
-mamba install libopencv opencv py-opencv
+mamba install libopencv opencv opencv-gstreamer py-opencv
 ```
 
 </details>
@@ -160,9 +143,9 @@ mamba install libopencv opencv py-opencv
 
 ```
 # for adding to your local project
-pixi add libopencv opencv py-opencv
+pixi add libopencv opencv opencv-gstreamer py-opencv
 # for installing globally
-pixi global install libopencv opencv py-opencv
+pixi global install libopencv opencv opencv-gstreamer py-opencv
 ```
 
 </details>
@@ -257,17 +240,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating libopencv-feedstock
-============================
+Updating opencv-feedstock
+=========================
 
-If you would like to improve the libopencv recipe or build a new
+If you would like to improve the opencv recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/libopencv-feedstock are
+Note that all branches in the conda-forge/opencv-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks, and branches in the main repository should only be used to
 build distinct package versions.

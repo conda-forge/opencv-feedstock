@@ -2,6 +2,12 @@
 MACOSX_SDK_VERSION:  # [osx]
   - 15.5             # [osx]
 
+# cuDNN 9 needs glibc 2.28; align with the global CPU/CUDA 12/CUDA 13 compiler zip.
+c_stdlib_version:  # [linux and (x86_64 or aarch64)]
+  - 2.17          # [linux and (x86_64 or aarch64)]
+  - 2.28          # [linux and (x86_64 or aarch64)]
+  - 2.28          # [linux and (x86_64 or aarch64)]
+
 qt_version:
   - none
   - 6          # [not ppc64le]

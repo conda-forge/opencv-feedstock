@@ -1,6 +1,14 @@
 @echo ON
 setlocal enabledelayedexpansion
 
+set CUDA=0
+set "CUDA_ARGS="
+if not "%cuda_compiler_version%"=="None" (
+    if not defined CUDAARCHS exit /b 1
+    set CUDA=1
+    set "CUDA_ARGS=-DENABLE_CUDA_FIRST_CLASS_LANGUAGE=ON -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared -DCMAKE_CUDA_COMPILER=%BUILD_PREFIX:\=/%/Library/bin/nvcc.exe -DCMAKE_CUDA_ARCHITECTURES=%CUDAARCHS%"
+)
+
 :: Restore the upstream-removed caffe protobuf source so that
 :: modules/dnn/src/caffe/caffe_io.{cpp,hpp} (still shipped) can compile when
 :: PROTOBUF_UPDATE_FILES regenerates the .pb.{cc,h}. See PR #28678 and the
@@ -19,6 +27,8 @@ if "%qt_version%"=="6" set WITH_QT="-DWITH_QT=6"
 :REM https://github.com/conda-forge/qt-main-feedstock/issues/332
 if "%qt_version%"=="6" python -c "import os; p = os.path.join(os.environ['LIBRARY_PREFIX'], 'lib', 'cmake', 'Qt6Test', 'Qt6TestTargets.cmake'); lines = open(p).readlines(); open(p, 'w').writelines(l for l in lines if 'INTERFACE_COMPILE_DEFINITIONS' not in l)"
 if "%qt_version%"=="none" set WITH_QT="-DWITH_QT=0"
+set WITH_OPENGL=1
+if "%qt_version%"=="none" set WITH_OPENGL=0
 
 for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
    set "PY_MAJOR=%%a"
@@ -57,7 +67,9 @@ set "pc=%LIBRARY_PREFIX%\lib\pkgconfig\harfbuzz.pc"
 findstr /R /V "^Requires\.private" "%pc%" | findstr /R /V "^Libs\.private" > harfbuzz.pc
 move /Y harfbuzz.pc "%pc%"
 
+:: G-API must not hard-link GStreamer; only videoio's optional plugin may do so.
 cmake -LAH -G "Ninja"                                                               ^
+    %CUDA_ARGS%                                                                    ^
     -DCMAKE_CXX_STANDARD=17                                                         ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
@@ -75,6 +87,9 @@ cmake -LAH -G "Ninja"                                                           
     -DLAPACK_LIBRARIES=%UNIX_LIBRARY_LIB%/lapack.lib;%UNIX_LIBRARY_LIB%/cblas.lib   ^
     -DWITH_AVIF=1                                                                   ^
     -DWITH_EIGEN=1                                                                  ^
+    -DWITH_OPENMP=0                                                                 ^
+    -DWITH_TBB=1                                                                    ^
+    -DBUILD_TBB=0                                                                   ^
     -DENABLE_CONFIG_VERIFICATION=ON                                                 ^
     -DENABLE_PRECOMPILED_HEADERS=OFF                                                ^
     -DBUILD_TESTS=0                                                                 ^
@@ -97,8 +112,15 @@ cmake -LAH -G "Ninja"                                                           
     -DBUILD_JPEG=0                                                                  ^
     -DBUILD_WEBP=0                                                                  ^
     -DWITH_WEBP=1                                                                   ^
-    -DWITH_CUDA=0                                                                   ^
-    -DWITH_OPENCL=0                                                                 ^
+    -DWITH_CUDA=%CUDA%                                                              ^
+    -DWITH_CUBLAS=%CUDA%                                                            ^
+    -DWITH_CUFFT=%CUDA%                                                             ^
+    -DWITH_CUDNN=%CUDA%                                                             ^
+    -DOPENCV_DNN_CUDA=%CUDA%                                                        ^
+    -DBUILD_opencv_cudacodec=OFF                                                    ^
+    -DWITH_NVCUVID=OFF                                                              ^
+    -DWITH_NVCUVENC=OFF                                                             ^
+    -DWITH_OPENCL=1                                                                 ^
     -DWITH_OPENCLAMDFFT=0                                                           ^
     -DWITH_OPENCLAMDBLAS=0                                                          ^
     -DWITH_OPENCL_D3D11_NV=0                                                        ^
@@ -110,11 +132,15 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_FREETYPE=1                                                               ^
     -DWITH_TENGINE=0                                                                ^
-    -DWITH_GSTREAMER=0                                                              ^
-    -DWITH_TESSERACT=0                                                              ^
+    -DWITH_GSTREAMER=1                                                              ^
+    -DVIDEOIO_ENABLE_PLUGINS=ON                                                     ^
+    -DVIDEOIO_PLUGIN_LIST=gstreamer                                                 ^
+    -DOPENCV_GAPI_GSTREAMER=OFF                                                     ^
+    -DWITH_TESSERACT=1                                                              ^
     -DWITH_VTK=0                                                                    ^
     -DWITH_WIN32UI=0                                                                ^
     %WITH_QT%                                                                       ^
+    -DWITH_OPENGL=%WITH_OPENGL%                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DBUILD_opencv_python3=1                                                        ^
@@ -133,4 +159,12 @@ cmake -LAH -G "Ninja"                                                           
 if %ERRORLEVEL% neq 0 (type CMakeError.log && exit 1)
 
 cmake --build . --target install --config Release
+if %ERRORLEVEL% neq 0 exit 1
+
+:: abi3 installs can change site-packages layout (Python 3.15); use runtime paths.
+> "%SP_DIR%\cv2\config.py" echo import os, sys
+if %ERRORLEVEL% neq 0 exit 1
+>> "%SP_DIR%\cv2\config.py" echo BINARIES_PATHS = [os.path.join(sys.prefix, "Library", "bin")] + BINARIES_PATHS
+if %ERRORLEVEL% neq 0 exit 1
+> "%SP_DIR%\cv2\config-3.py" echo PYTHON_EXTENSIONS_PATHS = [os.path.join(LOADER_DIR, "python-3")] + PYTHON_EXTENSIONS_PATHS
 if %ERRORLEVEL% neq 0 exit 1

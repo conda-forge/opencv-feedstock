@@ -1,7 +1,7 @@
 # Mostly follows <opencv>/samples/cpp/example_cmake/CMakeLists.txt
 cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
 project(cmake_build_test)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 find_package(OpenCV REQUIRED)
 message(STATUS "OpenCV library status:")
