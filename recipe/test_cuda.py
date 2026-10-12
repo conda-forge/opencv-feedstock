@@ -61,7 +61,7 @@ class TestCUDA(unittest.TestCase):
         net.setInput(np.arange(16, dtype=np.float32).reshape(1, 1, 4, 4))
         np.testing.assert_array_equal(net.forward(), [[[[5, 7], [13, 15]]]])
         # Refuse a numerically correct result obtained by silently falling back to CPU.
-        self.assertIn("CUDA/CUDA", net.dump())
+        self.assertRegex(net.dump(), r'"pool" \[label="[^"]*CUDA/CUDA')
 
 
 if __name__ == "__main__":
