@@ -50,7 +50,7 @@ source:
 
 build:
   number: ${{ build_revision + (600 if qt_version == '6' else 0) }}
-  string: ${{ build_variant }}_h${{ hash }}_${{ build_revision + (600 if qt_version == '6' else 0) }}
+  string: ${{ build_variant }}_h${{ hash }}_${{ build_number }}
   skip: is_abi3 and not is_python_min
 
 outputs:
