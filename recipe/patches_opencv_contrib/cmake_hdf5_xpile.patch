@@ -1,7 +1,6 @@
---- opencv_contrib/modules/hdf/CMakeLists.txt.old	2021-12-07 21:07:51.410687867 +0000
-+++ opencv_contrib/modules/hdf/CMakeLists.txt	2021-12-07 21:08:59.288862454 +0000
-@@ -16,9 +16,7 @@
-      set(HDF5_FOUND "NO")
+--- a/modules/hdf/CMakeLists.txt
++++ b/modules/hdf/CMakeLists.txt
+@@ -17,8 +17,6 @@
    endif()
  else()
 -  if(NOT CMAKE_CROSSCOMPILING) # iOS build should not reuse OSX package
@@ -11,4 +10,3 @@
  endif()
  
  if(NOT HDF5_FOUND)
-

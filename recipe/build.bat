@@ -19,6 +19,8 @@ if "%qt_version%"=="6" set WITH_QT="-DWITH_QT=6"
 :REM https://github.com/conda-forge/qt-main-feedstock/issues/332
 if "%qt_version%"=="6" python -c "import os; p = os.path.join(os.environ['LIBRARY_PREFIX'], 'lib', 'cmake', 'Qt6Test', 'Qt6TestTargets.cmake'); lines = open(p).readlines(); open(p, 'w').writelines(l for l in lines if 'INTERFACE_COMPILE_DEFINITIONS' not in l)"
 if "%qt_version%"=="none" set WITH_QT="-DWITH_QT=0"
+set WITH_OPENGL=1
+if "%qt_version%"=="none" set WITH_OPENGL=0
 
 for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
    set "PY_MAJOR=%%a"
@@ -75,6 +77,9 @@ cmake -LAH -G "Ninja"                                                           
     -DLAPACK_LIBRARIES=%UNIX_LIBRARY_LIB%/lapack.lib;%UNIX_LIBRARY_LIB%/cblas.lib   ^
     -DWITH_AVIF=1                                                                   ^
     -DWITH_EIGEN=1                                                                  ^
+    -DWITH_OPENMP=0                                                                 ^
+    -DWITH_TBB=1                                                                    ^
+    -DBUILD_TBB=0                                                                   ^
     -DENABLE_CONFIG_VERIFICATION=ON                                                 ^
     -DENABLE_PRECOMPILED_HEADERS=OFF                                                ^
     -DBUILD_TESTS=0                                                                 ^
@@ -98,7 +103,7 @@ cmake -LAH -G "Ninja"                                                           
     -DBUILD_WEBP=0                                                                  ^
     -DWITH_WEBP=1                                                                   ^
     -DWITH_CUDA=0                                                                   ^
-    -DWITH_OPENCL=0                                                                 ^
+    -DWITH_OPENCL=1                                                                 ^
     -DWITH_OPENCLAMDFFT=0                                                           ^
     -DWITH_OPENCLAMDBLAS=0                                                          ^
     -DWITH_OPENCL_D3D11_NV=0                                                        ^
@@ -110,11 +115,14 @@ cmake -LAH -G "Ninja"                                                           
     -DWITH_FFMPEG=1                                                                 ^
     -DWITH_FREETYPE=1                                                               ^
     -DWITH_TENGINE=0                                                                ^
-    -DWITH_GSTREAMER=0                                                              ^
-    -DWITH_TESSERACT=0                                                              ^
+    -DWITH_GSTREAMER=1                                                              ^
+    -DVIDEOIO_ENABLE_PLUGINS=ON                                                     ^
+    -DVIDEOIO_PLUGIN_LIST=gstreamer                                                 ^
+    -DWITH_TESSERACT=1                                                              ^
     -DWITH_VTK=0                                                                    ^
     -DWITH_WIN32UI=0                                                                ^
     %WITH_QT%                                                                       ^
+    -DWITH_OPENGL=%WITH_OPENGL%                                                     ^
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DBUILD_opencv_python3=1                                                        ^

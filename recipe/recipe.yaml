@@ -1,0 +1,311 @@
+schema_version: 1
+
+context:
+  version: "5.0.0"
+  major_version: ${{ (version | split('.'))[0] }}
+  build_revision: 10
+  build_variant: ${{ 'headless' if qt_version == 'none' else 'qt' ~ qt_version }}
+  ort_mlas_commit: 62f742f1aa0c3102745ed35e3d869eaee845b9ac
+  ort_mlas_raw: https://raw.githubusercontent.com/microsoft/onnxruntime/${{ ort_mlas_commit }}/onnxruntime/core/mlas/lib/power
+
+recipe:
+  name: opencv-split
+  version: ${{ version }}
+
+source:
+  - url: https://github.com/opencv/opencv/archive/${{ version }}.tar.gz
+    sha256: b0528f5a1d379d59d4701cb28c36e22214cc51cf64594e5b56f2d3e6c0233095
+    patches:
+      - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
+      - patches_opencv/0001-Also-install-metadata-for-opencv-python-headless.patch
+      - patches_opencv/0003-find-pkgconfig-on-windows.patch
+      - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
+      - patches_opencv/0005-restore-caffe-proto-in-glob.patch
+      - patches_opencv/0006-mlas-stub-MlasHGemmSupported.patch
+      - patches_opencv/0007-vsx-add-v_fma-for-v_int32x4.patch
+      - patches_opencv/0008-make-python-loader-relocatable.patch
+      - patches_opencv/29533-videoio-support-FFmpeg-after-AVCodec-pix_fmts-removal.patch
+      - patches_opencv/29662-videoio-ffmpeg-use-avcodec_get_supported_config-for-framerates.patch
+      - patches_opencv/0009-fix-python-limited-api-3.11-build.patch
+      # Also carried by Arch: correct the flattened UMat ROI in DNN preprocessing.
+      - patches_opencv/0010-fix-dnn-umat-dimensions.patch
+  - url: https://github.com/opencv/opencv_contrib/archive/${{ version }}.tar.gz
+    sha256: c58f6344170c39abf187c56f3843b59cab1fd3e89cf19ba2ce25dc061659b27f
+    target_directory: opencv_contrib
+    patches:
+      - patches_opencv_contrib/cmake_hdf5_xpile.patch
+  - url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi
+    file_name: test.avi
+    sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
+  # Headers omitted from OpenCV 5.0's vendored MLAS POWER implementation.
+  - url: ${{ ort_mlas_raw }}/SgemmKernelpower.h
+    sha256: 78cfd0db9a6cb48e00f101bbe4359cc5c679cd9b167ad050ed3c3882aabc73a5
+    target_directory: mlas_power_headers
+  - url: ${{ ort_mlas_raw }}/FgemmKernelpower.h
+    sha256: db12b360e2b3079294e2ad58b2b9dcc83483c4dec6b92c2931a7b6a7d4e2068d
+    target_directory: mlas_power_headers
+  - url: ${{ ort_mlas_raw }}/asmmacro.h
+    sha256: de8effd06029567f165e42e288c4644460e06b0efebd64016d8adb753e80c189
+    target_directory: mlas_power_headers
+
+build:
+  number: ${{ build_revision + (600 if qt_version == '6' else 0) }}
+  string: ${{ build_variant }}_h${{ hash }}_${{ build_revision + (600 if qt_version == '6' else 0) }}
+  skip: is_abi3 and not is_python_min
+
+outputs:
+  # Compile once against python_min, then separate native libraries, abi3
+  # bindings and the dynamically loaded GStreamer backend.
+  - staging:
+      name: opencv-build
+    build:
+      script:
+        file: ${{ 'build.bat' if win else 'build.sh' }}
+        env:
+          qt_version: ${{ qt_version }}
+    requirements:
+      build:
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - numpy
+            - libprotobuf
+            - if: qt_version == '6'
+              then: qt6-main
+        - pkg-config
+        - cmake
+        - ninja
+        - ${{ stdlib('c') }}
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+      host:
+        - if: linux and qt_version == '6'
+          then:
+            - libgl-devel
+            - libegl-devel
+        - python
+        - numpy
+        - eigen
+        - ffmpeg ${{ ffmpeg }}.* lgpl_*
+        - freetype
+        - harfbuzz
+        - hdf5
+        - hdf5 * nompi*
+        - openjpeg
+        - libavif
+        - libcblas
+        - if: unix
+          then: libiconv
+        - libjpeg-turbo
+        - liblapack
+        - liblapacke
+        - libpng
+        - libprotobuf
+        - libtiff
+        - libwebp
+        - openexr
+        - libjxl
+        - imath
+        - if: qt_version == '6'
+          then: qt6-main
+        - zlib
+        # OpenVINO is unavailable on POWER and currently on Intel macOS.
+        - if: not ppc64le and not (osx and x86_64)
+          then: libopenvino-dev
+        - expat
+        - tbb-devel
+        - tesseract
+        - leptonica
+        - gstreamer
+        - gst-plugins-base
+        - libglib
+      ignore_run_exports:
+        from_package:
+          - python
+          - numpy
+          - if: build_platform != target_platform
+            then: cross-python_${{ target_platform }}
+
+  - package:
+      name: libopencv
+    inherit: opencv-build
+    build:
+      files:
+        include:
+          - '**'
+        exclude:
+          - '**/site-packages/**'
+          - '**/*opencv_videoio_gstreamer*'
+    requirements:
+      run_exports:
+        - ${{ pin_subpackage('libopencv', upper_bound='x.x.x') }}
+      ignore_run_exports:
+        from_package:
+          - gstreamer
+          - gst-plugins-base
+          - libglib
+    tests:
+      - package_contents:
+          files:
+            not_exists:
+              - '**/site-packages/**'
+              - '**/*opencv_videoio_gstreamer*'
+      - script:
+          - python test_libraries.py ${{ version }}
+          - if: unix
+            then:
+              - pkg-config --cflags --libs opencv${{ major_version }}
+              - $CXX -std=c++17 test.cpp $(pkg-config --cflags opencv${{ major_version }}) -o test
+              - test "$(./test)" = "${{ version }}"
+          - cmake -S . -B cmake_build_test -G Ninja
+          - cmake --build cmake_build_test --config Release
+        requirements:
+          run:
+            - python
+            - ${{ compiler('c') }}
+            - ${{ compiler('cxx') }}
+            - if: not win
+              then: pkg-config
+            - if: linux64
+              then: liblapack * *mkl
+              else: liblapack * *openblas
+            - cmake
+            - ninja
+        files:
+          recipe:
+            - CMakeLists.txt
+            - test.cpp
+            - test_libraries.py
+
+  - package:
+      name: py-opencv
+    inherit:
+      from: opencv-build
+      run_exports: false
+    build:
+      python:
+        version_independent: true
+        skip_pyc_compilation:
+          - '*.py'
+      files:
+        - '**/site-packages/**'
+    requirements:
+      host:
+        - python
+        - numpy
+        - python-abi3
+      run:
+        - python >=${{ python_min }}
+        - numpy
+        - ${{ pin_subpackage('libopencv', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage('py-opencv') }}
+    tests:
+      - python:
+          imports:
+            - cv2
+            - cv2.xfeatures2d
+            - cv2.freetype
+          python_version:
+            - ${{ python_min }}.*
+            - '*'
+      - script:
+          - python run_py_test.py
+          - python test_features.py
+          - python -c "import cv2; assert cv2.__version__ == '${{ version }}'"
+          - if: unix
+            then: abi3audit $SP_DIR/cv2/python-3/cv2.abi3.so -s -v --assume-minimum-abi3 ${{ python_min }}
+            else: abi3audit %SP_DIR%\cv2\python-3\cv2.pyd -s -v --assume-minimum-abi3 ${{ python_min }}
+          - pip check
+          - pip list
+        requirements:
+          run:
+            - python ${{ python_min }}.*
+            - if: linux64
+              then: liblapack * *mkl
+              else: liblapack * *openblas
+            - pip
+            - abi3audit
+        files:
+          recipe:
+            - run_py_test.py
+            - test_features.py
+            - color_palette_alpha.png
+            - test_1_c1.jpg
+          source:
+            - test.avi
+
+  - package:
+      name: opencv-gstreamer
+    inherit:
+      from: opencv-build
+      run_exports: false
+    build:
+      files:
+        - '**/*opencv_videoio_gstreamer*'
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+      host:
+        - ${{ pin_subpackage('libopencv', exact=True) }}
+        - gstreamer
+        - gst-plugins-base
+        - libglib
+      run:
+        - ${{ pin_subpackage('libopencv', exact=True) }}
+    tests:
+      - package_contents:
+          files:
+            - if: win
+              then: Library/bin/opencv_videoio_gstreamer*.dll
+              else: lib/libopencv_videoio_gstreamer.so
+      - script: python test_gstreamer.py
+        requirements:
+          run:
+            - python ${{ python_min }}.*
+            - ${{ pin_subpackage('py-opencv', exact=True) }}
+        files:
+          recipe:
+            - test_gstreamer.py
+    about:
+      summary: Optional GStreamer video I/O backend for OpenCV
+
+  - package:
+      name: opencv
+    requirements:
+      run:
+        - ${{ pin_subpackage('libopencv', exact=True) }}
+        - ${{ pin_subpackage('py-opencv', exact=True) }}
+      # shortcut: install opencv-gstreamer separately until extras metadata no longer requires beta --v3 tooling.
+    tests:
+      - python:
+          imports:
+            - cv2
+          python_version:
+            - ${{ python_min }}.*
+            - '*'
+          pip_check: false
+
+about:
+  homepage: https://opencv.org/
+  license: Apache-2.0
+  license_file: LICENSE
+  summary: Computer vision and machine learning software library.
+  repository: https://github.com/opencv/opencv
+  documentation: https://docs.opencv.org/${{ major_version }}.x/
+
+extra:
+  feedstock-name: opencv
+  recipe-maintainers:
+    - h-vetinari
+    - xhochy
+    - jakirkham
+    - msarahan
+    - patricksnape
+    - zym1010
+    - hajapy
+    - ocefpaf
+    - hmaarrfk
+    - ilya-lavrenov
