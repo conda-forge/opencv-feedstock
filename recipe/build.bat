@@ -1,6 +1,14 @@
 @echo ON
 setlocal enabledelayedexpansion
 
+set CUDA=0
+set "CUDA_ARGS="
+if not "%cuda_compiler_version%"=="None" (
+    if not defined CUDAARCHS exit /b 1
+    set CUDA=1
+    set "CUDA_ARGS=-DENABLE_CUDA_FIRST_CLASS_LANGUAGE=ON -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared -DCMAKE_CUDA_COMPILER=%BUILD_PREFIX:\=/%/Library/bin/nvcc.exe -DCMAKE_CUDA_ARCHITECTURES=%CUDAARCHS%"
+)
+
 :: Restore the upstream-removed caffe protobuf source so that
 :: modules/dnn/src/caffe/caffe_io.{cpp,hpp} (still shipped) can compile when
 :: PROTOBUF_UPDATE_FILES regenerates the .pb.{cc,h}. See PR #28678 and the
@@ -61,6 +69,7 @@ move /Y harfbuzz.pc "%pc%"
 
 :: G-API must not hard-link GStreamer; only videoio's optional plugin may do so.
 cmake -LAH -G "Ninja"                                                               ^
+    %CUDA_ARGS%                                                                    ^
     -DCMAKE_CXX_STANDARD=17                                                         ^
     -DCMAKE_BUILD_TYPE="Release"                                                    ^
     -DCMAKE_INSTALL_PREFIX=%UNIX_LIBRARY_PREFIX%                                    ^
@@ -103,7 +112,14 @@ cmake -LAH -G "Ninja"                                                           
     -DBUILD_JPEG=0                                                                  ^
     -DBUILD_WEBP=0                                                                  ^
     -DWITH_WEBP=1                                                                   ^
-    -DWITH_CUDA=0                                                                   ^
+    -DWITH_CUDA=%CUDA%                                                              ^
+    -DWITH_CUBLAS=%CUDA%                                                            ^
+    -DWITH_CUFFT=%CUDA%                                                             ^
+    -DWITH_CUDNN=%CUDA%                                                             ^
+    -DOPENCV_DNN_CUDA=%CUDA%                                                        ^
+    -DBUILD_opencv_cudacodec=OFF                                                    ^
+    -DWITH_NVCUVID=OFF                                                              ^
+    -DWITH_NVCUVENC=OFF                                                             ^
     -DWITH_OPENCL=1                                                                 ^
     -DWITH_OPENCLAMDFFT=0                                                           ^
     -DWITH_OPENCLAMDBLAS=0                                                          ^
@@ -143,4 +159,12 @@ cmake -LAH -G "Ninja"                                                           
 if %ERRORLEVEL% neq 0 (type CMakeError.log && exit 1)
 
 cmake --build . --target install --config Release
+if %ERRORLEVEL% neq 0 exit 1
+
+:: abi3 installs can change site-packages layout (Python 3.15); use runtime paths.
+> "%SP_DIR%\cv2\config.py" echo import os, sys
+if %ERRORLEVEL% neq 0 exit 1
+>> "%SP_DIR%\cv2\config.py" echo BINARIES_PATHS = [os.path.join(sys.prefix, "Library", "bin")] + BINARIES_PATHS
+if %ERRORLEVEL% neq 0 exit 1
+> "%SP_DIR%\cv2\config-3.py" echo PYTHON_EXTENSIONS_PATHS = [os.path.join(LOADER_DIR, "python-3")] + PYTHON_EXTENSIONS_PATHS
 if %ERRORLEVEL% neq 0 exit 1

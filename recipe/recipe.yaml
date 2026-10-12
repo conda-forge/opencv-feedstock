@@ -30,6 +30,7 @@ source:
       - patches_opencv/0009-fix-python-limited-api-3.11-build.patch
       # Also carried by Arch: correct the flattened UMat ROI in DNN preprocessing.
       - patches_opencv/0010-fix-dnn-umat-dimensions.patch
+      - patches_opencv/0011-preserve-cmake-cuda-architectures.patch
   - url: https://github.com/opencv/opencv_contrib/archive/${{ version }}.tar.gz
     sha256: c58f6344170c39abf187c56f3843b59cab1fd3e89cf19ba2ce25dc061659b27f
     target_directory: opencv_contrib
@@ -54,8 +55,6 @@ build:
   string: ${{ build_variant }}_h${{ hash }}_${{ build_number }}
   skip:
     - is_abi3 and not is_python_min
-    # shortcut: validate CUDA 12.9 on Linux x86-64/headless before expanding the GPU matrix.
-    - with_cuda and (cuda_compiler_version != '12.9' or target_platform != 'linux-64' or qt_version != 'none')
 
 outputs:
   # Compile once against python_min, then separate native libraries, abi3
@@ -86,6 +85,8 @@ outputs:
         - ${{ compiler('cxx') }}
         - if: with_cuda
           then: ${{ compiler('cuda') }}
+        - if: with_cuda and linux and aarch64
+          then: arm-variant * ${{ arm_variant_type }}
       host:
         - if: linux and qt_version == '6'
           then:
@@ -95,7 +96,10 @@ outputs:
           then:
             - cuda-version ==${{ cuda_compiler_version }}
             - cuda-cudart-dev
-            - cuda-driver-dev
+            - if: linux
+              then: cuda-driver-dev
+            - if: linux and aarch64
+              then: arm-variant * ${{ arm_variant_type }}
             - libcublas-dev
             - libcufft-dev
             - libnpp-dev
@@ -177,6 +181,7 @@ outputs:
               - '**/*opencv_videoio_gstreamer*'
       - script:
           - python test_libraries.py ${{ version }} ${{ cuda_compiler_version }}
+          - cmake -P test_cuda_architectures.cmake
           - if: unix
             then:
               - pkg-config --cflags --libs opencv${{ major_version }}
@@ -206,6 +211,10 @@ outputs:
             - CMakeLists.txt
             - test.cpp
             - test_libraries.py
+            - test_cuda_architectures.cmake
+          source:
+            - cmake/OpenCVDetectCUDALanguage.cmake
+            - cmake/OpenCVDetectCUDAUtils.cmake
 
   - package:
       name: py-opencv

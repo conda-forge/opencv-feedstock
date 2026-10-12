@@ -9,13 +9,13 @@ CUDA_ARGS=()
 
 if [[ "${cuda_compiler_version}" != "None" ]]; then
     CUDA="1"
-    # Explicit targets let GPU-less CI build Turing and newer GPUs; keep PTX for forward compatibility.
+    # Use the architecture/PTX policy shipped by conda-forge's CUDA compiler.
     CUDA_ARGS=(
         -DENABLE_CUDA_FIRST_CLASS_LANGUAGE=ON
         "-DCMAKE_CUDA_COMPILER=${BUILD_PREFIX}/bin/nvcc"
         "-DCMAKE_CUDA_HOST_COMPILER=${CXX}"
         -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared
-        '-DCMAKE_CUDA_ARCHITECTURES=75-real;80-real;86-real;89-real;90-real;100-real;120-real;120-virtual'
+        "-DCMAKE_CUDA_ARCHITECTURES=${CUDAARCHS:?CUDA compiler activation must set CUDAARCHS}"
     )
 fi
 

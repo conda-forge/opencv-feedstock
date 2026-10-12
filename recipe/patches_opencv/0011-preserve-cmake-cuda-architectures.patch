@@ -1,0 +1,37 @@
+From: conda-forge <conda-forge@users.noreply.github.com>
+Subject: [PATCH] Preserve architecture-specific and family-specific CUDA targets
+
+Keep CMake's targets intact rather than reconstructing 90a/100f as 90/100.
+Use numeric capabilities only for OpenCV's legacy runtime metadata, and do
+not mistake a suffixed real target for a request to also emit PTX.
+
+--- a/cmake/OpenCVDetectCUDALanguage.cmake
++++ b/cmake/OpenCVDetectCUDALanguage.cmake
+@@ -75,6 +75,7 @@
+   ocv_check_for_nvidia_video_codec_sdk("${CUDAToolkit_LIBRARY_ROOT}")
+ endif()
+ 
++set(OPENCV_CMAKE_CUDA_ARCHITECTURES "${CMAKE_CUDA_ARCHITECTURES}")
+ ocv_check_for_cmake_cuda_architectures()
+ ocv_set_cuda_detection_nvcc_flags(CMAKE_CUDA_HOST_COMPILER)
+ ocv_set_cuda_arch_bin_and_ptx(${CUDAToolkit_NVCC_EXECUTABLE})
+@@ -116,6 +117,9 @@
+ 
+ # These vars will be processed in other scripts
+ set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} ${NVCC_FLAGS_EXTRA})
++if(OPENCV_CMAKE_CUDA_ARCHITECTURES)
++  set(CMAKE_CUDA_ARCHITECTURES "${OPENCV_CMAKE_CUDA_ARCHITECTURES}")
++endif()
+ set(OpenCV_CUDA_CC "${CMAKE_CUDA_ARCHITECTURES}")
+ 
+ if(ANDROID)
+--- a/cmake/OpenCVDetectCUDAUtils.cmake
++++ b/cmake/OpenCVDetectCUDAUtils.cmake
+@@ -75,5 +75,5 @@
+   foreach(ARCH IN LISTS CMAKE_CUDA_ARCHITECTURES)
+-    if(ARCH MATCHES "([0-9]+)\-real")
++    if(ARCH MATCHES "([0-9]+)[af]?\-real")
+       set(internal_bin ${internal_bin} ${CMAKE_MATCH_1};)
+-    elseif(ARCH MATCHES "([0-9]+)\-virtual")
++    elseif(ARCH MATCHES "([0-9]+)[af]?\-virtual")
+       set(internal_ptx ${internal_ptx} ${CMAKE_MATCH_1};)
