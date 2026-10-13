@@ -21,7 +21,7 @@
 {% set version = "5.0.0" %}
 {% set major_version = version.split('.')[0] %}
 
-{% set build = 9 %}
+{% set build = 10 %}
 
 # Allow the qt version to be easily read from the build number 100's value.
 # This used to be more important when we supported both qt5 and qt6
@@ -344,7 +344,12 @@ outputs:
         # We can't do that with v0 recipes easily
         # But it should be dooable with v1 recipes
         # https://github.com/conda-forge/conda-smithy/pull/2580
-        - python 3.13                   # [qt_version != "none"]
+        # On Windows use python 3.15, whose site-packages layout differs from
+        # the build python's, to check that the cv2 loader is layout
+        # independent (see bld.bat and
+        # https://github.com/conda-forge/opencv-feedstock/issues/557).
+        - python 3.13                   # [not win and qt_version != "none"]
+        - python 3.15                   # [win and qt_version != "none"]
         - python {{ python_min }}       # [qt_version == "none"]
       imports:
         - cv2

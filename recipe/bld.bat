@@ -134,3 +134,19 @@ if %ERRORLEVEL% neq 0 (type CMakeError.log && exit 1)
 
 cmake --build . --target install --config Release
 if %ERRORLEVEL% neq 0 exit 1
+
+:: Make the cv2 python loader independent of the site-packages layout.
+:: On Windows site-packages (PREFIX\Lib\site-packages) lies outside
+:: CMAKE_INSTALL_PREFIX (PREFIX\Library), so patch 0008 cannot make the
+:: generated cv2/config*.py paths relative and they keep the build python's
+:: absolute Lib/site-packages. conda-forge python 3.15 moved site-packages to
+:: lib/python/site-packages, so the single abi3 build fails to import there:
+:: https://github.com/conda-forge/opencv-feedstock/issues/557
+:: Rewrite both configs to locate the extension relative to the cv2 package
+:: itself (LOADER_DIR) and the OpenCV DLLs relative to sys.prefix.
+> "%SP_DIR%\cv2\config.py" echo import os, sys
+if %ERRORLEVEL% neq 0 exit 1
+>> "%SP_DIR%\cv2\config.py" echo BINARIES_PATHS = [os.path.join(sys.prefix, "Library", "bin")] + BINARIES_PATHS
+if %ERRORLEVEL% neq 0 exit 1
+> "%SP_DIR%\cv2\config-3.py" echo PYTHON_EXTENSIONS_PATHS = [os.path.join(LOADER_DIR, "python-3")] + PYTHON_EXTENSIONS_PATHS
+if %ERRORLEVEL% neq 0 exit 1
