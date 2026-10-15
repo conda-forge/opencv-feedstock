@@ -75,7 +75,7 @@ python_min:
 qt:
 - '5.15'
 qt6_main:
-- '6'
+- '6.11'
 qt_version:
 - none
 target_platform:

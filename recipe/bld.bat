@@ -27,9 +27,24 @@ for /F "tokens=1,2 delims=. " %%a in ("%PY_VER%") do (
 set PY_LIB=python%PY_MAJOR%%PY_MINOR%.lib
 
 :: Build the cv2 module against CPython's stable ABI (abi3) so a single build
-:: works on every later python. Only python_min is built, so the running
-:: python defines the minimum limited-API version (e.g. 3.10 -> 0x030a0000).
-:: OpenCV rewrites pythonXY.lib -> python3.lib for the limited-API link.
+:: works on every python from python_min to 3.14. Only python_min is built, so
+:: the running python defines the minimum limited-API version (e.g. 3.10 ->
+:: 0x030a0000). OpenCV rewrites pythonXY.lib -> python3.lib for the limited-API
+:: link.
+:: python >= 3.15 on Windows is NOT abi3: its site-packages moved to
+:: lib\python\site-packages (python-feedstock#860) and the cv2 loader records the
+:: build python's site-packages, so it gets a regular build made on that python
+:: (see meta.yaml).
+python -c "import sys; sys.exit(sys.version_info[:2] >= (3, 15))"
+if %ERRORLEVEL% neq 0 (set PYTHON3_LIMITED_API=OFF) else (set PYTHON3_LIMITED_API=ON)
+:: Install cv2 into the running python's own site-packages. %SP_DIR% is wrong
+:: for python 3.15 with conda-build 26.7.1 (it is still Lib\site-packages).
+for /F "delims=" %%i in ('python -c "import sysconfig; print(sysconfig.get_path('purelib'))"') do set "PY_PURELIB=%%i"
+set "UNIX_SP_DIR=%PY_PURELIB:\=/%"
+:: Same for the headers: python 3.15 keeps Python.h in %PREFIX%\include\python.
+for /F "delims=" %%i in ('python -c "import sysconfig; print(sysconfig.get_path('include'))"') do set "PY_INCLUDE=%%i"
+set "UNIX_PY_INCLUDE=%PY_INCLUDE:\=/%"
+if not exist "%PY_INCLUDE%\Python.h" (echo Python.h not found in %PY_INCLUDE% && exit 1)
 for /F "delims=" %%i in ('python -c "import sys;print('0x{:02X}{:02X}0000'.format(*sys.version_info[:2]))"') do set PY_LIMITED_API_VERSION=%%i
 
 :: Workaround for building LAPACK headers with C++17
@@ -42,7 +57,6 @@ set UNIX_LIBRARY_PREFIX=%LIBRARY_PREFIX:\=/%
 set UNIX_LIBRARY_BIN=%LIBRARY_BIN:\=/%
 set UNIX_LIBRARY_INC=%LIBRARY_INC:\=/%
 set UNIX_LIBRARY_LIB=%LIBRARY_LIB:\=/%
-set UNIX_SP_DIR=%SP_DIR:\=/%
 set UNIX_SRC_DIR=%SRC_DIR:\=/%
 
 :: FFMPEG building requires pkgconfig
@@ -118,12 +132,12 @@ cmake -LAH -G "Ninja"                                                           
     -DINSTALL_C_EXAMPLES=0                                                          ^
     -DOPENCV_EXTRA_MODULES_PATH=%UNIX_SRC_DIR%/opencv_contrib/modules               ^
     -DBUILD_opencv_python3=1                                                        ^
-    -DPYTHON3_LIMITED_API=ON                                                        ^
+    -DPYTHON3_LIMITED_API=%PYTHON3_LIMITED_API%                                            ^
     -DPYTHON3_LIMITED_API_VERSION=%PY_LIMITED_API_VERSION%                          ^
     -DOPENCV_SKIP_PYTHON_LOADER=0                                                   ^
     -DOPENCV_FFMPEG_SKIP_DOWNLOAD=1                                                 ^
     -DPYTHON3_EXECUTABLE=%UNIX_PREFIX%/python                                       ^
-    -DPYTHON3_INCLUDE_DIR=%UNIX_PREFIX%/include                                     ^
+    -DPYTHON3_INCLUDE_DIR=%UNIX_PY_INCLUDE%                                      ^
     -DPYTHON3_NUMPY_INCLUDE_DIRS=%UNIX_NUMPY_INCLUDE%                               ^
     -DPYTHON3_LIBRARY=%UNIX_PREFIX%/libs/%PY_LIB%                                   ^
     -DPYTHON3_PACKAGES_PATH=%UNIX_SP_DIR%                                           ^
