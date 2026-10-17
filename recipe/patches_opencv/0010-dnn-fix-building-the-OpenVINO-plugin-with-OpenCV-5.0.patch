@@ -1,0 +1,41 @@
+From ae91ef728599ee9edaed63228fa6a7ac2dd77a70 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Fri, 16 Oct 2026 22:20:47 -0400
+Subject: [PATCH] dnn: fix building the OpenVINO plugin with OpenCV 5.0
+
+The builtin DNN plugin (DNN_PLUGIN_LIST=openvino) compiles the dnn
+sources again but only linked/included core, imgproc and dnn. 5.0 added
+opencv_geometry as a dnn dependency and a vendored MLAS object library,
+so the plugin failed with 'opencv2/geometry/2d.hpp: No such file' and
+'mlas.h: No such file'. Add opencv_geometry to the plugin's module list
+and, when HAVE_MLAS, the MLAS include directory and objects.
+---
+ modules/dnn/cmake/plugin.cmake | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/modules/dnn/cmake/plugin.cmake b/modules/dnn/cmake/plugin.cmake
+index df603b7..804fe02 100644
+--- a/modules/dnn/cmake/plugin.cmake
++++ b/modules/dnn/cmake/plugin.cmake
+@@ -43,12 +43,18 @@ function(ocv_create_builtin_dnn_plugin name target)
+   foreach(mod opencv_dnn
+       opencv_core
+       opencv_imgproc
++      opencv_geometry
+       opencv_dnn
+   )
+     ocv_target_link_libraries(${name} LINK_PRIVATE ${mod})
+     ocv_target_include_directories(${name} "${OPENCV_MODULE_${mod}_LOCATION}/include")
+   endforeach()
+ 
++  if(HAVE_MLAS)
++    target_include_directories(${name} PRIVATE ${MLAS_INCLUDE_DIRS})
++    target_sources(${name} PRIVATE ${MLAS_OBJECTS})
++  endif()
++
+   if(WIN32)
+     add_definitions(-D_USE_MATH_DEFINES)
+     set(OPENCV_PLUGIN_VERSION "${OPENCV_DLLVERSION}" CACHE STRING "")
+-- 
+2.56.0
+
