@@ -21,7 +21,7 @@
 {% set version = "5.0.0" %}
 {% set major_version = version.split('.')[0] %}
 
-{% set build = 10 %}
+{% set build = 11 %}
 
 # Windows python >= 3.15 is NOT built from the abi3 build. conda-forge python
 # 3.15 moved site-packages on Windows from Lib/site-packages to
@@ -88,6 +88,9 @@ source:
       # 3.11): PyType_CheckExact fallback-macro typo and PyArray_GETCONTIGUOUS
       # passing PyArrayObject* to Py_INCREF. Not fixed upstream in 4.x or 5.x as of 2026-09.
       - patches_opencv/0009-fix-python-limited-api-3.11-build.patch
+      # The OpenVINO DNN plugin (DNN_PLUGIN_LIST=openvino) does not build on 5.0:
+      # it misses the new opencv_geometry dependency and the vendored MLAS objects.
+      - patches_opencv/0010-dnn-fix-building-the-OpenVINO-plugin-with-OpenCV-5.0.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: c58f6344170c39abf187c56f3843b59cab1fd3e89cf19ba2ce25dc061659b27f
@@ -95,6 +98,7 @@ source:
     patches:
       # Allow attempt to find HDF5 on cross-compile
       - patches_opencv_contrib/cmake_hdf5_xpile.patch
+      - patches_opencv_contrib/0001-gapi-optionally-bind-the-OpenVINO-runtime-lazily.patch
   - fn: test.avi
     url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
@@ -140,6 +144,22 @@ build:
     - python
     - numpy
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+  ignore_run_exports:
+    - libopenvino
+    - libopenvino-arm-cpu-plugin
+    - libopenvino-auto-batch-plugin
+    - libopenvino-auto-plugin
+    - libopenvino-gguf-frontend
+    - libopenvino-hetero-plugin
+    - libopenvino-intel-cpu-plugin
+    - libopenvino-intel-gpu-plugin
+    - libopenvino-intel-npu-plugin
+    - libopenvino-ir-frontend
+    - libopenvino-onnx-frontend
+    - libopenvino-paddle-frontend
+    - libopenvino-pytorch-frontend
+    - libopenvino-tensorflow-frontend
+    - libopenvino-tensorflow-lite-frontend
 
 requirements:
   build:
@@ -204,6 +224,8 @@ requirements:
     # Why do I need expat here??? At the very least it helps find FFMPEG
     # And start the compilation on windows
     - expat
+  run_constrained:
+    - {{ pin_compatible('libopenvino', min_pin='x.x.x', max_pin='x.x.x') }}  # [not ppc64le and not (osx and x86_64)]
 
 test:
   requires:
@@ -220,6 +242,8 @@ test:
   files:
     - CMakeLists.txt
     - test.cpp
+    - test_openvino/
+    - openvino_identity.onnx
   commands:
     # Verify dynamic libraries on all systems
     {% set win_ver_lib = version|replace(".", "") %}
@@ -251,6 +275,10 @@ test:
     - cmake -G "Ninja" ..
     - cmake --build . --config Release
     - popd
+    - cmake -G "Ninja" -S test_openvino -B test_openvino_build                                 # [not ppc64le and not (osx and x86_64)]
+    - cmake --build test_openvino_build                                                         # [not ppc64le and not (osx and x86_64)]
+    - ./test_openvino_build/test_openvino openvino_identity.onnx missing                        # [unix and not ppc64le and not (osx and x86_64)]
+    - test_openvino_build\\test_openvino.exe openvino_identity.onnx missing                     # [win]
 
 outputs:
   - name: libopencv
@@ -291,8 +319,29 @@ outputs:
         - {{ pin_subpackage('libopencv', exact=True) }}
         - {{ pin_subpackage('py-opencv', exact=True) }}
     test:
+      requires:
+        - {{ compiler('c') }}                 # [not ppc64le and not (osx and x86_64)]
+        - {{ compiler('cxx') }}               # [not ppc64le and not (osx and x86_64)]
+        - cmake                               # [not ppc64le and not (osx and x86_64)]
+        - ninja                               # [not ppc64le and not (osx and x86_64)]
+        - libopenvino                         # [not ppc64le and not (osx and x86_64)]
+        - libopenvino-intel-cpu-plugin        # [x86_64 and not osx]
+        - libopenvino-arm-cpu-plugin          # [aarch64 or arm64]
+        - libopenvino-onnx-frontend           # [not ppc64le and not (osx and x86_64)]
+      files:
+        - test_openvino/
+        - openvino_identity.onnx
       commands:
         - echo "tested in other outputs"
+        - export MACOSX_DEPLOYMENT_TARGET={{ MACOSX_DEPLOYMENT_TARGET }}          # [osx and arm64]
+        {% if CONDA_BUILD_SYSROOT is defined %}
+        - export CONDA_BUILD_SYSROOT={{ CONDA_BUILD_SYSROOT }}      # [osx and arm64]
+        {% endif %}
+        - cmake -G "Ninja" -S test_openvino -B test_openvino_build                             # [not ppc64le and not (osx and x86_64)]
+        - cmake --build test_openvino_build                                                     # [not ppc64le and not (osx and x86_64)]
+        - ./test_openvino_build/test_openvino openvino_identity.onnx available                  # [unix and not ppc64le and not (osx and x86_64)]
+        - test_openvino_build\\test_openvino.exe openvino_identity.onnx available               # [win]
+        - python -c "import cv2; assert len(cv2.dnn.getAvailableTargets(cv2.dnn.DNN_BACKEND_INFERENCE_ENGINE)) > 0"  # [not ppc64le and not (osx and x86_64)]
 
   - name: py-opencv
     # py-opencv holds the cv2 stable-ABI (abi3) python bindings produced by the
@@ -378,6 +427,7 @@ outputs:
         - abi3audit $SP_DIR/cv2/python-3/cv2.abi3.so -s -v --assume-minimum-abi3 {{ python_min }}   # [unix and is_abi3]
         - abi3audit %SP_DIR%\\cv2\\python-3\\cv2.pyd -s -v --assume-minimum-abi3 {{ python_min }}    # [win and is_abi3 and not (win and py >= 315)]
         - python run_py_test.py
+        - python -c "import cv2; assert len(cv2.dnn.getAvailableTargets(cv2.dnn.DNN_BACKEND_INFERENCE_ENGINE)) == 0"
         - if [[ $($PYTHON -c 'import cv2; print(cv2.__version__)') != $PKG_VERSION ]]; then exit 1; fi  # [unix]
         - python -c "import cv2; assert 'Unknown' not in cv2.videoio_registry.getBackendName(cv2.CAP_V4L)"  # [linux]
         - python -c "import cv2, re; assert re.search('Lapack:\s+YES', cv2.getBuildInformation())"

@@ -38,6 +38,8 @@ liblapacke:
 - 3.9.* *netlib
 libopencv:
 - 5.0.0
+libopenvino:
+- 2026.4.0
 libopenvino_dev:
 - 2026.4.0
 libpng:
