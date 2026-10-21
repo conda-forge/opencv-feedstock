@@ -141,6 +141,8 @@ cmake -LAH -G "Ninja"                                                     \
     -DWITH_OPENCLAMDBLAS=0                                                \
     -DWITH_OPENCL_D3D11_NV=0                                              \
     -DWITH_OPENVINO=$OPENVINO                                             \
+    -DDNN_PLUGIN_LIST=openvino                                            \
+    -DOPENCV_GAPI_OPENVINO_LAZY=1                                         \
     -DWITH_1394=0                                                         \
     -DWITH_OPENNI=0                                                       \
     -DWITH_HDF5=1                                                         \

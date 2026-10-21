@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+project(test_openvino CXX)
+find_package(OpenCV REQUIRED COMPONENTS core dnn gapi)
+add_executable(test_openvino test_openvino.cpp)
+target_compile_features(test_openvino PRIVATE cxx_std_17)
+target_link_libraries(test_openvino PRIVATE ${OpenCV_LIBS})
