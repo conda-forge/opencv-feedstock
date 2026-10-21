@@ -16,10 +16,20 @@ FOR %%A IN ("%~dp0.") DO SET "REPO_ROOT=%%~dpA"
 if "%MINIFORGE_HOME%"=="" set "MINIFORGE_HOME=%USERPROFILE%\Miniforge3"
 :: Remove trailing backslash, if present
 if "%MINIFORGE_HOME:~-1%"=="\" set "MINIFORGE_HOME=%MINIFORGE_HOME:~0,-1%"
+
+set FEEDSTOCK_ROOT=%cd%
+set RECIPE_ROOT=%FEEDSTOCK_ROOT%\recipe
+set CI_SUPPORT=%FEEDSTOCK_ROOT%\.ci_support
+set CONFIG_FILE=%CI_SUPPORT%\%CONFIG%.yaml
+
+set "arch=64"
+if "%PROCESSOR_ARCHITECTURE%"=="ARM64" set "arch=arm64"
+
 call :start_group "Provisioning base env with micromamba"
+
 set "MAMBA_ROOT_PREFIX=%MINIFORGE_HOME%-micromamba-%RANDOM%"
-set "MICROMAMBA_VERSION=1.5.10-0"
-set "MICROMAMBA_URL=https://github.com/mamba-org/micromamba-releases/releases/download/%MICROMAMBA_VERSION%/micromamba-win-64"
+set "MICROMAMBA_VERSION=2.9.0-0"
+set "MICROMAMBA_URL=https://github.com/mamba-org/micromamba-releases/releases/download/%MICROMAMBA_VERSION%/micromamba-win-%arch%"
 set "MICROMAMBA_TMPDIR=%TMP%\micromamba-%RANDOM%"
 set "MICROMAMBA_EXE=%MICROMAMBA_TMPDIR%\micromamba.exe"
 
@@ -33,9 +43,11 @@ call "%MICROMAMBA_EXE%" create --yes --root-prefix "%MAMBA_ROOT_PREFIX%" --prefi
     --channel conda-forge ^
     pip python=3.14 conda-build conda-forge-ci-setup=4 "conda-build>=26.3"
 if !errorlevel! neq 0 exit /b !errorlevel!
-echo Removing %MAMBA_ROOT_PREFIX%
+
+echo Cleaning up micromamba
 del /S /Q "%MAMBA_ROOT_PREFIX%" >nul
 del /S /Q "%MICROMAMBA_TMPDIR%" >nul
+
 call :end_group
 
 call :start_group "Configuring conda"
@@ -51,17 +63,18 @@ set "CONDA_LIBMAMBA_SOLVER_NO_CHANNELS_FROM_INSTALLED=1"
 
 :: Set basic configuration
 echo Setting up configuration
-setup_conda_rc .\ ".\recipe" .\.ci_support\%CONFIG%.yaml
-if !errorlevel! neq 0 exit /b !errorlevel!
-echo Running build setup
+setup_conda_rc "%FEEDSTOCK_ROOT%" "%RECIPE_ROOT%" "%CONFIG_FILE%"
+if !errorlevel! neq 0 exit /b !errorlevel!echo Running build setup
 CALL run_conda_forge_build_setup
 
 
 if !errorlevel! neq 0 exit /b !errorlevel!
 
-if EXIST LICENSE.txt (
+call :end_group
+
+if EXIST %FEEDSTOCK_ROOT%\LICENSE.txt (
     echo Copying feedstock license
-    copy LICENSE.txt "recipe\\recipe-scripts-license.txt"
+    copy "%FEEDSTOCK_ROOT%\\LICENSE.txt" "%RECIPE_ROOT%\\recipe-scripts-license.txt"
 )
 if NOT [%HOST_PLATFORM%] == [%BUILD_PLATFORM%] (
     if [%CROSSCOMPILING_EMULATOR%] == [] (
@@ -73,20 +86,22 @@ if NOT [%flow_run_id%] == [] (
         set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --extra-meta flow_run_id=%flow_run_id% remote_url=%remote_url% sha=%sha%"
 )
 
-call :end_group
-
 :: Build the recipe
 echo Building recipe
-set "_OLD_CONDA_SUBDIR=%CONDA_SUBDIR%"
-set "CONDA_SUBDIR=%BUILD_PLATFORM%"
-conda-build.exe "recipe" -m .ci_support\%CONFIG%.yaml --suppress-variables %EXTRA_CB_OPTIONS%
+
+conda-build.exe ^
+    "%RECIPE_ROOT%" ^
+    -m %CONFIG_FILE% ^
+    %EXTRA_CB_OPTIONS% ^
+    --suppress-variables
+
 if !errorlevel! neq 0 exit /b !errorlevel!
-set "_OLD_CONDA_SUBDIR="
-set "CONDA_SUBDIR=%_OLD_CONDA_SUBDIR%"
 
 call :start_group "Inspecting artifacts"
+
 :: inspect_artifacts was only added in conda-forge-ci-setup 4.9.4
-WHERE inspect_artifacts >nul 2>nul && inspect_artifacts --recipe-dir ".\recipe" -m .ci_support\%CONFIG%.yaml || echo "inspect_artifacts needs conda-forge-ci-setup >=4.9.4"
+WHERE inspect_artifacts >nul 2>nul && inspect_artifacts --recipe-dir "%RECIPE_ROOT%" -m %CONFIG_FILE% || echo "inspect_artifacts needs conda-forge-ci-setup >=4.9.4"
+
 call :end_group
 
 :: Prepare some environment variables for the upload step
@@ -110,8 +125,6 @@ if /i "%CI%" == "azure" (
     )
     set "TEMP=%UPLOAD_TEMP%"
 )
-
-:: Validate
 call :start_group "Validating outputs"
 validate_recipe_outputs "%FEEDSTOCK_NAME%"
 if !errorlevel! neq 0 exit /b !errorlevel!
@@ -122,7 +135,7 @@ if /i "%UPLOAD_PACKAGES%" == "true" (
         call :start_group "Uploading packages"
         if not exist "%TEMP%\" md "%TEMP%"
         set "TMP=%TEMP%"
-        upload_package --validate --feedstock-name="%FEEDSTOCK_NAME%" .\ ".\recipe" .ci_support\%CONFIG%.yaml
+        upload_package --validate --feedstock-name="%FEEDSTOCK_NAME%" "%FEEDSTOCK_ROOT%" "%RECIPE_ROOT%" "%CONFIG_FILE%"
         if !errorlevel! neq 0 exit /b !errorlevel!
         call :end_group
     )
