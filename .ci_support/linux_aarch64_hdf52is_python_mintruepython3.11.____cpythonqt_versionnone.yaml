@@ -1,3 +1,5 @@
+DOCKER_PLATFORM:
+- linux/aarch64
 c_compiler:
 - gcc
 c_compiler_version:
@@ -32,6 +34,8 @@ is_abi3:
 - true
 is_python_min:
 - true
+libabseil:
+- '20260526'
 libavif:
 - '1'
 libcblas:

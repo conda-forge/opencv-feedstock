@@ -24,6 +24,8 @@ is_abi3:
 - true
 is_python_min:
 - true
+libabseil:
+- '20260526'
 libavif:
 - '1'
 libcblas:
