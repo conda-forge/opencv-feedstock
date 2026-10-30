@@ -185,8 +185,6 @@ requirements:
     - liblapack
     - liblapacke
     - libpng
-    # libopencv_dnn links abseil directly through protobuf's headers; needed
-    # for libabseil's run_export (libprotobuf only pins itself)
     - libabseil
     - libprotobuf
     - libtiff
