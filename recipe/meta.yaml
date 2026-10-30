@@ -21,7 +21,7 @@
 {% set version = "5.0.0" %}
 {% set major_version = version.split('.')[0] %}
 
-{% set build = 11 %}
+{% set build = 12 %}
 
 # Windows python >= 3.15 is NOT built from the abi3 build. conda-forge python
 # 3.15 moved site-packages on Windows from Lib/site-packages to
@@ -185,6 +185,7 @@ requirements:
     - liblapack
     - liblapacke
     - libpng
+    - libabseil
     - libprotobuf
     - libtiff
     - libwebp
