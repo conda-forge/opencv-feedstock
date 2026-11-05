@@ -1,0 +1,35 @@
+From 637418cbe319bbc199364a500358887b088d96be Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Thu, 5 Nov 2026 13:47:42 -0500
+Subject: [PATCH] imgcodecs(avif): fix CV_CheckEQ overload ambiguity on MSVC
+
+The 16-bit AVIF encode path (opencv/opencv 905fa09e04, libavif >= 1.4.0)
+compares animation.frames.size() against the literal 1L. long is 32 bits
+on Windows, so the (size_t, long) pair matches several
+cv::detail::check_failed_auto overloads equally well:
+
+  grfmt_avif.cpp(450): error C2666: 'cv::detail::check_failed_auto':
+  overloaded functions have similar conversions
+
+Compare against (size_t)1 instead. Still present on 4.x and 5.x as of
+2026-11.
+---
+ modules/imgcodecs/src/grfmt_avif.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/imgcodecs/src/grfmt_avif.cpp b/modules/imgcodecs/src/grfmt_avif.cpp
+index d17ddf4..7dd047f 100644
+--- a/modules/imgcodecs/src/grfmt_avif.cpp
++++ b/modules/imgcodecs/src/grfmt_avif.cpp
+@@ -447,7 +447,7 @@ bool AvifEncoder::writeanimation(const Animation& animation,
+ #ifdef OPENCV_IMGCODECS_AVIF_SUPPORT_16BIT
+   if(bit_depth == 16) {
+     // Encoding 16-bit AVIF animations should fail due to a libavif limitation.
+-    CV_CheckEQ(animation.frames.size(), 1L, "16-bit encoding only supports a single still image, not animation.");
++    CV_CheckEQ(animation.frames.size(), (size_t)1, "16-bit encoding only supports a single still image, not animation.");
+ 
+     encoder_->sampleTransformRecipe = (do_lossless)?
+                                       AVIF_SAMPLE_TRANSFORM_BIT_DEPTH_EXTENSION_12B_4B: // lossless
+-- 
+2.56.0
+

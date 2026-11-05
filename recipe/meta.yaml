@@ -74,6 +74,7 @@ source:
       # 3.11): PyType_CheckExact fallback-macro typo and PyArray_GETCONTIGUOUS
       # passing PyArrayObject* to Py_INCREF. Not fixed upstream in 4.x or 5.x as of 2026-09.
       - patches_opencv/0007-fix-python-limited-api-3.11-build.patch
+      - patches_opencv/0008-imgcodecs-avif-fix-CV_CheckEQ-overload-ambiguity-on-MSVC.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 6aee68285f0e7b7bf77d3656bc6568820c6f15704860fc0922def357d40ebeff
