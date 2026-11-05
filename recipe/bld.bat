@@ -1,14 +1,6 @@
 @echo ON
 setlocal enabledelayedexpansion
 
-:: Restore the upstream-removed caffe protobuf source so that
-:: modules/dnn/src/caffe/caffe_io.{cpp,hpp} (still shipped) can compile when
-:: PROTOBUF_UPDATE_FILES regenerates the .pb.{cc,h}. See PR #28678 and the
-:: patches_opencv/0005-restore-caffe-proto-in-glob.patch.
-copy /Y "%RECIPE_DIR%\opencv-caffe.proto" modules\dnn\src\caffe\opencv-caffe.proto
-if %ERRORLEVEL% neq 0 exit 1
-
-
 mkdir build
 cd build
 
