@@ -1,0 +1,95 @@
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Subject: [PATCH] python: fix building the bindings with Py_LIMITED_API >= 3.11
+
+From Py_LIMITED_API 0x030b0000 on, CPython stops defining several object
+helpers as casting macros and provides only static inline functions
+taking PyObject* (see Include/object.h). Three spots in OpenCV relied on
+the old macros:
+
+1. pycompat.hpp: CPython no longer defines PyType_CheckExact as a macro,
+   so OpenCV's `#ifndef PyType_CheckExact` fallback is used. That fallback
+   names its parameter `obj` but expands `Py_TYPE(op)`:
+
+     cv2.cpp:306:10: error: use of undeclared identifier 'op'
+
+2. cv2_convert.cpp: NumPy's PyArray_GETCONTIGUOUS passes its
+   PyArrayObject* argument straight to Py_INCREF, which now only accepts
+   PyObject*:
+
+     cv2_convert.cpp:236:42: error: cannot convert 'PyArrayObject*' to
+     'PyObject*'
+
+   Expand the macro with an explicit cast; behaviour is unchanged.
+
+3. cv2_convert.cpp / cv2_numpy.cpp: the bfloat16 / float8 dtype support
+   added in 5.1 calls Py_INCREF on a PyArray_Descr*:
+
+     cv2_numpy.cpp:49:19: error: cannot convert 'PyArray_Descr*' to
+     'PyObject*'
+
+   Cast to PyObject*; behaviour is unchanged.
+
+conda-forge builds the cv2 bindings with -DPYTHON3_LIMITED_API=ON on
+python_min, which moved from 3.10 to 3.11. Not yet fixed upstream on
+opencv 4.x or 5.x as of 2026-11.
+---
+ modules/python/src2/cv2_convert.cpp | 9 +++++++--
+ modules/python/src2/cv2_numpy.cpp   | 2 +-
+ modules/python/src2/pycompat.hpp    | 2 +-
+ 3 files changed, 9 insertions(+), 4 deletions(-)
+diff --git a/modules/python/src2/cv2_convert.cpp b/modules/python/src2/cv2_convert.cpp
+index 503c19f..79200e2 100644
+--- a/modules/python/src2/cv2_convert.cpp
++++ b/modules/python/src2/cv2_convert.cpp
+@@ -247,7 +247,12 @@ bool pyopencv_to(PyObject* o, Mat& m, const ArgInfo& info)
+             oarr = (PyArrayObject*) o;
+         }
+         else {
+-            oarr = PyArray_GETCONTIGUOUS(oarr);
++            // Expanded PyArray_GETCONTIGUOUS: with Py_LIMITED_API >= 3.11,
++            // Py_INCREF no longer casts its argument to PyObject*.
++            if (PyArray_ISCONTIGUOUS(oarr))
++                Py_INCREF((PyObject*) oarr);
++            else
++                oarr = (PyArrayObject*) PyArray_Copy(oarr);
+             o = (PyObject*) oarr;
+         }
+ 
+@@ -389,7 +394,7 @@ PyObject* pyopencv_from(const cv::Mat& m)
+     {
+         PyArray_Descr* descr = exotic;
+         if( descr )
+-            Py_INCREF(descr);
++            Py_INCREF((PyObject*) descr);
+         else
+             descr = PyArray_DescrFromType(cvDepthToNumpyType(m.depth()));
+         return pyopencv_from_new_array(m, descr);
+diff --git a/modules/python/src2/cv2_numpy.cpp b/modules/python/src2/cv2_numpy.cpp
+index 2895c17..b83abb2 100644
+--- a/modules/python/src2/cv2_numpy.cpp
++++ b/modules/python/src2/cv2_numpy.cpp
+@@ -46,7 +46,7 @@ UMatData* NumpyAllocator::allocate(int dims0, const int* sizes, int type, void*
+     PyArray_Descr* exotic = nonConventionalDescrForCvDepth(depth);
+     if( exotic )
+     {
+-        Py_INCREF(exotic);  // PyArray_NewFromDescr steals the reference
++        Py_INCREF((PyObject*) exotic);  // PyArray_NewFromDescr steals the reference
+         PyObject* eo = PyArray_NewFromDescr(&PyArray_Type, exotic, dims, _sizes.data(),
+                                             nullptr, nullptr, 0, nullptr);
+         if(!eo)
+diff --git a/modules/python/src2/pycompat.hpp b/modules/python/src2/pycompat.hpp
+index c936f5e..5a641a1 100644
+--- a/modules/python/src2/pycompat.hpp
++++ b/modules/python/src2/pycompat.hpp
+@@ -64,7 +64,7 @@
+ #endif // PY_MAJOR >=3
+ 
+ #ifndef PyType_CheckExact
+-#define PyType_CheckExact(obj) (Py_TYPE(op) == &PyType_Type)
++#define PyType_CheckExact(obj) (Py_TYPE(obj) == &PyType_Type)
+ #endif // !PyType_CheckExact
+ 
+ static inline bool getUnicodeString(PyObject * obj, std::string &str)
+-- 
+2.43.2
+
