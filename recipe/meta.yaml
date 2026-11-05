@@ -1,4 +1,3 @@
-{% set ort_mlas_commit = "62f742f1aa0c3102745ed35e3d869eaee845b9ac" %}
 # This recipe compiles opencv once (on python_min) and splits the result into
 # three packages: libopencv, py-opencv and opencv.
 #
@@ -55,24 +54,14 @@ source:
     patches:
       # backport https://github.com/opencv/opencv/pull/21611 (unmerged as of 06/2023)
       - patches_opencv/0001-Add-installation-of-pip-metadata-from-cmake.patch
-      - patches_opencv/0001-Also-install-metadata-for-opencv-python-headless.patch
+      - patches_opencv/0002-Also-install-metadata-for-opencv-python-headless.patch
       - patches_opencv/0003-find-pkgconfig-on-windows.patch
       - patches_opencv/0004-fix-detection-for-protobuf-23.x.patch
-      # PR #28678 removed opencv-caffe.proto upstream but left caffe_io.{cpp,hpp}
-      # behind because tensorflow/tf_io.cpp still uses helpers declared there.
-      # build.sh / bld.bat restore opencv-caffe.proto from recipe/ before cmake;
-      # this patch puts it back in the PROTOBUF_UPDATE_FILES glob.
-      - patches_opencv/0005-restore-caffe-proto-in-glob.patch
-      # OpenCV 5.0 bundles a subset of MLAS but the upstream halfgemm.cpp and
-      # halfgemm_kernel_neon.cpp were not imported; MlasHGemmSupported (called
-      # on every target) and MlasHGemmDispatchNeon (used on aarch64) are
-      # declared but not defined, breaking the libopencv_dnn link.
-      - patches_opencv/0006-mlas-stub-MlasHGemmSupported.patch
       # The new imgproc warp kernels in 5.0 call v_fma() on v_int32 vectors,
       # but the VSX HAL only defines v_fma for floats. Add the missing
       # integer overload (mirroring the existing v_muladd one) so ppc64le
       # can compile modules/imgproc/src/imgwarp.cpp.
-      - patches_opencv/0007-vsx-add-v_fma-for-v_int32x4.patch
+      - patches_opencv/0005-vsx-add-v_fma-for-v_int32x4.patch
       # Make OpenCV's cv2 python loader (config.py / config-3.py) relocatable on
       # its own: when the install path is absolute but under CMAKE_INSTALL_PREFIX,
       # OpenCV now rewrites it relative to the prefix so the loader uses
@@ -80,15 +69,11 @@ source:
       # SP_DIR (via PYTHON3_PACKAGES_PATH) without hand-computing a relative
       # OPENCV_PYTHON3_INSTALL_PATH, and keeps the single abi3 build working after
       # relocation and across every python. See build.sh.
-      - patches_opencv/0008-make-python-loader-relocatable.patch
-      # https://github.com/opencv/opencv/pull/29533
-      - patches_opencv/29533-videoio-support-FFmpeg-after-AVCodec-pix_fmts-removal.patch
-      # https://github.com/opencv/opencv/pull/29662
-      - patches_opencv/29662-videoio-ffmpeg-use-avcodec_get_supported_config-for-framerates.patch
+      - patches_opencv/0006-make-python-loader-relocatable.patch
       # Fix building the abi3 bindings with Py_LIMITED_API >= 3.11 (python_min
       # 3.11): PyType_CheckExact fallback-macro typo and PyArray_GETCONTIGUOUS
       # passing PyArrayObject* to Py_INCREF. Not fixed upstream in 4.x or 5.x as of 2026-09.
-      - patches_opencv/0009-fix-python-limited-api-3.11-build.patch
+      - patches_opencv/0007-fix-python-limited-api-3.11-build.patch
   - url: https://github.com/opencv/opencv_contrib/archive/{{ version }}.tar.gz
     fn: opencv_contrib-{{ version }}.tar.gz
     sha256: 6aee68285f0e7b7bf77d3656bc6568820c6f15704860fc0922def357d40ebeff
@@ -96,28 +81,10 @@ source:
     patches:
       # Allow attempt to find HDF5 on cross-compile
       - patches_opencv_contrib/cmake_hdf5_xpile.patch
+      - patches_opencv_contrib/0001-freetype-use-private-pkg-config-prefix-for-harfbuzz.patch
   - fn: test.avi
     url: https://github.com/opencv/opencv_extra/raw/master/testdata/highgui/video/VID00003-20100701-2204.avi
     sha256: 78884f64b564a3b06dc6ee731ed33b60c6d8cd864cea07f21d94ba0f90c7b310
-  # OpenCV 5.0's bundled MLAS imports the .cpp / .S files under
-  # 3rdparty/mlas/lib/power/ but not the three headers they include. Pull
-  # them from the same upstream onnxruntime commit (62f742f1aa) that
-  # OpenCV vendored, so build.sh can drop them into place before cmake.
-  # See `3rdparty/mlas/README.md` in the OpenCV tarball for the pin.
-  {% set ort_mlas_commit = "62f742f1aa0c3102745ed35e3d869eaee845b9ac" %}
-  {% set ort_mlas_raw = "https://raw.githubusercontent.com/microsoft/onnxruntime/" ~ ort_mlas_commit ~ "/onnxruntime/core/mlas/lib/power" %}
-  - fn: SgemmKernelpower.h
-    url: {{ ort_mlas_raw }}/SgemmKernelpower.h
-    sha256: 78cfd0db9a6cb48e00f101bbe4359cc5c679cd9b167ad050ed3c3882aabc73a5
-    folder: mlas_power_headers
-  - fn: FgemmKernelpower.h
-    url: {{ ort_mlas_raw }}/FgemmKernelpower.h
-    sha256: db12b360e2b3079294e2ad58b2b9dcc83483c4dec6b92c2931a7b6a7d4e2068d
-    folder: mlas_power_headers
-  - fn: asmmacro.h
-    url: {{ ort_mlas_raw }}/asmmacro.h
-    sha256: de8effd06029567f165e42e288c4644460e06b0efebd64016d8adb753e80c189
-    folder: mlas_power_headers
 
 build:
   number: {{ build }}
