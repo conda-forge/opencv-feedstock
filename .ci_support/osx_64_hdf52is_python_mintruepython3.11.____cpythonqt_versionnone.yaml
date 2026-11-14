@@ -43,7 +43,7 @@ libiconv:
 libjpeg_turbo:
 - '3'
 libjxl:
-- '0.12'
+- '0.13'
 liblapack:
 - 3.9.* *netlib
 liblapacke:
