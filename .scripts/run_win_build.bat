@@ -22,20 +22,34 @@ set RECIPE_ROOT=%FEEDSTOCK_ROOT%\recipe
 set CI_SUPPORT=%FEEDSTOCK_ROOT%\.ci_support
 set CONFIG_FILE=%CI_SUPPORT%\%CONFIG%.yaml
 
-set "arch=64"
-if "%PROCESSOR_ARCHITECTURE%"=="ARM64" set "arch=arm64"
+set "MICROMAMBA_VERSION=2.10.0-0"
+set "MINIFORGE_VERSION=26.9.4-2"
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" (
+    set "short_arch=64"
+    set "full_arch=x86_64"
+    set "MICROMAMBA_SHA256=f8b4284bd4eb1134122eaf93b3ea6c7be567e596de5829e1a6f478e34e41974a"
+    set "MINIFORGE_SHA256=9d83983669bc5d3b5dd4c631454bf953c3caf4ac78b9c9ada9971e5b021d83c3"
+) else (
+    set "short_arch=arm64"
+    set "full_arch=arm64"
+    set "MICROMAMBA_SHA256=1fcb3463c684d02366a3d447c153d00922decb16999eef7fb4634d0942a9093e"
+    set "MINIFORGE_SHA256=4cbb52ff0239488723f5e7ed0f362d393fc471a733dcd5ee9b03c74f188010c4"
+)
 
 call :start_group "Provisioning base env with micromamba"
 
 set "MAMBA_ROOT_PREFIX=%MINIFORGE_HOME%-micromamba-%RANDOM%"
-set "MICROMAMBA_VERSION=2.9.0-0"
-set "MICROMAMBA_URL=https://github.com/mamba-org/micromamba-releases/releases/download/%MICROMAMBA_VERSION%/micromamba-win-%arch%"
+set "MICROMAMBA_URL=https://github.com/mamba-org/micromamba-releases/releases/download/%MICROMAMBA_VERSION%/micromamba-win-%short_arch%"
 set "MICROMAMBA_TMPDIR=%TMP%\micromamba-%RANDOM%"
 set "MICROMAMBA_EXE=%MICROMAMBA_TMPDIR%\micromamba.exe"
 
-echo Downloading micromamba %MICROMAMBA_VERSION%
+echo Downloading micromamba %MICROMAMBA_VERSION% from %MICROMAMBA_URL%
 if not exist "%MICROMAMBA_TMPDIR%" mkdir "%MICROMAMBA_TMPDIR%"
 powershell -ExecutionPolicy Bypass -Command "(New-Object Net.WebClient).DownloadFile('%MICROMAMBA_URL%', '%MICROMAMBA_EXE%')"
+if !errorlevel! neq 0 exit /b !errorlevel!
+
+if "%MICROMAMBA_SHA256%"=="" exit /b 1
+powershell -ExecutionPolicy Bypass -Command "$h = Get-FileHash '%MICROMAMBA_EXE%' -ErrorAction Stop; if ($h.Hash -ne $env:MICROMAMBA_SHA256) { Write-Error "SHA256 mismatch:`n  Expected: $env:MICROMAMBA_SHA256`n  Actual:   $($h.Hash)"; exit 1 }"
 if !errorlevel! neq 0 exit /b !errorlevel!
 
 echo Creating environment
