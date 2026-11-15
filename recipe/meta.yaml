@@ -141,7 +141,7 @@ requirements:
     # binary
     - ffmpeg {{ ffmpeg }} lgpl_*
     - freetype
-    - harfbuzz
+    - libharfbuzz-devel
     - hdf5
     # Ensure that we build with nompi variant
     # it provides downstream packages with the most flexibility
