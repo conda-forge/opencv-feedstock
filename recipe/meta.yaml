@@ -1,3 +1,4 @@
+{% set ort_mlas_commit = "62f742f1aa0c3102745ed35e3d869eaee845b9ac" %}
 # This recipe compiles opencv once (on python_min) and splits the result into
 # three packages: libopencv, py-opencv and opencv.
 #
